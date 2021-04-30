@@ -1,0 +1,25 @@
+graft docs
+graft src
+graft ci
+graft tests
+
+include .bumpversion.cfg
+include .coveragerc
+include .editorconfig
+
+include AUTHORS.md
+include CHANGELOG.md
+include CONTRIBUTING.md
+include LICENSE
+include README.md
+
+include tox.ini
+
+
+include *.sh
+include *.txt
+include *.yml
+
+recursive-include docker/ *
+
+global-exclude *.py[cod] __pycache__/* *.so *.dylib .cache/ .cache* *.egg-info *.json.gz

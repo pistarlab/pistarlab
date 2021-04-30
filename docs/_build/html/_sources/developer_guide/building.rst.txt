@@ -1,0 +1,10 @@
+Building
+========
+
+docker
+------
+
+Docker and Docker Compose must be installed.
+
+.. code:: bash
+    ./build_docker.sh

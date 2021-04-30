@@ -1,0 +1,230 @@
+{
+  "components": [
+    {
+      "spec_id": "rllib_fcnet_torch",
+      "entry_point": "ray.rllib.models.torch.fcnet:FullyConnectedNetwork",
+      "description": "Torch Fully Connected",
+      "version": "0.0.1-dev",
+      "config": {
+        "model_config": {}
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_fcnet_tf",
+      "entry_point": "ray.rllib.models.tf.fcnet:FullyConnectedNetwork",
+      "description": "Tensorflow Fully Connected",
+      "version": "0.0.1-dev",
+      "config": {
+        "model_config": {}
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_fcnet_tf",
+      "entry_point": "ray.rllib.models.tf.fcnet:FullyConnectedNetwork",
+      "description": "Tensorflow Fully Connected",
+      "version": "0.0.1-dev",
+      "config": {
+        "model_config": {}
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_visionnet_tf",
+      "entry_point": "ray.rllib.models.tf.visionnet:VisionNetwork",
+      "description": "Tensorflow Vision (via Convolutions) Model",
+      "version": "0.0.1-dev",
+      "config": {
+        "model_config": {}
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_visionnet_torch",
+      "entry_point": "pistarlab_rllib.default_vision_model:VisionModel",
+      "description": "Torch Vision (via Convolutions) Model",
+      "config": {
+        "model_config": {}
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_visionnet_torch_custom",
+      "entry_point": "pistarlab_rllib.custom_vision_model:VisionModel",
+      "description": "Customized Torch Vision (via Convolutions) Model",
+      "version": "0.0.1-dev",
+      "config": {
+        "input_params": {
+          "conv_filters": [
+            [
+              16,
+              [
+                4,
+                4
+              ],
+              2
+            ],
+            [
+              32,
+              [
+                4,
+                4
+              ],
+              2
+            ],
+            [
+              256,
+              [
+                11,
+                11
+              ],
+              1
+            ]
+          ],
+          "num_outputs": 20
+        },
+        "obs_type": "vision",
+        "model_config": {}
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_gtrxlnet_torch",
+      "entry_point": "ray.rllib.models.torch.attention_net:GTrXLNet",
+      "description": "Torch Attention Model",
+      "version": "0.0.1-dev",
+      "config": {
+        "model_config": {
+          "num_transformer_units": 1,
+          "attn_dim": 64,
+          "num_heads": 2,
+          "memory_tau": 50,
+          "head_dim": 32,
+          "ff_hidden_dim": 32
+        }
+      },
+      "type_name": "model"
+    },
+    {
+      "spec_id": "rllib_gtrxlnet_torch",
+      "entry_point": "ray.rllib.models.torch.attention_net:GTrXLNet",
+      "description": "Torch Attention Model",
+      "version": "0.0.1-dev",
+      "config": {
+        "model_config": {
+          "num_transformer_units": 1,
+          "attn_dim": 64,
+          "num_heads": 2,
+          "memory_tau": 50,
+          "head_dim": 32,
+          "ff_hidden_dim": 32
+        }
+      },
+      "type_name": "model"
+    }
+  ],
+  "agents": [
+    {
+      "id": "rllib_RANDOM",
+      "displayed_name": "RANDOM - RLlib",
+      "description": "RLlib: https://docs.ray.io/en/master/rllib.html\n\nTODO...",
+      "version": "0.0.1-dev",
+      "entry_point": "pistarlab_rllib.agent:RLlibAgent",
+      "config": {
+        "policy_name": "RANDOM",
+        "trainer_config": {},
+        "components": null,
+        "auto_config_spaces": true,
+        "observation_space": null,
+        "action_space": null
+      }
+    },
+    {
+      "id": "rllib_PPO",
+      "displayed_name": "PPO - RLlib",
+      "description": "RLlib: https://docs.ray.io/en/master/rllib.html\n\nTODO...",
+      "version": "0.0.1-dev",
+      "entry_point": "pistarlab_rllib.agent:RLlibAgent",
+      "config": {
+        "policy_name": "PPO",
+        "trainer_config": {},
+        "components": null,
+        "auto_config_spaces": true,
+        "observation_space": null,
+        "action_space": null
+      }
+    },
+    {
+      "id": "rllib_A3C",
+      "displayed_name": "A3C - RLlib",
+      "description": "RLlib: https://docs.ray.io/en/master/rllib.html\n\nTODO...",
+      "version": "0.0.1-dev",
+      "entry_point": "pistarlab_rllib.agent:RLlibAgent",
+      "config": {
+        "policy_name": "A3C",
+        "trainer_config": {},
+        "components": null,
+        "auto_config_spaces": true,
+        "observation_space": null,
+        "action_space": null
+      }
+    },
+    {
+      "id": "rllib_A2C",
+      "displayed_name": "A2C - RLlib",
+      "description": "RLlib: https://docs.ray.io/en/master/rllib.html\n\nTODO...",
+      "version": "0.0.1-dev",
+      "entry_point": "pistarlab_rllib.agent:RLlibAgent",
+      "config": {
+        "policy_name": "A2C",
+        "trainer_config": {
+          "framework": "tf"
+        },
+        "components": null,
+        "auto_config_spaces": true,
+        "observation_space": null,
+        "action_space": null
+      }
+    },
+    {
+      "id": "rllib_A2C_torch",
+      "displayed_name": "A2C_torch - RLlib",
+      "description": "RLlib: https://docs.ray.io/en/master/rllib.html\n\nTODO...",
+      "version": "0.0.1-dev",
+      "entry_point": "pistarlab_rllib.agent:RLlibAgent",
+      "config": {
+        "policy_name": "A2C_torch",
+        "trainer_config": {
+          "framework": "torch"
+        },
+        "components": null,
+        "auto_config_spaces": true,
+        "observation_space": null,
+        "action_space": null
+      }
+    },
+    {
+      "id": "rllib_A2C_torch_v2",
+      "displayed_name": "A2C_torch_v2 - RLlib",
+      "description": "RLlib: https://docs.ray.io/en/master/rllib.html\n\nTODO...",
+      "version": "0.0.1-dev",
+      "entry_point": "pistarlab_rllib.agent:RLlibAgent",
+      "config": {
+        "policy_name": "A2C_torch_v2",
+        "trainer_config": {
+          "framework": "torch"
+        },
+        "components": {
+          "model": {
+            "type": "model",
+            "default": null
+          }
+        },
+        "auto_config_spaces": true,
+        "observation_space": null,
+        "action_space": null
+      }
+    }
+  ]
+}

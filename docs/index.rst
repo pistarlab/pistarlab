@@ -1,0 +1,50 @@
+piSTAR Lab's documentation
+======================================
+
+    WARNING: Documentation is not complete.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Getting Started:
+
+   getting_started/overview.rst
+   getting_started/installation.rst
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide:
+
+   user_guide/core_concepts.rst
+   user_guide/agents.rst
+   user_guide/environments.rst
+   
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Plugins:
+
+   TODO
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developer Guide:
+    
+    developer_guide/setup.md
+    developer_guide/building.md
+
+   TODO
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API:
+   
+   modules.rst
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

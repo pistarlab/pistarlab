@@ -1,0 +1,45 @@
+tests package
+=============
+
+Submodules
+----------
+
+tests.test\_dbmodel module
+--------------------------
+
+.. automodule:: tests.test_dbmodel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_pyson module
+------------------------
+
+.. automodule:: tests.test_pyson
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_session module
+--------------------------
+
+.. automodule:: tests.test_session
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_session\_runner module
+----------------------------------
+
+.. automodule:: tests.test_session_runner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

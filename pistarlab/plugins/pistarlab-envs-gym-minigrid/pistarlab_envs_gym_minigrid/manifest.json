@@ -1,0 +1,4690 @@
+{
+  "envs": [
+    {
+      "spec_id": "MiniGrid-Empty-5x5-v0",
+      "displayed_name": "MiniGrid-Empty-5x5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:EmptyEnv5x5",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Empty-Random-5x5-v0",
+      "displayed_name": "MiniGrid-Empty-Random-5x5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:EmptyRandomEnv5x5",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Empty-6x6-v0",
+      "displayed_name": "MiniGrid-Empty-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:EmptyEnv6x6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Empty-Random-6x6-v0",
+      "displayed_name": "MiniGrid-Empty-Random-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:EmptyRandomEnv6x6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Empty-8x8-v0",
+      "displayed_name": "MiniGrid-Empty-8x8-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:EmptyEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Empty-16x16-v0",
+      "displayed_name": "MiniGrid-Empty-16x16-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:EmptyEnv16x16",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-DoorKey-5x5-v0",
+      "displayed_name": "MiniGrid-DoorKey-5x5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DoorKeyEnv5x5",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-DoorKey-6x6-v0",
+      "displayed_name": "MiniGrid-DoorKey-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DoorKeyEnv6x6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-DoorKey-8x8-v0",
+      "displayed_name": "MiniGrid-DoorKey-8x8-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DoorKeyEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-DoorKey-16x16-v0",
+      "displayed_name": "MiniGrid-DoorKey-16x16-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DoorKeyEnv16x16",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MultiRoom-N2-S4-v0",
+      "displayed_name": "MiniGrid-MultiRoom-N2-S4-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MultiRoomEnvN2S4",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MultiRoom-N4-S5-v0",
+      "displayed_name": "MiniGrid-MultiRoom-N4-S5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MultiRoomEnvN4S5",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MultiRoom-N6-v0",
+      "displayed_name": "MiniGrid-MultiRoom-N6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MultiRoomEnvN6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Fetch-5x5-N2-v0",
+      "displayed_name": "MiniGrid-Fetch-5x5-N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:FetchEnv5x5N2",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Fetch-6x6-N2-v0",
+      "displayed_name": "MiniGrid-Fetch-6x6-N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:FetchEnv6x6N2",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Fetch-8x8-N3-v0",
+      "displayed_name": "MiniGrid-Fetch-8x8-N3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:FetchEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-GoToObject-6x6-N2-v0",
+      "displayed_name": "MiniGrid-GoToObject-6x6-N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:GoToObjectEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-GoToObject-8x8-N2-v0",
+      "displayed_name": "MiniGrid-GoToObject-8x8-N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:GotoEnv8x8N2",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-GoToDoor-5x5-v0",
+      "displayed_name": "MiniGrid-GoToDoor-5x5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:GoToDoorEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-GoToDoor-6x6-v0",
+      "displayed_name": "MiniGrid-GoToDoor-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:GoToDoor6x6Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-GoToDoor-8x8-v0",
+      "displayed_name": "MiniGrid-GoToDoor-8x8-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:GoToDoor8x8Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-PutNear-6x6-N2-v0",
+      "displayed_name": "MiniGrid-PutNear-6x6-N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:PutNearEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-PutNear-8x8-N3-v0",
+      "displayed_name": "MiniGrid-PutNear-8x8-N3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:PutNear8x8N3",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LockedRoom-v0",
+      "displayed_name": "MiniGrid-LockedRoom-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LockedRoom",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-KeyCorridorS3R1-v0",
+      "displayed_name": "MiniGrid-KeyCorridorS3R1-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:KeyCorridorS3R1",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-KeyCorridorS3R2-v0",
+      "displayed_name": "MiniGrid-KeyCorridorS3R2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:KeyCorridorS3R2",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-KeyCorridorS3R3-v0",
+      "displayed_name": "MiniGrid-KeyCorridorS3R3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:KeyCorridorS3R3",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-KeyCorridorS4R3-v0",
+      "displayed_name": "MiniGrid-KeyCorridorS4R3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:KeyCorridorS4R3",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-KeyCorridorS5R3-v0",
+      "displayed_name": "MiniGrid-KeyCorridorS5R3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:KeyCorridorS5R3",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-KeyCorridorS6R3-v0",
+      "displayed_name": "MiniGrid-KeyCorridorS6R3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:KeyCorridorS6R3",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Unlock-v0",
+      "displayed_name": "MiniGrid-Unlock-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:Unlock",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-UnlockPickup-v0",
+      "displayed_name": "MiniGrid-UnlockPickup-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:UnlockPickup",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-BlockedUnlockPickup-v0",
+      "displayed_name": "MiniGrid-BlockedUnlockPickup-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:BlockedUnlockPickup",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Playground-v0",
+      "displayed_name": "MiniGrid-Playground-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:PlaygroundV0",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-RedBlueDoors-6x6-v0",
+      "displayed_name": "MiniGrid-RedBlueDoors-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:RedBlueDoorEnv6x6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-RedBlueDoors-8x8-v0",
+      "displayed_name": "MiniGrid-RedBlueDoors-8x8-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:RedBlueDoorEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-1Dl-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-1Dl-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_1Dl",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-1Dlh-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-1Dlh-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_1Dlh",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-1Dlhb-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-1Dlhb-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_1Dlhb",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-2Dl-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-2Dl-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_2Dl",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-2Dlh-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-2Dlh-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_2Dlh",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-2Dlhb-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-2Dlhb-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_2Dlhb",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-1Q-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-1Q-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_1Q",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-2Q-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-2Q-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_2Q",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-ObstructedMaze-Full-v0",
+      "displayed_name": "MiniGrid-ObstructedMaze-Full-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:ObstructedMaze_Full",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MemoryS17Random-v0",
+      "displayed_name": "MiniGrid-MemoryS17Random-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MemoryS17Random",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MemoryS13Random-v0",
+      "displayed_name": "MiniGrid-MemoryS13Random-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MemoryS13Random",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MemoryS13-v0",
+      "displayed_name": "MiniGrid-MemoryS13-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MemoryS13",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MemoryS11-v0",
+      "displayed_name": "MiniGrid-MemoryS11-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MemoryS11",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MemoryS9-v0",
+      "displayed_name": "MiniGrid-MemoryS9-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MemoryS9",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-MemoryS7-v0",
+      "displayed_name": "MiniGrid-MemoryS7-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:MemoryS7",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-FourRooms-v0",
+      "displayed_name": "MiniGrid-FourRooms-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:FourRoomsEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaCrossingS9N1-v0",
+      "displayed_name": "MiniGrid-LavaCrossingS9N1-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaCrossingEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaCrossingS9N2-v0",
+      "displayed_name": "MiniGrid-LavaCrossingS9N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaCrossingS9N2Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaCrossingS9N3-v0",
+      "displayed_name": "MiniGrid-LavaCrossingS9N3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaCrossingS9N3Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaCrossingS11N5-v0",
+      "displayed_name": "MiniGrid-LavaCrossingS11N5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaCrossingS11N5Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-SimpleCrossingS9N1-v0",
+      "displayed_name": "MiniGrid-SimpleCrossingS9N1-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:SimpleCrossingEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-SimpleCrossingS9N2-v0",
+      "displayed_name": "MiniGrid-SimpleCrossingS9N2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:SimpleCrossingS9N2Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-SimpleCrossingS9N3-v0",
+      "displayed_name": "MiniGrid-SimpleCrossingS9N3-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:SimpleCrossingS9N3Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-SimpleCrossingS11N5-v0",
+      "displayed_name": "MiniGrid-SimpleCrossingS11N5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:SimpleCrossingS11N5Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaGapS5-v0",
+      "displayed_name": "MiniGrid-LavaGapS5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaGapS5Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaGapS6-v0",
+      "displayed_name": "MiniGrid-LavaGapS6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaGapS6Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-LavaGapS7-v0",
+      "displayed_name": "MiniGrid-LavaGapS7-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:LavaGapS7Env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Dynamic-Obstacles-5x5-v0",
+      "displayed_name": "MiniGrid-Dynamic-Obstacles-5x5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DynamicObstaclesEnv5x5",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Dynamic-Obstacles-Random-5x5-v0",
+      "displayed_name": "MiniGrid-Dynamic-Obstacles-Random-5x5-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DynamicObstaclesRandomEnv5x5",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Dynamic-Obstacles-6x6-v0",
+      "displayed_name": "MiniGrid-Dynamic-Obstacles-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DynamicObstaclesEnv6x6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Dynamic-Obstacles-Random-6x6-v0",
+      "displayed_name": "MiniGrid-Dynamic-Obstacles-Random-6x6-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DynamicObstaclesRandomEnv6x6",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Dynamic-Obstacles-8x8-v0",
+      "displayed_name": "MiniGrid-Dynamic-Obstacles-8x8-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DynamicObstaclesEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-Dynamic-Obstacles-16x16-v0",
+      "displayed_name": "MiniGrid-Dynamic-Obstacles-16x16-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DynamicObstaclesEnv16x16",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-DistShift1-v0",
+      "displayed_name": "MiniGrid-DistShift1-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DistShift1",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    },
+    {
+      "spec_id": "MiniGrid-DistShift2-v0",
+      "displayed_name": "MiniGrid-DistShift2-v0",
+      "description": null,
+      "entry_point": "gym_minigrid.envs:DistShift2",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "group_id": "MiniGrid",
+      "config": {
+        "default_render_mode": null,
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "gym_minigrid.wrappers:ImgObsWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "MiniGrid.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "video.frames_per_second": 10,
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              7
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      }
+    }
+  ]
+}

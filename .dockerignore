@@ -1,0 +1,9 @@
+**/node_modules
+node_modules
+theia_ide/libs/*
+theia_ide/plugins/*
+theia_ide/src-gen/*
+ui/dist/*
+*.egg-info
+dist
+build

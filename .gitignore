@@ -1,0 +1,65 @@
+.idea
+.DS_Store
+.sqlite3
+.vscode
+notebooks/data
+
+# Theia
+theia_ide/gen-webpack.config.js
+theia_ide/lib
+theia_ide/plugins
+theia_ide/src-gen
+
+# Node related
+node_modules
+/dist
+
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Redis dump
+dump.rdb
+
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# misc
+*~
+*.bak
+*.map
+*.swp
+.DS_Store
+.log/
+\#*#
+.#*
+
+# Build
+.cache
+*.py[co]
+.pytest_cache
+__pycache__
+*.egg-info
+.ipynb_checkpoints
+pip-wheel-metadata
+build
+dist
+MANIFEST
+
+/.pytest_cache
+/.coverage
+/.tox
+/venv*
+
+

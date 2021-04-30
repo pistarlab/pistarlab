@@ -1,0 +1,114 @@
+<template lang="html">
+<div>
+<h1><i class="fa fa-robot"></i> Agent Spec</h1>
+    <div class="mt-4"></div>
+    <b-button size="sm" :disabled=agentSpec.disabled :to="`/agent/new/${agentSpec.ident}`" variant="primary">New Instance</b-button>
+    <div class="mt-2"></div>
+<b-card>
+    <b-container fluid>
+        <b-row>
+            <b-col>
+                <div class="pt-2">
+                    <div class="data_label">Agent Spec</div>
+                    <span>{{ agentSpec.ident }}</span>
+                </div>
+                <div class="pt-2">
+                    <div class="data_label">Plugin ID</div>
+                    <span>{{ agentSpec.pluginId }}</span>
+                </div>
+                <div class="pt-2">
+                    <div class="data_label">Version</div>
+                    <span>{{ agentSpec.version }}</span>
+                </div>
+                <div class="pt-2">
+                    <div class="data_label">Description</div>
+                    <span>{{ agentSpec.description }}</span>
+                </div>
+            </b-col>
+        </b-row>
+        <div class="mt-4"></div>
+
+        <b-row>
+            <b-col>
+                <div class="data_label">Default Config</div>
+                <div v-if="agentSpec && agentSpec.config">
+                    <pre>{{JSON.parse(agentSpec.config)}}</pre>
+                </div>
+            </b-col>
+        </b-row>
+        <div class="mt-4"></div>
+
+    </b-container>
+    </b-card>
+</div>
+</template>
+
+<script>
+//USING https://github.com/chairuosen/vue2-ace-editor
+import axios from "axios";
+import {
+    appConfig
+} from "../app.config";
+import {
+    timedelta,
+    timepretty
+} from "../funcs";
+import gql from "graphql-tag";
+
+const GET_AGENT_SPEC = gql `
+  query GetAgentSpec($ident: String!) {
+    agentSpec(ident: $ident) {
+      id
+      ident
+      description
+      pluginId
+      version
+      config
+      disabled
+    }
+  }
+`;
+
+export default {
+    name: "NewAgent",
+    components: {},
+    apollo: {
+        agentSpec: {
+            query: GET_AGENT_SPEC,
+            variables() {
+                return {
+                    ident: this.specId,
+                };
+            },
+        },
+    },
+    data() {
+        return {
+            agentSpec: {},
+            options: {},
+            config: "",
+            code: '',
+            submitting: false,
+        };
+    },
+    props: {
+        specId: String
+    },
+    methods: {
+        //
+    },
+    watch: {
+        //
+    },
+    created() {
+
+        //
+    },
+};
+</script>
+
+<style scoped>
+.ace_editor {
+    font-size: 16px;
+}
+</style>

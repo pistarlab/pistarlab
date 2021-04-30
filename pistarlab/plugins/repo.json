@@ -1,0 +1,85 @@
+[
+  {
+    "id": "pistarlab-agents-stable-baselines",
+    "version": "0.0.1-dev",
+    "name": "Stable Baseline Agents",
+    "categories": [
+      "agents"
+    ],
+    "description": "stable baseline agents",
+    "author": ""
+  },
+  {
+    "id": "pistarlab-rllib",
+    "version": "0.0.1-dev",
+    "name": "RLLIB Agents",
+    "categories": [
+      "agents",
+      "components",
+      "tasks"
+    ],
+    "description": "Rllib :https://github.com/ray-project/ray/tree/master/rllib",
+    "author": "",
+    "metafile": true
+  },
+  {
+    "id": "pistarlab-envs-gym-atari",
+    "version": "0.0.1-dev",
+    "name": "Gym[ATARI]",
+    "categories": [
+      "envs"
+    ],
+    "description": "ATARI Environments included with OpenAI Gym",
+    "author": ""
+  },
+  {
+    "id": "pistarlab-envs-gym-main",
+    "version": "0.0.1-dev",
+    "name": "Gym[MAIN]",
+    "categories": [
+      "envs"
+    ],
+    "description": "Default Environments included with OpenAI Gym",
+    "author": ""
+  },
+  {
+    "id": "pistarlab-envs-gym-minigrid",
+    "version": "0.0.1-dev",
+    "name": "MiniGrid",
+    "categories": [
+      "envs"
+    ],
+    "description": "Minimalistic Gridworld Environment: https://github.com/maximecb/gym-minigrid",
+    "author": ""
+  },
+  {
+    "id": "pistarlab-simpleland",
+    "version": "0.0.1-dev",
+    "name": "Simpleland",
+    "categories": [
+      "envs"
+    ],
+    "description": "Simpleland",
+    "author": ""
+  },
+  {
+    "id": "pistarlab-petting-zoo",
+    "version": "0.0.1-dev",
+    "name": "Petting Zoo",
+    "categories": [
+      "envs"
+    ],
+    "description": "Multi Agent Environment Repository :https://github.com/ray-project/ray/blob/master/rllib/env/pettingzoo_env.py",
+    "author": "piSTAR"
+  },
+  {
+    "id": "pistarlab-envs-minecraft",
+    "version": "0.0.1-dev",
+    "name": "MineRL - Minecraft RL environment",
+    "categories": [
+      "envs"
+    ],
+    "description": "Minecraft RL environment. See: https://minerl.io/docs/tutorials/index.html.  Requires OpenJDK Java 8",
+    "author": ""
+  }
+]

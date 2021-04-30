@@ -1,0 +1,493 @@
+<template>
+<div>
+    <h1><i class="fas fa-robot"></i> Agent Details</h1>
+    <div v-if="item && item.ident">
+
+        <!-- <b-modal id="def-modal" size="lg">
+            <pre v-if="item && item.config">{{ JSON.parse(item.config) }}</pre>
+        </b-modal> -->
+        <b-modal id="edit-modal" size="xl" :hide-footer="true" title="Edit Agent">
+            <AgentEdit :uid="uid" @updated="configUpdated()"></AgentEdit>
+        </b-modal>
+        <b-modal id="meta-modal" size="lg">
+            <pre v-if="item && item.meta">{{ JSON.parse(item.meta) }}</pre>
+        </b-modal>
+
+        <b-modal id="modal-publish-snapshot" title="Publish Snapshot" size="lg">
+
+            <label for="snapshot_description">Description:</label>
+            <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
+            <div class="mt-1"></div>
+            <label for="snapshot_version">Version:</label>
+            <b-form-input id="snapshot_version" v-model="snapshot_version" placeholder="Enter the snapshot version." trim></b-form-input>
+            <b-button class="mt-2" variant="secondary" v-on:click="publish()" size="sm">Publish</b-button>
+
+            <hr />
+            <div class="mt-2"></div>
+            <h3>Published Snapshots</h3>
+            <div class="mt-2"></div>
+            <b-table :items="snapshots" :fields="pubfields">
+            </b-table>
+
+            <template v-slot:modal-footer="{ ok }">
+                <b-button variant="primary" @click="ok();">Close</b-button>
+            </template>
+        </b-modal>
+
+        <div class="mt-4"></div>
+
+        <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button>
+        <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
+        <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm">Configuration</b-button>
+        <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm">Metadata</b-button>
+        <b-button variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm">Publish</b-button>
+        <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm">Assign Task</b-button>
+        <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
+        <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
+
+        <div class="mt-4"></div>
+
+        <AgentCard v-if="item" :agent="item" @update="refetch()"></AgentCard>
+
+        <b-card title="Session History">
+            <div style="display: block; position: relative;height:280px;overflow: auto;">
+                <b-table show-empty empty-text="No Sessions Found" hover table-busy :items="rowData" :fields="fields" :dark="false" :small="false" :borderless="false" sortBy="created" :sortDesc="true">
+                    <template v-slot:cell(tasklink)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <router-link :to="`/task/view/${data.item.task.ident}`">{{
+                data.item.task.ident
+              }}</router-link>
+                    </template>
+                    <template v-slot:cell(link)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <router-link :to="`/session/view/${data.item.ident}`">{{
+                data.item.ident
+              }}</router-link>
+                    </template>
+                    <template v-slot:cell(status)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <span>{{data.item.status}}</span>
+                        <b-button class="ml-1" variant="danger" v-if="data.item.status && data.item.status == 'RUNNING'" v-on:click="stopSession(data.item.task.ident)" size="sm">Abort</b-button>
+
+                    </template>
+
+                </b-table>
+            </div>
+            <div class="mt-2"></div>
+        </b-card>
+
+        <b-card title="Statistics">
+            <b-container fluid>
+                <b-row>
+                    <b-col cols=3 v-for="graph in graphList" :key="graph.key">
+
+                        <div v-if="graph.data && graph.layout && (graph.data.length > 0 ) && graph.data[0] && graph.data[0].x.length > 0">
+                            <PlotlyVue bgcolor="#000" :data="graph.data" :layout="graph.layout" :display-mode-bar="false"></PlotlyVue>
+                        </div>
+
+                    </b-col>
+                    <b-col v-if="graphList.length==0">
+                        No log data found
+                    </b-col>
+                </b-row>
+            </b-container>
+        </b-card>
+    </div>
+</div>
+</template>
+
+<script>
+// @ is an alias to /src
+import axios from "axios";
+import {
+    appConfig
+} from "../app.config";
+import {
+    timedelta,
+    timepretty
+} from "../funcs";
+import gql from "graphql-tag";
+import {
+    Plotly as PlotlyVue
+} from 'vue-plotly'
+
+const fields = [{
+        key: "link",
+        label: "Session",
+        sortable: true,
+    },
+    {
+        key: "tasklink",
+        label: "Task",
+        sortable: true,
+    },
+    {
+        key: "envSpecId",
+        label: "Environment",
+    },
+    {
+        key: "created",
+        label: "Created",
+        sortable: true,
+        // formatter: timepretty,
+    },
+
+    {
+        key: "sessionType",
+        label: "Session Type",
+    },
+    {
+        key: "status",
+        label: "Status",
+        sortable: true,
+        // formatter: timepretty,
+    }
+];
+
+const pubfields = [
+
+    {
+        key: "snapshot_version",
+        label: "Version",
+    },
+
+    {
+        key: "creation_time",
+        label: "Created",
+
+    },
+
+    {
+        key: "submitter_id",
+        label: "Submitter Id",
+
+    },
+
+    {
+        key: "snapshot_description",
+        label: "Description",
+
+    }
+
+];
+const GET_AGENT = gql `
+  query GetAgent($ident: String!) {
+    item: agent(ident: $ident) {
+      id
+      ident
+      seed
+      specId
+      config
+      meta
+      created
+      notes
+      archived
+      tags{
+          edges{
+              node{
+                  id
+                  tagId
+              }
+          }
+      }
+      lastCheckpoint
+      components{
+        edges{
+          node{
+            ident
+            name
+            specId
+            spec{
+              ident
+              category
+            }
+          }
+        }
+      }
+      sessions(first: 100) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          node {
+            ident
+            envSpecId
+            task {
+              ident
+            }
+            sessionType
+            created
+            status
+            archived
+            summary 
+          }
+        }
+      }
+    }
+  }
+`;
+import AgentCard from "../components/AgentCard.vue";
+
+import AgentEdit from "../components/AgentEdit.vue";
+
+export default {
+    name: "Agent",
+    components: {
+        AgentCard,
+        AgentEdit,
+        PlotlyVue
+    },
+    apollo: {
+        // Simple query that will update the 'hello' vue property
+        item: {
+            query: GET_AGENT,
+            variables() {
+                return {
+                    ident: this.uid,
+                };
+            },
+            pollInterval: 4000
+        },
+    },
+    data() {
+        return {
+            taskDetailsList: [],
+            fields,
+            pubfields,
+            snapshot_description: "",
+            snapshot_version: "0-dev",
+            snapshots: [],
+            componentFields: [{
+                    key: "name",
+                    label: "Name",
+                }, {
+                    key: "specId",
+                    label: "Spec Id",
+                },
+                {
+                    key: "spec.category",
+                    label: "Type",
+                }
+            ],
+            graphList: [],
+            error: "",
+            item: {},
+            timer: null
+        };
+    },
+    props: {
+        uid: String,
+    },
+    computed: {
+        config() {
+            return JSON.parse(this.item.config)
+        },
+        meta() {
+            return JSON.parse(this.item.meta)
+        },
+        rowData() {
+            const rows = [];
+            if (this.item.sessions == null) {
+                return rows;
+            }
+
+            for (const session of this.item.sessions.edges) {
+                if (session.node.archived != true){
+                    rows.push(session.node);
+                }
+            }
+
+            return rows;
+        },
+
+    },
+    methods: {
+        timepretty,
+
+        refetch() {
+            this.$apollo.queries.item.refetch()
+
+        },
+        configUpdated() {
+            console.log("ConfigUPdate")
+            this.refetch();
+            this.$bvModal.hide("edit-modal");
+
+            //TODO: close modal
+
+        },
+        // saveConfig(config){
+
+        //     console.log(JSON.stringify(config))
+        //     this.$apollo.mutate({
+        //         // Query
+        //         mutation: gql `mutation agentConfigMutation($id:String!,$config:String!) 
+        //         {
+        //             agentSetConfig(id:$id, config:$config){
+        //                 success
+        //                 }
+        //         }`,
+        //         // Parameters
+        //         variables: {
+        //             id: this.agent.id,
+        //             config: JSON.stringify(config)
+        //         },
+
+        //     }).then((data) => {
+        //         this.refetch()
+        //     }).catch((error) => {
+        //         // Error
+        //         console.error(error)
+        //         // We restore the initial user input
+        //     })
+        // },
+        stopSession(taskId) {
+            axios
+                .get(
+                    `${appConfig.API_URL}/api/admin/task/stop/${taskId}`
+                )
+                .then((response) => {
+                    // JSON responses are automatically parsed.
+
+                    this.message = response.data["message"];
+                    console.log(`TASK ABORT REQUEST ${this.message}`)
+                    this.refreshData()
+                })
+                .catch((e) => {
+                    this.error = e;
+                    this.message = this.error;
+                });
+        },
+        getImageId(uid) {
+            let id = parseInt(uid.split("-")[1]);
+            return id % 19;
+        },
+
+        agentControl(action) {
+            axios
+                .get(`${appConfig.API_URL}/api/agent_control/${action}?uid=${this.uid}`)
+                .then((response) => {
+                    // JSON responses are automatically parsed.
+                    this.message = response.data["message"];
+                })
+                .catch((e) => {
+                    this.error = e;
+                    this.message = this.error;
+                });
+        },
+        loadSnapshotList() {
+            if (this.item && this.item.seed) {
+                axios
+                    .get(`${appConfig.API_URL}/api/snapshots/agent/list/${this.item.seed}`)
+                    .then((response) => {
+                        this.snapshots = response.data["items"]
+                    })
+                    .catch((e) => {
+                        this.error = e;
+                        console.log(e)
+                    });
+            }
+        },
+        loadGraphs() {
+            axios
+                .get(
+                    `${appConfig.API_URL}/api/agent_plots_json/${this.uid}`
+                )
+                .then((response) => {
+                    const graphdata = response.data;
+
+                    this.graphList = []
+
+                    Object.keys(graphdata).forEach((statName) => {
+                        const graphData = {}
+                        const graph = graphdata[statName]
+                        if (graph.data) {
+                            graphData.data = [graph.data];
+                            if (!graph.layout) return
+                            graphData.layout = graph.layout;
+                            graphData.layout.autosize = true
+                            graphData.layout.margin = {
+                                t: 25,
+                                l: 25,
+                                r: 25,
+                                b: 25
+                            }
+                            graphData.layout.font = {
+                                color: "rgba(200,200,200,1)"
+                            }
+                            graphData.layout.plot_bgcolor = "rgba(0,0,0,0.1)";
+                            graphData.layout.paper_bgcolor = "rgba(0,0,0,0.1)";
+                            graphData.layout.yaxis = {
+
+                                "gridcolor": "rgba(200,200,200,0.25)",
+                                "gridwidth": 1,
+
+                            }
+                            graphData.layout.xaxis = {
+
+                                "gridcolor": "rgba(200,200,200,0.25)",
+                                "gridwidth": 1,
+
+                            }
+                            graphData.layout.height = 250
+                            this.graphList.push(graphData)
+                        }
+                    })
+
+                })
+                .catch((e) => {
+                    console.log(e);
+                    this.error = e;
+                });
+        },
+
+        publish() {
+            const outgoingData = {
+                snapshot_version: this.snapshot_version,
+                snapshot_description: this.snapshot_description,
+                agent_id: this.uid
+
+            }
+            console.log(JSON.stringify(outgoingData, null, 2))
+            axios
+                .post(`${appConfig.API_URL}/api/snapshot/publish`, outgoingData)
+                .then((response) => {
+                    const data = response.data["item"];
+                    if ("snapshot_data" in data) {
+                        console.log("Snapshot Result: " + JSON.stringify(data['snapshot_data']));
+                    } else {
+                        console.log("ERROR in response " + JSON.stringify(data));
+                        this.errorMessage = JSON.stringify(data["error"]);
+                    }
+                    this.traceback = data["traceback"];
+
+                    this.submitting = false;
+                    this.loadSnapshotList()
+                })
+                .catch(function (error) {
+                    this.errorMessage = error;
+                    this.submitting = false;
+                });
+        },
+    },
+    // Fetches posts when the component is created.
+    created() {
+        console.log(this.uid);
+        this.loadSnapshotList()
+        this.timer = setInterval(this.loadGraphs, 2000);
+        this.loadGraphs()
+    },
+    beforeDestroy() {
+
+        clearInterval(this.timer);
+    },
+
+};
+</script>
+
+<style>
+/* a.page-link{
+   color: black;
+ } */
+</style>

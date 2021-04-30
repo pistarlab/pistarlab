@@ -1,0 +1,153 @@
+{
+  "env_specs": [
+    {
+      "spec_id": "simpleland_collect",
+      "displayed_name": "simpleland_collect",
+      "description": null,
+      "entry_point": "simpleland.env:SimplelandEnv",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [],
+      "environment_id": "simpleland",
+      "metadata": {
+        "image_filename": "simpleland.jpg",
+        "render.modes": [],
+        "render.fps": 30,
+        "render_mode": "rgb_array",
+        "render_stats": false,
+        "observation_spaces": {
+          "1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  5,
+                  5,
+                  5
+                ]
+              },
+              "low": 0.0,
+              "high": 1.0
+            },
+            "args": []
+          },
+          "2": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  5,
+                  5,
+                  5
+                ]
+              },
+              "low": 0.0,
+              "high": 1.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "1": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              4
+            ]
+          },
+          "2": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              4
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "1",
+          "2"
+        ],
+        "possible_players": [
+          "1",
+          "2"
+        ]
+      },
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": []
+      }
+    },
+    {
+      "spec_id": "simpleland_collect_single",
+      "displayed_name": "simpleland_collect_single",
+      "description": null,
+      "entry_point": "simpleland.env:SimplelandEnvSingle",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_SINGLEPLAYER_ENV",
+      "tags": [],
+      "categories": [],
+      "environment_id": "simpleland",
+      "metadata": {
+        "image_filename": "simpleland.jpg",
+        "render.modes": [],
+        "render.fps": 30,
+        "render_mode": "rgb_array",
+        "render_stats": false,
+        "observation_spaces": {
+          "default": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  5,
+                  5,
+                  5
+                ]
+              },
+              "low": 0.0,
+              "high": 1.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "default": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              4
+            ]
+          }
+        },
+        "num_players": 1,
+        "max_num_players": 1,
+        "players": [
+          "default"
+        ],
+        "possible_players": [
+          "default"
+        ]
+      },
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": []
+      }
+    }
+  ]
+}

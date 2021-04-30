@@ -1,0 +1,5441 @@
+{
+  "env_specs": [
+    {
+      "spec_id": "pettingzoo.atari.boxing_v1",
+      "displayed_name": "pettingzoo.atari.boxing_v1",
+      "description": null,
+      "entry_point": "pettingzoo.atari.boxing_v1:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "atari"
+      ],
+      "environment_id": "pettingzoo.atari.boxing_v1",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.atari.boxing_v1.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "first_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "second_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "first_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          },
+          "second_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "first_0",
+          "second_0"
+        ],
+        "possible_players": [
+          "first_0",
+          "second_0"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.atari.mario_bros_v2",
+      "displayed_name": "pettingzoo.atari.mario_bros_v2",
+      "description": null,
+      "entry_point": "pettingzoo.atari.mario_bros_v2:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "atari"
+      ],
+      "environment_id": "pettingzoo.atari.mario_bros_v2",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.atari.mario_bros_v2.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "first_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "second_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "first_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          },
+          "second_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "first_0",
+          "second_0"
+        ],
+        "possible_players": [
+          "first_0",
+          "second_0"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.atari.pong_v1",
+      "displayed_name": "pettingzoo.atari.pong_v1",
+      "description": null,
+      "entry_point": "pettingzoo.atari.pong_v1:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "atari"
+      ],
+      "environment_id": "pettingzoo.atari.pong_v1",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.atari.pong_v1.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "first_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "second_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "first_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          },
+          "second_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "first_0",
+          "second_0"
+        ],
+        "possible_players": [
+          "first_0",
+          "second_0"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.atari.space_invaders_v1",
+      "displayed_name": "pettingzoo.atari.space_invaders_v1",
+      "description": null,
+      "entry_point": "pettingzoo.atari.space_invaders_v1:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "atari"
+      ],
+      "environment_id": "pettingzoo.atari.space_invaders_v1",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.atari.space_invaders_v1.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "first_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "second_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  210,
+                  160,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "first_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          },
+          "second_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              18
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "first_0",
+          "second_0"
+        ],
+        "possible_players": [
+          "first_0",
+          "second_0"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.classic.chess_v2",
+      "displayed_name": "pettingzoo.classic.chess_v2",
+      "description": null,
+      "entry_point": "pettingzoo.classic.chess_v2:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "classic"
+      ],
+      "environment_id": "pettingzoo.classic.chess_v2",
+      "config": {
+        "default_render_mode": "stdout",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.classic.chess_v2.jpg",
+        "render.modes": [
+          "human",
+          "ansi",
+          "ansi"
+        ],
+        "render_mode": "stdout",
+        "observation_spaces": {
+          "player_0": {
+            "class_name": "Dict",
+            "module": "gym.spaces.dict",
+            "kwargs": {
+              "spaces": {
+                "action_mask": {
+                  "class_name": "Box",
+                  "module": "gym.spaces.box",
+                  "kwargs": {
+                    "shape": {
+                      "__type": "tuple",
+                      "values": [
+                        4672
+                      ]
+                    },
+                    "low": 0.0,
+                    "high": 1.0
+                  },
+                  "args": []
+                },
+                "observation": {
+                  "class_name": "Box",
+                  "module": "gym.spaces.box",
+                  "kwargs": {
+                    "shape": {
+                      "__type": "tuple",
+                      "values": [
+                        8,
+                        8,
+                        20
+                      ]
+                    },
+                    "low": 0.0,
+                    "high": 1.0
+                  },
+                  "args": []
+                }
+              }
+            },
+            "args": []
+          },
+          "player_1": {
+            "class_name": "Dict",
+            "module": "gym.spaces.dict",
+            "kwargs": {
+              "spaces": {
+                "action_mask": {
+                  "class_name": "Box",
+                  "module": "gym.spaces.box",
+                  "kwargs": {
+                    "shape": {
+                      "__type": "tuple",
+                      "values": [
+                        4672
+                      ]
+                    },
+                    "low": 0.0,
+                    "high": 1.0
+                  },
+                  "args": []
+                },
+                "observation": {
+                  "class_name": "Box",
+                  "module": "gym.spaces.box",
+                  "kwargs": {
+                    "shape": {
+                      "__type": "tuple",
+                      "values": [
+                        8,
+                        8,
+                        20
+                      ]
+                    },
+                    "low": 0.0,
+                    "high": 1.0
+                  },
+                  "args": []
+                }
+              }
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "player_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              4672
+            ]
+          },
+          "player_1": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              4672
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "player_0",
+          "player_1"
+        ],
+        "possible_players": [
+          "player_0",
+          "player_1"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.butterfly.cooperative_pong_v2",
+      "displayed_name": "pettingzoo.butterfly.cooperative_pong_v2",
+      "description": null,
+      "entry_point": "pettingzoo.butterfly.cooperative_pong_v2:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "butterfly"
+      ],
+      "environment_id": "pettingzoo.butterfly.cooperative_pong_v2",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.butterfly.cooperative_pong_v2.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "paddle_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  280,
+                  240,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "paddle_1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  280,
+                  240,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "paddle_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "paddle_1": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 2,
+        "max_num_players": 2,
+        "players": [
+          "paddle_0",
+          "paddle_1"
+        ],
+        "possible_players": [
+          "paddle_0",
+          "paddle_1"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.butterfly.prison_v2",
+      "displayed_name": "pettingzoo.butterfly.prison_v2",
+      "description": null,
+      "entry_point": "pettingzoo.butterfly.prison_v2:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "butterfly"
+      ],
+      "environment_id": "pettingzoo.butterfly.prison_v2",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.butterfly.prison_v2.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "prisoner_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_2": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_3": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_4": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_5": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_6": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          },
+          "prisoner_7": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  100,
+                  300,
+                  3
+                ]
+              },
+              "low": 0.0,
+              "high": 255.0
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "prisoner_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_1": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_2": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_3": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_4": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_5": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_6": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          },
+          "prisoner_7": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              3
+            ]
+          }
+        },
+        "num_players": 8,
+        "max_num_players": 8,
+        "players": [
+          "prisoner_0",
+          "prisoner_1",
+          "prisoner_2",
+          "prisoner_3",
+          "prisoner_4",
+          "prisoner_5",
+          "prisoner_6",
+          "prisoner_7"
+        ],
+        "possible_players": [
+          "prisoner_0",
+          "prisoner_1",
+          "prisoner_2",
+          "prisoner_3",
+          "prisoner_4",
+          "prisoner_5",
+          "prisoner_6",
+          "prisoner_7"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.magent.battle_v2",
+      "displayed_name": "pettingzoo.magent.battle_v2",
+      "description": null,
+      "entry_point": "pettingzoo.magent.battle_v2:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "magent"
+      ],
+      "environment_id": "pettingzoo.magent.battle_v2",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.magent.battle_v2.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "red_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_2": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_3": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_4": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_5": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_6": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_7": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_8": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_9": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_10": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_11": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_12": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_13": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_14": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_15": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_16": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_17": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_18": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_19": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_20": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_21": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_22": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_23": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_24": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_25": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_26": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_27": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_28": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_29": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_30": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_31": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_32": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_33": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_34": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_35": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_36": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_37": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_38": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_39": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_40": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_41": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_42": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_43": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_44": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_45": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_46": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_47": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_48": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_49": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_50": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_51": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_52": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_53": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_54": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_55": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_56": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_57": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_58": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_59": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_60": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_61": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_62": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_63": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_64": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_65": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_66": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_67": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_68": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_69": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_70": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_71": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_72": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_73": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_74": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_75": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_76": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_77": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_78": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_79": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "red_80": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_2": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_3": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_4": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_5": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_6": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_7": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_8": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_9": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_10": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_11": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_12": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_13": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_14": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_15": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_16": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_17": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_18": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_19": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_20": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_21": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_22": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_23": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_24": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_25": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_26": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_27": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_28": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_29": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_30": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_31": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_32": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_33": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_34": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_35": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_36": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_37": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_38": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_39": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_40": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_41": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_42": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_43": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_44": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_45": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_46": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_47": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_48": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_49": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_50": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_51": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_52": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_53": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_54": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_55": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_56": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_57": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_58": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_59": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_60": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_61": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_62": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_63": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_64": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_65": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_66": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_67": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_68": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_69": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_70": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_71": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_72": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_73": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_74": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_75": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_76": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_77": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_78": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_79": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          },
+          "blue_80": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  13,
+                  13,
+                  41
+                ]
+              },
+              "low": -0.20499999821186066,
+              "high": 5.199999809265137
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "red_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_1": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_2": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_3": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_4": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_5": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_6": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_7": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_8": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_9": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_10": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_11": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_12": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_13": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_14": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_15": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_16": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_17": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_18": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_19": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_20": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_21": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_22": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_23": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_24": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_25": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_26": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_27": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_28": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_29": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_30": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_31": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_32": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_33": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_34": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_35": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_36": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_37": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_38": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_39": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_40": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_41": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_42": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_43": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_44": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_45": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_46": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_47": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_48": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_49": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_50": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_51": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_52": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_53": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_54": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_55": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_56": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_57": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_58": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_59": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_60": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_61": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_62": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_63": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_64": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_65": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_66": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_67": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_68": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_69": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_70": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_71": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_72": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_73": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_74": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_75": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_76": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_77": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_78": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_79": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "red_80": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_0": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_1": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_2": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_3": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_4": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_5": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_6": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_7": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_8": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_9": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_10": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_11": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_12": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_13": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_14": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_15": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_16": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_17": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_18": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_19": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_20": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_21": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_22": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_23": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_24": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_25": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_26": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_27": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_28": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_29": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_30": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_31": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_32": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_33": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_34": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_35": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_36": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_37": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_38": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_39": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_40": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_41": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_42": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_43": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_44": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_45": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_46": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_47": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_48": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_49": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_50": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_51": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_52": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_53": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_54": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_55": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_56": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_57": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_58": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_59": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_60": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_61": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_62": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_63": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_64": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_65": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_66": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_67": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_68": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_69": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_70": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_71": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_72": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_73": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_74": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_75": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_76": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_77": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_78": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_79": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          },
+          "blue_80": {
+            "class_name": "Discrete",
+            "module": "gym.spaces.discrete",
+            "kwargs": {},
+            "args": [
+              21
+            ]
+          }
+        },
+        "num_players": 162,
+        "max_num_players": 162,
+        "players": [
+          "red_0",
+          "red_1",
+          "red_2",
+          "red_3",
+          "red_4",
+          "red_5",
+          "red_6",
+          "red_7",
+          "red_8",
+          "red_9",
+          "red_10",
+          "red_11",
+          "red_12",
+          "red_13",
+          "red_14",
+          "red_15",
+          "red_16",
+          "red_17",
+          "red_18",
+          "red_19",
+          "red_20",
+          "red_21",
+          "red_22",
+          "red_23",
+          "red_24",
+          "red_25",
+          "red_26",
+          "red_27",
+          "red_28",
+          "red_29",
+          "red_30",
+          "red_31",
+          "red_32",
+          "red_33",
+          "red_34",
+          "red_35",
+          "red_36",
+          "red_37",
+          "red_38",
+          "red_39",
+          "red_40",
+          "red_41",
+          "red_42",
+          "red_43",
+          "red_44",
+          "red_45",
+          "red_46",
+          "red_47",
+          "red_48",
+          "red_49",
+          "red_50",
+          "red_51",
+          "red_52",
+          "red_53",
+          "red_54",
+          "red_55",
+          "red_56",
+          "red_57",
+          "red_58",
+          "red_59",
+          "red_60",
+          "red_61",
+          "red_62",
+          "red_63",
+          "red_64",
+          "red_65",
+          "red_66",
+          "red_67",
+          "red_68",
+          "red_69",
+          "red_70",
+          "red_71",
+          "red_72",
+          "red_73",
+          "red_74",
+          "red_75",
+          "red_76",
+          "red_77",
+          "red_78",
+          "red_79",
+          "red_80",
+          "blue_0",
+          "blue_1",
+          "blue_2",
+          "blue_3",
+          "blue_4",
+          "blue_5",
+          "blue_6",
+          "blue_7",
+          "blue_8",
+          "blue_9",
+          "blue_10",
+          "blue_11",
+          "blue_12",
+          "blue_13",
+          "blue_14",
+          "blue_15",
+          "blue_16",
+          "blue_17",
+          "blue_18",
+          "blue_19",
+          "blue_20",
+          "blue_21",
+          "blue_22",
+          "blue_23",
+          "blue_24",
+          "blue_25",
+          "blue_26",
+          "blue_27",
+          "blue_28",
+          "blue_29",
+          "blue_30",
+          "blue_31",
+          "blue_32",
+          "blue_33",
+          "blue_34",
+          "blue_35",
+          "blue_36",
+          "blue_37",
+          "blue_38",
+          "blue_39",
+          "blue_40",
+          "blue_41",
+          "blue_42",
+          "blue_43",
+          "blue_44",
+          "blue_45",
+          "blue_46",
+          "blue_47",
+          "blue_48",
+          "blue_49",
+          "blue_50",
+          "blue_51",
+          "blue_52",
+          "blue_53",
+          "blue_54",
+          "blue_55",
+          "blue_56",
+          "blue_57",
+          "blue_58",
+          "blue_59",
+          "blue_60",
+          "blue_61",
+          "blue_62",
+          "blue_63",
+          "blue_64",
+          "blue_65",
+          "blue_66",
+          "blue_67",
+          "blue_68",
+          "blue_69",
+          "blue_70",
+          "blue_71",
+          "blue_72",
+          "blue_73",
+          "blue_74",
+          "blue_75",
+          "blue_76",
+          "blue_77",
+          "blue_78",
+          "blue_79",
+          "blue_80"
+        ],
+        "possible_players": [
+          "red_0",
+          "red_1",
+          "red_2",
+          "red_3",
+          "red_4",
+          "red_5",
+          "red_6",
+          "red_7",
+          "red_8",
+          "red_9",
+          "red_10",
+          "red_11",
+          "red_12",
+          "red_13",
+          "red_14",
+          "red_15",
+          "red_16",
+          "red_17",
+          "red_18",
+          "red_19",
+          "red_20",
+          "red_21",
+          "red_22",
+          "red_23",
+          "red_24",
+          "red_25",
+          "red_26",
+          "red_27",
+          "red_28",
+          "red_29",
+          "red_30",
+          "red_31",
+          "red_32",
+          "red_33",
+          "red_34",
+          "red_35",
+          "red_36",
+          "red_37",
+          "red_38",
+          "red_39",
+          "red_40",
+          "red_41",
+          "red_42",
+          "red_43",
+          "red_44",
+          "red_45",
+          "red_46",
+          "red_47",
+          "red_48",
+          "red_49",
+          "red_50",
+          "red_51",
+          "red_52",
+          "red_53",
+          "red_54",
+          "red_55",
+          "red_56",
+          "red_57",
+          "red_58",
+          "red_59",
+          "red_60",
+          "red_61",
+          "red_62",
+          "red_63",
+          "red_64",
+          "red_65",
+          "red_66",
+          "red_67",
+          "red_68",
+          "red_69",
+          "red_70",
+          "red_71",
+          "red_72",
+          "red_73",
+          "red_74",
+          "red_75",
+          "red_76",
+          "red_77",
+          "red_78",
+          "red_79",
+          "red_80",
+          "blue_0",
+          "blue_1",
+          "blue_2",
+          "blue_3",
+          "blue_4",
+          "blue_5",
+          "blue_6",
+          "blue_7",
+          "blue_8",
+          "blue_9",
+          "blue_10",
+          "blue_11",
+          "blue_12",
+          "blue_13",
+          "blue_14",
+          "blue_15",
+          "blue_16",
+          "blue_17",
+          "blue_18",
+          "blue_19",
+          "blue_20",
+          "blue_21",
+          "blue_22",
+          "blue_23",
+          "blue_24",
+          "blue_25",
+          "blue_26",
+          "blue_27",
+          "blue_28",
+          "blue_29",
+          "blue_30",
+          "blue_31",
+          "blue_32",
+          "blue_33",
+          "blue_34",
+          "blue_35",
+          "blue_36",
+          "blue_37",
+          "blue_38",
+          "blue_39",
+          "blue_40",
+          "blue_41",
+          "blue_42",
+          "blue_43",
+          "blue_44",
+          "blue_45",
+          "blue_46",
+          "blue_47",
+          "blue_48",
+          "blue_49",
+          "blue_50",
+          "blue_51",
+          "blue_52",
+          "blue_53",
+          "blue_54",
+          "blue_55",
+          "blue_56",
+          "blue_57",
+          "blue_58",
+          "blue_59",
+          "blue_60",
+          "blue_61",
+          "blue_62",
+          "blue_63",
+          "blue_64",
+          "blue_65",
+          "blue_66",
+          "blue_67",
+          "blue_68",
+          "blue_69",
+          "blue_70",
+          "blue_71",
+          "blue_72",
+          "blue_73",
+          "blue_74",
+          "blue_75",
+          "blue_76",
+          "blue_77",
+          "blue_78",
+          "blue_79",
+          "blue_80"
+        ]
+      }
+    },
+    {
+      "spec_id": "pettingzoo.sisl.multiwalker_v6",
+      "displayed_name": "pettingzoo.sisl.multiwalker_v6",
+      "description": null,
+      "entry_point": "pettingzoo.sisl.multiwalker_v6:env",
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "env_type": "RL_MULTIPLAYER_ENV",
+      "tags": [],
+      "categories": [
+        "sisl"
+      ],
+      "environment_id": "pettingzoo.sisl.multiwalker_v6",
+      "config": {
+        "default_render_mode": "rgb_array",
+        "env_kwargs": {},
+        "default_wrappers": [
+          {
+            "entry_point": "pistarlab_petting_zoo.wrappers:PettingZooAECWrapper",
+            "kwargs": {}
+          }
+        ]
+      },
+      "metadata": {
+        "image_filename": "pettingzoo.sisl.multiwalker_v6.jpg",
+        "render.modes": [
+          "human",
+          "rgb_array"
+        ],
+        "render_mode": "rgb_array",
+        "observation_spaces": {
+          "walker_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  31
+                ]
+              },
+              "low": -1e+100,
+              "high": 1e+100
+            },
+            "args": []
+          },
+          "walker_1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  31
+                ]
+              },
+              "low": -1e+100,
+              "high": 1e+100
+            },
+            "args": []
+          },
+          "walker_2": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  31
+                ]
+              },
+              "low": -1e+100,
+              "high": 1e+100
+            },
+            "args": []
+          }
+        },
+        "action_spaces": {
+          "walker_0": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  4
+                ]
+              },
+              "low": -1.0,
+              "high": 1.0
+            },
+            "args": []
+          },
+          "walker_1": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  4
+                ]
+              },
+              "low": -1.0,
+              "high": 1.0
+            },
+            "args": []
+          },
+          "walker_2": {
+            "class_name": "Box",
+            "module": "gym.spaces.box",
+            "kwargs": {
+              "shape": {
+                "__type": "tuple",
+                "values": [
+                  4
+                ]
+              },
+              "low": -1.0,
+              "high": 1.0
+            },
+            "args": []
+          }
+        },
+        "num_players": 3,
+        "max_num_players": 3,
+        "players": [
+          "walker_0",
+          "walker_1",
+          "walker_2"
+        ],
+        "possible_players": [
+          "walker_0",
+          "walker_1",
+          "walker_2"
+        ]
+      }
+    }
+  ]
+}

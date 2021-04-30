@@ -1,0 +1,23 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="$id",
+    version="$version",
+    author="$author",
+    author_email="$author_email",
+    description="$description",
+    long_description='This is a pistarlab plugin',
+    url="",
+    license='',
+    install_requires=[],
+    package_data={'$module_name': ['README.md',"*.json"]},
+    packages=find_packages(),
+    classifiers=[
+        'Environment :: Plugins',
+        'Framework :: PiSTARLab',
+        'Topic :: Software Development',
+        'Topic :: Games/Entertainment :: Simulation',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence'
+    ],
+    python_requires='>=3.7',
+)
