@@ -7,18 +7,12 @@ setup(
     author_email="",
     description="Stable Baselines",
     long_description='This is a pistarlab plugin',
-    url="https://github.com/bkusenda/pistarlab/plugins",
+    url="https://github.com/pistarlab/pistarlab/plugins",
     license='',
-    install_requires=['stable-baselines>=2.10.1'],
+    install_requires=['stable-baselines3'],
     package_data={'pistarlab-agents-stable-baselines': ['README.md']
       },
     packages=find_packages(),
-    entry_points={
-    'pistarlab_plugin' : [
-      "install =  pistarlab_agents_stable_baselines.plugin:install",
-      "load =  pistarlab_agents_stable_baselines.plugin:load",
-      "uninstall =  pistarlab_agents_stable_baselines.plugin:uninstall"]
-    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',

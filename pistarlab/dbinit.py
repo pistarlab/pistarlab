@@ -1,4 +1,3 @@
-from pistarlab.agents.a2c import A2CTaskRunner
 from sqlalchemy import orm as db_orm
 
 from . import ctx
@@ -87,13 +86,13 @@ def load_default_data():
         },
         plugin_id="builtin")
 
-    ctx.register_agent_spec_from_classes(
-        runner_cls=A2CTaskRunner,
-        spec_id="A2C",
-        config={
-                'interfaces': {'run': get_agent_spec_interface_dict()}
-        },
-        plugin_id="builtin")
+    # ctx.register_agent_spec_from_classes(
+    #     runner_cls=A2CTaskRunner,
+    #     spec_id="A2C",
+    #     config={
+    #             'interfaces': {'run': get_agent_spec_interface_dict()}
+    #     },
+    #     plugin_id="builtin")
 
 
     # MULTI AGENT RUNNER (OVER NETWORK)

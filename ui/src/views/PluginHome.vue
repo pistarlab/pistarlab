@@ -23,10 +23,11 @@
             <b-button class="ml-2" :disabled="selectedStatus=='avail'" size="sm" variant="primary" @click="updateStatusFilter('avail')">Install Plugins</b-button>
 
         </b-button-toolbar>
-        <span class="mr-2 ml-5">Category Filter:</span>
-        <b-button-group size="sm">
-            <b-button class="mr-2" v-for="(btn, idx) in filterCategories" :key="idx" :pressed.sync="btn.state" @click="updateList()" variant="info" pill>{{ btn.caption }}</b-button>
-        </b-button-group>
+        <!-- <span class="mr-2 ml-5">Category Filter:</span> -->
+        <!-- <b-button-group size="sm">
+            <b-button class="mr-2" v-for="(btn, idx) in filterCategories" :key="idx" :pressed.sync="btn.state"  @click="updateList()" variant="info" pill>{{ btn.caption }} </b-button>
+   
+        </b-button-group> -->
         <b-button class="ml-auto mr-2" v-b-modal:modal-logviewer size="sm" variant="info"><i class="fa fa-bug"></i> View Logs</b-button>
 
     </b-navbar>

@@ -22,7 +22,7 @@ import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import {
-    appConfig
+    appConfig, fetchSettings
 } from "./app.config"
 
 const httpLink = createHttpLink({
@@ -71,7 +71,14 @@ Vue.use(DropdownPlugin)
 
 Vue.config.productionTip = false
 
+Vue.mixin({
+    data: function() {
+      return {
+        demoMode:true
+      }
+    },
 
+  })
 
 new Vue({
   router,

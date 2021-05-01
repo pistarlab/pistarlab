@@ -7,7 +7,7 @@ setup(
     author_email="pistar3.14@gmail.com",
     description="Original Env https://github.com/ArnaudFickinger/gym-multigrid",
     long_description='This is a pistarlab plugin',
-    url="https://github.com/bkusenda/pistarlab/plugins",
+    url="https://github.com/pistarlab/pistarlab/plugins",
     license='',
     install_requires=[''],
     package_data={'pistarlab-multigrid': ['README.md']

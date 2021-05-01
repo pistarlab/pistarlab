@@ -6,20 +6,20 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 from gym import spaces
 
-from ..agent import Agent
-from ..components.predictors_mlp import (AC2ModelMLP, PolicyEstimatorMLP,
+from pistarlab.agent import Agent
+from .predictors_mlp import (AC2ModelMLP, PolicyEstimatorMLP,
                                          PolicyModel, ValueEstimatorMLP,
                                          ValueModel)
-from ..components.transformers import (IntToOneHotTransformer,
+from .transformers import (IntToOneHotTransformer,
                                        MirrorTransformer,
                                        NpArrayFlattenTransformer, Transformer,
                                        build_action_transformer,
                                        build_observation_transformer,
                                        prep_frames)
-from ..meta import STATE_COMPLETED, STATE_RUNNING
-from ..session_config import RLSessionConfig
-from ..session_env import RLMultiSessionEnv
-from ..task_runner import AgentTaskRunner
+from pistarlab.meta import STATE_COMPLETED, STATE_RUNNING
+from pistarlab.session_config import RLSessionConfig
+from pistarlab.session_env import RLMultiSessionEnv
+from pistarlab.task_runner import AgentTaskRunner
 
 
 class A2C(Agent):

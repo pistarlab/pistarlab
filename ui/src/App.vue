@@ -2,25 +2,37 @@
 <div id="main" :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]" style>
     <b-modal id="task-manager" size="lg" title="Task History" scrollable :hide-footer="true">
         <TaskHome></TaskHome>
+        <div class="mb-5"></div>
     </b-modal>
     <b-modal id="data-browser" size="lg" title="File Data Browser" scrollable :hide-footer="true">
         <DataBrowser></DataBrowser>
+        <div class="mb-5"></div>
     </b-modal>
 
     <b-modal id="plugin-manager" size="xl" title="Plugin Manager" scrollable :hide-footer="true">
         <PluginManager></PluginManager>
+        <div class="mb-5"></div>
+
     </b-modal>
 
     <b-modal id="sessions" size="xl" title="Sessions" scrollable :hide-footer="true">
         <Sessions></Sessions>
+        <div class="mb-5"></div>
     </b-modal>
 
     <b-modal id="settings" size="lg" title="Settings" scrollable :hide-footer="true">
         <Settings></Settings>
+        <div class="mb-5"></div>
     </b-modal>
 
     <b-modal id="newtask" size="lg" title="New Task" scrollable :hide-footer="true">
         <TaskSpecs></TaskSpecs>
+        <div class="mb-5"></div>
+    </b-modal>
+
+    <b-modal id="syslogviewer" size="lg" title="System Logs" scrollable :hide-footer="true">
+        <DataBrowser path="/logs/"></DataBrowser>
+        <div class="mb-5"></div>
     </b-modal>
 
     <div>
@@ -84,13 +96,19 @@
             </b-nav-item>
 
         </b-navbar-nav>
-         <b-navbar-nav class="ml-auto">
-                        <b-nav-text class="appname" >
+        <b-navbar-nav class="ml-auto">
+            <b-nav-text class="appname">
                 <i class="fa fa-flask"></i> piSTAR Lab
             </b-nav-text>
-             </b-navbar-nav>
+            <b-nav-text id="readonlymodebanner" v-if="readOnlyMode" style="font-weight:900;color:yellow">
+                [READ-ONLY MODE]
+            </b-nav-text>
+            <b-tooltip target="readonlymodebanner" triggers="hover">
+                This is a READ-ONLY Instance.
+            </b-tooltip>
+        </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-            
+
             <b-nav-item class="mr-2" v-b-modal.data-browser>
                 <i title="File Browser" class="fa fa-folder"></i> Files
             </b-nav-item>
@@ -100,7 +118,6 @@
             <b-nav-item title="Switch to IDE View" class="mr-2" @click="showIDE()">
                 <i class="fa fa-laptop-code"></i> IDE
             </b-nav-item>
-
 
             <b-nav-item title="Settings" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>
@@ -145,7 +162,7 @@ export default {
             jupyterUrl: "NA",
             rayDashUrl: "",
             logVisible: false,
-            ideenabled:false,
+            ideenabled: false,
             menu: [
                 // {
                 //   header: true,
@@ -157,25 +174,25 @@ export default {
                 //   title: "Dash",
                 //   icon: "fas fa-tachometer-alt",
                 // },
-                                {
+                {
                     href: "/",
                     title: "Home",
                     icon: "fas fa-home",
                 },
-            //   {
-            //         href: "/missions/home",
-            //         title: "Missions",
-            //         icon: "fas fa-flag-checkered",
-            //     },
-            //                   {
-            //         href: "/learning/home",
-            //         title: "Learning Resources",
-            //         icon: "fas fa-school",
-            //     },
-            //      {
-            //         title: "",
-            //         header: true,
-            //     },
+                //   {
+                //         href: "/missions/home",
+                //         title: "Missions",
+                //         icon: "fas fa-flag-checkered",
+                //     },
+                //                   {
+                //         href: "/learning/home",
+                //         title: "Learning Resources",
+                //         icon: "fas fa-school",
+                //     },
+                //      {
+                //         title: "",
+                //         header: true,
+                //     },
 
                 {
                     href: "/agent/home",
@@ -245,7 +262,8 @@ export default {
             logStream: null,
             logdata: [],
             logInit: false,
-            ideWindow:null
+            ideWindow: null,
+            readOnlyMode: false
         };
     },
     mounted() {
@@ -259,21 +277,21 @@ export default {
         showLab() {
             // this.ideenabled = false
             // document.body.style.overflow = 'visible';
-            
+
             //
         },
         showIDE() {
             this.ideenabled = true
             // document.body.style.overflow = 'hidden';
 
-            if (!this.ideWindow){
-                    this.ideWindow=window.open('http://localhost:7781','xxx');
-                    console.log(this.ideWindow)
-                }
+            if (!this.ideWindow) {
+                this.ideWindow = window.open('http://localhost:7781', 'xxx');
+                console.log(this.ideWindow)
+            }
             // myWindow.document.write("<p>This is 'myWindow'</p>");
             // if(doFocus)
-               let result =  this.ideWindow.focus();
-               console.log(result)
+            let result = this.ideWindow.focus();
+            console.log(result)
 
             //
         },
@@ -295,17 +313,9 @@ export default {
     created: function () {
 
         fetchSettings().then(settings => {
-            this.jupyterUrl = "http://localhost:" + settings['env']['JUPYTER_PORT']
-            this.rayDashUrl = "http://localhost:" + settings['env']['RAY_DASHBOARD_PORT']
-
+            this.readOnlyMode = settings.sys_config.read_only_mode
         })
-        // document.addEventListener("keydown", (event) => {
-        //   if (event.keyCode == 192) {
-        //     this.logVisible = !this.logVisible;
-        //     setTimeout(this.updatescroll, 200);
-
-        //   }
-        // });
+        //
     },
     props: {
         width: {
@@ -412,7 +422,7 @@ td {
     padding: 10px;
 }
 
-.svgagent{
+.svgagent {
     filter: invert(50%) sepia(100%) saturate(0%) hue-rotate(80deg) brightness(100%) contrast(100%) !important;
 }
 
@@ -421,22 +431,24 @@ td {
     /* box-shadow: 2px 0px 6px #999; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-     background-color: #161b22 !important; 
+    background-color: #161b22 !important;
 
 }
 
 .vsm--icon {
     /* background-color: transparent !important; */
     /* color: #fff !important; */
-        background-color: #161b22 !important;
+    background-color: #161b22 !important;
 
     height: 50px;
 }
+
 .vsm--item {
     /* background-color: #161b22 !important; */
     /* color: #fff !important; */
     height: 50px;
 }
+
 .vsm--link.vsm--link_level-1 {
     color: #9f9f9f !important;
 }
@@ -451,10 +463,12 @@ td {
     color: #fff !important;
     background-color: #4285f4 !important;
 }
-.vsm--toggle-btn{
-        background-color: #161b22 !important;
+
+.vsm--toggle-btn {
+    background-color: #161b22 !important;
 
 }
+
 pre {
     font-family: Consolas, monospace;
     /* background: #fff; */
@@ -511,7 +525,7 @@ button .default {
 }
 
 .data_label {
-   color: #aaa;
+    color: #aaa;
     margin-bottom: 6px
 }
 
@@ -659,14 +673,15 @@ button .default {
 }
 
 .navbar-text {
-    padding:0px 0px;
-    margin:5px 5px; 
+    padding: 0px 0px;
+    margin: 5px 5px;
 }
 
 .navbar-text {
-    padding:0px 0px;
-    margin:5px 5px; 
+    padding: 0px 0px;
+    margin: 5px 5px;
 }
+
 .bottomnav .nav-link:focus,
 .nav-link:hover {
     background-color: #ff658b;
@@ -709,17 +724,15 @@ button .default {
 }
 
 .corneritem:hover a {
-   background-color: #1d8cf8 !important;
-   border-radius: 4px;
+    background-color: #1d8cf8 !important;
+    border-radius: 4px;
 }
 
-.navbar-nav li{
-    padding:0
+.navbar-nav li {
+    padding: 0
 }
 
-.appname{
+.appname {
     font-weight: 600;
 }
-
-
 </style>

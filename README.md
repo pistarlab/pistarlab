@@ -96,6 +96,7 @@ These instructions assume you are using [Anaconda](https://www.anaconda.com/prod
     ```bash
     conda create -n pistarlab  python=3.8
     conda activate pistarlab
+    conda install pip
     ```
 
 1. Install external depdendancies
@@ -109,13 +110,15 @@ These instructions assume you are using [Anaconda](https://www.anaconda.com/prod
 1. clone git repo
 
     ```bash
-    git clode https://github.com/pistarlab/pistarlab
+    git clone https://github.com/pistarlab/pistarlab
+    cd pistarlab
     ```
 
 1. Install with pip in edit (development) mode.
 
     ```bash
     pip install -e .
+    pip install -e .[extra] # or \[extra\] for zsh
     ```
 
 1. Install extra development dependencies
@@ -270,17 +273,18 @@ GOCHYAS
 - start pistarlab
     -python pistarlab/launcher.py --ray_address="192.168.1.31:6379" 
 - Install plugins on nodes:
-    - ray exec /home/brandyn/pistarlab/cluster.yaml  "pip install --user -e /home/pistarlabuser/app/pistarlab/plugins/pistarlab-envs-gym-main"
+    - ray exec $HOME/pistarlab/cluster.yaml  "pip install --user -e /home/pistarlabuser/app/pistarlab/plugins/pistarlab-envs-gym-main"
 - Before Each Task:
     - ray rsync-up -vvv ~/pistarlab/cluster.yaml
 - After Each Task or on demand:
-    - ray rsync-down -vvv ~/pistarlab/cluster.yaml /home/pistarlabuser/pistarlab/data/ /home/brandyn/pistarlab/data/
+    - ray rsync-down -vvv ~/pistarlab/cluster.yaml /home/pistarlabuser/pistarlab/data/ $HOME/pistarlab/data/
 
 # VENVS
 -- just use miniconda
 
 
 # CI
+
 
 # Debugging
 

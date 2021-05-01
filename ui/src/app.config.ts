@@ -6,6 +6,7 @@ if (typeof API_URL === 'undefined') {
 
 const appConfig= {
   API_URL: API_URL,
+  data:{}
 }
 function fetchSettings(){
     return fetch(API_URL + "/api/config").then(response => response.json() )

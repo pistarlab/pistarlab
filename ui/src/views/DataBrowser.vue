@@ -8,6 +8,8 @@
             <span v-else>Root</span>
         </div>
     </h3>
+            <b-alert show variant="warning">Warning: This interface is buggy. If not working, close and try again.</b-alert>
+
     <b-link v-if="urlFilePath" @click="updateURL(parentLink)">Up</b-link>
     <div class="pt-2"></div>
 

@@ -1,18 +1,20 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="pistarlab-envs-gym-minigrid",
+    name="pistarlab-defaults",
     version="0.0.1-dev",
     author="piSTAR",
     author_email="pistar3.14@gmail.com",
-    description="https://github.com/maximecb/gym-minigrid",
-    long_description='This is a pistarlab plugin',
+    description="defaults",
+    long_description='This is a pistarlab plugin for defaults',
     url="https://github.com/pistarlab/pistarlab/plugins",
     license='',
-    install_requires=['gym-minigrid'],
-    package_data={'pistarlab-envs-gym-minigrid': ['README.md']
+    install_requires=['ray==1.2.0'],
+    package_data={'pistarlab-defaults': ['README.md',"*.json"]
       },
     packages=find_packages(),
+    entry_points={
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',

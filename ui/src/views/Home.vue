@@ -22,7 +22,7 @@
                 <b-button id="newagenttaskbutton" variant="info" size="lg" to="task/new/agenttask" style="width:300px;height:100px">
                     <h3>
                         <div>
-                            New Agent Task
+                            New Task
                         </div>
                         <i class="fa fa-plus"></i>
                     </h3>
@@ -106,16 +106,12 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import axios from "axios";
-
-import gql from "graphql-tag";
 import {
     appConfig
 } from "../app.config";
 
 export default {
-    name: "Workspace",
+    name: "Home",
     components: {
 
     },
@@ -128,7 +124,7 @@ export default {
             workspace: null,
             projectName: "default",
             packageName: "",
-            message: "No Workspace found.",
+            message: ".",
             appConfig
         };
     },
@@ -140,8 +136,7 @@ export default {
         //
     },
     created() {
-        this.loadWorkspaceInfo()
-
+//
     },
 };
 </script>

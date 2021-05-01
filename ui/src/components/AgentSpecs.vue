@@ -1,10 +1,10 @@
 <template>
 <div>
     <h3>Agent Specs</h3>
-    
+
     <b-container fluid>
         <div v-if="$apollo.queries.agentSpecs.loading">Loading..</div>
-        <div v-if="agentSpecs && agentSpecs.length > 0">
+        <div v-else-if="agentSpecs && agentSpecs.length > 0">
             <div v-for="item in agentSpecs" :key="item.id">
                 <b-row class="pt-4">
 
@@ -82,11 +82,11 @@ export default {
     },
     data() {
         return {
-            selectedSpecId:null,
+            selectedSpecId: null,
             agentSpecs: [],
             searchQuery: "",
             error: "",
-            message: "Loading...",
+            message: "No Agent Specs Available",
         };
     },
 

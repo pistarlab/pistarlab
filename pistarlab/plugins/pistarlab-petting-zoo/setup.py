@@ -10,7 +10,7 @@ setup(
     author_email="",
     description="https://github.com/PettingZoo-Team/PettingZoo",
     long_description='https://github.com/PettingZoo-Team/PettingZoo',
-    url="https://github.com/bkusenda/pistarlab/plugins",
+    url="https://github.com/pistarlab/pistarlab/plugins",
     license='',
     install_requires=[
         'pettingzoo==1.5.0',

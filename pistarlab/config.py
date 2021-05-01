@@ -37,11 +37,11 @@ class SysConfig:
             execution_context_config,
             enable_cluster,
             streamer_uri=None,
-            demo_mode=False):
+            read_only_mode=False):
 
         self.root_path: str = root_path
         self.data_path: str = data_path
-        self.demo_mode = demo_mode
+        self.read_only_mode = read_only_mode
 
         self.workspace_path: str = workspace_path
         self.log_root = log_root
@@ -93,7 +93,7 @@ def get_sys_config(root_path=None):
         'log_level': "INFO",
         'enable_cluster': False,
         'streamer_uri': f"http://localhost:7778/offer",
-        "demo_mode": False,
+        "read_only_mode": False,
         "redis_hostname": "localhost",
         "redis_port": "7771",
         "redis_password": "5241590000000000"

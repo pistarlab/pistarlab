@@ -7,7 +7,7 @@ setup(
     author_email="pistar3.14@gmail.com",
     description="Default games from OpenAI's gym",
     long_description='This is a pistarlab plugin',
-    url="https://github.com/bkusenda/pistarlab/plugins",
+    url="https://github.com/pistarlab/pistarlab/plugins",
     license='',
     install_requires=['gym>=0.17.1','gym[box2d]>=0.17.1'],
     package_data={'pistarlab-envs-gym-main': ['README.md',"*.json"]

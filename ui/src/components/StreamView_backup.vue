@@ -200,7 +200,6 @@ export default {
             console.log(settings.sys_config.streamer_uri)
             this.streamUrl = settings.sys_config.streamer_uri
             console.log(this.streamUrl)
-            // this.streamUrl = "http://localhost:" + settings['env']['STREAM_PORT']
 
         })
 

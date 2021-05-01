@@ -1,18 +1,20 @@
 <template>
 <div>
 
-        <b-form-checkbox class="ml-2" switch v-model="archived">Archived Sessions Only</b-form-checkbox>
+    <b-form-checkbox class="ml-2" switch v-model="archived">Archived Sessions Only</b-form-checkbox>
 
     <div class="mt-4"></div>
 
     <div v-if="$apollo.queries.sessions.loading">Loading..</div>
-    
+
     <div v-else>
-            <b-button :disabled="selected.length <= 1" v-on:click="runCompare" variant="info" size="sm">
-        <span v-if="selected.length > 1">Compare: {{ selected.length }}</span>
-        <span v-else>Compare: select at least 2</span>
-    </b-button>
+
         <b-card-text v-if="rows > 0">
+            <b-button :disabled="selected.length <= 1" v-on:click="runCompare" variant="info" size="sm">
+                <span v-if="selected.length > 1">Compare: {{ selected.length }}</span>
+                <span v-else>Compare: select at least 2</span>
+
+            </b-button>
             <b-form-checkbox-group v-model="selected">
                 <b-table id="datatable" hover table-busy :items="sessionList" :fields="fields" :dark="false" :small="false" :bordered="false" :outlined="false" :borderless="false">
                     <template v-slot:cell(selector)="data">
@@ -174,7 +176,7 @@ export default {
             fields: fields,
             error: "",
             selected: [],
-            archived:false
+            archived: false
         };
     },
     methods: {

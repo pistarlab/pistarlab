@@ -40,7 +40,7 @@ setup(
         'Changelog': 'https://pistarlab.readthedocs.io/en/latest/changelog.html',
         'Issue Tracker': 'https://github.com/pistarlab/pistarlab/issues',
     },
-    url="https://github.com/bkusenda/pistarlab/",
+    url="https://github.com/pistarlab/pistarlab/",
     license='Apache-2.0',
     install_requires=[
         'Flask',
@@ -48,29 +48,30 @@ setup(
         'Flask-GraphQl',
         'graphene',
         'graphene-sqlalchemy',
-        'graphene_sqlalchemy_filter'
+        'graphene_sqlalchemy_filter',
         'aiohttp_cors',
         'aiortc',
-        'SQLAlchemy',
+        'SQLAlchemy>=1.3, < 1.4',
         'shortuuid',
         'simplejson',
         'pyinstrument',
         'sh',
         'xvfbwrapper',  # TODO: MSWIN not compatible
-        'opencv_python',
         'ffmpeg-python',
         'gym',
-        # TODO: MSWIN issues
         'matplotlib',
         'gym',
         'colorama',
         'gputil',
+        'psutil',
         "msgpack",
         "msgpack_numpy",
         "pytest",
         "psycopg2-binary",
-        'ipykernel',
-        'zmq'
+        'zmq',
+        'redis',
+        'pyyaml',
+        'filelock'
 
         # 'torch',
         # 'torchvision'
@@ -88,11 +89,11 @@ setup(
     },
     extras_require={
         'main': [
+            'opencv_python',
             'ray[all]==1.2.0',
             'tensorflow==2.3.1',  # TODO Numpy version isssue
             'torch==1.7.1',
-            'torchvision==0.8.2'],
-        'extras':[ 'pygame']
+            'torchvision==0.8.2']
     },
     packages=find_packages(),
     include_data_files=True,

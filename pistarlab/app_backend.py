@@ -22,6 +22,7 @@ from pistarlab.dbmodels import *
 from pistarlab.meta import *
 from pistarlab.meta import AGENT_ENTITY, F_LABEL
 from pistarlab.task import AgentTask, Task
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -50,6 +51,18 @@ app.add_url_rule(
         graphiql=True  # for having the GraphiQL interface
     )
 )
+
+def not_in_readonly_mode(fn):
+    @wraps(fn)
+    def decorator(*args, **kwargs):            
+        if ctx.config.read_only_mode:
+            msg =  "Not available in read-only mode"
+            ctx.get_logger().error(msg)
+            response = make_response({'item': {'error':msg}})
+            response.headers['Content-Type'] = 'application/json'
+            return response
+        return fn(*args, **kwargs)
+    return decorator
 
 
 @app.teardown_appcontext
@@ -86,6 +99,7 @@ def api_task_admin(command, uid):
 
 
 @app.route("/api/admin_data/")
+@not_in_readonly_mode
 def api_admin_data():
     ray = ctx.get_execution_context().ray
     data = {}
@@ -116,6 +130,7 @@ def api_admin_data():
 
 
 @app.route("/api/reload_default_data/")
+@not_in_readonly_mode
 def api_reload_default_data():
     message = ""
     from .dbinit import load_default_data
@@ -131,6 +146,7 @@ def api_reload_default_data():
 
 
 @app.route("/api/set_log_level/<level>")
+@not_in_readonly_mode
 def set_log_level(level):
     if level == "INFO":
         log.setLevel(logging.INFO)
@@ -156,6 +172,7 @@ def api_workspace_info():
 
 
 @app.route("/api/plugin/create", methods=['POST'])
+@not_in_readonly_mode
 def api_plugin_create():
     try:
         logging.info("Create Plugin")
@@ -180,6 +197,7 @@ def api_plugins_list():
 
 
 @app.route("/api/plugins/action/<action_name>/<plugin_id>/<plugin_version>")
+@not_in_readonly_mode
 def api_plugin_action(action_name, plugin_id, plugin_version):
     if action_name == 'install':
         result = ctx.plugin_manager.install_plugin(plugin_id, plugin_version)
@@ -217,6 +235,7 @@ def api_snapshots_list_for_agent_id(seed):
 
 
 @app.route("/api/snapshot/publish", methods=['POST'])
+@not_in_readonly_mode
 def api_snapshot_publish():
     try:
         logging.info("Creating New Agent Instance")
@@ -431,11 +450,9 @@ def api_agent_modify_tag(action, agent_id, tag):
 #-----------------------------------------
 @app.route("/api/new_session_task_submit", methods=['POST'])
 @app.route("/api/submit_agent_task", methods=['POST'])
+@not_in_readonly_mode
 def api_submit_agent_task():
-
     try:
-        if ctx.config.demo_mode:
-            raise Exception("TASK SUBMISSION NOT ALLOWED IN DEMO MODE")
         logging.info("Agent Task Submission Received")
         task_config = request.get_json()
         num_agents = len(task_config['agents'])
@@ -473,10 +490,11 @@ def api_submit_agent_task():
 
 
 @app.route("/api/new_task_submit", methods=['POST'])
+@not_in_readonly_mode
 def api_new_task_submit():
     try:
-        if ctx.config.demo_mode:
-            raise Exception("TASK SUBMISSION NOT ALLOWED IN DEMO MODE")
+        if ctx.config.read_only_mode:
+            raise Exception("TASK SUBMISSION NOT ALLOWED IN readonly MODE")
         logging.info("Task Submission Received")
         spec_id = request.get_json()['specId']
         task_config = request.get_json()['config']
@@ -625,35 +643,6 @@ def api_session_plotly_json(sid, data_group, data_name, step_field):
 
     response.headers['Content-Type'] = 'application/json'
     return response
-
-
-@app.route("/api/plots_json/<entity>/<uid>/<data_group>/<data_name>/<step_field>")
-def api_plots_json(entity, uid, data_group, data_name, step_field):
-    try:
-        orig_data = ctx.get_store().get_multipart_dict(key=(entity, uid), name=data_group)
-        step_counts = orig_data[step_field]
-        data = orig_data[data_name]
-        values, include_stats = bin_data([(step, value) for step, value in zip(step_counts, data)])
-        logging.debug("total_data {}, final_values= {}".format(len(orig_data), len(values)))
-        graph = {}
-        if include_stats:
-            idxs, means, mins, maxs, lowers, uppers = map(list, zip(*values))
-            graph['data'] = dict(x=idxs, y=means, name=sid)
-        else:
-            idxs, vals = map(list, zip(*values))
-            graph['data'] = dict(x=idxs, y=vals, name=sid)
-        graph['layout'] = dict(title="{} - {}".format(data_group, data_name))
-        # Convert the figures to JSON
-        # PlotlyJSONEncoder appropriately converts pandas, datetime, etc
-        # objects to their JSON equivalents
-        graphJSON = json.dumps(graph)  # , cls=plotly.utils.PlotlyJSONEncoder)
-        response = make_response(graphJSON)
-    except Exception as e:
-        response = make_response({'error': '{}'.format(e), 'traceback': traceback.format_exc()})
-
-    response.headers['Content-Type'] = 'application/json'
-    return response
-
 
 @app.route("/api/agent_plots_json/<uid>")
 def api_agent_plots_json(uid):
@@ -900,7 +889,7 @@ def api_env_preview_image(image_name):
 @app.route("/api/config")
 def api_config():
     response = make_response(
-        {"env": dict(os.environ),
+        {#"env": dict(os.environ),
          "sys_config": ctx.config.__dict__})
     response.headers['Content-Type'] = 'application/json'
     return response

@@ -7,18 +7,12 @@ setup(
     author_email="pistar3.14@gmail.com",
     description="ATARI games from OpenAI's gym",
     long_description='This is a pistarlab plugin',
-    url="https://github.com/bkusenda/pistarlab/plugins",
+    url="https://github.com/pistarlab/pistarlab/plugins",
     license='',
     install_requires=['gym>=0.17.1'],
     package_data={'pistarlab-envs-gym-atari': ['README.md']
       },
     packages=find_packages(),
-    entry_points={
-    'pistarlab_plugin' : [
-      "install =  pistarlab_envs_gym_atari.plugin:install",
-      "load =  pistarlab_envs_gym_atari.plugin:load",
-      "uninstall =  pistarlab_envs_gym_atari.plugin:uninstall"]
-    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',

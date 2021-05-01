@@ -1,31 +1,25 @@
 <template>
-<div >
+<div>
 
-<h1><i class="fa fa-sitemap"></i> Components</h1>        
-    <!-- <b-breadcrumb>
-        <b-breadcrumb-item :to="`/`"><i class="fa fa-home"></i></b-breadcrumb-item>
-        <b-breadcrumb-item active><i class="fa fa-cogs"></i> Component Specs</b-breadcrumb-item>
-    </b-breadcrumb> -->
-    
+    <h1><i class="fa fa-sitemap"></i> Components</h1>
+
     <div class="mt-4"></div>
-    <b-alert show variant="warning">WARNING: Component suport are under development and is currenlty not working.</b-alert>
+    <b-alert show variant="warning">WARNING: Components are under development.</b-alert>
 
-<p>Reusable pieces of functionality that can be used in Agents or other Components.</p>
-<div class="mt-2"></div>
+    <p>Reusable pieces of functionality that can be used in Agents or other Components.</p>
+    <div class="mt-2"></div>
     <b-container fluid>
-        
+
         <b-row>
             <b-col>
-                    
-    
 
                 <b-card>
                     <div v-if="$apollo.queries.componentSpecs.loading">Loading..</div>
                     <div v-else>
                         <b-card-text v-if="rows > 0">
                             <b-form-checkbox-group v-model="selected">
-                                <b-table id="datatable"  hover table-busy :items="componentSpecList" :fields="fields" :dark="false" :small="false" :bordered="false" :outlined="false" :borderless="false">
-         
+                                <b-table id="datatable" hover table-busy :items="componentSpecList" :fields="fields" :dark="false" :small="false" :bordered="false" :outlined="false" :borderless="false">
+
                                     <template v-slot:cell(link)="data">
                                         <!-- `data.value` is the value after formatted by the Formatter -->
                                         <router-link :to="`/component_spec/view/${data.item.ident}`">{{data.item.ident }}</router-link>
@@ -54,15 +48,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import axios from "axios";
-import {
-    appConfig
-} from "../app.config";
-import {
-    timedelta,
-    timepretty
-} from "../funcs";
 import gql from "graphql-tag";
 
 const fields = [
@@ -72,12 +57,12 @@ const fields = [
         label: "Spec Id",
         sortable: true,
     },
-        {
+    {
         key: "category",
         label: "Type",
         sortable: true,
     },
-            {
+    {
         key: "pluginId",
         label: "plugin",
         sortable: true,
@@ -88,7 +73,6 @@ const fields = [
         sortable: true,
         // formatter: timepretty,
     },
-
 
 ];
 const GET_ALL_COMPONENTS = gql `
@@ -175,7 +159,7 @@ export default {
     },
     // Fetches posts when the component is created.
     created() {
-        //asdf
+        // 
     },
 };
 </script>

@@ -12,54 +12,48 @@ const routes: Array<RouteConfig> = [
         path: '/',
         name: 'Home',
         component: Home
-    },
-    {
-        path: '/dash',
-        name: 'dash',
-        // component: Dash
-        component: () => import('../views/Dash.vue'),
-
     }
-    ,
-    {
-        path: '/ide',
-        name: 'ide',
-        // component: Dash
-        component: () => import('../views/IDE.vue'),
+    // {
+    //     path: '/dash',
+    //     name: 'dash',
+    //     // component: Dash
+    //     component: () => import('../views/Dash.vue'),
 
-    }
-    ,
-    {
-        path: '/missions/home',
-        name: 'MissionsHome',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('../views/MissionsHome.vue')
+    // }
+    // ,
+    // {
+    //     path: '/ide',
+    //     name: 'ide',
+    //     // component: Dash
+    //     component: () => import('../views/IDE.vue'),
 
-    }
-    ,
-    {
-        path: '/learning/home',
-        name: 'LearningHome',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('../views/LearningHome.vue')
+    // }
+    // ,
+    // {
+    //     path: '/missions/home',
+    //     name: 'MissionsHome',
+    //     // route level code-splitting
+    //     // this generates a separate chunk (about.[hash].js) for this route
+    //     // which is lazy-loaded when the route is visited.
+    //     component: () => import('../views/MissionsHome.vue')
 
-    }
+    // }
+    // ,
+    // {
+    //     path: '/learning/home',
+    //     name: 'LearningHome',
+    //     // route level code-splitting
+    //     // this generates a separate chunk (about.[hash].js) for this route
+    //     // which is lazy-loaded when the route is visited.
+    //     component: () => import('../views/LearningHome.vue')
+
+    // }
     ,
     {
         path: '/session/view/:uid',
         component: () => import('../views/SessionView.vue'),
         props: true
     }
-    // ,
-    // {
-    //   path: '/session/multiplayer/view/:uid',
-    //   component: () => import('../views/MultiPlayerSessionView.vue'),
-    //   props: true
-    // }
 
     ,
     {
@@ -78,15 +72,7 @@ const routes: Array<RouteConfig> = [
 
     }
     ,
-    //   {
-    //     path: '/task/home',
-    //     name: 'TaskHome',
-    //     // route level code-splitting
-    //     // this generates a separate chunk (about.[hash].js) for this route
-    //     // which is lazy-loaded when the route is visited.
-    //     // component: () => import('../views/TaskHome.vue')
-    //     component: TaskHome
-    //   },
+
 
     {
         path: '/plugin/home/:category?',
@@ -173,14 +159,6 @@ const routes: Array<RouteConfig> = [
         props: true
     }
     ,
-
-    {
-        path: '/agent/newtest/',
-        name: 'AgentNewTest',
-        component: () => import('../views/AgentNewTest.vue'),
-        props: true
-    }
-    ,
     {
         path: '/env/home',
         name: 'EnvHome',
@@ -220,12 +198,6 @@ const routes: Array<RouteConfig> = [
         props: (route) => ({ path: route.query.path ? route.query.path : "" })
     },
 
-    // {
-    //   path: '/preferences',
-    //   name: 'Preferences',
-
-    //   component: () => import('../views/Preferences.vue')
-    // },
     {
         path: '/help',
         name: 'help',
