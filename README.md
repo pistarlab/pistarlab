@@ -280,6 +280,8 @@ GOCHYAS
 -- just use miniconda
 
 
+# CI
+
 # Debugging
 
 NOTE: We plan to support more user friendly debugging options in the future.

@@ -43,27 +43,24 @@ setup(
     url="https://github.com/bkusenda/pistarlab/",
     license='Apache-2.0',
     install_requires=[
-        'ray[all]==1.2.0',
         'Flask',
         'Flask-Cors',
         'Flask-GraphQl',
         'graphene',
         'graphene-sqlalchemy',
-        'SQLAlchemy',
-        'shortuuid',
+        'graphene_sqlalchemy_filter'
         'aiohttp_cors',
         'aiortc',
+        'SQLAlchemy',
+        'shortuuid',
         'simplejson',
         'pyinstrument',
         'sh',
         'xvfbwrapper',  # TODO: MSWIN not compatible
-        'pygame',
         'opencv_python',
         'ffmpeg-python',
         'gym',
-        'tensorflow==2.3.1',  # TODO Numpy version isssue
-        'torch==1.7.1',
-        'torchvision==0.8.2',  # TODO: MSWIN issues
+        # TODO: MSWIN issues
         'matplotlib',
         'gym',
         'colorama',
@@ -73,8 +70,7 @@ setup(
         "pytest",
         "psycopg2-binary",
         'ipykernel',
-        'zmq',
-        'graphene_sqlalchemy_filter'
+        'zmq'
 
         # 'torch',
         # 'torchvision'
@@ -90,7 +86,14 @@ setup(
             'pistarlab_plugin_tools = pistarlab.plugin_tools:main'
         ]
     },
-    # packages=['pistarlab'],
+    extras_require={
+        'main': [
+            'ray[all]==1.2.0',
+            'tensorflow==2.3.1',  # TODO Numpy version isssue
+            'torch==1.7.1',
+            'torchvision==0.8.2'],
+        'extras':[ 'pygame']
+    },
     packages=find_packages(),
     include_data_files=True,
     include_package_data=True,
