@@ -31,88 +31,128 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 
 These instructions are for single node only. For cluster mode, see TODO
 
-### Install Anaconda
+## Using Anaconda
 
-Visit https://www.anaconda.com/products/individual
+***Only tested on Ubuntu***
 
-#### Install PIP
-```bash
-conda install pip
-```
+1. Install Anaconda or Miniconda
+Visit https://www.anaconda.com/products/individual for instructions
 
-#### Clone Repo and install
-```bash
-git clone https://github.com/pistarlab/pistarlab
-cd pistarlab
-pip install -e .
-```
+1. Install PIP
+    ```bash
+    conda install pip
+    ```
+
+1. Clone Repo and install
+    ```bash
+    git clone https://github.com/pistarlab/pistarlab
+    cd pistarlab
+    pip install -e .
+    ```
+1. build Redis
+    ```bash
+    bash ./install_redis.sh_
+    ```
+1. install node for UI and IDE
+    ```bash
+    bash ./install_node.sh
+    bash ./build_ui.sh
+    bash ./build_ide.sh #optional
+    ```
+
+1. install additional dependencies
+    - xvfb to render without display (No MS Windows Support)
+    - ffmpeg for video processing
+
+    ```bash
+    sudo apt-get install -y xvfb ffmpeg
+    ```
+
+## Launching UI 
 
 
-#### build Redis
-
-```bash
-bash ./install_redis.sh_
-```
-#### install node for UI and IDE
-
-```bash
-bash ./install_node.sh
-bash ./build_ui.sh
-bash ./build_ide.sh #optional
-```
-
-#### ffmpeg for video processing
-
-```bash
-apt-get install -y xvfb ffmpeg
-```
-
-# Usage
-
-1. Launch piSTAR Lab 
 ```bash
 python pistarlab/launcher.py
 ```
 
-UI: http://localhost:8080
+- UI: http://localhost:8080
 
-Launcher Control Panel: http://localhost:7776
+- Launcher Control Panel: http://localhost:7776
 
 
-# Configuration
+## Install using Docker 
+1. Install Ddocker:
+    https://docs.docker.com/engine/install/
+
+1. Clone Repo
+    ```bash
+    git clone https://github.com/pistarlab/pistarlab
+    cd pistarlab
+    ```
+1. Build Docker Image
+    ```
+    ./build_docker.sh
+    ```
+
+### Launch UI    
+
+```bash
+    .bin/docker_launcher.sh 
+```
+
+# Settings
 
 ## Root path
 
-By default pistarlab stores data and configuration in the USER_HOME/pistarlab directory. This can be changed by using the PISTARLAB_ROOT environment variable
+By default pistarlab stores data and configuration in the **$HOME/pistarlab/** directory. (eg: /home/$USER/pistarlab) This can be changed by using the **PISTARLAB_ROOT** environment variable
 
+## config.yaml
 
-## Making changes to the UI
+Default Path: $PISTARLAB_ROOT/config.yaml
 
-The UI is build using Vuejs cli and requires npm to run.  Once setup, changes to the ui source code will be reflected immidiately in the browser.
+# Windows Setup [**Experimental**]
 
-1. Run the UI using ```npm run serve```
-1. By default, changes will be reflected at http://localhost:8080
+NOTE: It is recommended to use the Docker Setup
 
-
-# Windows Setup Notes: 
+## Limitations:
+- no headless mode for many environments so rendering will open a window
 
 1. Install Miniconda
 1. Install GitBash
-1. Open MiniConda and create pistarlab env
+1. Follow Ubuntu Instructions
+
+## Troubleshooting
+
+Building Theia IDE on Windows.
+* https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#building-on-windows
+
+Install Scoop
+* https://github.com/lukesampson/scoop#installation
+    ```
+    Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+
+    # or shorter
+    iwr -useb get.scoop.sh | iex
+    # IF SCOOP doesn't get added to path
+    $env:Path += ";C:\Users\${USER}\scoop\shims"
+    ```
 
 
-theia ide: https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#building-on-windows
-https://github.com/lukesampson/scoop#installation
+# Plugin Development
+
+TODO
+
+
+## Manifest
+Manfiest files are used to speed up the installation of Plugins. They are especially useful for Environments where probing is required.
+
+**Example of creating a manifest**
+```bash
+xvfb-run python pistarlab/plugin_tools.py --action=save_manifest --plugin_path PATH_TO_PLUGIN/pistarlab-envs-gym-main
 ```
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
 
-# or shorter
-iwr -useb get.scoop.sh | iex
-# IF SCOOP doesn't get added to path
- $env:Path += ";C:\Users\${USER}\scoop\shims"
-```
+# Cluster Mode Setup Notes [**Experimental**]
 
-# Cluster Mode Setup Notes
 
 Cluster mode is handled by Ray
 
@@ -162,7 +202,7 @@ After Each Task or as needed
 ray rsync-down -vvv ~/pistarlab/cluster.yaml /home/pistarlabuser/pistarlab/data/ $HOME/pistarlab/data/
 ```
 
-# FAQ
+
 
 ## Debugging
 
@@ -179,6 +219,7 @@ set_trace() # you'll see the port number in the logs
 1. When the above code is executed, it will print the port number to connect to in the logs.
 1. use telnet to connect and use pdb as usual: for example ```telnet 127.0.0.1 PORTNUM_HERE```
 
+# Troubleshooting
 ## Missing .so error when running tensorflow
 
 ensure LD_LIBRARY_PATH is correct
@@ -197,6 +238,14 @@ If your GPU was working previously, but suddenly is not accessable the the syste
 
 
 # Developer Instructions
+
+## Making changes to the UI
+
+The UI is build using Vuejs cli and requires npm to run.  Once setup, changes to the ui source code will be reflected immidiately in the browser.
+
+1. Run the UI using ```npm run serve```
+1. By default, changes will be reflected at http://localhost:8080
+
 ## Building for PiPy
 
 1. Run Tests with tox
@@ -220,24 +269,24 @@ pip install twine
 twine upload dist/*
 ```
 
-# Building the Documentation
+## Building the Documentation
 
-## Rebuild API Docs
+1. Rebuild API Docs
 
-From the project root, run:
+    From the project root, run:
 
-```bash
-cd docs
-sphinx-apidoc -o . ..
-```
+    ```bash
+    cd docs
+    sphinx-apidoc -o . ..
+    ```
 
-## Update the HTML
+1. Update the HTML
 
-```bash
-make html
-```
+    ```bash
+    make html
+    ```
 
-# Building Docker Dev Image
+## Building Docker Dev Image
 
 
 Install Docker: https://docs.docker.com/engine/install/ubuntu/
@@ -245,13 +294,4 @@ Install Docker: https://docs.docker.com/engine/install/ubuntu/
 Run
 ```bash
 ./build_docker
-```
-
-# Plugin Management
-
-## Creating a manifest
-
-Example: 
-```bash
-xvfb-run python pistarlab/plugin_tools.py --action=save_manifest --plugin_path PATH_TO_PLUGIN/pistarlab-envs-gym-main
 ```
