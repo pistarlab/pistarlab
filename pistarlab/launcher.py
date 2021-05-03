@@ -229,6 +229,7 @@ def main():
     parser.add_argument("--launch_database", action="store_true", help="Launch Database (TODO: not implemented)")
     parser.add_argument("--verbose", action="store_true", help="Increase Output Verbosity")
     parser.add_argument("--prod_mode", action="store_true", help="Disables development UI, TODO should also disable other options such on backend")
+    parser.add_argument("--enable_ide", action="store_true", help="Enables Theia IDE")
     args = parser.parse_args()
 
     def print_service_status(show_links=True):
@@ -253,7 +254,10 @@ def main():
     if args.launch_database:
         services_list.append('db')
         raise NotImplementedError("Not implemented yet")
-    services_list = services_list + ['backend', 'streamer', 'theia_ide']
+    services_list = services_list + ['backend', 'streamer']
+
+    if not args.enable_ide:
+        services_list.append('theia_ide')
 
     if not args.prod_mode:
         services_list.append('dev_ui')

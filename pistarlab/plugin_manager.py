@@ -247,6 +247,7 @@ class PluginManager:
         # https://stackoverflow.com/questions/32478724/cannot-import-dynamically-installed-python-module
         import site
         cmd_result = run_bash_command(cmd)
+        self.logger.error(cmd_result)
         if not os.path.exists(site.USER_SITE):
             os.makedirs(site.USER_SITE)
         sys.path.insert(0, site.USER_SITE)

@@ -68,10 +68,6 @@ class TaskRunner(metaclass=ABCMeta):
         try:
             try:
                 summary, exit_state = self.run()
-            # except UnboundLocalError as e:
-            #     msg = "Error while executing work {}. traceback {}".format(e,traceback.format_exc())
-            #     self.get_logger().error(msg)
-            #     exit_state = STATE_ABORTED
             except:
                 e = sys.exc_info()[0]
                 msg = "Exception while executing task runner {}. traceback {}".format(e, traceback.format_exc())

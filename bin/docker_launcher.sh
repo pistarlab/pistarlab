@@ -6,13 +6,14 @@ echo "      are forward from docker."
 echo "-------------------------------------------------------"
 # Ports are set in .env.dev
 set -o allexport
-source .env.dev
+source bin/.env
 set +o allexport
 mkdir -p ${HOME}/pistarlab_docker
 # --gpus all
-docker run --rm -i -t \
+
+docker run --rm -i -t -u `id -u` \
     --shm-size=2g \
-    -v ${HOME}/pistarlab_docker:/root/pistarlab \
+    -v ${HOME}/pistarlab_docker:/home/ray/pistarlab \
     -p ${IDE_PORT}:${IDE_PORT}  \
     -p ${LAUNCHER_PORT}:${LAUNCHER_PORT}  \
     -p ${BACKEND_PORT}:${BACKEND_PORT}  \
@@ -20,5 +21,5 @@ docker run --rm -i -t \
     -p ${REDIS_PORT}:${REDIS_PORT}  \
     -p ${STREAM_PORT}:${STREAM_PORT}  \
     -p ${RAY_DASHBOARD_PORT}:${RAY_DASHBOARD_PORT} \
-    -e PYTHONUSERBASE=/root/.pistarlab/plugins/site-packages/ \
-    pistarlab/pistarlab-dev:latest python pistarlab/launcher.py
+    -e PYTHONUSERBASE=/home/ray/pistarlab/plugins/site-packages/ \
+    pistarlab/pistarlab-dev:latest python pistarlab/launcher.py $@

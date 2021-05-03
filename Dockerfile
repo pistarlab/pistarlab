@@ -11,7 +11,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 
 RUN env
 
-# RUN pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio===0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
@@ -23,10 +22,12 @@ RUN pip install --no-cache-dir -U pip \
     tensorflow==2.3.1
 COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-# RUN sudo chown -R ray:users /home/ray/
+RUN sudo chown -R ray:users /home/ray/.config/
 COPY --chown=ray:users . /app
 WORKDIR /app
-# RUN pip install -e .
+RUN pip install -e .
 ENV PYTHONPATH "${PYTHONPATH}:/app"
-# not needed for ray workers
-#RUN cd /app/ && ./build.sh
+# TODO: not needed for ray workers
+RUN cd /app/ && ./build_redis.sh
+RUN cd /app/ && ./build_ui.sh
+RUN cd /app/ && ./build_ide.sh
