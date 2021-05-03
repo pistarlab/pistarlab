@@ -64,7 +64,7 @@
                                                 </div>
 
                                                 <div class="mt-1">
-                                                    <span class="">Created {{ timelength(item.created) }} ago</span>
+                                                    <span class="">Created {{ timedeltafordate(item.created) }} ago</span>
                                                 </div>
 
                                                 <div class="mt-1">
@@ -138,7 +138,7 @@ import {
 
 import {
     timedeltafordate,
-    timepretty,
+timepretty,
     timelength
 } from "../funcs";
 const GET_RECENT_AGENTS = gql `
@@ -207,13 +207,7 @@ export default {
     },
     methods: {
         
-        timelength(timest){
-            let time = new Date(timest)
-            return timedeltafordate(time)
-            // console.log(time)
-            // return time
-
-        },
+timedeltafordate,
         agentCreated(agentId) {
             this.$router.push({
                 path: `/agent/view/${agentId}`,

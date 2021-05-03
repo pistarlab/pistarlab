@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.8d8de8868b6cf9ce13ecb59115121b72.js"
+  "/precache-manifest.eff5c44575a986993ebea0c3f4368e8b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "pistarlab-ui"});

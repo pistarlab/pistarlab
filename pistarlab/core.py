@@ -4,7 +4,7 @@ import logging
 import os
 import shutil
 import tempfile
-from datetime import datetime
+import datetime
 from typing import List
 
 import pkg_resources
@@ -267,7 +267,7 @@ class SysContext:
             dbmodel = self.get_dbsession().query(model_class).get(id)
             dbmodel.status = state
             dbmodel.status_msg = msg
-            dbmodel.status_timestamp = datetime.now()
+            dbmodel.status_timestamp = datetime.datetime.now()
             ctx.get_dbsession().commit()
         except Exception as e:
             ctx.get_dbsession().rollback()
@@ -497,6 +497,7 @@ class SysContext:
             tags=[],
             categories=[],
             displayed_name=None,
+            environment_displayed_name=None,
             plugin_id=None,
             plugin_version="0.0.1-dev",
             version="0.0.1-dev",
@@ -508,13 +509,14 @@ class SysContext:
             disabled=False):
 
         environment_id = environment_id or spec_id
+        environment_displayed_name = environment_displayed_name or displayed_name
 
         session = self.get_dbsession()
         environment = session.query(EnvironmentModel).get(environment_id)
         if environment is None:
             logging.info("No Environment with name {} exists. Adding using provided values.".format(environment_id))
             environment = EnvironmentModel(id=environment_id)
-            environment.displayed_name = environment_id
+            environment.displayed_name = environment_displayed_name
             environment.description = description
             environment.categories = ",".join([v.lower().replace(" ", "") for v in categories])
             environment.plugin_id = plugin_id
@@ -683,7 +685,7 @@ class SysContext:
         seed = dbmodel.seed
         config = dbmodel.config
         last_checkpoint = dbmodel.last_checkpoint
-        current_timestamp = datetime.now()
+        current_timestamp = datetime.datetime.now()
 
         session_data = []
         for s in dbmodel.sessions:
@@ -750,7 +752,7 @@ class SysContext:
 
         snapshot_index = {}
         snapshot_index['entries'] = entries
-        snapshot_index['creation_time'] = str(datetime.now())
+        snapshot_index['creation_time'] = str(datetime.datetime.now())
         snapshot_index['sources'] = {'local': self.config.local_snapshot_path}
 
         with open(self.config.snapshot_index_path, 'w') as f:

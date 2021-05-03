@@ -195,6 +195,7 @@ def get_env_spec_data(
         displayed_name=None,
         version="0.0.1-dev",
         environment_id=None,
+        environment_displayed_name=None,
         description=None,
         default_wrappers=[],
         default_render_mode=None,
@@ -212,6 +213,7 @@ def get_env_spec_data(
     spec_data['tags'] = tags
     spec_data['categories'] = categories
     spec_data['environment_id'] = environment_id or spec_id
+    spec_data['environment_displayed_name'] = environment_displayed_name or displayed_name
     spec_data['metadata'] = metadata
     spec_data['config'] = get_env_def(
         default_render_mode=default_render_mode,
@@ -240,7 +242,7 @@ def probe_env_metadata(spec_data, image_path=None):
     if hasattr(env_class, 'metadata'):
         metadata.update(env_class.metadata)
     else:
-        env_inst = env_class()
+        env_inst = env_class(**env_kwargs)
         if hasattr(env_inst, 'metadata'):
             metadata.update(env_inst.metadata)
 

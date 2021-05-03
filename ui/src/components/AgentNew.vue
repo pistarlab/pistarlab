@@ -142,7 +142,6 @@ import ParamEditor from "./ParamEditor.vue";
 import SnapshotSelector from "./SnapshotSelector.vue";
 
 export default {
-    name: "NewAgent",
     components: {
         editor: require('vue2-ace-editor'),
         SnapshotSelector,

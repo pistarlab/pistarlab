@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
+    "strict": false,
+    "strictFunctionTypes": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -33,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/main.ts", "src/router/index.ts"  ],
+, "src/main.ts", "src/router/index.ts", "src/app.config.js"  ],
   "exclude": [
     "node_modules"
   ]

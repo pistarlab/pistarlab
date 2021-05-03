@@ -83,29 +83,6 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/PluginHome.vue'),
         props: true
 
-    },
-
-    {
-        path: '/task/new/agenttask/:uid?',
-        name: 'AgentTask',
-        component: () => import('../views/AgentTaskNew.vue'),
-        props: (route) => ({
-            uid: route.params.uid,
-            agentUid: route.query.agentUid,
-            agentSpecId: route.query.agentSpecId,
-            envSpecId: route.query.envSpecId
-        }),
-        
-    },
-
-    {
-        path: '/task/new/:specId',
-        name: 'TaskNew',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('../views/TaskNew.vue'),
-        props: true
     }
     ,
     {
@@ -126,6 +103,33 @@ const routes: Array<RouteConfig> = [
     }
     ,
     {
+        path: '/task/new/agenttask/:uid?',
+        name: 'AgentTaskNew',
+        component: () => import('../views/AgentTaskNew.vue'),
+        props: (route) => ({
+            uid: route.params.uid,
+            agentUid: route.query.agentUid,
+
+            envSpecId: route.query.envSpecId
+        }),
+
+    },
+    {
+        path: '/task/new/:specId',
+        name: 'TaskNew',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/TaskNew.vue'),
+        props: true
+    },
+    {
+        path: '/agent/view/:uid',
+        name: 'AgentView',
+        component: () => import('../views/AgentView.vue'),
+        props: true
+    },
+    {
         path: '/agent/home',
         name: 'AgentHome',
         // route level code-splitting
@@ -133,8 +137,7 @@ const routes: Array<RouteConfig> = [
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/AgentHome.vue')
 
-    }
-    ,
+    },
     {
         path: '/agent/instances',
         name: 'AgentInstances',
@@ -145,13 +148,7 @@ const routes: Array<RouteConfig> = [
         props: true
     },
 
-    {
-        path: '/agent/view/:uid',
-        name: 'AgentView',
-        component: () => import('../views/AgentView.vue'),
-        props: true
-    }
-    ,
+
     {
         path: '/agent_spec/:specId',
         name: 'AgentSpecView',

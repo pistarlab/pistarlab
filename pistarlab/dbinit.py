@@ -101,7 +101,8 @@ def load_default_data():
 
     spec_data = env_helpers.get_env_spec_data(
         spec_id="multiplayer_test_parallel",
-        displayed_name="MULTI AGENT TEST ENV",
+        displayed_name="MultiAgent Test Environment",
+        environment_displayed_name="MultiAgent Test Environment",
         env_type=RL_MULTIPLAYER_ENV,
         entry_point="pistarlab.envs.ma_test_envs:MultiAgentTestParallelEnv")
     spec_data['metadata'] = env_helpers.probe_env_metadata(spec_data)

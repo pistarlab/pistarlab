@@ -27,7 +27,10 @@
                         <span class="stat_label">Spec Id: </span> {{item.ident}}
                     </div>
                     <div>
-                        <span class="stat_label">Spec Group Id: </span>{{item.environment.ident}}
+                        <span class="stat_label">Entry Point: </span>{{item.entryPoint}}
+                    </div>
+                    <div>
+                        <span class="stat_label">Environment Id: </span>{{item.environment.ident}}
                     </div>
                     <div>
                         <span class="stat_label">Plugin Id: </span> {{item.environment.pluginId}}
@@ -40,7 +43,7 @@
                 </b-col>
             </b-row>
             <h3>Top Session by Mean Episode Reward</h3>
-            <b-alert show variant="warning" >Partially Broken: Only works when using PostgreSQL database (TODO: fix me)</b-alert>
+            <b-alert show variant="warning">Partially Broken: Only works when using PostgreSQL database (TODO: fix me)</b-alert>
             <div class="mt-2"></div>
             <b-row>
                 <b-col>
@@ -104,6 +107,7 @@ const GET_ENV_SPEC = gql `
     item:envSpec(ident: $ident) {
         id
       ident
+      entryPoint
       config
       created
       environment {

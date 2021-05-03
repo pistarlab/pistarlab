@@ -26,36 +26,36 @@ import {
 } from "./app.config"
 
 const httpLink = createHttpLink({
-  // You should use an absolute URL here
-  uri: appConfig.API_URL+'/graphql',
+    // You should use an absolute URL here
+    uri: appConfig.API_URL + '/graphql',
 })
 
 // Cache implementation
 const cache = new InMemoryCache()
 
-const defaultOptions:DefaultOptions = {
-  watchQuery: {
-    fetchPolicy: 'cache-and-network',
-    errorPolicy: 'ignore',
-  },
-  query: {
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all',
-  },
-  mutate: {
-    errorPolicy: 'all',
-  },
+const defaultOptions: DefaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'cache-and-network',
+        errorPolicy: 'ignore',
+    },
+    query: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+    },
+    mutate: {
+        errorPolicy: 'all',
+    },
 };
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache,
-  defaultOptions
+    link: httpLink,
+    cache,
+    defaultOptions
 })
 
 const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
+    defaultClient: apolloClient,
 })
 Vue.use(VueApollo)
 
@@ -72,22 +72,30 @@ Vue.use(DropdownPlugin)
 Vue.config.productionTip = false
 
 Vue.mixin({
-    data: function() {
-      return {
-        demoMode:true
-      }
+    data: function () {
+        return {
+            //
+        }
     },
+    methods: {
+        makeToast(message, title = "", variant = null) {
+            this.$bvToast.toast(message, {
+                title: title,
+                variant: variant,
+                solid: true
+            })
+        },
+    }
 
-  })
+})
 
 new Vue({
-  router,
-  store,
+    router,
+    store,
 
-  data: {
+    data: {
 
-  },
-  apolloProvider,
-  render: h => h(App)
-}).$mount('#app')  
-  
+    },
+    apolloProvider,
+    render: h => h(App)
+}).$mount('#app')

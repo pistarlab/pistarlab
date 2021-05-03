@@ -60,7 +60,6 @@ import {
 import gql from "graphql-tag";
 
 export default {
-    name: "Agents",
     components: {
         // SessionList
     },

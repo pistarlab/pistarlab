@@ -177,7 +177,6 @@ const GET_ALL_COMPONENTS = gql `query
 `;
 
 export default {
-    name: "ParamEditor",
     components: {
         // editor: require('vue2-ace-editor'),
     },
@@ -201,30 +200,26 @@ export default {
             editorMode: false,
             componentSpecs: null,
             advancedMode: false,
-            paramValues: {
-
-            },
+            paramValues: {},
             paramValuesEditor: "{}",
             paramList: [],
         };
     },
     watch: {
         paramValues: {
-            handler: function (val) {
+            handler: function (val,oldVal) {
                 this.paramValues = val
                 this.save()
             },
             deep: true
         },
-        paramValuesEditor: {
-
-            function (val) {
+        paramValuesEditor: function (val) {
                 if (this.editorMode) {
                     this.paramValuesEditor = val
                     this.save()
                 }
             }
-        }
+        
     },
 
     props: {
@@ -242,7 +237,6 @@ export default {
 
             let componentGroups = {};
             //this.allAgents.edges.map((edge)=>edge.node)
-            console.log("ERE")
             this.componentSpecs.edges.forEach(edge => {
                 let spec = edge.node
                 if (!(spec.parentClassEntryPoint in componentGroups)) {

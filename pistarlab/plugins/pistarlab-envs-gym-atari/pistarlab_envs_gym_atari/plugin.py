@@ -9,7 +9,7 @@ from pistarlab.utils.gym_importer import get_env_specs_from_gym_registry
 def manifest():
     spec_list = get_env_specs_from_gym_registry(
         entry_point_prefix=f"gym.envs.atari",
-        max_count = 60,
+        max_count = 600,
         additional_categories=['atari'])
     return {'env_specs': spec_list}
 

@@ -18,11 +18,14 @@
         <b-form-input id="newPluginDescription" v-model="newPluginDescription" trim></b-form-input>
     </b-modal>
     <b-navbar toggleable="lg" type="light" variant="alert">
-        <b-button-toolbar>
-            <b-button :disabled="selectedStatus=='installed'" size="sm" variant="primary" @click="updateStatusFilter('installed')">Current Plugins</b-button>
-            <b-button class="ml-2" :disabled="selectedStatus=='avail'" size="sm" variant="primary" @click="updateStatusFilter('avail')">Install Plugins</b-button>
+        Status:
+        <b-button-group>
+            <b-button :disabled="selectedStatus==''" size="sm" variant="primary" @click="updateStatusFilter('')">Any</b-button>
+            <b-button :disabled="selectedStatus=='installed'" size="sm" variant="primary" @click="updateStatusFilter('installed')">Installed</b-button>
+            <b-button :disabled="selectedStatus=='avail'" size="sm" variant="primary" @click="updateStatusFilter('avail')">Not Installed</b-button>
 
-        </b-button-toolbar>
+        </b-button-group>
+        <b-form-input v-model="searchtext" placeholder="Search Plugins" style="width:250px;" class='ml-2'></b-form-input>
         <!-- <span class="mr-2 ml-5">Category Filter:</span> -->
         <!-- <b-button-group size="sm">
             <b-button class="mr-2" v-for="(btn, idx) in filterCategories" :key="idx" :pressed.sync="btn.state"  @click="updateList()" variant="info" pill>{{ btn.caption }} </b-button>
@@ -39,14 +42,16 @@
     </b-navbar>
 
     <div class="mt-4"></div>
+
     <div v-if="Object.keys(filteredPlugins).length >0">
         <b-container fluid>
             <div v-for="(item, idx) in filteredPlugins" :key="idx">
                 <b-row>
                     <b-col>
                         <div>
-
-                            {{item.name}}
+                            <h4>
+                                {{item.name}}
+                            </h4>
                         </div>
                     </b-col>
                     <b-col>
@@ -57,17 +62,25 @@
                     </b-col>
                     <b-col>
                         <div>
-                            <b-button v-if="item.status == 'AVAILABLE'" size="sm" variant="outline-primary" @click="installPlugin(item.id,item.version);">Install</b-button>
-                            <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="outline-primary" disabled>
+                            <b-button v-if="item.status == 'AVAILABLE'" size="sm" variant="info" @click="installPlugin(item.id,item.version);">Install</b-button>
+                            <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="primary" disabled>
                                 <b-spinner small type="grow"></b-spinner>Installing...
                             </b-button>
                             <div v-else>
-                                <b-button v-if="item.status == 'INSTALL_FAILED'" size="sm" variant="outline-primary" class="mr-2" @click="installPlugin(item.id,item.version);">Retry Install</b-button>
-                                <b-button v-if="item.status == 'INSTALLED'" size="sm" variant="outline-primary" class="mr-2" @click="installPlugin(item.id,item.version);">Reinstall</b-button>
+                                <b-button v-if="item.status == 'INSTALL_FAILED'" size="sm" variant="secondary" class="mr-2" @click="installPlugin(item.id,item.version);">Retry Install</b-button>
+                                <b-button v-if="item.status == 'INSTALLED'" size="sm" variant="secondary" class="mr-2" @click="installPlugin(item.id,item.version);">Reinstall</b-button>
 
-                                <b-button class="mr-2" size="sm" variant="outline-danger" @click="removePlugin(item.id,item.version)">Uninstall</b-button>
-                                <b-button v-if="['INSTALLED','PREPPED_RELOAD'].includes(item.status)" class="mr-2" size="sm" variant="outline-secondary" @click="reloadPlugin(item.id,item.version)">Reload</b-button>
+                                <b-button class="mr-2" size="sm" variant="danger" @click="removePlugin(item.id,item.version)">Uninstall</b-button>
+                                <!-- <b-button v-if="['INSTALLED','PREPPED_RELOAD'].includes(item.status)" class="mr-2" size="sm" variant="secondary" @click="reloadPlugin(item.id,item.version)">Reload</b-button> -->
                             </div>
+                        </div>
+                    </b-col>
+                </b-row>
+                                <b-row>
+                    <b-col>
+
+                        <div class="ml-2">
+                            <p>{{item.description}}</p>
                         </div>
                     </b-col>
                 </b-row>
@@ -95,16 +108,18 @@
                             <span class="data_label mt-1">Author: </span>
                             <span>{{item.author}}</span>
                         </div>
+
                     </b-col>
                     <b-col class="">
                         <span class="data_label mt-1">State: </span>
-                        <span v-if="item.status == 'PREPPED_RELOAD'">**Restart Required**</span>
+                        <span v-if="item.status == 'PREPPED_RELOAD'" style="color:yellow">**Restart piSTAR Lab to complete installation*</span>
                         <span v-else>{{item.status}} </span>
-                        <span v-if="item.status_msg">
+                        <span v-if="(item.status == 'INSTALL_FAILED' || item.status == 'UNINSTALL_FAILED') && item.status_msg">
                             <pre>{{item.status_msg}}</pre>
                         </span>
                     </b-col>
                 </b-row>
+
                 <span v-if="idx != Object.keys(filteredPlugins).length - 1">
                     <hr /> </span>
 
@@ -170,7 +185,7 @@ export default {
     data() {
         return {
             appConfig,
-            searchQuery: "",
+            searchtext: "",
             fields: fields,
             allPlugins: {},
             error: "",
@@ -178,7 +193,7 @@ export default {
             enteredPluginId: "",
             newPluginName: "",
             newPluginDescription: "",
-            selectedStatus: "installed",
+            selectedStatus: "",
             onlyWorkspacePlugins: false,
             filterCategories: {
                 agents: {
@@ -199,15 +214,18 @@ export default {
 
     computed: {
         filteredPlugins() {
+
             if (this.selectedStatus == 'installed') {
                 return this.filtered.filter(plugin => {
                     return plugin.status != "AVAILABLE";
                 })
 
-            } else {
+            } else if (this.selectedStatus == 'avail') {
                 return this.filtered.filter(plugin => {
                     return plugin.status == "AVAILABLE" || plugin.status == "INSTALLING" || plugin.status == "INSTALL_FAILED" || plugin.status == "UNINSTALL_FAILED";
                 })
+            } else {
+                return this.filtered
             }
         },
         newPluginId() {
@@ -223,7 +241,7 @@ export default {
                 }
             });
 
-            const filtered = []
+            const filteredList = []
             Object.values(this.allPlugins).forEach((plugin) => {
                 let include = false;
 
@@ -238,11 +256,17 @@ export default {
                 }
                 if (plugin.categories.length == 0 || (plugin.categories.length == this.filterCategories.length) || include) {
 
-                    filtered.push(plugin)
+                    filteredList.push(plugin)
                 }
 
             })
-            return filtered
+            if (this.searchtext != "") {
+                return filteredList.filter((v) => {
+                    return v.name.toLowerCase().includes(this.searchtext.toLowerCase())
+                })
+            } else {
+                return filteredList
+            }
         },
 
     },

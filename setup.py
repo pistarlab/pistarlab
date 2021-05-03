@@ -71,15 +71,14 @@ setup(
         'zmq',
         'redis',
         'pyyaml',
-        'filelock'
-
-        # 'torch',
-        # 'torchvision'
-        # 'https://download.pytorch.org/whl/cu101/torch-1.7.1%2Bcu101-cp38-cp38-linux_x86_64.whl'
-        # 'torch==1.7.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html',
-        # 'torchaudio==0.7.2 -f  https://download.pytorch.org/whl/torch_stable.html',
-        # 'torchvision==0.8.2+cu101 -f https://download.pytorch.org/whl/torch_stable.html',
-    ],
+        'filelock',
+        'opencv_python',
+        'ray[all]==1.2.0',
+        'tensorflow==2.3.1',  # TODO Numpy version isssue
+        'torch==1.7.1',
+        'torchvision==0.8.2',
+        "pyglet<=1.5.0,>=1.4.0"
+  ],
     package_data={'pistarlab': package_files + additional_files},
     entry_points={
         'console_scripts': [
@@ -88,12 +87,7 @@ setup(
         ]
     },
     extras_require={
-        'main': [
-            'opencv_python',
-            'ray[all]==1.2.0',
-            'tensorflow==2.3.1',  # TODO Numpy version isssue
-            'torch==1.7.1',
-            'torchvision==0.8.2']
+        'main': []
     },
     packages=find_packages(),
     include_data_files=True,

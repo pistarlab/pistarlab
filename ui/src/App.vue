@@ -9,7 +9,7 @@
         <div class="mb-5"></div>
     </b-modal>
 
-    <b-modal id="plugin-manager" size="xl" title="Plugin Manager" scrollable :hide-footer="true">
+    <b-modal id="plugin-manager" size="xl" title="Plugins" scrollable :hide-footer="true">
         <PluginManager></PluginManager>
         <div class="mb-5"></div>
 
@@ -82,17 +82,21 @@
     <b-navbar class="bottombar py-1" type="dark" fixed="bottom" small="true">
 
         <b-navbar-nav>
-            <b-nav-item title="New Task" class="mr-1 bottomnav corneritem" v-b-modal.newtask>
+            <b-nav-item id="launchbutton" title="New Task" class="mr-1 bottomnav corneritem" v-b-modal.newtask>
                 <i class="fa fa-plus"></i>
             </b-nav-item>
+            <b-tooltip target="launchbutton" triggers="hover">
+                    Launch a new Task
+                </b-tooltip>
             <b-nav-item class="mr-1" v-b-modal.sessions>
                 <i title="Sessions" class="fa fa-cubes"></i> Sessions
             </b-nav-item>
+            
             <b-nav-item class="mr-1" v-b-modal.task-manager>
                 <i title="Task Manager" class="fa fa-tasks"></i> Tasks
             </b-nav-item>
             <b-nav-item class="mr-1" v-b-modal.plugin-manager>
-                <i title="Plugin Manager" class="fa fa-cogs"></i> Plugins
+                <i title="Plugins" class="fa fa-cogs"></i> Plugins
             </b-nav-item>
 
         </b-navbar-nav>
@@ -101,7 +105,7 @@
                 <i class="fa fa-flask"></i> piSTAR Lab
             </b-nav-text>
             <b-nav-text id="readonlymodebanner" v-if="readOnlyMode" style="font-weight:900;color:yellow">
-                [READ-ONLY MODE]
+                [READ-ONLY]
             </b-nav-text>
             <b-tooltip target="readonlymodebanner" triggers="hover">
                 This is a READ-ONLY Instance.
@@ -115,9 +119,12 @@
             <!-- <b-nav-item title="Switch to IDE View" class="mr-2" to="/ide">
                 <i class="fa fa-laptop-code"></i> IDE
             </b-nav-item> -->
-            <b-nav-item title="Switch to IDE View" class="mr-2" @click="showIDE()">
+            <b-nav-item id="idebutton" title="Switch to IDE View" class="mr-2" @click="showIDE()">
                 <i class="fa fa-laptop-code"></i> IDE
             </b-nav-item>
+                 <b-tooltip target="idebutton" triggers="hover">
+                    Launch IDE
+                </b-tooltip>
 
             <b-nav-item title="Settings" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>

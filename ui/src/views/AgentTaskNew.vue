@@ -350,7 +350,7 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
 import axios from "axios";
 import {
@@ -513,7 +513,7 @@ import ParamEditor from "../components/ParamEditor.vue";
 import TaskLoad from "../components/TaskLoad.vue";
 
 export default {
-    name: "Newtask",
+    name: "AgentTaskNew",
     components: {
         AgentSelector,
         EnvSelector,
@@ -734,7 +734,7 @@ export default {
             try {
 
                 let agentConfigList = []
-                Object.values(this.agents).forEach((agent) => {
+                Object.values(this.agents).forEach((agent:any) => {
                     let agentConfig = {}
                     agentConfig['ident'] = agent.ident
                     agentConfig['run_config'] = agent.run_config

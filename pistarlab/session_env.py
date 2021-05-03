@@ -187,6 +187,7 @@ class BatchedEnv:
         self.observation_spaces = {}
         self.action_spaces = {}
         for k in self.players:
+            ctx.get_logger().info(f"Loading env: {self.env_entry_point}, with {self.env_kwargs}")
             env = get_wrapped_env_instance(self.env_entry_point, self.env_kwargs, wrappers)
             self.observation_spaces[k] = env.observation_space
             self.action_spaces[k] = env.action_space
@@ -262,7 +263,15 @@ class RLSessionEnvBase:
         self.task_id = task_id
         self.agent_id = agent_id
         self.env_spec_id = env_spec_id
-        self.env_kwargs = pyson(env_kwargs)
+        env_spec_model = self.get_spec_env_dbmodel()
+        self.env_entry_point = env_spec_model.entry_point
+        self.env_type = env_spec_model.env_type
+
+
+        self.env_config = copy.deepcopy(env_spec_model.config)
+
+        self.env_kwargs = self.env_config['env_kwargs']
+        self.env_kwargs.update(env_kwargs)
 
         self.config = config or RLSessionConfig()
 
@@ -317,13 +326,12 @@ class RLMultiSessionEnv(RLSessionEnvBase):
         self.batch_size = batch_size
         self.child_session_configs = child_session_configs
 
-        env_spec_model = self.get_spec_env_dbmodel()
-        env_entry_point = env_spec_model.entry_point
+
 
         os.environ['SDL_VIDEODRIVER'] = 'dummy'
         os.environ['SDL_AUDIODRIVER'] = ""
 
-        self.is_multiplayer = env_spec_model.env_type == RL_MULTIPLAYER_ENV
+        self.is_multiplayer = self.env_type == RL_MULTIPLAYER_ENV
 
         if self.is_multiplayer and self.batch_size > 1:
             raise Exception("batchsize must be '1' for multiagent environments")
@@ -350,9 +358,9 @@ class RLMultiSessionEnv(RLSessionEnvBase):
         elif self.is_multiplayer:
             # Local Env and Multi Agent
             self.get_logger().info("Is Local Multi Agent")
-            wrappers = self.config.wrappers + env_spec_model.config['default_wrappers']
+            wrappers = self.config.wrappers + self.env_config['default_wrappers']
             self.env: MAEnv = get_wrapped_env_instance(
-                entry_point=env_entry_point,
+                entry_point=self.env_entry_point,
                 kwargs=self.env_kwargs,
                 wrappers=wrappers)
             self.env.reset()
@@ -373,10 +381,10 @@ class RLMultiSessionEnv(RLSessionEnvBase):
         else:
             # Local Env and Batched
             self.get_logger().info(f"Is Batched Single Agent Env batch_size = {self.batch_size}")
-            wrappers = self.config.wrappers + env_spec_model.config['default_wrappers']
+            wrappers = self.config.wrappers + self.env_config['default_wrappers']
             self.get_logger().info(f"Wrappers {wrappers}")
             self.env = BatchedEnv(
-                env_entry_point=env_entry_point,
+                env_entry_point=self.env_entry_point,
                 env_kwargs=self.env_kwargs,
                 batch_size=self.batch_size,
                 wrappers=wrappers)

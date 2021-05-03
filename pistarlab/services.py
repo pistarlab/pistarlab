@@ -169,11 +169,10 @@ class ForegroundService(SystemServiceBase):
                     env=env)
 
                 if self.stdin_pipe is not None:
-                    print(f"HERE: {self.stdin_pipe}")
-                    self.proc.stdin.write(self.stdin_pipe)
+                    for line in self.stdin_pipe.split("\n"):
+                        self.proc.stdin.write(line + "\n")
                     self.proc.stdin.close()
                     # self.proc.wait()
-                    print("DON WAITING")
 
                 self.thread = ReaderThread(
                     proc=self.proc,
@@ -269,7 +268,7 @@ class RayService(SystemServiceBase):
 
     def is_running(self):
 
-        match_list = ["raylet", "redis-server", "plasma_store_server", "gcs_server"]
+        match_list = ["raylet","plasma_store_server", "gcs_server"]
 
         if not self.head:
             match_list = ['raylet']
@@ -429,9 +428,9 @@ class ServiceContext:
                 links={'dashboard': "http://localhost:8265"})
         elif name == "redis":
             redis_password = self.commandline_args.get('redis_password')
-            stdin_config = None
+            stdin_config = 'appendonly no\nsave ""\n'
             if redis_password is not None:
-                stdin_config = f'requirepass {redis_password}'
+                stdin_config += f'requirepass {redis_password}'
             return ForegroundService(
                 name="redis",
                 launch_args=['pistarlab/thirdparty_lib/redis-server', '--port', self.commandline_args.get('redis_port'), '-'],

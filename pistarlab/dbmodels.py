@@ -48,7 +48,7 @@ class ComponentSpecModel(DbBase):
     __tablename__ = COMPONENT_SPEC_ENTITY
     id = db.Column(db.String, primary_key=True)
     category = db.Column(db.String)  # Model/Wrapper
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     displayed_name = db.Column(db.String)
     entry_point = db.Column(db.String)
     description = db.Column(db.String)
@@ -78,7 +78,7 @@ class ComponentModel(DbBase):
     version = db.Column(db.String)
     config = db.Column(db.JSON)
     meta = db.Column(db.JSON)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     archived = db.Column(db.Boolean, default=False)
 
     spec_id = db.Column(db.String, db.ForeignKey(f'{COMPONENT_SPEC_ENTITY}.id'))
@@ -103,7 +103,7 @@ class ComponentModel(DbBase):
 class AgentSpecModel(DbBase):
     __tablename__ = AGENT_SPEC_ENTITY
     id = db.Column(db.String, primary_key=True)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     displayed_name = db.Column(db.String)
 
     entry_point = db.Column(db.String)
@@ -145,7 +145,7 @@ class AgentModel(DbBase):
 
     displayed_name = db.Column(db.String)
     notes = db.Column(db.String)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     archived = db.Column(db.Boolean, default=False)
 
     config = db.Column(db.JSON)
@@ -177,7 +177,7 @@ class EnvironmentModel(DbBase):
     displayed_name = db.Column(db.String)
     description = db.Column(db.String())
     categories = db.Column(db.String)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
 
     plugin_id = db.Column(db.String, nullable=False)
     plugin_version = db.Column(db.String, nullable=False)
@@ -201,7 +201,7 @@ class EnvSpecModel(DbBase):
     displayed_name = db.Column(db.String)
     entry_point = db.Column(db.String)
     description = db.Column(db.String)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     user_defined = db.Column(db.Boolean, nullable=False, default=False)
     env_type = db.Column(db.String, nullable=False)
 
@@ -226,7 +226,7 @@ class EnvSpecModel(DbBase):
 class TaskSpecModel(DbBase):
     __tablename__ = TASK_SPEC_ENTITY
     id = db.Column(db.String, primary_key=True)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     displayed_name = db.Column(db.String)
     entry_point = db.Column(db.String)
     runner_entry_point = db.Column(db.String)
@@ -257,7 +257,7 @@ class TaskModel(DbBase):
     actor_uid = db.Column(db.String)
     displayed_name = db.Column(db.String)
     notes = db.Column(db.String)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     archived = db.Column(db.Boolean, default=False)
     type_code = db.Column(db.Integer, nullable=False, default=1)
 
@@ -265,7 +265,7 @@ class TaskModel(DbBase):
 
     status = db.Column(db.String, default=STATE_CREATED)
     status_msg = db.Column(db.String)
-    status_timestamp = db.Column(db.DateTime, default=db.func.now())
+    status_timestamp = db.Column(db.DateTime, server_default=db.func.now())
 
     spec_id = db.Column(db.String, db.ForeignKey(f'{TASK_SPEC_ENTITY}.id'))
     spec = relationship("TaskSpecModel", back_populates=('tasks'))
@@ -296,7 +296,7 @@ class SessionModel(DbBase):
     id = db.Column(db.String, primary_key=True)
     label = db.Column(db.String)
     comments = db.Column(db.String)
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, server_default=db.func.now())
     archived = db.Column(db.Boolean, default=False)
 
     session_type = db.Column(db.String)  # "RLSession, RLParentSession, "
@@ -317,7 +317,7 @@ class SessionModel(DbBase):
 
     status = db.Column(db.String, default=STATE_CREATED)
     status_msg = db.Column(db.String)
-    status_timestamp = db.Column(db.DateTime, default=db.func.now())
+    status_timestamp = db.Column(db.DateTime, server_default=db.func.now())
 
     parent_session_id = db.Column(db.String, db.ForeignKey(f'{SESSION_ENTITY}.id'))
     parent_session = relationship("SessionModel", back_populates=('child_sessions'), remote_side="SessionModel.id", primaryjoin="SessionModel.parent_session_id==SessionModel.id")

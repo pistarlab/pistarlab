@@ -7,7 +7,7 @@
         </div>
 
         <b-card-text class="ml-3 mb-2 mt-3 h-100 flex-column d-flex">
-            <h4> {{ item.ident }}</h4>
+            <h4> {{ item.displayedName }}</h4>
             <div >
                 <span class="data_label  mt-2">Categories: </span>
                 <span >{{ item.categories }}</span>

@@ -8,7 +8,7 @@ from pistarlab.utils.gym_importer import get_env_specs_from_gym_registry
 
 def manifest():
     env_spec_list = []
-    for collection in ['algorithmic','classic_control','box2d','toy_text','unittest']:
+    for collection in ['classic_control','box2d']:
         spec_list = get_env_specs_from_gym_registry(
             entry_point_prefix=f"gym.envs.{collection}",
             additional_categories=[collection]

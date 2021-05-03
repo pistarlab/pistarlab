@@ -60,7 +60,7 @@
                     </h1>
                 </b-button>
                     <b-tooltip target="envlibbutton" triggers="hover">
-                    Explore currently installed Environments.
+                    Currently installed Environments.
                 </b-tooltip>
             </b-col>
         </b-row>

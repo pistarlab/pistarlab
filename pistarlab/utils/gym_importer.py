@@ -3,7 +3,7 @@ from .. import ctx
 from gym.envs import registry as gym_registry
 import logging
 from .env_helpers import get_env_spec_data
-
+from gym import make
 # TODO Move to plugin
 ENV_EXCLUDE_SET = {'Defender-v0', 'Defender-v4',
                    'DefenderDeterministic-v0', 'DefenderDeterministic-v4', 'DefenderNoFrameskip-v0', 'DefenderNoFrameskip-v4', 'Defender-ram-v0',
@@ -18,10 +18,12 @@ ATARI_PREFIX_MATCHER = ['JourneyEscape', 'Solaris', 'Gravitar', 'Adventure', 'Ac
                         "ReversedAddition", "PrivateEye", "Pooyan", "Pong", "Pitfall", "Phoenix", "Jamesbond", "IceHockey", "Skiing",
                         'Qbert', "Riverraid", "RoadRunner", "Zaxxon", "LunarLander", "KungFuMaster", "Krull", "Kangaroo"]
 
+# Wrapps call to gym make function so we can use 'id' as a kwargs
+def gym_make(id=None,**kwargs):
+    if id is None:
+        raise Exception("call to gym_make requires id but is None")
 
-# RENDER_OVERRIDE = {
-#     'CliffWalking-v0': 'human'
-# }
+    return make(id,**kwargs)
 
 def get_env_specs_from_gym_registry(
         entry_point_prefix,
@@ -56,8 +58,8 @@ def get_env_specs_from_gym_registry(
                 continue
 
             spec = get_env_spec_data(spec_id=gym_spec.id,
-                                     entry_point=gym_spec.entry_point,
-                                     env_kwargs=gym_spec._kwargs,
+                                     entry_point="pistarlab.utils.gym_importer:gym_make",
+                                     env_kwargs={'id':gym_spec.id},
                                      env_type=env_type,
                                      version=version,
                                      tags=additional_tags,

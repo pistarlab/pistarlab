@@ -651,13 +651,6 @@ export default {
                     });
             });
         },
-        makeToast(message,title="",variant = null) {
-            this.$bvToast.toast(message, {
-            title: title,
-            variant: variant,
-            solid: true
-        })
-        },
         stopSession() {
             if (this.item) {
                 axios

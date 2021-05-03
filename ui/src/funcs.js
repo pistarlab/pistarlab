@@ -33,10 +33,10 @@ function timelength(mills) {
       return `${fSecs} ${secsname}`;
     }
 }
-
-
 function timedeltafordate(v) {
-    const mills = new Date() - v;
+    
+    const mills = (new Date()) - (new Date(v+"Z"));
+    console.log(mills)
     return timelength(mills)
 }
 

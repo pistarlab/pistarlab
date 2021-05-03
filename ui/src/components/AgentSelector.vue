@@ -47,14 +47,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import {
-    appConfig
-} from "../app.config";
-import {
-    timedelta,
-    timepretty
-} from "../funcs";
 import gql from "graphql-tag";
 
 const existingAgentfields = [{

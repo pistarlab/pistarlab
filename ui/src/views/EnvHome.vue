@@ -1,24 +1,23 @@
 <template>
 <div>
     <h1><i class="fa fa-gamepad"></i> Environments</h1>
-<!-- 
-    <b-breadcrumb>
-        <b-breadcrumb-item :to="`/`"><i class="fa fa-home"></i></b-breadcrumb-item>
-        <b-breadcrumb-item active><i class="fa fa-gamepad"></i> Environments</b-breadcrumb-item>
-    </b-breadcrumb> -->
-
     <div class="mt-4"></div>
 
-     <b-modal id="modal-addcustom" >
-         TODO
-     </b-modal>
-    <b-modal id="modal-selected" footerClass="p-2 border-top-0" :title="`${selectedEnvironment.ident}`" size="lg" scrollable ok-only>
+    <b-modal id="modal-addcustom">
+        TODO
+    </b-modal>
+
+    <div class="mt-4"></div>
+    <b-modal id="modal-selected" footerClass="p-2 border-top-0" :title="`${selectedEnvironment.displayedName}`" size="lg" scrollable hide-footer >
 
         <b-container fluid>
+        
+
             <b-row>
                 <b-col>
 
-                                        <div>
+
+                    <div>
                         <span class="data_label  mt-2">Categories: </span>
                         <span class="data_label">{{ selectedEnvironment.categories }}</span>
                     </div>
@@ -38,14 +37,14 @@
                     </div>
                 </b-col>
                 <b-col>
-                    <b-button v-b-modal:modal-addcustom size="sm">Add Custom Spec</b-button>
+                    <img :src="`${appConfig.API_URL}/api/env_preview_image/${selectedEnvironment.ident}`" alt="" style="max-height:200px;"/>
                 </b-col>
             </b-row>
         </b-container>
 
         <div class="mt-4">
         </div>
-        <h3>Environment Specs</h3>
+        <h4>Environment Specs</h4>
         <b-container fluid>
             <div v-for="spec in selectedEnvironment.specs" :key="spec.ident">
                 <b-row>
@@ -64,30 +63,35 @@
                 </b-row>
                 <div class="mt-1"></div>
                 <b-row>
-                    <b-col class="">
-
+                                        <b-col class="">
                         <div>
-                            <span class="data_label mt-1">Version: </span>
-                            <span>{{spec.version}}</span>
+                            <span class="data_label mt-1">SpecId: </span>
+                            <span>{{spec.ident}}</span>
                         </div>
                                                 <div>
-                            <span class="data_label mt-1">Tags: </span>
-                            <span>{{spec.tags}}</span>
+                            <span class="data_label mt-1">EntryPoint: </span>
+                            <span>{{spec.entryPoint}}</span>
                         </div>
-
-                    </b-col>
-                    <b-col class="">
+      
                         <div>
                             <span class="data_label mt-1">Type: </span>
                             <span>{{spec.envType}}</span>
                         </div>
 
 
+                    </b-col>
+                    <b-col class="">
+
+                        <div>
+                            <span class="data_label mt-1">Tags: </span>
+                            <span>{{spec.tags}}</span>
+                        </div>
                         <div>
                             <span class="data_label mt-1">Description: </span>
                             <span>{{spec.description}}</span>
                         </div>
                     </b-col>
+
                 </b-row>
                 <hr />
             </div>
@@ -100,7 +104,14 @@
     <b-container fluid>
         <div v-if="$apollo.queries.environments.loading">Loading..</div>
         <div v-else>
+                                        <b-row>
+                <b-col>
+                     <b-form-input v-model="searchtext" placeholder="Search Environments" style="width:250px;" class='ml-auto'></b-form-input>
+                </b-col>
+            </b-row>
             <div v-if="items.length > 0">
+
+             <div class="mt-4"></div>
                 <b-row>
                     <b-col class="d-flex flex-wrap mb-4">
                         <span v-for="(item, idx) in items" v-bind:key="idx" class="m-2" @click="selectGroup(idx)" v-b-modal.modal-selected style="min-width:150px">
@@ -166,12 +177,13 @@ export default {
             searchQuery: "",
             selectedEnvironment: {},
             message: "No Environments found.",
-            appConfig
+            appConfig,
+            searchtext:""
         };
     },
     methods: {
         selectGroup(idx) {
-            this.selectedEnvironment = this.environments.edges[idx].node;
+            this.selectedEnvironment = this.items[idx];
 
         },
     },
@@ -180,7 +192,16 @@ export default {
         items() {
             if (this.environments.length == 0) return [];
             else {
-                return this.environments.edges.map((v) => v.node);
+                let envs = this.environments.edges.map((v) => v.node);
+                if (this.searchtext!=""){
+                    return envs.filter((v)=>
+                        v.displayedName.toLowerCase().includes(this.searchtext.toLowerCase())
+                    )
+                }
+                else{
+                    return envs
+        
+                }
             }
         }
     },
