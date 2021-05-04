@@ -1,0 +1,4 @@
+Sphinx
+twine
+tox
+sphinx_rtd_theme

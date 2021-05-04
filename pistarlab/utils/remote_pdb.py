@@ -53,22 +53,23 @@ class LF2CRLF_FileWrapper(object):
 
 
 class RemotePdb(Pdb):
-    """
-    Copied from: https://github.com/ionelmc/python-remote-pdb/blob/master/src/remote_pdb.py
-
+    """Copied from: https://github.com/ionelmc/python-remote-pdb/blob/master/src/remote_pdb.py
 
     This will run pdb as a ephemeral telnet service. Once you connect no one
     else can connect. On construction this object will block execution till a
     client has connected.
     Based on https://github.com/tamentis/rpdb I think ...
-    To use this::
+
+    To use this:
         RemotePdb(host='0.0.0.0', port=4444).set_trace()
+
     Then run: telnet 127.0.0.1 4444
     """
     active_instance = None
 
     def __init__(self, host, port, patch_stdstreams=False, quiet=False):
         self._quiet = quiet
+        self.do_q = self.do_exit = self.do_quit
         listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
         listen_socket.bind((host, port))
@@ -102,11 +103,11 @@ class RemotePdb(Pdb):
         self.handle.close()
         RemotePdb.active_instance = None
 
-    def do_quit(self, arg):
-        self.__restore()
-        return Pdb.do_quit(self, arg)
+        def do_quit(self, arg):
+            self.__restore()
+            return Pdb.do_quit(self, arg)
 
-    do_q = do_exit = do_quit
+    # do_q = do_exit = do_quit
 
     def set_trace(self, frame=None):
         if frame is None:

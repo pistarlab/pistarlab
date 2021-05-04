@@ -65,6 +65,7 @@ def get_env_specs_from_gym_registry(
                                      tags=additional_tags,
                                      categories=additional_categories,
                                      environment_id=environment_id,
+                                     environment_displayed_name=environment_id,
                                      default_wrappers=default_wrappers,
                                      default_render_mode=default_render_mode)
             spec_list.append(spec)
