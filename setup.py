@@ -21,10 +21,8 @@ additional_files = ["thirdparty_lib/redis-server"]
 
 class post_install(install_data):
     def run(self):
-        # Call parent
-        #install_data.run(self)
-        # Execute commands
-        print("Running")
+        pass
+
 
 
 setup(
@@ -56,7 +54,6 @@ setup(
         'simplejson',
         'pyinstrument',
         'sh',
-        'xvfbwrapper',  # TODO: MSWIN not compatible
         'ffmpeg-python',
         'gym',
         'matplotlib',
@@ -74,11 +71,11 @@ setup(
         'filelock',
         'opencv_python',
         'ray[all]==1.2.0',
+        'xvfbwrapper',  # TODO: MSWIN not compatible
         'tensorflow==2.3.1',  # TODO Numpy version isssue
         'torch==1.7.1',
-        'torchvision==0.8.2',
-        "pyglet<=1.5.0,>=1.4.0"
-  ],
+        'torchvision==0.8.2'
+        ],
     package_data={'pistarlab': package_files + additional_files},
     entry_points={
         'console_scripts': [

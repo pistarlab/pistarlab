@@ -4,6 +4,8 @@
 .vscode
 notebooks/data
 
+tests/notebook_output
+
 # Theia
 theia_ide/gen-webpack.config.js
 theia_ide/lib

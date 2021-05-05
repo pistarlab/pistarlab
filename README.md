@@ -1,10 +1,12 @@
-# piSTAR Lab
 
-WARNING: Under active development - not ready for general public use.
+
+# <img src="docs/source/images/pistar_edit_w.png" alt="agent home" width="40"/> piSTAR Lab  
+
+WARNING: Under active development - not ready for general use.
 
 # Overview
 
-piSTAR Lab is a modular deep reinforcement learning platform built to make AI development accessible fun.
+piSTAR Lab is a modular deep reinforcement learning platform built to make AI development accessible and fun.
 
 ## Features:
 * Web UI
@@ -16,13 +18,30 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 * Uses Ray Project (https://ray.io/) under the hood for distributed processing
 
 
-# Installation 
+## UI Screenshots
+
+<br/> <img src="docs/source/images/pistarlab_agent_home.png" alt="agent home" width="600"/>  <br/>
+
+<br/> <img src="docs/source/images/pistarlab_envs.png" alt="agent home" width="600"/>  <br/>
+
+<br/> <img src="docs/source/images/pistarlab_newtask.png" alt="agent home" width="600"/>  <br/>
+
+<br/> <img src="docs/source/images/pistarlab_session_stats.png" alt="agent home" width="600"/>  <br/>
+
+<br/> <img src="docs/source/images/pistarlab_agent_stats.png" alt="agent home" width="600"/>  <br/>
+
+
+
+
+# Quick Start 
 
 These instructions are for single node only. For cluster mode, see TODO
 
-## Using Anaconda
+## Installation with Anaconda
 
-***Only tested on Ubuntu***
+**Only tested on Ubuntu, but should also work on OS X.**
+
+*Official MS Windows and OS X support coming soon.*
 
 1. Install Anaconda or Miniconda
 Visit https://www.anaconda.com/products/individual for instructions
@@ -71,8 +90,11 @@ python pistarlab/launcher.py
 
 ## Installation using Docker
 
-1. Install Ddocker:
-    https://docs.docker.com/engine/install/
+*Recommended for MS Windows users*
+
+1. Install Docker:
+
+    Visit https://docs.docker.com/engine/install/
 
 1. Clone Repo
     ```bash
@@ -87,6 +109,13 @@ python pistarlab/launcher.py
 ### Usage with Docker
 
 Launch piSTAR Lab Services
+
 ```bash
-    ./bin/docker_launcher.sh 
+./bin/docker_launcher.sh 
 ```
+
+# Contributing
+
+We welcome people who want to make contributions to piSTAR Lab. Even simple documentation improvements are helpful.
+
+If your change is a new features, please consider if it makes more sense to build your features as plugin.

@@ -20,14 +20,19 @@ RUN sudo apt-get install -y nodejs npm && sudo npm cache clean -f && sudo npm in
 RUN sudo npm install --global yarn@1.7.0
 RUN pip install --no-cache-dir -U pip \
     tensorflow==2.3.1
-COPY ./requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./requirements-docker.txt .
+RUN pip install --no-cache-dir -r requirements-docker.txt
 RUN sudo chown -R ray:users /home/ray/.config/
 COPY --chown=ray:users . /app
 WORKDIR /app
-RUN pip install -e .
+RUN pip install -e . --no-deps
 ENV PYTHONPATH "${PYTHONPATH}:/app"
+
 # TODO: not needed for ray workers
 RUN cd /app/ && ./build_redis.sh
 RUN cd /app/ && ./build_ui.sh
 RUN cd /app/ && ./build_ide.sh
+
+EXPOSE 8080 7777 7776 7778 7781 8265
+ENV PYTHONUSERBASE /home/ray/pistarlab/plugins/site-packages/
+ENTRYPOINT "pistarlab"

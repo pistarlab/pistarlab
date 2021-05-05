@@ -61,3 +61,22 @@ Building the Documentation
 
     cd docs
     make html
+
+Building and Publishing a new Docker Image
+------------------------------------------
+
+Instructions on how to create a docker image from an Ubuntu environment
+
+#. Make changes to docker file
+
+#. Update requirements.txt
+    .. code-block:: bash
+
+    conda create -n pistarlab377 python=3.7.7
+    conda activate pistarlab377
+    pip install -e .
+    pip freeze > requirements.txt
+
+#. Run Docker Build
+
+./build_docker
