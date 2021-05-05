@@ -7,8 +7,6 @@ piSTARLab is modular Agent Development Environment that can run on your PC or in
 * Run experiments with a click of a button.  
 * Watch your agent learn in realtime.
 
-More documentation coming soon!
-
 
 Home
 

@@ -4,9 +4,16 @@ Advanced
 Settings
 --------
 
+
+Data and Configuration Path
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 By default pistarlab stores data and configuration in the **$HOME/pistarlab/** directory. (eg: /home/$USER/pistarlab) This can be changed by using the **PISTARLAB_ROOT** environment variable
 
-Settings can be modified by editing the **config.yaml** file located at $PISTARLAB_ROOT/config.yaml
+If you are using *Docker*, PISTARLAB_ROOT is under **$HOME/pistarlab_docker/**.  This has been changed for Docker to avoid permission issues that Docker may instroduce.
+
+**Configuration** is stored in the **config.yaml** file located at PISTARLAB_ROOT
+
+**Data** is stored under PISTARLAB_ROOT/data
 
 Debugging
 ---------

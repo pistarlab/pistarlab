@@ -10,8 +10,11 @@ piSTAR Lab Documentation
 
 piSTAR Lab is an open source modular deep reinforcement learning development platform built to make AI development accessible and fun. 
 
+* Github: http://github.com/pistarlab/pistarlab
+
+
 .. note::
-   piSTAR Lab is still in early development and **not ready for general use**.
+   piSTAR Lab is in early development and **not ready for general use**.
 
 Features
 --------

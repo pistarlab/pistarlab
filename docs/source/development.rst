@@ -15,28 +15,28 @@ Building for Readonly Viewing
 -----------------------------
 
    .. code-block:: bash
-   
+
     pip install -e . -no-deps
     pip install -r requirements-webreadonly.txt
 
 Building for PiPy
 -----------------
 
-1. Run Tests with tox
+#. Run Tests with tox
 
    .. code-block:: bash
 
     pip install tox
     tox
 
-1. Building wheel and source distribution and view files
+#. Building wheel and source distribution and view files
 
    .. code-block:: bash
 
     rm -rf build dist *.egg-info && 
     python setup.py bdist_wheel && python -m build --sdist --wheel && unzip -l dist/*.whl
 
-1. Uploading to PiPy
+#. Uploading to PiPy
 
    .. code-block:: bash
 
@@ -46,19 +46,18 @@ Building for PiPy
 Building the Documentation
 --------------------------
 
-1. Rebuild API Docs
+#. Rebuild API Docs
 
-    From the project root, run:
+   From the project root, run:
 
    .. code-block:: bash
 
     cd docs
     sphinx-apidoc -o source ../pistarlab
 
-1. Update the HTML
+#. Update the HTML
 
-    .. code-block:: bash
+   .. code-block:: bash
 
     cd docs
     make html
-    
