@@ -2,11 +2,11 @@ Usage
 =====
 
 
-**Running piSTAR Lab**
+**To launch piSTAR Lab, run**
 
 .. code-block:: bash
 
-   python pistarlab/launcher.py
+   pistarlab
 
 
 Open your browser to http://localhost:8080

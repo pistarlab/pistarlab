@@ -2,11 +2,13 @@
 
 # <img src="docs/source/images/pistar_edit_w.png" alt="agent home" width="40"/> piSTAR Lab  
 
-WARNING: Under active development - not ready for general use.
+WARNING: Under active development - not ready for public use.
 
 # Overview
 
 piSTAR Lab is a modular deep reinforcement learning platform built to make AI development accessible and fun.
+
+**Release: 0.0.1-dev** (early release)
 
 ## Features:
 * Web UI
@@ -16,6 +18,8 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 * Experiment tracking
 * Built in web-based IDE (via Theia (https://theia-ide.org/))
 * Uses Ray Project (https://ray.io/) under the hood for distributed processing
+
+Licensed under an [Apache-2.0](https://github.com/pistarlab/pistarlab/blob/main/LICENSE) license.
 
 
 ## UI Screenshots
@@ -39,9 +43,8 @@ These instructions are for single node only. For cluster mode, see TODO
 
 ## Installation with Anaconda
 
-**Only tested on Ubuntu, but should also work on OS X.**
+NOTE: Only tested on **Ubuntu**, but should also work on **OS X**. **MS Windows** users see [Installation using Docker](#Installation-using-Docker)
 
-*Official MS Windows and OS X support coming soon.*
 
 1. Install Anaconda or Miniconda
 Visit https://www.anaconda.com/products/individual for instructions
@@ -78,9 +81,9 @@ Visit https://www.anaconda.com/products/individual for instructions
 
 ### Usage
 
-Launch piSTAR Lab Services
+To launching piSTAR Lab, run:
 ```bash
-python pistarlab/launcher.py
+pistarlab
 ```
 
 - UI: http://localhost:8080
@@ -108,7 +111,7 @@ python pistarlab/launcher.py
 
 ### Usage with Docker
 
-Launch piSTAR Lab Services
+Launching piSTAR Lab
 
 ```bash
 ./bin/docker_launcher.sh 
@@ -116,6 +119,4 @@ Launch piSTAR Lab Services
 
 # Contributing
 
-We welcome people who want to make contributions to piSTAR Lab. Even simple documentation improvements are helpful.
-
-If your change is a new features, please consider if it makes more sense to build your features as plugin.
+We are still in an early phase of this release and have many loose ends to wrap up. If you are interested in contributing to piSTAR Lab, please reach out.

@@ -49,9 +49,13 @@ Requirements
 with Docker
 -----------
 
-* Switch to python env to 3.7.7 *
-This is helpful because the docker version of ray uses 3.7.7. Multiple versions of python will create problems when pickling.
-  conda install python=3.7.7
+**Switch to python env to 3.7.7**
+
+This is needed because the docker version of Ray uses 3.7.7 and multiple versions of python create problems when pickling.
+
+.. code-block:: bash
+
+    conda install python=3.7.7
 
 **Docker Related Issue with using Ray**
 

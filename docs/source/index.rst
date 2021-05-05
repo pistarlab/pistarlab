@@ -14,7 +14,7 @@ piSTAR Lab is an open source modular deep reinforcement learning development pla
 
 
 .. note::
-   piSTAR Lab is in early development and **not ready for general use**.
+   piSTAR Lab is in early development and **not ready for public use**.
 
 Features
 --------
