@@ -31,8 +31,13 @@ ENV PYTHONPATH "${PYTHONPATH}:/app"
 # TODO: not needed for ray workers
 RUN cd /app/ && ./build_redis.sh
 RUN cd /app/ && ./build_ui.sh
-RUN cd /app/ && ./build_ide.sh
+# RUN cd /app/ && ./build_ide.sh
 
-EXPOSE 8080 7777 7776 7778 7781 8265
+EXPOSE 8080 
+EXPOSE 7777 
+EXPOSE 7776 
+EXPOSE 7778 
+EXPOSE 7781 
+EXPOSE 8265
 ENV PYTHONUSERBASE /home/ray/pistarlab/plugins/site-packages/
-ENTRYPOINT "pistarlab"
+ENTRYPOINT "pistarlab_launcher"

@@ -1,4 +1,4 @@
-Sphinx
-twine
-tox
-sphinx_rtd_theme
+pytest
+ipykernel
+nbformat # Notebook test requirements
+nbconvert

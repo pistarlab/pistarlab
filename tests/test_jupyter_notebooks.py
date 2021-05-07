@@ -9,7 +9,7 @@ def run_test_notebook(notebook_filename,output_path):
         nb = nbformat.read(f, as_version=4)
     ep = ExecutePreprocessor(
         timeout=600, 
-        # kernel_name='pistarlab'
+        kernel_name='python'
         )
     ep.preprocess(nb)
 

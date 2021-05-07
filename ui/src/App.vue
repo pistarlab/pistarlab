@@ -119,12 +119,12 @@
             <!-- <b-nav-item title="Switch to IDE View" class="mr-2" to="/ide">
                 <i class="fa fa-laptop-code"></i> IDE
             </b-nav-item> -->
-            <b-nav-item id="idebutton" title="Switch to IDE View" class="mr-2" @click="showIDE()">
+            <!-- <b-nav-item id="idebutton" title="Switch to IDE View" class="mr-2" @click="showIDE()">
                 <i class="fa fa-laptop-code"></i> IDE
             </b-nav-item>
                  <b-tooltip target="idebutton" triggers="hover">
                     Launch IDE
-                </b-tooltip>
+                </b-tooltip> -->
 
             <b-nav-item title="Settings" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>

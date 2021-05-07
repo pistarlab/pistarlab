@@ -378,7 +378,7 @@ class XVFB(SystemServiceBase):
     def close(self):
         self.stop()
 
-
+import pkg_resources
 class ServiceContext:
 
     def __init__(self):
@@ -391,6 +391,7 @@ class ServiceContext:
         self.auto_restart_services = ['backend']
         self.auto_restart_enabled = True
         self.monitor_thread = None
+        self.verbose=True
         self.monitor_thread_interval_sec = 3
         self.commandline_args = {}
 
@@ -431,9 +432,13 @@ class ServiceContext:
             stdin_config = 'appendonly no\nsave ""\n'
             if redis_password is not None:
                 stdin_config += f'requirepass {redis_password}'
+
+            redis_path = pkg_resources.resource_filename(__name__,"thirdparty_lib/redis-server")
+            if os.name == 'nt':
+                redis_path = f"{redis_path}.exe"
             return ForegroundService(
                 name="redis",
-                launch_args=['pistarlab/thirdparty_lib/redis-server', '--port', self.commandline_args.get('redis_port'), '-'],
+                launch_args=[redis_path, '--port', self.commandline_args.get('redis_port'), '-'],
                 ready_string="Ready to accept connections",
                 stdin_pipe=stdin_config,
                 log_root=self.log_root,
@@ -452,11 +457,11 @@ class ServiceContext:
         elif name == "streamer":
             return ForegroundService(
                 name="streamer",
-                launch_args=['python', '-u', '-m', 'pistarlab.streamer'],
+                launch_args=['python', '-u', '-m', 'pistarlab.streamer','--port',self.commandline_args.get('streamer_port')],
                 ready_string="Streamer is Ready",
                 log_root=self.log_root,
                 pkill_string="pistarlab.streamer",
-                links={'main': "http://localhost:7778"})
+                links={'main': "http://localhost:{}".format(self.commandline_args.get('streamer_port'))})
         elif name == "theia_ide":
             return ForegroundService(
                 name="theia_ide",
@@ -465,16 +470,17 @@ class ServiceContext:
                 log_root=self.log_root,
                 pkill_string="theia_ide",
                 links={'main': "http://localhost:7781"},
-                log_stdout=False)
+                log_stdout=self.verbose)
         elif name == "dev_ui":
-            return ForegroundService(
+            service = ForegroundService(
                 name="dev_ui",
                 launch_args=['npm', 'run', 'serve', '--prefix', 'ui/', '--port=8080'],
                 ready_string="App running at",
                 log_root=self.log_root,
-                pkill_string="ui",
+                pkill_string=None,
                 links={'main': "http://localhost:8080"},
-                log_stdout=False)
+                log_stdout=self.verbose)
+            return service
         else:
             raise Exception(f"Service with name {name} not found")
 

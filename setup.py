@@ -27,7 +27,7 @@ class post_install(install_data):
 
 setup(
     name="pistarlab",
-    version="0.0.1-dev",
+    version="0.0.1-dev1",
     author="Brandyn Kusenda",
     author_email="pistar3.14@gmail.com",
     description="A modular AI agent experimentation tool.",
@@ -70,33 +70,30 @@ setup(
         'pyyaml',
         'filelock',
         'opencv_python',
-        'ray[all]==1.2.0',
         'xvfbwrapper',  # TODO: MSWIN not compatible
-        'tensorflow==2.3.1',  # TODO Numpy version isssue
-        'torch==1.7.1',
-        'torchvision==0.8.2'
+        'ray[all]==1.2.0',
+        'pip'
         ],
     package_data={'pistarlab': package_files + additional_files},
     entry_points={
         'console_scripts': [
-            'pistarlab = pistarlab.launcher:main',
+            'pistarlab_launcher = pistarlab.launcher:main',
             'pistarlab_plugin_tools = pistarlab.plugin_tools:main'
         ]
     },
     extras_require={
-        'main': []
+        'all': ['tensorflow==2.3.1','torch==1.7.1','torchvision==0.8.2']
     },
     packages=find_packages(),
     include_data_files=True,
     include_package_data=True,
     cmdclass={"install_data": post_install},
     classifiers=[
-        'Framework :: PiSTAR Lab',
         'Topic :: Software Development',
         'Topic :: Games/Entertainment :: Simulation',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     python_requires='>=3.7',
     zip_safe=False)

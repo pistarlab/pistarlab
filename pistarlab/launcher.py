@@ -211,25 +211,25 @@ def api_admin(cmd, name):
 def main():
     import argparse
     from colorama import init, Fore, Back, Style
+    import os
     init()
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--debug", action="store_true", help="debug mode")
+    parser.add_argument("--launcher_host", default="0.0.0.0", help="Control panel UI, host, default is 0.0.0.0 which will make available from other computers on the network.")
     parser.add_argument("--launcher_port", help="port", default="7776")
-    parser.add_argument("--launcher_host", help="host", default="0.0.0.0")
     parser.add_argument("--redis_port", help="redis port", default="7771")
+    parser.add_argument("--streamer_port", help="redis port", default="7778")
     parser.add_argument("--nostart", action="store_true")
     parser.add_argument("--ray_only", action="store_true")
     parser.add_argument("--disable_auto_restart", action="store_true")
     parser.add_argument("--ray_address", help="Ray head node address. Leave empty or set to localhost to start Local Instance ", default="localhost")
     parser.add_argument("--redis_password", help="redis password", default="5241590000000000")
     parser.add_argument("--disable_xvfb", action="store_true", help="Disable Virtual Frame Buffer (XVFB does not work on Windows)")
-    # parser.add_argument("--ray_node_only", action="store_true", help="Excludes backend services: web backend, UI, and IDE")
     parser.add_argument("--skip_ray_start", action="store_true", help="Skip 'ray start ...' ")
-    parser.add_argument("--launch_database", action="store_true", help="Launch Database (TODO: not implemented)")
     parser.add_argument("--verbose", action="store_true", help="Increase Output Verbosity")
-    parser.add_argument("--prod_mode", action="store_true", help="Disables development UI, TODO should also disable other options such on backend")
-    parser.add_argument("--enable_ide", action="store_true", help="Enables Theia IDE")
+    parser.add_argument("--enable_dev_ui", action="store_true", help="Enables development UI. TODO: Link to Documentation")
+    parser.add_argument("--enable_ide", action="store_true", help="Enables Theia IDE (requires nodejs), TODO: Link to Documentation")
     args = parser.parse_args()
 
     def print_service_status(show_links=True):
@@ -245,23 +245,20 @@ def main():
         print("")
 
     services_list = ['redis']
-    if not args.disable_xvfb:
+
+    if not args.disable_xvfb or os.name=='nt':
         services_list.append('xvfb')
 
     if not args.skip_ray_start:
         services_list.append('ray')
 
-    if args.launch_database:
-        services_list.append('db')
-        raise NotImplementedError("Not implemented yet")
     services_list = services_list + ['backend', 'streamer']
 
-    if not args.enable_ide:
+    if args.enable_ide:
         services_list.append('theia_ide')
 
-    if not args.prod_mode:
+    if args.enable_dev_ui:
         services_list.append('dev_ui')
-        
 
     if args.ray_only:
         services_list = ['ray']
@@ -271,9 +268,13 @@ def main():
         'launcher_port': args.launcher_port,
         'redis_port': args.redis_port,
         'ray_address': args.ray_address,
-        'redis_password': args.redis_password
+        'redis_password': args.redis_password,
+        'streamer_port':args.streamer_port
+        
     })
     service_ctx.prep_services(services_list)
+
+    service_ctx.verbose = args.verbose
 
     print("Cleaning up any running services")
     service_ctx.clean_up()
@@ -289,6 +290,7 @@ def main():
         print_service_status(show_links=False)
         print("Shutdown Complete")
         sys.exit()
+
     signal.signal(signal.SIGINT, graceful_exit)
     try:
         if not args.nostart:
@@ -304,7 +306,18 @@ def main():
         print("")
         print(f"{Style.RESET_ALL} Control Panel:{Fore.GREEN}http://localhost:{args.launcher_port} ")
         print_service_status()
-        print(f"{Fore.GREEN}============================================")
+        print("")
+        # if "backend" in services_list:
+        #     print(f"{Fore.GREEN}============================================")
+        #     print("")
+        #     if args.enable_dev_ui:
+        #         print(f" {Fore.GREEN}piSTAR Lab Dev UI: http://localhost:8080")
+        #     else:
+        #         print(f" {Fore.GREEN}piSTAR Lab UI: http://localhost:7777")
+        #     print("")
+        #     print(f"{Fore.GREEN}============================================")
+        #     print("")
+        #     print("")
 
         app.run(host=args.launcher_host, port=args.launcher_port, debug=args.debug, use_reloader=args.debug)
     except (Exception, KeyboardInterrupt) as e:

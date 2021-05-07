@@ -6,16 +6,14 @@ import time
 from collections.abc import Iterable
 
 
-from pistarlab import ctx
-from pistarlab.dbmodels import EnvSpecModel
-from pistarlab.remote_env import (RemoteMultiAgentEnvClient,
+from . import ctx
+from .dbmodels import EnvSpecModel
+from .remote_env import (RemoteMultiAgentEnvClient,
                                   RemoteSingleAgentEnvClient)
-from pistarlab.session import DataSession, RLSession
-from pistarlab.util_funcs import merged_dict
-from pistarlab.utils.env_helpers import (get_env_instance,
-                                         get_wrapped_env_instance,
-                                         render_env_frame_as_image)
-from pistarlab.utils.pyson import pyson
+from .session import DataSession, RLSession
+from .util_funcs import merged_dict
+from .utils.env_helpers import  get_wrapped_env_instance
+from .utils.pyson import pyson
 
 from .common import MAEnv
 from .env_base import DataEnvironment
