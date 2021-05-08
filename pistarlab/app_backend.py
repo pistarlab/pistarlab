@@ -851,6 +851,7 @@ def api_browser(urlFilePath=""):
 @app.route('/api/download/<path:urlFilePath>')
 def api_download(urlFilePath=""):
     try:
+
         fullFilePath = os.path.join(ctx.get_store().root_path, urlFilePath)
         logging.info("FullPath:{}".format(fullFilePath))
         if os.path.isfile(fullFilePath):
@@ -897,7 +898,7 @@ def api_config():
 
 @app.route('/')
 def index():
-    return send_file('uidist/index.html')
+    return send_file(os.path.join('uidist','index.html'))
 
 
 @app.route('/<path:path>')

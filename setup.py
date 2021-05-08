@@ -16,7 +16,7 @@ template_files = [name.replace("pistarlab/", "", 1) for name in glob.glob("pista
 
 package_files = ui_files + plugin_files + template_files
 
-additional_files = ["thirdparty_lib/redis-server"]
+additional_files = ["thirdparty_lib/redis-server","thirdparty_lib/redis-server.exe"]
 
 
 class post_install(install_data):
@@ -72,7 +72,7 @@ setup(
         'opencv_python',
         'xvfbwrapper',  # TODO: MSWIN not compatible
         'ray[all]==1.2.0',
-        'pip'
+            'pip'
         ],
     package_data={'pistarlab': package_files + additional_files},
     entry_points={

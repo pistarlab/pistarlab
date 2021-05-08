@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 import yaml
-
+from pistarlab.meta import DEFAULT_REDIS_PASSWORD
 DEFAULT_EXECUTION_CONTEXT_CONFIG = {
     'address': 'auto',
     'ignore_reinit_error': True,
@@ -96,8 +96,10 @@ def get_sys_config(root_path=None):
         "read_only_mode": False,
         "redis_hostname": "localhost",
         "redis_port": "7771",
-        "redis_password": "5241590000000000"
+        "redis_password": DEFAULT_REDIS_PASSWORD
     }
+
+    # config['execution_context_config']['_redis_password'] = DEFAULT_REDIS_PASSWORD
 
     os.makedirs(data_path, exist_ok=True)
     os.makedirs(workspace_path, exist_ok=True)

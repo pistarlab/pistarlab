@@ -17,8 +17,18 @@ Testing GPU
 
 Check if torch is detecting the GPU
 
-```bash
+
 python -c "import torch; print(torch.cuda.is_available());"
-```
 
 
+
+Running Atari Environment on Windows
+------------------------------------
+
+If you get this error:
+
+.. code-block:: bash
+
+    FileNotFoundError: Could not find module '..\atari_py\ale_interface\ale_c.dll' (or one of its dependencies). Try using the full path with constructor syntax.------------
+
+Reinstall Atari from here: https://github.com/Kojoley/atari-py/releases

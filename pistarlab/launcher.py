@@ -1,4 +1,5 @@
 from pistarlab.services import ServiceContext
+from pistarlab.meta import DEFAULT_REDIS_PASSWORD
 from flask import Flask, escape, request, redirect, Response, json, make_response
 from flask_cors import CORS
 
@@ -224,7 +225,8 @@ def main():
     parser.add_argument("--ray_only", action="store_true")
     parser.add_argument("--disable_auto_restart", action="store_true")
     parser.add_argument("--ray_address", help="Ray head node address. Leave empty or set to localhost to start Local Instance ", default="localhost")
-    parser.add_argument("--redis_password", help="redis password", default="5241590000000000")
+    parser.add_argument("--redis_password", help="redis password", default=DEFAULT_REDIS_PASSWORD)
+    parser.add_argument("--ray_redis_password", help="Ray redis password", default=None)
     parser.add_argument("--disable_xvfb", action="store_true", help="Disable Virtual Frame Buffer (XVFB does not work on Windows)")
     parser.add_argument("--skip_ray_start", action="store_true", help="Skip 'ray start ...' ")
     parser.add_argument("--verbose", action="store_true", help="Increase Output Verbosity")
@@ -268,8 +270,9 @@ def main():
         'launcher_port': args.launcher_port,
         'redis_port': args.redis_port,
         'ray_address': args.ray_address,
+        'ray_redis_password': args.ray_redis_password,
         'redis_password': args.redis_password,
-        'streamer_port':args.streamer_port
+        'streamer_port':args.streamer_port,
         
     })
     service_ctx.prep_services(services_list)
@@ -307,17 +310,17 @@ def main():
         print(f"{Style.RESET_ALL} Control Panel:{Fore.GREEN}http://localhost:{args.launcher_port} ")
         print_service_status()
         print("")
-        # if "backend" in services_list:
-        #     print(f"{Fore.GREEN}============================================")
-        #     print("")
-        #     if args.enable_dev_ui:
-        #         print(f" {Fore.GREEN}piSTAR Lab Dev UI: http://localhost:8080")
-        #     else:
-        #         print(f" {Fore.GREEN}piSTAR Lab UI: http://localhost:7777")
-        #     print("")
-        #     print(f"{Fore.GREEN}============================================")
-        #     print("")
-        #     print("")
+        if "backend" in services_list:
+            print(f"{Fore.GREEN}============================================")
+            print("")
+            if args.enable_dev_ui:
+                print(f" {Fore.GREEN}piSTAR Lab Dev UI: http://localhost:8080")
+            else:
+                print(f" {Fore.GREEN}piSTAR Lab UI: http://localhost:7777")
+            print("")
+            print(f"{Fore.GREEN}============================================")
+            print("")
+            print("")
 
         app.run(host=args.launcher_host, port=args.launcher_port, debug=args.debug, use_reloader=args.debug)
     except (Exception, KeyboardInterrupt) as e:

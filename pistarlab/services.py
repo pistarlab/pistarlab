@@ -6,6 +6,7 @@ import subprocess
 import sys
 import threading
 import time
+from .meta import DEFAULT_REDIS_PASSWORD
 from pathlib import Path
 from typing import Dict
 
@@ -54,7 +55,7 @@ class ReaderThread(threading.Thread):
         threading.Thread.__init__(self)
         self.proc = proc
         self.msg_queue = msg_queue
-        self.ready_string = ready_string
+        self.ready_string = ready_string.lower()
         self.log_path = log_path
         self.log_stdout = log_stdout
 
@@ -63,7 +64,7 @@ class ReaderThread(threading.Thread):
             self.msg_queue.put("STARTED")
             with open(self.log_path, 'w') as f:
                 for line in self.proc.stdout:
-                    if self.ready_string in line:
+                    if self.ready_string in line.lower():
                         self.msg_queue.put("READY")
                     f.write(line)
                     if self.log_stdout:
@@ -229,7 +230,7 @@ class RayService(SystemServiceBase):
                  log_root,
                  address,
                  redis_port=6379,
-                 redis_password="5241590000000000",
+                 redis_password=None,
                  additional_args={},  # TODO: num-cpu, num-gpu etc
                  dashboard_port=8265,
 
@@ -248,7 +249,9 @@ class RayService(SystemServiceBase):
         if self.head:
             print("Starting ray head node")
             self.start_cmd = f"""ray --logging-level={self.log_level} start --head --port={self.redis_port} \
---include-dashboard=true --dashboard-port {self.dashboard_port} --redis-password=\'{self.redis_password}\'"""
+--include-dashboard=true --dashboard-port {self.dashboard_port}"""
+            if self.redis_password is not None:
+                 self.start_cmd = f"{self.start_cmd} --redis-password=\'{self.redis_password}\'"
             self.links = links
         else:
             self.start_cmd = f"""ray --logging-level={self.log_level} start --address='{self.address}' --redis-password=\'{self.redis_password}\'"""
@@ -424,23 +427,25 @@ class ServiceContext:
             return RayService(
                 log_root=self.log_root,
                 dashboard_port=8265,
-                redis_password=self.commandline_args.get('redis_password'),
+                redis_password=self.commandline_args.get('ray_redis_password'),
                 address=self.commandline_args.get('ray_address'),
                 links={'dashboard': "http://localhost:8265"})
         elif name == "redis":
             redis_password = self.commandline_args.get('redis_password')
-            stdin_config = 'appendonly no\nsave ""\n'
-            if redis_password is not None:
-                stdin_config += f'requirepass {redis_password}'
-
+            redis_config_path = os.path.join(self.config.root_path,"tmp_redis.config")           
+            with open(redis_config_path,"w") as f:
+                f.write(f'appendonly no\nsave ""\nrequirepass {redis_password}')
+  
             redis_path = pkg_resources.resource_filename(__name__,"thirdparty_lib/redis-server")
             if os.name == 'nt':
                 redis_path = f"{redis_path}.exe"
+            
+            launch_args = [redis_path,redis_config_path, '--port', self.commandline_args.get('redis_port')]
+
             return ForegroundService(
                 name="redis",
-                launch_args=[redis_path, '--port', self.commandline_args.get('redis_port'), '-'],
-                ready_string="Ready to accept connections",
-                stdin_pipe=stdin_config,
+                launch_args=launch_args,
+                ready_string="ready to accept connections",
                 log_root=self.log_root,
                 pkill_string="pistarlab/thirdparty_lib/redis-server",
                 links={},

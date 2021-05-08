@@ -80,6 +80,8 @@ class SysContext:
 
     def get_execution_context(self) -> ExecutionContext:
         if self._exec_context is None:
+            self.get_logger().info("CONFIG")
+            self.get_logger().info(f"{self.config.execution_context_config}")
             self._exec_context = ExecutionContext(self.config.execution_context_config)
         return self._exec_context
 
