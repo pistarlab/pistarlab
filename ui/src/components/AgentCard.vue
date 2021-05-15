@@ -62,12 +62,11 @@
                 <b-col>
                     <h3>Interfaces</h3>
                     <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
-
-                        <div>
-                            Id: {{id}}, Type: {{iface.interface_type}}
-                        </div>
+                        <span class="h4">
+                            <b>{{id}}</b>
+                        </span>
                         <div class="ml-2">
-
+                            <span class="data_label mt-1">Type: </span>{{iface.interface_type}}
                             <div class="data_label mt-1">Observation Space: </div>
                             <div class="ml-1" v-if="iface && iface.observation_space">
                                 {{iface.observation_space.class_name}} (args={{iface.observation_space.args}},{{iface.observation_space.kwargs}})

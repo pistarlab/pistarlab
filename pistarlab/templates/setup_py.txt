@@ -1,23 +1,23 @@
 from setuptools import setup, find_packages
+import glob
+
+manifest_files = [name.replace("$module_name/","",1) for name in glob.glob("$module_name/manifest_files/**",recursive=True)]
 
 setup(
     name="$id",
     version="$version",
-    author="$author",
-    author_email="$author_email",
+    author="$plugin_author",
     description="$description",
     long_description='This is a pistarlab plugin',
     url="",
     license='',
     install_requires=[],
-    package_data={'$module_name': ['README.md',"*.json"]},
+    package_data={'$module_name': ['README.md',"*.json","*.jpg", "manifest_files", "manifest.json","pistarlab_plugin.json"] + manifest_files
     packages=find_packages(),
     classifiers=[
-        'Environment :: Plugins',
-        'Framework :: PiSTARLab',
-        'Topic :: Software Development',
-        'Topic :: Games/Entertainment :: Simulation',
-        'Topic :: Scientific/Engineering :: Artificial Intelligence'
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
 )

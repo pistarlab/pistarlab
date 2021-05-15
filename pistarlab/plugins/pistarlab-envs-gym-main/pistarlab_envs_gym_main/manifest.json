@@ -13,7 +13,7 @@
         "classic_control"
       ],
       "environment_id": "CartPole",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "CartPole",
       "metadata": {
         "image_filename": "CartPole.jpg",
         "render.modes": [
@@ -81,7 +81,7 @@
         "classic_control"
       ],
       "environment_id": "CartPole",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "CartPole",
       "metadata": {
         "image_filename": "CartPole.jpg",
         "render.modes": [
@@ -149,7 +149,7 @@
         "classic_control"
       ],
       "environment_id": "MountainCar",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "MountainCar",
       "metadata": {
         "image_filename": "MountainCar.jpg",
         "render.modes": [
@@ -217,7 +217,7 @@
         "classic_control"
       ],
       "environment_id": "MountainCar",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "MountainCar",
       "metadata": {
         "image_filename": "MountainCar.jpg",
         "render.modes": [
@@ -292,7 +292,7 @@
         "classic_control"
       ],
       "environment_id": "Pendulum",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "Pendulum",
       "metadata": {
         "image_filename": "Pendulum.jpg",
         "render.modes": [
@@ -367,7 +367,7 @@
         "classic_control"
       ],
       "environment_id": "Acrobot",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "Acrobot",
       "metadata": {
         "image_filename": "Acrobot.jpg",
         "render.modes": [
@@ -435,7 +435,7 @@
         "box2d"
       ],
       "environment_id": "LunarLander",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "LunarLander",
       "metadata": {
         "image_filename": "LunarLander.jpg",
         "render.modes": [
@@ -503,7 +503,7 @@
         "box2d"
       ],
       "environment_id": "LunarLander",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "LunarLander",
       "metadata": {
         "image_filename": "LunarLander.jpg",
         "render.modes": [
@@ -578,7 +578,7 @@
         "box2d"
       ],
       "environment_id": "BipedalWalker",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "BipedalWalker",
       "metadata": {
         "image_filename": "BipedalWalker.jpg",
         "render.modes": [
@@ -653,7 +653,7 @@
         "box2d"
       ],
       "environment_id": "BipedalWalker",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "BipedalWalker",
       "metadata": {
         "image_filename": "BipedalWalker.jpg",
         "render.modes": [
@@ -728,7 +728,7 @@
         "box2d"
       ],
       "environment_id": "CarRacing",
-      "environment_displayed_name": null,
+      "environment_displayed_name": "CarRacing",
       "metadata": {
         "image_filename": "CarRacing.jpg",
         "render.modes": [

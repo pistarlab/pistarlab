@@ -5,6 +5,7 @@ import os
 import shutil
 import tempfile
 import datetime
+import requests
 from typing import List
 
 import pkg_resources
@@ -26,7 +27,7 @@ from .util_funcs import *
 from .utils.logging import (new_entity_logger, new_scoped_logger,
                             setup_default_logging, setup_logging)
 from .utils.misc import gen_shortuid, generate_seed
-from .utils.snapshot_helpers import make_tarfile
+from .utils.snapshot_helpers import make_tarfile, extract_tarfile
 
 
 def get_entry_point_from_class(cls):
@@ -80,7 +81,8 @@ class SysContext:
 
     def get_execution_context(self) -> ExecutionContext:
         if self._exec_context is None:
-            self._exec_context = ExecutionContext(self.config.execution_context_config)
+            self._exec_context = ExecutionContext(
+                self.config.execution_context_config)
         return self._exec_context
 
     def get_logger(self):
@@ -147,9 +149,11 @@ class SysContext:
                     first_run = False
                     logging.info("Already running.")
                 else:
-                    raise Exception("Not initialized {}".format(is_initialized))
+                    raise Exception(
+                        "Not initialized {}".format(is_initialized))
             except Exception as e:
-                logging.info("First time running pistarlab context. {}".format(e))
+                logging.info(
+                    "First time running pistarlab context. {}".format(e))
                 self.get_redis_client().set(PISTARLAB_INIT_KEY, "true")
                 first_run = True
 
@@ -201,10 +205,17 @@ class SysContext:
     def create_new_plugin(self, plugin_id, plugin_name, description=""):
         create_new_plugin(
             workspace_path=self.config.workspace_path,
-            author=self.get_user_id(""),
             plugin_id=plugin_id,
             plugin_name=plugin_name,
-            description=description)
+            description=description,
+            original_author=self.get_user_id(""),
+            plugin_author=self.get_user_id(""),)
+
+    def get_workspace_info(self):
+        plugins = self.plugin_manager.get_all_plugins()
+        plugins = [plugin for pid, plugin in plugins.items(
+        ) if plugin["source"]["type"] == "workspace"]
+        return {'path': self.config.workspace_path, 'plugins': plugins}
 
     def get_store(self) -> Storage:
         return self.get_data_context().get_store()
@@ -214,7 +225,8 @@ class SysContext:
 
     def get_next_id(self, entity_type):
         self.get_dbsession().expire_all()
-        self.get_dbsession().query(SystemCounter).filter(SystemCounter.id == entity_type).update({SystemCounter.value: SystemCounter.value + 1})
+        self.get_dbsession().query(SystemCounter).filter(SystemCounter.id ==
+                                                         entity_type).update({SystemCounter.value: SystemCounter.value + 1})
         dbmodel = self.get_dbsession().query(SystemCounter).get(entity_type)
         value = dbmodel.value
         self.get_dbsession().commit()
@@ -361,13 +373,15 @@ class SysContext:
     def disable_plugin_by_id(self, plugin_id):
         dbsession = self.get_dbsession()
         for cls in [EnvironmentModel, AgentSpecModel, ComponentSpecModel, TaskSpecModel]:
-            dbmodels = dbsession.query(cls).filter(cls.plugin_id == plugin_id).all()
+            dbmodels = dbsession.query(cls).filter(
+                cls.plugin_id == plugin_id).all()
             for dbmodel in dbmodels:
                 dbmodel.disabled = True
         dbsession.commit()
 
     def list_plugins(self, status_filter=None):
-        plugins = [(p['id'], p['version']) for p in filter(lambda x: status_filter is None or x['status'] == status_filter, self.plugin_manager.get_all_plugins().values())]
+        plugins = [(p['id'], p['version']) for p in filter(lambda x: status_filter is None or x['status']
+                                                           == status_filter, self.plugin_manager.get_all_plugins().values())]
         return plugins
 
     def get_plugin(self, id, version):
@@ -396,13 +410,18 @@ class SysContext:
     def install_plugin_from_manifest(self, plugin_id, plugin_version):
         plugin = self.get_plugin(plugin_id, plugin_version)
         module_name = plugin.get('module_name', plugin_id.replace("-", "_"))
-        manifest_path = pkg_resources.resource_filename(module_name, "manifest.json")
+        manifest_path = pkg_resources.resource_filename(
+            module_name, "manifest.json")
+        self.get_logger().info("Loading plugin manifest files from {}".format(manifest_path))
 
         with open(manifest_path, 'r') as f:
             manifest_data = json.load(f)
 
-        image_save_path = self.get_store().get_path_from_key(key=(SYS_CONFIG_DIR, 'envs', 'images'))
-        manifest_files_path = pkg_resources.resource_filename(module_name, "manifest_files")
+        image_save_path = self.get_store().get_path_from_key(
+            key=(SYS_CONFIG_DIR, 'envs', 'images'))
+        manifest_files_path = pkg_resources.resource_filename(
+            module_name, "manifest_files")
+        self.get_logger().info("Loading plugin manifest files from {}".format(manifest_files_path))
 
         try:
             for data in manifest_data.get('environments', []):
@@ -415,13 +434,16 @@ class SysContext:
             for data in manifest_data.get('env_specs', []):
                 try:
                     image_filename = data['metadata']['image_filename']
-                    image_target_path = os.path.join(image_save_path, image_filename)
-                    image_source_path = os.path.join(manifest_files_path, image_filename)
+                    image_target_path = os.path.join(
+                        image_save_path, image_filename)
+                    image_source_path = os.path.join(
+                        manifest_files_path, image_filename)
                     if not os.path.exists(image_target_path) and os.path.exists(image_source_path):
                         import shutil
                         shutil.copy(image_source_path, image_target_path)
                 except Exception as e:
-                    logging.error(f"Unable to copy image due to error while copying {e}")
+                    logging.error(
+                        f"Unable to copy image due to error while copying {e}")
 
                 self.register_env_spec(
                     plugin_id=plugin_id,
@@ -454,7 +476,8 @@ class SysContext:
 
     def register_env_spec_from_class(self, spec_id, env_class, *args, **kwargs):
         entry_point = get_entry_point_from_class(env_class)
-        self.register_env_spec(spec_id=spec_id, entry_point=entry_point, *args, **kwargs)
+        self.register_env_spec(
+            spec_id=spec_id, entry_point=entry_point, *args, **kwargs)
 
     def register_environment(
             self,
@@ -484,7 +507,8 @@ class SysContext:
         environment.default_entry_point = default_entry_point
         environment.version = version
         environment.disabled = disabled
-        environment.categories = ",".join([v.lower().replace(" ", "") for v in categories])
+        environment.categories = ",".join(
+            [v.lower().replace(" ", "") for v in categories])
         environment.default_meta = default_metadata
         environment.default_config = default_config
         session.commit()
@@ -514,11 +538,13 @@ class SysContext:
         session = self.get_dbsession()
         environment = session.query(EnvironmentModel).get(environment_id)
         if environment is None:
-            logging.info("No Environment with name {} exists. Adding using provided values.".format(environment_id))
+            logging.info("No Environment with name {} exists. Adding using provided values.".format(
+                environment_id))
             environment = EnvironmentModel(id=environment_id)
             environment.displayed_name = environment_displayed_name
             environment.description = description
-            environment.categories = ",".join([v.lower().replace(" ", "") for v in categories])
+            environment.categories = ",".join(
+                [v.lower().replace(" ", "") for v in categories])
             environment.plugin_id = plugin_id
             environment.plugin_version = plugin_version
             environment.default_entry_point = entry_point
@@ -546,7 +572,7 @@ class SysContext:
         session.commit()
 
     def register_agent_spec_from_classes(self, runner_cls, cls=None, *args, **kwargs):
-        #TODO: merge with register_agent_spec
+        # TODO: merge with register_agent_spec
         if cls:
             entry_point = get_entry_point_from_class(cls)
         else:
@@ -667,6 +693,55 @@ class SysContext:
         spec.type_name = type_name
         session.commit()
 
+    def load_remote_snapshot_index(self, url):
+        import urllib
+        index_url = os.path.join(url, 'index.json')
+        with urllib.request.urlopen(index_url) as url:
+            snapshot_index = json.loads(url.read().decode())
+
+        return snapshot_index.get('entries')
+
+    def update_snapshot_index(self, force=True):
+        from .utils.snapshot_helpers import get_snapshots_from_file_repo
+
+        if not force and os.path.exists(self.config.snapshot_index_path):
+            return
+
+        # TODO: Use config
+
+        main_remote_url = "https://raw.githubusercontent.com/pistarlab/pistarlab-repo/main/snapshots/"
+        try:
+            entries = self.load_remote_snapshot_index(main_remote_url)
+        except Exception as e:
+            self.get_logger().error(
+                f"Unable to load remote snapshot index {main_remote_url} \n {e}")
+            entries = {}
+
+        for entry in entries.values():
+            entry['src'] = 'main'
+        main_remote_url_repo = os.path.join(main_remote_url, "repo")
+
+        # load local snapshots
+        local_entries = get_snapshots_from_file_repo(
+            self.config.local_snapshot_path)
+        entries.update(local_entries)
+
+        snapshot_index = {}
+        snapshot_index['entries'] = entries
+        snapshot_index['creation_time'] = str(datetime.datetime.now())
+        snapshot_index['sources'] = {
+            'local': self.config.local_snapshot_path,
+            'main': main_remote_url_repo
+        }
+
+        with open(self.config.snapshot_index_path, 'w') as f:
+            json.dump(snapshot_index, f, indent=2)
+
+    def get_snapshot_index(self):
+        self.update_snapshot_index()
+        with open(self.config.snapshot_index_path, "r") as f:
+            return json.load(f)
+
     def create_agent_snapshot(
             self,
             entity_id,
@@ -718,50 +793,85 @@ class SysContext:
 
         # Copy Checkpoint Data to dir
         checkpoints_subdir = "checkpoints"
-        src_checkpoints_dir = os.path.join(src_entity_path, checkpoints_subdir)
-        target_checkpoints_dir = os.path.join(temp_dir, checkpoints_subdir)
+        last_checkpoint_id = last_checkpoint['id']
+        src_checkpoints_dir = os.path.join(
+            src_entity_path, checkpoints_subdir, last_checkpoint_id)
+        target_checkpoints_dir = os.path.join(
+            temp_dir, checkpoints_subdir, last_checkpoint_id)
         shutil.copytree(src_checkpoints_dir, target_checkpoints_dir)
 
         # Push to target location
-        snapshot_path = os.path.join(self.config.local_snapshot_path, entity_type, spec_id)
+        snapshot_path = os.path.join(
+            self.config.local_snapshot_path, entity_type, spec_id)
         os.makedirs(snapshot_path, exist_ok=True)
 
         # Save Data Separately as well
-        snapshot_prefix = "{}__{}_v{}".format(submitter_id, seed, snapshot_version)
+        snapshot_prefix = "{}__{}_v{}".format(
+            submitter_id, seed, snapshot_version)
         with open(os.path.join(snapshot_path, f"{snapshot_prefix}.json"), 'w') as f:
             json.dump(snapshot_data, f, indent=2)
 
         # Save Data
-        snapshot_filepath = os.path.join(snapshot_path, f"{snapshot_prefix}.tar.gz")
+        snapshot_filepath = os.path.join(
+            snapshot_path, f"{snapshot_prefix}.tar.gz")
         make_tarfile(snapshot_filepath, temp_dir)
         self.update_snapshot_index(True)
         return snapshot_data
 
-    def update_snapshot_index(self, force=False):
-        from .utils.snapshot_helpers import get_snapshots_from_file_repo
+    def create_agent_from_snapshot(self, snapshot_id):
+        from .agent import Agent
+        snapshot_index = self.get_snapshot_index()
+        snapshot_data = snapshot_index['entries'].get(snapshot_id, None)
+        snapshot_archive_path = "{}.tar.gz".format(os.path.join(
+            self.config.local_snapshot_path, snapshot_data['path'], snapshot_data['file_prefix']))
+        if not os.path.exists(snapshot_archive_path):
+            src_name = snapshot_data['src']
+            if src_name == "local":
+                raise FileNotFoundError(
+                    "Error: Snapshot Archive not found {}".format(snapshot_archive_path))
+            src_name = snapshot_data['src']
+            repo_url = snapshot_index['sources'][src_name]
 
-        if not force and os.path.exists(self.config.snapshot_index_path):
-            return
+            remote_path = os.path.join(
+                repo_url, snapshot_data['path'], snapshot_data['file_prefix'])
+            remote_archive_file_path = f"{remote_path}.tar.gz"
+            self.get_logger().info(
+                f"Snapshot not found in cache, downloading snapshot from {remote_path}")
+            r = requests.get(remote_archive_file_path, allow_redirects=True)
+            os.makedirs(os.path.join(self.config.local_snapshot_path,
+                                     snapshot_data['path']), exist_ok=True)
+            open(snapshot_archive_path, 'wb').write(r.content)
+            self.get_logger().info(
+                f"Snapshot downloaded to: {snapshot_archive_path}")
 
-        # load local snapshots
-        entries = get_snapshots_from_file_repo(self.config.local_snapshot_path)
-        for entry in entries.values():
-            entry['src'] = 'local'
+        temp_dir = tempfile.mkdtemp()
+        extract_tarfile(snapshot_archive_path, temp_dir)
+        data_source_path = os.path.join(temp_dir, 'data')
 
-        # TODO: add external snapshots
+        with open(os.path.join(data_source_path, "snapshot.json"), 'r') as f:
+            snapshot_data = json.load(f)
 
-        snapshot_index = {}
-        snapshot_index['entries'] = entries
-        snapshot_index['creation_time'] = str(datetime.datetime.now())
-        snapshot_index['sources'] = {'local': self.config.local_snapshot_path}
+        checkpoints_src_path = os.path.join(data_source_path, "checkpoints")
+        spec_id = snapshot_data['spec_id']
+        meta = snapshot_data['meta']
+        last_checkpoint = snapshot_data['last_checkpoint']
+        meta['source_snapshot'] = copy.deepcopy(snapshot_data)
+        config = snapshot_data['config']
+        notes = snapshot_data['notes']
+        seed = snapshot_data['seed']
 
-        with open(self.config.snapshot_index_path, 'w') as f:
-            json.dump(snapshot_index, f, indent=2)
-
-    def get_snapshot_index(self):
-        self.update_snapshot_index()
-        with open(self.config.snapshot_index_path, "r") as f:
-            return json.load(f)
+        agent: Agent = Agent.create(spec_id=spec_id, config=config)
+        target_path = self.get_store().get_path_from_key(('agent', agent.get_id()))
+        dbmodel = agent.get_dbmodel()
+        dbmodel.meta = meta
+        dbmodel.notes = notes
+        dbmodel.seed = seed
+        dbmodel.last_checkpoint = last_checkpoint
+        import shutil
+        shutil.copytree(checkpoints_src_path, os.path.join(
+            target_path, "checkpoints"))
+        self.get_dbsession().commit()
+        return agent
 
     @staticmethod
     def check_torch_status():
@@ -773,10 +883,12 @@ class SysContext:
             gpu_count = torch.cuda.device_count()
             info['gpu_count'] = gpu_count
             if gpu_count > 0:
-                info['gpu_list'] = {i: torch.cuda.get_device_name(0) for i in range(gpu_count)}
+                info['gpu_list'] = {i: torch.cuda.get_device_name(
+                    0) for i in range(gpu_count)}
                 dev_id = torch.cuda.current_device()
                 info['current_gpu_device_id'] = dev_id
-                info['current_gpu_device_name'] = torch.cuda.get_device_name(dev_id)
+                info['current_gpu_device_name'] = torch.cuda.get_device_name(
+                    dev_id)
         except Exception as e:
             logging.error(e)
             info['error_messsage'] = str(e)
@@ -789,7 +901,8 @@ class SysContext:
         info = {}
         info['version'] = tf.__version__
         local_device_protos = device_lib.list_local_devices()
-        info['gpu_list'] = {x.incarnation: x.name for x in local_device_protos if x.device_type == 'GPU'}
+        info['gpu_list'] = {
+            x.incarnation: x.name for x in local_device_protos if x.device_type == 'GPU'}
         info['gpu_count'] = len(info['gpu_list'])
         return info
 

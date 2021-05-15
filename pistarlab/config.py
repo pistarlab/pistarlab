@@ -96,7 +96,7 @@ def get_sys_config(root_path=None):
         "read_only_mode": False,
         "redis_hostname": "localhost",
         "redis_port": "7771",
-        "redis_password": "5241590000000000"
+        "redis_password": "5241590000000000",
     }
 
     os.makedirs(data_path, exist_ok=True)

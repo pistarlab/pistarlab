@@ -1,7 +1,7 @@
 <template>
 <div>
 
-    <div>
+    <div  style="width:100%;">
         <audio id="audio" autoplay="true"></audio>
         <video :height="height" class="feature-image visible" id="myvideo" autoplay="true" playsinline="true"></video>
     </div>
@@ -206,5 +206,7 @@ export default {
 </script>
 
 <style>
-
+#myvideo {
+    width: 100%;
+}
 </style>

@@ -2,15 +2,15 @@
 
 # <img src="docs/source/images/pistar_edit_w.png" alt="agent home" width="40"/> piSTAR Lab  
 
-![PyPI](https://img.shields.io/pypi/v/pistarlab) ![PyPI - License](https://img.shields.io/pypi/l/pistarlab)
+![PyPI](https://img.shields.io/pypi/v/pistarlab) 
+![PyPI - License](https://img.shields.io/pypi/l/pistarlab) 
+[![Documentation Status](https://readthedocs.org/projects/pistarlab/badge/?version=latest)](https://pistarlab.readthedocs.io/en/latest/?badge=latest)
 
-WARNING: Under active development - not ready for public use.
+WARNING: This is an <u>**early release**</u> and is not ready for public use.
 
 # Overview
 
 piSTAR Lab is a modular deep reinforcement learning platform built to make AI development accessible and fun.
-
-**Release: 0.0.1-dev** (early release)
 
 **Documentation** https://pistarlab.readthedocs.io
 

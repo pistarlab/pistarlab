@@ -10,7 +10,7 @@
     </b-modal>
 
     <b-modal id="plugin-manager" size="xl" title="Plugins" scrollable :hide-footer="true">
-        <PluginManager></PluginManager>
+        <PluginManager :showWorkspacePlugins="false"></PluginManager>
         <div class="mb-5"></div>
 
     </b-modal>
@@ -367,9 +367,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 300;
-    line-height: 1.5em;
+
+
 }
 
 h1 {
@@ -460,6 +459,9 @@ td {
     color: #9f9f9f !important;
 }
 
+hr{
+    border-color: #666;
+}
 .vsm--link.vsm--link_level-1:hover {
     color: #fff !important;
     /* background-color: #4285f4 !important; */
@@ -492,6 +494,7 @@ pre.error {
 .widget {
     padding: 10px 10px;
     padding-bottom: 20px;
+    padding-top: 20px;
     margin-bottom: 20px;
     /* // background-color: #343a40; */
     border-radius: 5px;
@@ -543,7 +546,7 @@ button .default {
 }
 
 .stat_value {
-    font-size: 22px;
+    font-size: 1.3em;
     color: #bbb;
 
 }

@@ -15,6 +15,7 @@ import setuptools
 from filelock import FileLock
 
 from .utils.pkghelpers import run_bash_command
+import pistarlab
 
 
 def open_json_file(path):
@@ -57,6 +58,7 @@ def add_workspace_pkgs_to_path(path):
 
 
 def load_plugins_from_path(path):
+    logging.info(f"Reading from{path}")
     syspaths = set(sys.path)
     plugins = []
     for proj_dir in os.listdir(path):
@@ -66,17 +68,12 @@ def load_plugins_from_path(path):
         for pkg_name in setuptools.find_packages(where=full_proj_dir):
             try:
                 pluginmod = importlib.import_module(name="{}.plugin".format(pkg_name))
-                runnable = all([hasattr(pluginmod, funcname) for funcname in ['install', 'load', 'uninstall']])
-                if runnable:
-                    # workspace_pkgs.append({'path': full_proj_dir, 'name': pkg_name})
-                    plugin_info_path = pkg_resources.resource_filename(pkg_name, "pistarlab_plugin.json")
-                    with open(plugin_info_path, 'r') as f:
-                        plugin_info = json.load(f)
-                    plugins.append(plugin_info)
-                else:
-                    logging.info("Module missing function for {}".format(pkg_name))
-            except:
-                pass
+                plugin_info_path = pkg_resources.resource_filename(pkg_name, "pistarlab_plugin.json")
+                with open(plugin_info_path, 'r') as f:
+                    plugin_info = json.load(f)
+                plugins.append(plugin_info)
+            except Exception as e:
+                logging.error("Error loading plugin {} {}".format(pkg_name,e))
     return plugins
 
 
@@ -88,7 +85,15 @@ def create_file_from_template(template_path, target_path, var_dict):
         f.write(result_text)
 
 
-def create_new_plugin(workspace_path, author, plugin_id, plugin_name, description="", author_email="", version="0.0.1-dev"):
+def create_new_plugin(
+        workspace_path, 
+        plugin_id, 
+        plugin_name, 
+        original_author="", 
+        plugin_author="", 
+        description="", 
+        version="0.0.1-dev"):
+
     plugin_id = plugin_id.replace(" ", "-").replace("_", "-").lower()
     module_name = plugin_id.replace(" ", "_").replace("-", "_").lower()
     plugin_path = os.path.join(workspace_path, plugin_id)
@@ -98,12 +103,15 @@ def create_new_plugin(workspace_path, author, plugin_id, plugin_name, descriptio
         "id": plugin_id,
         "version": version,
         "name": plugin_name,
-        "module_name": module_name,
         "categories": [],
         "description": description,
-        "author": author,
-        "author_email": author_email
+        "plugin_author": plugin_author,
+        "original_author": original_author
     }
+
+    template_vars = {}
+    template_vars.update(plugin_info)
+    template_vars['module_name'] = module_name
 
     with open(os.path.join(module_path, "pistarlab_plugin.json"), "w") as f:
         json.dump(plugin_info, f, indent=2)
@@ -112,11 +120,14 @@ def create_new_plugin(workspace_path, author, plugin_id, plugin_name, descriptio
 
     setup_template_path = pkg_resources.resource_filename('pistarlab', "templates/setup_py.txt")
     setup_target_path = os.path.join(plugin_path, "setup.py")
-    create_file_from_template(setup_template_path, setup_target_path, plugin_info)
-
     plugin_template_path = pkg_resources.resource_filename('pistarlab', "templates/plugin_py.txt")
     plugin_target_path = os.path.join(module_path, "plugin.py")
-    create_file_from_template(plugin_template_path, plugin_target_path, plugin_info)
+    try:
+        create_file_from_template(setup_template_path, setup_target_path, template_vars)
+        create_file_from_template(plugin_template_path, plugin_target_path, template_vars)
+    except Exception as e:
+        logging.info(f"Error building templates, Variables: {template_vars}, Error: {e}")
+        raise e
     add_workspace_pkgs_to_path(workspace_path)
 
 
@@ -127,8 +138,7 @@ class PluginManager:
     """
     Naming Requirements:
      - plugin package name = plugin_id
-     - plugin plugin name = plugin_id with hyphans replaced with underscores
-     - builtin plugin repo is under pistarlab/plugins
+     - plugin module name = plugin_id with hyphans replaced with underscores
     """
 
     def __init__(self, proj_module_name, workspace_path, data_path, logger=None):
@@ -158,10 +168,20 @@ class PluginManager:
             "description": "",
             "path": self.workspace_path
         }
+        sources["main"] = {
+            "id": "main",
+            "type": "remote",
+            "name": "Main Repo",
+            "description": "",
+            "path": "https://raw.githubusercontent.com/pistarlab/pistarlab-repo/main/plugins/"
+        }
 
         extended_sources = open_json_file(os.path.join(self.data_path, SOURCE_FILE_NAME))
         if extended_sources is not None:
-            sources.update(extended_sources)
+            for source in extended_sources:
+                self.logger.info(f"Loading Additional Plugin Source {source['id']}")
+                sources[source['id']] = source
+
         else:
             Path(os.path.join(self.data_path, SOURCE_FILE_NAME)).touch()
         return sources
@@ -171,28 +191,36 @@ class PluginManager:
 
     def get_plugins_from_sources(self):
         all_p = {}
-        repo_filename = "repo.json"
+        
         for source in self.get_sources().values():
             plugins = None
-            if source["type"] == "url":
-                repo_path = "{}/{}".format(source["path"], repo_filename)
+            if source["type"] == "remote":
+                repo_filename = f"{pistarlab.__version__}.json"
+                repo_path = "{}{}".format(source["path"], repo_filename)
                 with urllib.request.urlopen(repo_path) as url:
                     plugins = json.loads(url.read().decode())
-            elif source["type"] == "file":
+            elif source["type"] == "test":
+                # For testing a repo locally
+                repo_filename = f"{pistarlab.__version__}.json"
                 repo_path = os.path.join(source["path"], repo_filename)
                 plugins = open_json_file(repo_path)
-            elif source["type"] == "workspace":
+            elif source["type"] == "file":
+                repo_filename = "repo.json"
+                repo_path = os.path.join(source["path"], repo_filename)
+                plugins = open_json_file(repo_path)
+            elif source["type"] in ["workspace","path"]:               
                 plugins = load_plugins_from_path(source["path"])
             if plugins is not None:
                 for plugin in plugins:
                     plugin["source"] = source
                     plugin_key = get_plugin_key_from_plugin(plugin)
                     all_p[plugin_key] = plugin
+                    # TODO: below not in use and not correct for URL
                     # pull in metadata from files
                     if plugin.get('metafile', False):
                         meta_filename = "{}.json".format(plugin_key)
-                        if source["type"] == "url":
-                            meta_path = "{}/{}".format(source["path"], meta_filename)
+                        if source["type"] == "remote":
+                            meta_path = "{}{}".format(source["path"], meta_filename)
                             with urllib.request.urlopen(meta_path) as url:
                                 plugin["metadata"] = json.loads(url.read().decode())
                         elif source["type"] == "file":
@@ -233,15 +261,20 @@ class PluginManager:
         elif plugin["source"]["type"] == "workspace":
             full_path = os.path.join(self.workspace_path, plugin["id"])
             cmd = "pip install --user -e {}".format(full_path)
-        elif plugin["source"]["type"] == "remote":
-            remote_path = plugin.get("remote_path")
-            if remote_path is None:
+        elif plugin["source"]["type"] == "path":
+            full_path = "{}{}".format(plugin['source']['path'],plugin["id"])
+            cmd = "pip install --user -e {}".format(full_path)
+        elif plugin["source"]["type"]in ["url","test"]:
+            plugin_path = plugin.get("path")
+            if plugin_path is None:
                 raise Exception("No remote path defined in plugin. Cannot install with out path.")
-            cmd = "pip install --user {}".format(remote_path)
+            if "rpath" in plugin.get("type"):
+                plugin_path = "{}{}".format(plugin['source']['path'],plugin_path)
+            cmd = "pip install --user {}".format(plugin_path)
         else:
             cmd = "pip install --user {}=={}".format(plugin["id"], plugin["version"])
 
-        self.logger.info("Install Command")
+        self.logger.info(f"Install Command {cmd}")
 
         # TODO: Should remove below: so far unsuccessful in loading modules installed for first time using pip during runtime
         # https://stackoverflow.com/questions/32478724/cannot-import-dynamically-installed-python-module
@@ -403,7 +436,11 @@ class PluginManager:
             # Remove Plugin Entry
             self.remove_plugin_by_id(plugin_id)
             return True
-
+        except ModuleNotFoundError as e:
+            self.logger.error(e)
+            self.logger.info("Removing anyway")
+            self.remove_plugin_by_id(plugin_id)
+            return True
         except Exception as e:
             self.logger.error(e)
             self.update_plugin_status(plugin, "UNINSTALL_FAILED", msg="{}\n{}".format(e, traceback.format_exc()))

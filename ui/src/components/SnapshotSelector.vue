@@ -1,5 +1,6 @@
 <template>
 <div>
+    <b-alert v-if="error" variant="danger">{{error}}</b-alert>
     <b-container fluid>
 
         <div v-for="(item,idx) in snapshots" v-bind:key="idx">
@@ -79,6 +80,7 @@ export default {
     data() {
         return {
             snapshots: [],
+            error:null
 
         };
     },
@@ -87,6 +89,7 @@ export default {
     },
     methods: {
         loadData() {
+            this.error=null
             axios
                 .get(`${appConfig.API_URL}/api/snapshots/list/${this.specId}`)
                 .then((response) => {

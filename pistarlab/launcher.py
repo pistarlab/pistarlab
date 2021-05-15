@@ -307,17 +307,17 @@ def main():
         print(f"{Style.RESET_ALL} Control Panel:{Fore.GREEN}http://localhost:{args.launcher_port} ")
         print_service_status()
         print("")
-        # if "backend" in services_list:
-        #     print(f"{Fore.GREEN}============================================")
-        #     print("")
-        #     if args.enable_dev_ui:
-        #         print(f" {Fore.GREEN}piSTAR Lab Dev UI: http://localhost:8080")
-        #     else:
-        #         print(f" {Fore.GREEN}piSTAR Lab UI: http://localhost:7777")
-        #     print("")
-        #     print(f"{Fore.GREEN}============================================")
-        #     print("")
-        #     print("")
+        if "backend" in services_list:
+            print(f"{Fore.GREEN}============================================")
+            print("")
+            if args.enable_dev_ui:
+                print(f" {Fore.GREEN}piSTAR Lab Dev UI: http://localhost:8080")
+            else:
+                print(f" {Fore.GREEN}piSTAR Lab UI: http://localhost:7777")
+            print("")
+            print(f"{Fore.GREEN}============================================")
+            print("")
+            print("")
 
         app.run(host=args.launcher_host, port=args.launcher_port, debug=args.debug, use_reloader=args.debug)
     except (Exception, KeyboardInterrupt) as e:

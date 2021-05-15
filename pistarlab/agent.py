@@ -40,7 +40,8 @@ class Agent(Entity):
     def create(spec_id, config={}, custom_seed=None):
         spec_dbmodel: AgentSpecModel = Agent.get_spec_dbmodel_by_id(spec_id)
         if spec_dbmodel is None:
-            raise Exception(f"No such agent spec with spec_id:{spec_id} found.")
+            raise Exception(
+                f"No such agent spec with spec_id:{spec_id} found.")
 
         meta = {
             'spec_version': spec_dbmodel.version,
@@ -59,42 +60,44 @@ class Agent(Entity):
             meta=meta,
             custom_seed=custom_seed)
 
-    def create_from_snapshot(snapshot_archive_path):
+    # def create_from_snapshot(snapshot_archive_path):
 
-        # TODO: load from web/external source
-        logging.info("Loading snapshot from {}".format(snapshot_archive_path))
-        if not os.path.exists(snapshot_archive_path):
-            raise FileNotFoundError("Error: Snapshot Archive not found {}".format(snapshot_archive_path))
+    #     # TODO: load from web/external source
+    #     logging.info("Loading snapshot from {}".format(snapshot_archive_path))
+    #     if not os.path.exists(snapshot_archive_path):
+    #         raise FileNotFoundError(
+    #             "Error: Snapshot Archive not found {}".format(snapshot_archive_path))
 
-        temp_dir = tempfile.mkdtemp()
-        tar = tarfile.open(snapshot_archive_path)
-        tar.extractall(temp_dir)
-        tar.close()
-        data_source_path = os.path.join(temp_dir, 'data')
+    #     temp_dir = tempfile.mkdtemp()
+    #     tar = tarfile.open(snapshot_archive_path)
+    #     tar.extractall(temp_dir)
+    #     tar.close()
+    #     data_source_path = os.path.join(temp_dir, 'data')
 
-        with open(os.path.join(data_source_path, "snapshot.json"), 'r') as f:
-            snapshot_data = json.load(f)
+    #     with open(os.path.join(data_source_path, "snapshot.json"), 'r') as f:
+    #         snapshot_data = json.load(f)
 
-        checkpoints_src_path = os.path.join(data_source_path, "checkpoints")
-        spec_id = snapshot_data['spec_id']
-        meta = snapshot_data['meta']
-        last_checkpoint = snapshot_data['last_checkpoint']
-        meta['source_snapshot'] = copy.deepcopy(snapshot_data)
-        config = snapshot_data['config']
-        notes = snapshot_data['notes']
-        seed = snapshot_data['seed']
+    #     checkpoints_src_path = os.path.join(data_source_path, "checkpoints")
+    #     spec_id = snapshot_data['spec_id']
+    #     meta = snapshot_data['meta']
+    #     last_checkpoint = snapshot_data['last_checkpoint']
+    #     meta['source_snapshot'] = copy.deepcopy(snapshot_data)
+    #     config = snapshot_data['config']
+    #     notes = snapshot_data['notes']
+    #     seed = snapshot_data['seed']
 
-        agent: Agent = Agent.create(spec_id=spec_id, config=config)
-        target_path = ctx.get_store().get_path_from_key(('agent', agent.get_id()))
-        dbmodel = agent.get_dbmodel()
-        dbmodel.meta = meta
-        dbmodel.notes = notes
-        dbmodel.seed = seed
-        dbmodel.last_checkpoint = last_checkpoint
-        import shutil
-        shutil.copytree(checkpoints_src_path, os.path.join(target_path, "checkpoints"))
-        ctx.get_dbsession().commit()
-        return agent
+    #     agent: Agent = Agent.create(spec_id=spec_id, config=config)
+    #     target_path = ctx.get_store().get_path_from_key(('agent', agent.get_id()))
+    #     dbmodel = agent.get_dbmodel()
+    #     dbmodel.meta = meta
+    #     dbmodel.notes = notes
+    #     dbmodel.seed = seed
+    #     dbmodel.last_checkpoint = last_checkpoint
+    #     import shutil
+    #     shutil.copytree(checkpoints_src_path, os.path.join(
+    #         target_path, "checkpoints"))
+    #     ctx.get_dbsession().commit()
+    #     return agent
 
     @staticmethod
     def get_dbmodel_by_id(id) -> AgentModel:
@@ -112,7 +115,8 @@ class Agent(Entity):
 
         """
         if _calling_directly:
-            raise Exception("Invalid instantiation method: this class should only be called from Agent.load() or Agent.create()")
+            raise Exception(
+                "Invalid instantiation method: this class should only be called from Agent.load() or Agent.create()")
 
         super().__init__(_id=_id, entity_type=AGENT_ENTITY)
 
@@ -144,7 +148,8 @@ class Agent(Entity):
                 spec_id=component_spec_id, name=name,
                 config=comp_config,
                 agent_id=self.get_id())
-            logging.info("Created Component {} with id {} for agent {}".format(name, component.get_id(), self.get_id()))
+            logging.info("Created Component {} with id {} for agent {}".format(
+                name, component.get_id(), self.get_id()))
 
     def get_task_runner_cls(self):
         dbmodel: AgentModel = self.get_dbmodel()
@@ -161,7 +166,8 @@ class Agent(Entity):
 
     def log_stat_dict(self, task_id, data):
         if self.stat_buffer is None:
-            self.stat_buffer = DataBuffer(cols=['timestamp', 'task_id', 'learn_step'] + list(data.keys()), size=10000)
+            self.stat_buffer = DataBuffer(
+                cols=['timestamp', 'task_id', 'learn_step'] + list(data.keys()), size=10000)
         data['timestamp'] = time.time()
         data['task_id'] = task_id
         data['learn_step'] = self.learn_step
@@ -195,27 +201,33 @@ class Agent(Entity):
     def get_last_checkpoint(self):
         return self.get_dbmodel().last_checkpoint
 
+    def update_last_checkpoint(self, checkpoint_id, path, meta):
+        meta_file_path = os.path.join(path, "meta.json")
+        with open(meta_file_path, 'w') as f:
+            json.dump(meta, f)
+        self.get_dbmodel().last_checkpoint = {
+            'id': checkpoint_id,
+            'meta': meta
+        }
+        ctx.get_dbsession().commit()
+
+    def get_checkpoint_path(self, checkpoint_id):
+        return ctx.get_store().get_path_from_key((self.entity_type, self.get_id(), 'checkpoints', checkpoint_id))
+
     def get_state(self):
         checkpoint = self.get_last_checkpoint()
         if checkpoint is None:
             return None
         else:
-            path = ctx.get_store().get_path_from_key((self.entity_type, self.get_id(), 'checkpoints', checkpoint['id']))
+            path = ctx.get_store().get_path_from_key(
+                (self.entity_type, self.get_id(), 'checkpoints', checkpoint['id']))
             with open(os.path.join(path, 'state.pkl'), 'rb') as f:
                 return pickle.load(f)
 
-    def get_config(self, run_config={}):
-        return merged_dict(
-            self.get_dbmodel().config,
-            run_config)
-
     def save_state(self, state, meta):
         checkpoint_id = get_timestamp_with_proc_info()
-        self.get_dbmodel().last_checkpoint = {
-            'id': checkpoint_id,
-            'meta': meta
-        }
-        path = ctx.get_store().get_path_from_key((self.entity_type, self.get_id(), 'checkpoints', checkpoint_id))
+
+        path = self.get_checkpoint_path(checkpoint_id)
 
         logging.info(f"Agent {self.get_id()} state saved state path:{path}")
         os.makedirs(path, exist_ok=True)
@@ -223,16 +235,20 @@ class Agent(Entity):
         state_file_path = os.path.join(path, "state.pkl")
         with open(state_file_path, 'wb') as f:
             pickle.dump(state, f)
-        meta_file_path = os.path.join(path, "meta.json")
-        with open(meta_file_path, 'w') as f:
-            json.dump(meta, f)
-        ctx.get_dbsession().commit()
+
+        self.update_last_checkpoint(checkpoint_id, path, meta)
+
+    def get_config(self, run_config={}):
+        return merged_dict(
+            self.get_dbmodel().config,
+            run_config)
 
     def get_dbmodel(self) -> AgentModel:
         return Agent.get_dbmodel_by_id(self._id)
 
     def list_checkpoints(self):
-        path = ctx.get_store().get_path_from_key((self.entity_type, self.get_id(), 'checkpoints'))
+        path = ctx.get_store().get_path_from_key(
+            (self.entity_type, self.get_id(), 'checkpoints'))
         return os.listdir(path)
 
     # TODO: add lazy loading support?

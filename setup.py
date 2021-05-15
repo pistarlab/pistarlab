@@ -4,7 +4,7 @@ import glob
 import os
 import shutil
 import sys
-
+import re
 from setuptools.command.install import install
 with open("README.md", "r") as f:
     long_description = f.read()
@@ -16,18 +16,26 @@ template_files = [name.replace("pistarlab/", "", 1) for name in glob.glob("pista
 
 package_files = ui_files + plugin_files + template_files
 
-additional_files = ["thirdparty_lib/redis-server"]
+additional_files = ["thirdparty_lib/redis-server", "thirdparty_lib/redis-server.exe"]
+
+
+def read_version(path):
+    with open(path, 'r') as f:
+        version_file = f.read()
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
 
 
 class post_install(install_data):
     def run(self):
         pass
 
-
-
 setup(
     name="pistarlab",
-    version="0.0.1-dev1",
+    version=read_version(os.path.join("pistarlab","__init__.py"),
     author="Brandyn Kusenda",
     author_email="pistar3.14@gmail.com",
     description="A modular AI agent experimentation tool.",
