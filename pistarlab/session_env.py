@@ -586,9 +586,6 @@ class RLSingleSessionEnv(RLSessionEnvBase):
         env_spec_model = self.get_spec_env_dbmodel()
         env_entry_point = env_spec_model.entry_point
 
-        os.environ['SDL_VIDEODRIVER'] = 'dummy'
-        os.environ['SDL_AUDIODRIVER'] = ""
-
         self.player_id = None
         parent_session_id = None
 
@@ -622,6 +619,10 @@ class RLSingleSessionEnv(RLSessionEnvBase):
             run_meta=run_meta,
             render_fn=lambda mode: self.env.render(mode=mode))
 
+        primary_session_id = parent_session_id or self.session.get_id()
+        self.task = self.get_task()
+        self.task.set_primary_session_by_id(primary_session_id)
+
         self.observation_space = self.env.observation_space
         self.action_space = self.env.action_space
 
@@ -637,9 +638,7 @@ class RLSingleSessionEnv(RLSessionEnvBase):
         self.session.after_step(ob, rew, done, info, action)
         # save session stats
         cur_time = time.time()
-        if self.done or (((cur_time - self.last_summary_flush) > self.flush_interval_secs)):
-            for session in self.child_sessions.values():
-                session.save_summary()
+        if done or (((cur_time - self.last_summary_flush) > self.flush_interval_secs)):
             if self.session:
                 self.session.save_summary()
             self.last_summary_flush = cur_time

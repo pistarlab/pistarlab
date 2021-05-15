@@ -112,7 +112,6 @@ def api_admin_data():
     data['get_gpu_ids'] = ray.get_gpu_ids()
     data['gpu_info'] = ctx.get_gpu_info()
     data['pistar_config'] = ctx.config.__dict__
-    # data['workspace_packages'] = ctx.get_workspace_pkgs()
 
     try:
         data['tensorflow_status'] = ctx.check_tensorflow_status()
@@ -129,6 +128,13 @@ def api_admin_data():
     return response
 
 
+@app.route("/api/workspace/")
+def api_workspace_data():
+    workspace = ctx.get_workspace_info()
+    response = make_response({'data': workspace})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
 @app.route("/api/reload_default_data/")
 @not_in_readonly_mode
 def api_reload_default_data():
@@ -143,7 +149,6 @@ def api_reload_default_data():
     response = make_response({'data': message})
     response.headers['Content-Type'] = 'application/json'
     return response
-
 
 @app.route("/api/set_log_level/<level>")
 @not_in_readonly_mode
@@ -238,7 +243,6 @@ def api_snapshots_list_for_agent_id(seed):
 @not_in_readonly_mode
 def api_snapshot_publish():
     try:
-        logging.info("Creating New Agent Instance")
         request_data = request.get_json()
         snapshot_version = request_data['snapshot_version']
         snapshot_description = request_data['snapshot_description']
@@ -408,17 +412,12 @@ def api_new_agent_submit():
         request_data = request.get_json()
         spec_id = request_data['specId']
         config = request_data['config']
-        snapshot_id = request_data['snapshotId']
-        snapshot_data = ctx.get_snapshot_index()['entries'].get(snapshot_id, None)
-        if snapshot_data is None:
+        snapshot_id = request_data.get('snapshotId')
+        if snapshot_id is None or snapshot_id == "":
             agent = Agent.create(spec_id=spec_id, config=config)
         else:
-            if snapshot_data['src'] != 'local':
-                # TODO: Download snapshot if neeeded
-                raise Exception("Only local snapshots working right now")
-            source_path = "{}.tar.gz".format(os.path.join(ctx.config.local_snapshot_path, snapshot_data['path'], snapshot_data['file_prefix']))
-            logging.info("Loading snapshot from {}".format(source_path))
-            agent = Agent.create_from_snapshot(source_path)
+            logging.info(f"Creating New Agent Instance from snapshot id {snapshot_id}")
+            agent = ctx.create_agent_from_snapshot(snapshot_id)
 
         response = make_response({'item': {'uid': agent.get_id()}})
     except Exception as e:
@@ -710,9 +709,9 @@ def get_chunk(full_path, byte1=None, byte2=None):
 @app.route("/api/session_episode_mp4/<sid>/<eid>")
 def session_episode_mp4(sid, eid):
     try:
-        default_fps = ctx.get_session(sid).env_spec.meta.get('render_fps', 10)
+        default_fps = ctx.get_session(sid).env_spec.meta.get('render_fps', 30)
     except:
-        default_fps = 10
+        default_fps = 30
     video_filename = os.path.join(ctx.get_store().root_path, 'session', sid, 'episode', eid, "{}.mp4".format(eid))
     fps = int(request.args.get('fps', str(default_fps)))
     # refresh = bool(request.args.get('refresh', "True"))

@@ -9,6 +9,11 @@ def make_tarfile(output_filename, source_dir):
     with tarfile.open(output_filename, "w:gz") as tar:
         tar.add(source_dir, arcname="data")
 
+def extract_tarfile(tarfilename,output_path):
+    tar = tarfile.open(tarfilename)
+    tar.extractall(output_path)
+    tar.close()
+
 
 def get_snapshots_from_file_repo(data_root):
     logging.info("Loading snapshots {}".format(data_root))

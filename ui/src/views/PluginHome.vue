@@ -4,19 +4,7 @@
     <b-modal id="modal-logviewer" title="Plugin Manager Logs" size="lg">
         <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/plugin_manager`"> </LogViewer>
     </b-modal>
-    <b-modal id="modal-create-plugin" title="Create New Plugin" size="lg" @ok="createNewPlugin()">
-        <p>
-            Create a new plugin in your workspace.
-        </p>
-        <div class="mt-2"></div>
-        <label for="newPluginId">Plugin Id:</label>
-        <b-form-input id="newPluginId" v-model="enteredPluginId" trim></b-form-input> {{newPluginId}}
-        <div class="mt-1"></div>
-        <label for="newPluginName">Plugin Name:</label>
-        <b-form-input id="newPluginName" v-model="newPluginName" trim></b-form-input>
-        <label for="newPluginDescription">Description:</label>
-        <b-form-input id="newPluginDescription" v-model="newPluginDescription" trim></b-form-input>
-    </b-modal>
+
     <b-navbar toggleable="lg" type="light" variant="alert">
         Status:
         <b-button-group>
@@ -36,9 +24,8 @@
     </b-navbar>
     <b-navbar toggleable="lg" type="light" variant="alert">
 
-        <b-form-checkbox class="ml-2" switch v-model="onlyWorkspacePlugins">Show only plugins in Workspace</b-form-checkbox>
+        <b-form-checkbox class="ml-2" switch v-model="onlyWorkspacePlugins">Show only Workspace Plugins</b-form-checkbox>
 
-        <b-button class="ml-auto" v-b-modal:modal-create-plugin size="sm" variant="success"><i class="fa fa-plus"></i> Create New Plugin</b-button>
     </b-navbar>
 
     <div class="mt-4"></div>
@@ -56,7 +43,7 @@
                     </b-col>
                     <b-col>
                         <span v-if="item.source.name == 'Workspace'">
-                            <b-badge pill variant="warning"><i class="fa fa-code"></i> This plugin is in your workspace </b-badge>
+                            <b-badge pill variant="warning"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
                         </span>
 
                     </b-col>
@@ -101,14 +88,17 @@
                     </b-col>
                     <b-col class="">
                         <div>
-                            <span class="data_label mt-1">Source Name: </span>
+                            <span class="data_label mt-1">Source: </span>
                             <span>{{item.source.name}}</span>
                         </div>
                         <div>
-                            <span class="data_label mt-1">Author: </span>
-                            <span>{{item.author}}</span>
+                            <span class="data_label mt-1">Original Author: </span>
+                            <span>{{item.original_author}}</span>
                         </div>
-
+                        <div>
+                            <span class="data_label mt-1">Plugin Author: </span>
+                            <span>{{item.plugin_author}}</span>
+                        </div>
                     </b-col>
                     <b-col class="">
                         <span class="data_label mt-1">State: </span>
@@ -182,6 +172,9 @@ export default {
     components: {
         LogViewer
     },
+    props :{
+        showWorkspacePlugins:Boolean
+    },
     data() {
         return {
             appConfig,
@@ -190,9 +183,7 @@ export default {
             allPlugins: {},
             error: "",
             selected: [],
-            enteredPluginId: "",
-            newPluginName: "",
-            newPluginDescription: "",
+
             selectedStatus: "",
             onlyWorkspacePlugins: false,
             filterCategories: {
@@ -227,9 +218,6 @@ export default {
             } else {
                 return this.filtered
             }
-        },
-        newPluginId() {
-            return "pistarlab-" + this.enteredPluginId
         },
 
         filtered() {
@@ -274,27 +262,7 @@ export default {
         getPluginKey(pluginId, pluginVersion) {
             return `${pluginId}__v${pluginVersion}`
         },
-        createNewPlugin() {
 
-            let outgoingData = {
-                'plugin_id': this.newPluginId,
-                'plugin_name': this.newPluginName,
-                'description': this.newPluginDescription
-
-            }
-            axios
-                .post(`${appConfig.API_URL}/api/plugin/create`, outgoingData)
-                .then((response) => {
-                    console.log(response)
-                    this.loadData()
-                    this.updateStatusFilter('avail')
-
-                })
-                .catch((e) => {
-                    this.error = e;
-                    this.message = this.error;
-                });
-        },
 
         updateList(btn) {
             this.loadData();
@@ -368,6 +336,9 @@ export default {
     // Fetches posts when the component is created.
     created() {
         console.log("HI")
+        if (this.showWorkspacePlugins){
+            this.onlyWorkspacePlugins=true
+        }
         // if (this.category) {
         //     console.log(this.category);
         //     this.filterCategories[this.category]["state"] = true;

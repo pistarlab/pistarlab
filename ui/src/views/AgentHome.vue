@@ -30,7 +30,7 @@
                 <b-row>
                     <b-col class="d-flex flex-wrap mb-4">
                         <span v-for="item in items" v-bind:key="item.ident" class="m-3">
-                            <b-card no-body header-bg-variant="info" header-text-variant="white" class="h-100 card-shadow card-flyer" style="width: 320px">
+                            <b-card no-body header-bg-variant="info" header-text-variant="white" class="h-100 card-shadow card-flyer" style="width: 260px">
                                 <template v-slot:header>
                                     <div class="custom-card-header mb-2">
                                         <b-link style="color: white" :to="`/agent/view/${item.ident}`">{{ item.ident }}</b-link>
@@ -42,7 +42,7 @@
                                         <b-row>
                                             <b-col>
                                                 <b-link :to="`/agent/view/${item.ident}`">
-                                                    <b-card-img height="180px" :src="`/img/agent_cons/${getImageId(item.ident)}.SVG`" alt="Image" class="rounded-0 svgagent" ></b-card-img>
+                                                    <b-card-img height="160px" :src="`/img/agent_cons/${getImageId(item.ident)}.SVG`" alt="Image" class="rounded-0 svgagent"></b-card-img>
                                                 </b-link>
                                                 <div class="mt-2">
                                                     <b-badge pill v-for="(tag,id) in item.tags.edges" v-bind:key="id" variant="tag" class="mr-1">{{tag.node.tagId}}</b-badge>
@@ -64,20 +64,22 @@
                                                 </div>
 
                                                 <div class="mt-1">
-                                                    <span class="">Created {{ timedeltafordate(item.created) }} ago</span>
+                                                     <span class="data_label mr-1 mt-0">Created </span>
+                                                    <span class=""> {{ timedeltafordate(item.created) }} ago</span>
                                                 </div>
 
                                                 <div class="mt-1">
-                                                    <div class="data_label">
-                                                        Recent Sessions
-                                                    </div>
-                                                    <div class="ml-0 pl-3 " v-if="item.recentSessions.length ==0">None</div>
-                                                    <div class="ml-0 pl-3" v-for="(session, widx) in item.recentSessions" v-bind:key="widx">
-                                                         <b-link class="" :to="`/session/view/${session.ident}`">{{ session.envSpecId }} ({{session.ident}}) <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"> <i  class="fas fa-cubes" title="multiagent" ></i> </span> <i v-if="session.status=='RUNNING'" class="fa fa-running" style="color: green"></i>
-                                                        </b-link> 
-                                                        <div class="ml-4">
-                                                        <b-link v-if="session.parentSessionId" class="" :to="`/session/view/${session.parentSessionId}`" title="parent session"><i  class="fas fa-cubes" title="multiagent" ></i> {{session.parentSessionId}}</b-link> 
-                                                        </div>
+                          
+                                                    <div class="ml-0 pl-0 " v-if="item.recentSessions.length ==0">None</div>
+                                                    <div class="ml-2 pl-0" v-for="(session, widx) in item.recentSessions" v-bind:key="widx">
+                                                        <i v-if="session.status=='RUNNING'" class="fa fa-circle" style="color:green"></i> 
+                                                        <i v-else class="fa fa-circle"></i> 
+                                                        
+                                                        <b-link class="ml-2" :to="`/session/view/${session.ident}`">{{ session.envSpecId }} ({{session.ident}}) <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"> <i class="fas fa-cubes" title="multiagent"></i> </span>
+                                                        </b-link>
+                                                        <span class="ml-4">
+                                                            <b-link v-if="session.parentSessionId" class="" :to="`/session/view/${session.parentSessionId}`" title="parent session"><i class="fas fa-cubes" title="multiagent"></i> {{session.parentSessionId}}</b-link>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </b-col>
@@ -89,7 +91,7 @@
 
                                     <b-button-toolbar class="mr-auto">
                                         <b-button title="Assign Task" variant="dark" class="mr-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-button>
-                                        
+
                                     </b-button-toolbar>
 
                                 </template>
@@ -110,13 +112,13 @@
                     <b-col>
                         No Active Agents Available
                         <div class="mt-4">
-                            </div>
+                        </div>
                     </b-col>
                 </b-row>
             </div>
 
         </div>
-        <b-row >
+        <b-row>
             <b-col>
 
                 <div>
@@ -138,33 +140,12 @@ import {
 
 import {
     timedeltafordate,
-timepretty,
+    timepretty,
     timelength
 } from "../funcs";
-const GET_RECENT_AGENTS = gql `
-  {
-    recentAgents {
-      ident
-      created
-      specId
-      tags{
-          edges{
-              node{
-                  id
-                  tagId
-              }
-          }
-      }
-      recentSessions {
-        ident
-        status
-        envSpecId
-        sessionType
-        parentSessionId
-      }
-    }
-  }
-`;
+
+import {GET_RECENT_AGENTS} from "../queries";
+
 import AgentSpecs from "../components/AgentSpecs.vue";
 import AgentNew from "../components/AgentNew.vue";
 
@@ -206,8 +187,8 @@ export default {
         },
     },
     methods: {
-        
-timedeltafordate,
+
+        timedeltafordate,
         agentCreated(agentId) {
             this.$router.push({
                 path: `/agent/view/${agentId}`,

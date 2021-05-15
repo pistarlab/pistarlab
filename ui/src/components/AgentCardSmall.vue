@@ -1,27 +1,21 @@
 <template>
 <div v-if="agent">
-    <div class="text-center" style="height:320px">
-
-        <div>
-            <b-link :to="`/agent/view/${agent.ident}`">{{ agent.ident }}</b-link>
-        </div>
+<b-card>
+        <div class="h4 text-center">
         <b-link :to="`/agent/view/${agent.ident}`">
-            <b-card-img height="240px" :src="`/img/agent_cons/${getImageId(agent.ident)}.SVG`" alt="Image" class="rounded-0 svgagent"></b-card-img>
+        <div class="">{{ agent.ident }}</div>
+        <b-img  style="max-height:200px;" :src="`/img/agent_cons/${getImageId(agent.ident)}.SVG`" alt="Image" class="rounded-0 svgagent" ></b-img> 
+            
         </b-link>
+        </div>
 
-        <div>
+        <div class="text-center">
 
-            <span class="data_label mr-1 mt-0">Type:</span>
             <span class="">
                 <b-link :to="`/agent_spec/${agent.specId}`">{{ agent.specId }}</b-link>
             </span>
         </div>
-        <div>
-            <span class="data_label mr-1 mt-1">Created :</span>
-            <span class="">{{ agent.created }}</span>
-        </div>
-
-    </div>
+</b-card>
 </div>
 </template>
 

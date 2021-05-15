@@ -24,10 +24,12 @@ const GET_SESSION = gql `
     ident
     envSpecId
     envSpec {
-    id
+        id
+        displayedName
       environment {
         id
         ident
+        displayedName
       }
     }
     sessionType

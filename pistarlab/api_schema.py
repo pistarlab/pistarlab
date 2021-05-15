@@ -338,7 +338,7 @@ class Query(graphene.ObjectType):
     recent_agents = graphene.List(lambda: Agent, limit=graphene.Int())
 
     @staticmethod
-    def resolve_recent_agents(parent, info, limit=8):
+    def resolve_recent_agents(parent, info, limit=12):
         query = Agent.get_query(info).filter(db.AgentModel.archived == False)
         return query.order_by(db.AgentModel.created.desc()).limit(limit).all()
 

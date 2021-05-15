@@ -13,18 +13,18 @@
             <pre v-if="item && item.meta">{{ JSON.parse(item.meta) }}</pre>
         </b-modal>
 
-        <b-modal id="modal-publish-snapshot" title="Publish Snapshot" size="lg">
+        <b-modal id="modal-publish-snapshot" title="Create Snapshot" size="lg">
 
             <label for="snapshot_description">Description:</label>
             <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
             <div class="mt-1"></div>
             <label for="snapshot_version">Version:</label>
             <b-form-input id="snapshot_version" v-model="snapshot_version" placeholder="Enter the snapshot version." trim></b-form-input>
-            <b-button class="mt-2" variant="secondary" v-on:click="publish()" size="sm">Publish</b-button>
+            <b-button class="mt-2" variant="secondary" v-on:click="publish()" size="sm">Save</b-button>
 
             <hr />
             <div class="mt-2"></div>
-            <h3>Published Snapshots</h3>
+            <h3>Available Snapshots</h3>
             <div class="mt-2"></div>
             <b-table :items="snapshots" :fields="pubfields">
             </b-table>
@@ -40,13 +40,15 @@
         <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
         <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm">Configuration</b-button>
         <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm">Metadata</b-button>
-        <b-button variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm">Publish</b-button>
+        <b-button variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm">Create Snapshot</b-button>
         <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm">Assign Task</b-button>
         <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
         <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
 
         <div class="mt-4"></div>
-
+        <b-modal id="errorbox" size="xl">
+         <b-alert show v-if="error != null" variant="danger"><pre>{{error}}</pre><pre>{{traceback}}</pre></b-alert>
+        </b-modal>
         <AgentCard v-if="item" :agent="item" @update="refetch()"></AgentCard>
 
         <b-card title="Session History">
@@ -271,7 +273,7 @@ export default {
                 }
             ],
             graphList: [],
-            error: "",
+            error: null,
             item: {},
             timer: null
         };
@@ -374,6 +376,7 @@ export default {
                 .catch((e) => {
                     this.error = e;
                     this.message = this.error;
+                    this.$bvModal.show("errorbox")
                 });
         },
         loadSnapshotList() {
@@ -439,6 +442,7 @@ export default {
                 .catch((e) => {
                     console.log(e);
                     this.error = e;
+                    this.$bvModal.show("errorbox")
                 });
         },
 
@@ -450,6 +454,8 @@ export default {
 
             }
             console.log(JSON.stringify(outgoingData, null, 2))
+            this.error = null
+            this.traceback= null
             axios
                 .post(`${appConfig.API_URL}/api/snapshot/publish`, outgoingData)
                 .then((response) => {
@@ -458,7 +464,8 @@ export default {
                         console.log("Snapshot Result: " + JSON.stringify(data['snapshot_data']));
                     } else {
                         console.log("ERROR in response " + JSON.stringify(data));
-                        this.errorMessage = JSON.stringify(data["error"]);
+                        this.error = data['error'];
+                        this.$bvModal.show("errorbox")
                     }
                     this.traceback = data["traceback"];
 
@@ -466,7 +473,7 @@ export default {
                     this.loadSnapshotList()
                 })
                 .catch(function (error) {
-                    this.errorMessage = error;
+                    this.error = error;
                     this.submitting = false;
                 });
         },

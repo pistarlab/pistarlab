@@ -1,9 +1,3 @@
-
-
-
-
-
-
 function timelength(mills) {
   
     const secs = mills / 1000;
@@ -36,7 +30,6 @@ function timelength(mills) {
 function timedeltafordate(v) {
     
     const mills = (new Date()) - (new Date(v+"Z"));
-    console.log(mills)
     return timelength(mills)
 }
 
@@ -78,6 +71,9 @@ function numberToString(x) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
+function getImageId(uid) {
+  let id = parseInt(uid.split("-")[1]);
+  return id % 19;
+}
 
-
-export {timedelta,timedeltafordate, timepretty, uidsort,timelength, formatNum, numberToString};
+export {getImageId, timedelta,timedeltafordate, timepretty, uidsort,timelength, formatNum, numberToString};
