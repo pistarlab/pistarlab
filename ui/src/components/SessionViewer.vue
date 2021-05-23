@@ -52,14 +52,14 @@
                 <b-alert v-if="message" show variant="warning">{{ message }}</b-alert>
 
                 <div>
-                                 <div class="data_label">Session Id</div>
+                    <div class="data_label">Session</div>
                     <h1>{{item.ident}} </h1>
                 </div>
                 <div class="mt-3">
                     <hr />
                 </div>
 
-                <div class="data_label">Parent Id</div>
+                <div class="data_label">Parent</div>
                 <div class="stat_value" v-if="parentSessionId">
                     <router-link :to="`/session/view/${parentSessionId}`">{{parentSessionId}}</router-link>
 
@@ -72,7 +72,7 @@
                 </div>
 
                 <div>
-                    <div class="data_label">Task Id</div>
+                    <div class="data_label">Task</div>
                     <span class="stat_value">
                         <router-link :to="`/task/view/${task.ident}`">{{
                     task.ident
@@ -85,15 +85,15 @@
                 <div>
                     <div class="data_label">State</div>
                     <span class="stat_value" v-if="item.status=='RUNNING'" style="color:green;font-weight:600">{{ item.status }}</span>
-                    <span class="stat_value" v-else>{{ item.status }}</span>
+                    <span class="stat_value" v-else  style="color:red;font-weight:600">{{ item.status }}</span>
                 </div>
                 <div class="mt-3">
                 </div>
 
                 <div>
 
-                    <div class="data_label ">Creation Time</div>
-                    <span class="stat_value">{{ item.created }}</span>
+                    <div class="data_label ">Created</div>
+                    <span class="stat_value">{{ timedeltafordate(item.created) }} ago</span>
                 </div>
 
                 <div class="mt-3">
@@ -141,7 +141,7 @@
                                     </span>
 
                                     <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i> Episode {{ maxEpisode }}</b-button>
-                                     <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i></b-button>
+                                    <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i></b-button>
                                 </div>
 
                                 <div class="mt-2">
@@ -298,6 +298,7 @@ import {
     timedelta,
     timepretty,
     numberToString,
+    timedeltafordate,
     formatNum
 } from "../funcs";
 import AgentCardSmall from "../components/AgentCardSmall.vue";
@@ -450,6 +451,7 @@ export default {
         },
         timedelta,
         timelength,
+        timedeltafordate,
         numberToString,
         formatNum,
         getImageId(uid) {

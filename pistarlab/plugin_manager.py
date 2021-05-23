@@ -210,6 +210,8 @@ class PluginManager:
                 plugins = open_json_file(repo_path)
             elif source["type"] in ["workspace","path"]:               
                 plugins = load_plugins_from_path(source["path"])
+                for plugin in plugins:
+                    plugin['full_path'] = os.path.join(source['path'],plugin['id'])
             if plugins is not None:
                 for plugin in plugins:
                     plugin["source"] = source

@@ -143,6 +143,7 @@ export default {
                     idents: this.uids,
                 };
             },
+            pollInterval: 3000
         },
     },
     data() {
@@ -224,22 +225,23 @@ export default {
                         r: 25,
                         b: 25
                     }
-                    graphData.layout.font={
-                        color: "rgba(200,200,200,1)"}
-                    graphData.layout.plot_bgcolor= "rgba(0,0,0,0)";
-                    graphData.layout.paper_bgcolor= "rgba(0,0,0,0)";
-                                                graphData.layout.yaxis = {
+                    graphData.layout.font = {
+                        color: "rgba(200,200,200,1)"
+                    }
+                    graphData.layout.plot_bgcolor = "rgba(0,0,0,0)";
+                    graphData.layout.paper_bgcolor = "rgba(0,0,0,0)";
+                    graphData.layout.yaxis = {
 
-                                "gridcolor": "rgba(200,200,200,0.25)",
-                                "gridwidth": 1,
+                        "gridcolor": "rgba(200,200,200,0.25)",
+                        "gridwidth": 1,
 
-                            }
-                            graphData.layout.xaxis = {
+                    }
+                    graphData.layout.xaxis = {
 
-                                "gridcolor": "rgba(200,200,200,0.25)",
-                                "gridwidth": 1,
+                        "gridcolor": "rgba(200,200,200,0.25)",
+                        "gridwidth": 1,
 
-                            }
+                    }
                     graphData.layout.height = 250
                     graphData.config = graphItem;
                     graphItem.graphData = graphData;
@@ -247,31 +249,7 @@ export default {
 
                 })
             });
-        },
-        loadGraphsOld() {
-            this.graphList.forEach((graphItem, idx) => {
-                this.uids.split(",").forEach((uid) => {
-                    axios
-                        .get(
-                            `${appConfig.API_URL}/api/session_plots_json/${uid}/${graphItem.group}/${graphItem.value}`
-                        )
-                        .then((response) => {
-                            const graph = response.data;
-                            const graphData = {};
-
-                            graphData.data = [graph.data];
-                            graphData.layout = graph.layout;
-                            graphData.config = graphItem;
-                            graphItem.graphData = graphData;
-                            this.$set(this.graphList, idx, graphItem);
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                            this.error = e;
-                        });
-                });
-            });
-        },
+        }
     },
 
     computed: {
@@ -283,7 +261,11 @@ export default {
     created() {
         //
         this.loadGraphs()
+        this.timer = setInterval(this.loadGraphs, 3000);
     },
+    beforeDestroy() {
+        clearInterval(this.timer);
+    }
 };
 </script>
 

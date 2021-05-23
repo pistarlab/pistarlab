@@ -1,33 +1,35 @@
 <template>
 <div>
+    <h1><i class="fa fa-cogs"></i> Plugins</h1>
+    <div class="mt-4"></div>
 
     <b-modal id="modal-logviewer" title="Plugin Manager Logs" size="lg">
         <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/plugin_manager`"> </LogViewer>
     </b-modal>
+    <div v-if="!managePluginId">
+        <b-navbar toggleable="lg" type="light" variant="alert">
+            Status:
+            <b-button-group>
+                <b-button :pressed="selectedStatus==''" size="sm" variant="primary" @click="updateStatusFilter('')">Any</b-button>
+                <b-button :pressed="selectedStatus=='installed'" size="sm" variant="primary" @click="updateStatusFilter('installed')">Installed</b-button>
+                <b-button :pressed="selectedStatus=='avail'" size="sm" variant="primary" @click="updateStatusFilter('avail')">Not Installed</b-button>
 
-    <b-navbar toggleable="lg" type="light" variant="alert">
-        Status:
-        <b-button-group>
-            <b-button :disabled="selectedStatus==''" size="sm" variant="primary" @click="updateStatusFilter('')">Any</b-button>
-            <b-button :disabled="selectedStatus=='installed'" size="sm" variant="primary" @click="updateStatusFilter('installed')">Installed</b-button>
-            <b-button :disabled="selectedStatus=='avail'" size="sm" variant="primary" @click="updateStatusFilter('avail')">Not Installed</b-button>
-
-        </b-button-group>
-        <b-form-input v-model="searchtext" placeholder="Search Plugins" style="width:250px;" class='ml-2'></b-form-input>
-        <!-- <span class="mr-2 ml-5">Category Filter:</span> -->
-        <!-- <b-button-group size="sm">
+            </b-button-group>
+            <b-form-input v-model="searchtext" placeholder="Search Plugins" style="width:250px;" class='ml-2'></b-form-input>
+            <!-- <span class="mr-2 ml-5">Category Filter:</span> -->
+            <!-- <b-button-group size="sm">
             <b-button class="mr-2" v-for="(btn, idx) in filterCategories" :key="idx" :pressed.sync="btn.state"  @click="updateList()" variant="info" pill>{{ btn.caption }} </b-button>
    
         </b-button-group> -->
-        <b-button class="ml-auto mr-2" v-b-modal:modal-logviewer size="sm" variant="info"><i class="fa fa-bug"></i> View Logs</b-button>
+            <b-button class="ml-auto mr-2" v-b-modal:modal-logviewer size="sm" variant="info"><i class="fa fa-bug"></i> View Logs</b-button>
 
-    </b-navbar>
-    <b-navbar toggleable="lg" type="light" variant="alert">
+        </b-navbar>
+        <b-navbar toggleable="lg" type="light" variant="alert">
 
-        <b-form-checkbox class="ml-2" switch v-model="onlyWorkspacePlugins">Show only Workspace Plugins</b-form-checkbox>
+            <b-form-checkbox class="ml-2" switch v-model="onlyWorkspacePlugins">Show only Workspace Plugins</b-form-checkbox>
 
-    </b-navbar>
-
+        </b-navbar>
+    </div>
     <div class="mt-4"></div>
 
     <div v-if="Object.keys(filteredPlugins).length >0">
@@ -36,15 +38,12 @@
                 <b-row>
                     <b-col>
                         <div>
-                            <h4>
-                                {{item.name}}
-                            </h4>
+
+                                <h4>{{item.name}}</h4>
+
                         </div>
                     </b-col>
                     <b-col>
-                        <span v-if="item.source.name == 'Workspace'">
-                            <b-badge pill variant="warning"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
-                        </span>
 
                     </b-col>
                     <b-col>
@@ -63,7 +62,18 @@
                         </div>
                     </b-col>
                 </b-row>
-                                <b-row>
+                                <b-row v-if="item.source.name == 'Workspace'" class="mb-2">
+                    <b-col cols=1 class="text-right">
+                        <b-badge pill variant="warning"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
+
+                    </b-col>
+                    <b-col>
+                        <span style="color:yellow">{{item.full_path}}</span>
+
+                    </b-col>
+                </b-row>
+
+                <b-row>
                     <b-col>
 
                         <div class="ml-2">
@@ -172,8 +182,9 @@ export default {
     components: {
         LogViewer
     },
-    props :{
-        showWorkspacePlugins:Boolean
+    props: {
+        showWorkspacePlugins: Boolean,
+        managePluginId: String
     },
     data() {
         return {
@@ -205,18 +216,24 @@ export default {
 
     computed: {
         filteredPlugins() {
-
-            if (this.selectedStatus == 'installed') {
+            if (this.managePluginId) {
                 return this.filtered.filter(plugin => {
-                    return plugin.status != "AVAILABLE";
-                })
-
-            } else if (this.selectedStatus == 'avail') {
-                return this.filtered.filter(plugin => {
-                    return plugin.status == "AVAILABLE" || plugin.status == "INSTALLING" || plugin.status == "INSTALL_FAILED" || plugin.status == "UNINSTALL_FAILED";
+                    return plugin.id == this.managePluginId;
                 })
             } else {
-                return this.filtered
+
+                if (this.selectedStatus == 'installed') {
+                    return this.filtered.filter(plugin => {
+                        return plugin.status != "AVAILABLE";
+                    })
+
+                } else if (this.selectedStatus == 'avail') {
+                    return this.filtered.filter(plugin => {
+                        return plugin.status == "AVAILABLE" || plugin.status == "INSTALLING" || plugin.status == "INSTALL_FAILED" || plugin.status == "UNINSTALL_FAILED";
+                    })
+                } else {
+                    return this.filtered
+                }
             }
         },
 
@@ -262,7 +279,6 @@ export default {
         getPluginKey(pluginId, pluginVersion) {
             return `${pluginId}__v${pluginVersion}`
         },
-
 
         updateList(btn) {
             this.loadData();
@@ -316,6 +332,16 @@ export default {
                 });
             this.loadData();
         },
+        openLink(url) {
+            console.log(url)
+            this.$router.push({
+                path: url
+            }).catch((x) => {
+                //
+            });
+            this.$emit("hide")
+
+        },
         loadData() {
 
             axios
@@ -335,10 +361,10 @@ export default {
     },
     // Fetches posts when the component is created.
     created() {
-        console.log("HI")
-        if (this.showWorkspacePlugins){
-            this.onlyWorkspacePlugins=true
+        if (this.showWorkspacePlugins) {
+            this.onlyWorkspacePlugins = true
         }
+        this.selectedStatus = "installed"
         // if (this.category) {
         //     console.log(this.category);
         //     this.filterCategories[this.category]["state"] = true;

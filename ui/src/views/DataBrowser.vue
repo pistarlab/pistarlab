@@ -8,14 +8,13 @@
             <span v-else>Root</span>
         </div>
     </h3>
-            <b-alert show variant="warning">Warning: This interface is buggy. If not working, close and try again.</b-alert>
-
     <b-link v-if="urlFilePath" @click="updateURL(parentLink)">Up</b-link>
     <div class="pt-2"></div>
 
     <b-table striped hover :items="itemList" :fields="fields" :dark="false" :small="true">
         <template v-slot:cell(name)="data">
-            <b-link @click="updateURL(`${urlFilePath}${data.item.name}`)">{{ data.item.name }}</b-link>
+            <b-link  @click="updateURL(`${urlFilePath}${data.item.name}`,data.item.is_dir)">{{ data.item.name }}</b-link>
+            
         </template>
     </b-table>
 
@@ -91,18 +90,24 @@ export default {
         }
     },
     methods: {
-        updateURL(newUrlPath) {
+        updateURL(newUrlPath,is_dir) {
             if (!newUrlPath || newUrlPath == "/") {
                 newUrlPath = "";
             }
-            this.urlFilePath = newUrlPath
-            this.fetchData()
+            if (is_dir){
+                this.urlFilePath = newUrlPath
+            }
+            
+            this.fetchData(newUrlPath)
 
         },
-        fetchData() {
+
+        fetchData(url) {
+            let fullURL = `${appConfig.API_URL}/api/browser/` + url
+
 
             axios
-                .get(`${appConfig.API_URL}/api/browser/` + this.urlFilePath)
+                .get(fullURL)
                 .then(response => {
                     if ("itemList" in response.data) {
                         this.itemList = response.data["itemList"];
@@ -110,7 +115,7 @@ export default {
                     } else if ("downloadURL" in response.data) {
                         window.open(`${appConfig.API_URL}` + response.data["downloadURL"]);
                     } else {
-                        console.log("ERORR");
+                        console.log(`ERROR ${fullURL}`);
                     }
                 })
                 .catch(e => {

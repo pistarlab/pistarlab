@@ -169,7 +169,6 @@ export default {
             searchQuery: "",
             itemsPerRow: 3,
             n: 13,
-
             error: "",
             taskEntities: [],
         };

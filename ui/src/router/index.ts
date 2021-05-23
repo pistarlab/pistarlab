@@ -81,9 +81,14 @@ const routes: Array<RouteConfig> = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/PluginHome.vue'),
-        props: true
+        props: (route) => ({
+            category: route.params.category,
+            showWorkspacePlugins: route.query.episodeId,
+            managePluginId: route.query.managePluginId
+        })
 
     }
+
     ,
     {
         path: '/task/specs',

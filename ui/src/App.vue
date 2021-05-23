@@ -9,11 +9,7 @@
         <div class="mb-5"></div>
     </b-modal>
 
-    <b-modal id="plugin-manager" size="xl" title="Plugins" scrollable :hide-footer="true">
-        <PluginManager :showWorkspacePlugins="false"></PluginManager>
-        <div class="mb-5"></div>
 
-    </b-modal>
 
     <b-modal id="sessions" size="xl" title="Sessions" scrollable :hide-footer="true">
         <Sessions></Sessions>
@@ -86,18 +82,16 @@
                 <i class="fa fa-plus"></i>
             </b-nav-item>
             <b-tooltip target="launchbutton" triggers="hover">
-                    Launch a new Task
-                </b-tooltip>
+                Launch a new Task
+            </b-tooltip>
             <b-nav-item class="mr-1" v-b-modal.sessions>
                 <i title="Sessions" class="fa fa-cubes"></i> Sessions
             </b-nav-item>
-            
+
             <b-nav-item class="mr-1" v-b-modal.task-manager>
                 <i title="Task Manager" class="fa fa-tasks"></i> Tasks
             </b-nav-item>
-            <b-nav-item class="mr-1" v-b-modal.plugin-manager>
-                <i title="Plugins" class="fa fa-cogs"></i> Plugins
-            </b-nav-item>
+ 
 
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
@@ -125,10 +119,16 @@
                  <b-tooltip target="idebutton" triggers="hover">
                     Launch IDE
                 </b-tooltip> -->
-
+            <b-nav-text class="ml-auto appstatus-disconnected" title="Disconnected from Server" v-if="!connected">
+                <i class="fas fa-exclamation-triangle"></i> Disconnected
+            </b-nav-text>
+            <b-nav-text class="ml-auto appstatus" title="Connected" v-else>
+                <i class="fa fa-plug"></i> Connected
+            </b-nav-text>
             <b-nav-item title="Settings" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>
             </b-nav-item>
+
         </b-navbar-nav>
 
     </b-navbar>
@@ -140,7 +140,6 @@
 import axios from "axios";
 import TaskHome from "./views/TaskHome.vue";
 import DataBrowser from "./views/DataBrowser.vue";
-import PluginManager from "./views/PluginHome.vue";
 import Sessions from "./views/SessionHome.vue";
 import Settings from "./views/Preferences.vue";
 import TaskSpecs from "./views/TaskSpecs.vue";
@@ -155,7 +154,6 @@ export default {
     components: {
         TaskHome,
         DataBrowser,
-        PluginManager,
         Sessions,
         Settings,
         TaskSpecs
@@ -222,11 +220,11 @@ export default {
                     title: "",
                     header: true,
                 },
-                // {
-                //     href: "/task/home",
-                //     title: "Tasks",
-                //     icon: "fas fa-stream",
-                // },
+                {
+                    href: "/plugin/home",
+                    title: "Plugins",
+                    icon: "fas fa-cogs",
+                },
                 // {
                 //     href: "/session/home",
                 //     title: "Sessions",
@@ -270,7 +268,9 @@ export default {
             logdata: [],
             logInit: false,
             ideWindow: null,
-            readOnlyMode: false
+            readOnlyMode: false,
+
+            connected: false
         };
     },
     mounted() {
@@ -315,6 +315,16 @@ export default {
                 this.collapsed = false;
             }
         },
+        getServerStatus() {
+            axios
+                .get(`${appConfig.API_URL}/api/status/`)
+                .then((response) => {
+                    this.connected = true;
+                })
+                .catch((error) => {
+                    this.connected = false;
+                });
+        }
 
     },
     created: function () {
@@ -322,7 +332,12 @@ export default {
         fetchSettings().then(settings => {
             this.readOnlyMode = settings.sys_config.read_only_mode
         })
-        //
+
+        this.getServerStatus()
+        this.timer = setInterval(this.getServerStatus, 3000);
+    },
+    beforeDestroy() {
+        clearInterval(this.timer);
     },
     props: {
         width: {
@@ -366,10 +381,7 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-
-
-}
+h6 {}
 
 h1 {
     font-size: 1.8rem;
@@ -459,9 +471,10 @@ td {
     color: #9f9f9f !important;
 }
 
-hr{
+hr {
     border-color: #666;
 }
+
 .vsm--link.vsm--link_level-1:hover {
     color: #fff !important;
     /* background-color: #4285f4 !important; */
@@ -729,13 +742,26 @@ button .default {
 
 .corneritem a {
     width: 50px;
+    background-color: #1d8cf8 !important;
+
     text-align: center;
     /* background-color: #0069d9 !important; */
 }
 
 .corneritem:hover a {
-    background-color: #1d8cf8 !important;
-    border-radius: 4px;
+    background-color: #429bf3 !important;
+}
+
+.appstatus {
+    background-color: #179e2d !important;
+    margin: 0px 0px !important;
+    padding: 5px 10px !important;
+}
+
+.appstatus-disconnected {
+    color: #ffdd1d !important;
+    margin: 0px 0px !important;
+    padding: 5px 10px !important;
 }
 
 .navbar-nav li {

@@ -113,6 +113,9 @@ def api_admin_data():
     data['gpu_info'] = ctx.get_gpu_info()
     data['pistar_config'] = ctx.config.__dict__
 
+    data['pistar_config']['redis_password'] = "HIDDEN"
+    data['pistar_config']['db_config']['db_password'] = "HIDDEN"
+
     try:
         data['tensorflow_status'] = ctx.check_tensorflow_status()
     except Exception as e:
@@ -132,6 +135,26 @@ def api_admin_data():
 def api_workspace_data():
     workspace = ctx.get_workspace_info()
     response = make_response({'data': workspace})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+@app.route("/api/overview/")
+def api_overview_data():
+    # TODO: Cleanup/speedup by using COUNT query
+    data = {}
+    data['total_agents'] = len(ctx.list_agents())
+    data['total_agent_specs'] = len(ctx.list_agent_specs())
+    data['total_env_specs'] = len(ctx.list_env_specs())
+    data['total_installed_plugins'] = len(ctx.list_plugins(status_filter="INSTALLED"))
+    data['total_sessions'] = len(ctx.list_sessions())
+    response = make_response(data)
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+@app.route("/api/status/")
+def api_status_data():
+    data = {}
+    response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -200,6 +223,12 @@ def api_plugins_list():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+@app.route("/api/plugin/view/<plugin_id>")
+def api_plugin_view(plugin_id):
+    results = ctx.plugin_manager.get_plugins_by_id(plugin_id)[0]
+    response = make_response({'item': results})
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 @app.route("/api/plugins/action/<action_name>/<plugin_id>/<plugin_version>")
 @not_in_readonly_mode

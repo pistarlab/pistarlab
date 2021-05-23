@@ -37,7 +37,8 @@ class SysConfig:
             execution_context_config,
             enable_cluster,
             streamer_uri=None,
-            read_only_mode=False):
+            read_only_mode=False,
+            enable_ide=False):
 
         self.root_path: str = root_path
         self.data_path: str = data_path
@@ -46,7 +47,9 @@ class SysConfig:
         self.workspace_path: str = workspace_path
         self.log_root = log_root
 
+        self.enable_ide = enable_ide
         self.enable_cluster = enable_cluster
+        
 
         self.local_snapshot_path = os.path.join(self.root_path, "snapshot_repo")
         self.snapshot_index_path = os.path.join(self.root_path, 'snapshot_index.json')
@@ -96,7 +99,8 @@ def get_sys_config(root_path=None):
         "read_only_mode": False,
         "redis_hostname": "localhost",
         "redis_port": "7771",
-        "redis_password": DEFAULT_REDIS_PASSWORD
+        "redis_password": DEFAULT_REDIS_PASSWORD,
+        "enable_ide": False,
     }
 
     # config['execution_context_config']['_redis_password'] = DEFAULT_REDIS_PASSWORD

@@ -15793,7 +15793,7 @@
     padding: 10px 30px 10px 15px;
     width: 100%;
     z-index: 1000;
-    background: #161b22;
+    /* background: #161b22; */
   }
   
   .navbar .photo {
