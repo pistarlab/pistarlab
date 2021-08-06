@@ -7,6 +7,7 @@ const GET_RECENT_AGENTS = gql`
     ident
     created
     specId
+    lastCheckpoint
     tags{
         edges{
             node{
@@ -21,6 +22,7 @@ const GET_RECENT_AGENTS = gql`
       envSpecId
       sessionType
       parentSessionId
+      
     }
   }
 }

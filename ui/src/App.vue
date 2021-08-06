@@ -205,11 +205,11 @@ export default {
                     icon: "fas fa-robot",
                 },
 
-                {
-                    href: "/component_spec/home",
-                    title: "Components",
-                    icon: "fa fa-sitemap",
-                },
+                // {
+                //     href: "/component_spec/home",
+                //     title: "Components",
+                //     icon: "fa fa-sitemap",
+                // },
 
                 {
                     href: "/env/home",
@@ -224,7 +224,14 @@ export default {
                     href: "/plugin/home",
                     title: "Plugins",
                     icon: "fas fa-cogs",
-                },
+                }
+                // ,
+                //                 {
+                //     href: "",
+                //     title: "Leaderboard(TODO)",
+                //     icon: "fa fa-trophy"}
+
+                // },
                 // {
                 //     href: "/session/home",
                 //     title: "Sessions",

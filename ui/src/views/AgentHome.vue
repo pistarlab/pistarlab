@@ -13,6 +13,7 @@
             <AgentSpecs @specSelected="newAgentModal($event)"></AgentSpecs>
         </b-modal>
         <b-button variant="primary" size="sm" v-b-modal:agentspecs>New</b-button>
+        <b-button class="ml-2" size="sm" v-b-toggle="`sess_group`">Toggle Sessions</b-button>
     </b-button-toolbar>
     <div class="mt-4"></div>
 
@@ -64,24 +65,27 @@
                                                 </div>
 
                                                 <div class="mt-1">
-                                                     <span class="data_label mr-1 mt-0">Created </span>
+                                                    <span class="data_label mr-1 mt-0">Created </span>
                                                     <span class=""> {{ timedeltafordate(item.created) }} ago</span>
                                                 </div>
+                                               
+                                                    <b-collapse id="sess_group" class="mt-2">
+                                                        <div class="mt-1">
+                                                        <div class="ml-0 pl-0 " v-if="item.recentSessions.length ==0">None</div>
+                                                        <div class="ml-2 pl-0" v-for="(session, widx) in item.recentSessions" v-bind:key="widx">
+                                                            <i v-if="session.status=='RUNNING'" class="fa fa-circle" style="color:green"></i>
+                                                            <i v-else class="fa fa-circle"></i>
 
-                                                <div class="mt-1">
-                          
-                                                    <div class="ml-0 pl-0 " v-if="item.recentSessions.length ==0">None</div>
-                                                    <div class="ml-2 pl-0" v-for="(session, widx) in item.recentSessions" v-bind:key="widx">
-                                                        <i v-if="session.status=='RUNNING'" class="fa fa-circle" style="color:green"></i> 
-                                                        <i v-else class="fa fa-circle"></i> 
-                                                        
-                                                        <b-link class="ml-2" :to="`/session/view/${session.ident}`">{{ session.envSpecId }} ({{session.ident}}) <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"> <i class="fas fa-cubes" title="multiagent"></i> </span>
-                                                        </b-link>
-                                                        <span class="ml-4">
-                                                            <b-link v-if="session.parentSessionId" class="" :to="`/session/view/${session.parentSessionId}`" title="parent session"><i class="fas fa-cubes" title="multiagent"></i> {{session.parentSessionId}}</b-link>
-                                                        </span>
-                                                    </div>
+                                                            <b-link class="ml-2" :to="`/session/view/${session.ident}`">{{ session.envSpecId }} ({{session.ident}}) <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"> <i class="fas fa-cubes" title="multiagent"></i> </span>
+                                                            </b-link>
+                                                            <span class="ml-4">
+                                                                <b-link v-if="session.parentSessionId" class="" :to="`/session/view/${session.parentSessionId}`" title="parent session"><i class="fas fa-cubes" title="multiagent"></i> {{session.parentSessionId}}</b-link>
+                                                            </span>
+                                                        </div>
+
                                                 </div>
+                                                    </b-collapse>
+
                                             </b-col>
                                         </b-row>
 
@@ -91,6 +95,8 @@
 
                                     <b-button-toolbar class="mr-auto">
                                         <b-button title="Assign Task" variant="dark" class="mr-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-button>
+                                                                                            
+
 
                                     </b-button-toolbar>
 
@@ -141,10 +147,13 @@ import {
 import {
     timedeltafordate,
     timepretty,
-    timelength
+    timelength,
+    timedelta
 } from "../funcs";
 
-import {GET_RECENT_AGENTS} from "../queries";
+import {
+    GET_RECENT_AGENTS
+} from "../queries";
 
 import AgentSpecs from "../components/AgentSpecs.vue";
 import AgentNew from "../components/AgentNew.vue";
@@ -188,6 +197,8 @@ export default {
     methods: {
 
         timedeltafordate,
+        timedelta,
+        timelength,
         agentCreated(agentId) {
             this.$router.push({
                 path: `/agent/view/${agentId}`,

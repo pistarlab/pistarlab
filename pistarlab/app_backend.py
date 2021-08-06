@@ -3,6 +3,7 @@ import logging
 import math
 import os
 import signal
+import subprocess
 import sys
 import time
 import traceback
@@ -147,6 +148,7 @@ def api_overview_data():
     data['total_env_specs'] = len(ctx.list_env_specs())
     data['total_installed_plugins'] = len(ctx.list_plugins(status_filter="INSTALLED"))
     data['total_sessions'] = len(ctx.list_sessions())
+    data['active_sessions'] = len(ctx.list_sessions(status_filter=set(STATE_RUNNING)))
     response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -172,6 +174,46 @@ def api_reload_default_data():
     response = make_response({'data': message})
     response.headers['Content-Type'] = 'application/json'
     return response
+
+@app.route("/api/open_plugin_with_ide/<plugin_id>")
+@not_in_readonly_mode
+def open_plugin_with_ide(plugin_id):
+    workspace = ctx.get_workspace_info()
+    selected_plugin = None
+    for plugin in workspace['plugins']:
+        if plugin['id'] == plugin_id:
+            selected_plugin = plugin
+            break
+
+    success = False
+    if selected_plugin is not None:
+        plugin_path = selected_plugin['full_path']
+        try:
+            subprocess.check_output(f"code {plugin_path}", shell=True)
+            success = True
+        except Exception as e:
+            message = f"Failed to launch  VSCode {e}"
+
+
+    response = make_response({'success': success, "message":message})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+@app.route("/api/check_for_ide/")
+@not_in_readonly_mode
+def api_check_for_ide():
+    success = False
+    message =""
+    try:
+        output = subprocess.check_output(f"code --version", shell=True)
+        message = f"VS Code Found: {output}"
+        success = True
+    except Exception as e:
+        message = f"VSCode not found? Error: {e}"
+    response = make_response({'success': success, "message":message})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
 
 @app.route("/api/set_log_level/<level>")
 @not_in_readonly_mode

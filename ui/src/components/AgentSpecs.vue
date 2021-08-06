@@ -1,12 +1,11 @@
 <template>
 <div>
     <h3>Agent Specs</h3>
-
     <b-container fluid>
         <div v-if="$apollo.queries.agentSpecs.loading">Loading..</div>
         <div v-else-if="agentSpecs && agentSpecs.length > 0">
             <div v-for="item in agentSpecs" :key="item.id">
-                <b-row class="pt-4">
+                <b-row class="pt-4" v-if="!item.disabled">
 
                     <b-col class="">
                         <h3>

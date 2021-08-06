@@ -1,7 +1,11 @@
 <template>
 <div>
+    <div class="mt-2"></div>
+    <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;" class='ml-auto'></b-form-input>
+    <div class="mt-1"></div>
+
     <b-container fluid>
-        <div v-for="(spec,idx) in envSpecs" v-bind:key="idx">
+        <div v-for="(spec,idx) in envSpecList" v-bind:key="idx">
             <b-row>
                 <b-col>
                     <div>
@@ -14,6 +18,7 @@
                     </div>
                 </b-col>
             </b-row>
+
             <div class="mt-1"></div>
             <b-row>
                 <b-col class="">
@@ -76,6 +81,7 @@ const GET_ENV_SPECS = gql `
           pluginId
             version
             pluginVersion
+            disabled
       }
     }
   }
@@ -92,7 +98,8 @@ export default {
     data() {
         return {
             envSpecs: [],
-            selectedExistingAgent: null
+            selectedExistingAgent: null,
+            searchtext: ""
 
         };
     },
@@ -107,7 +114,20 @@ export default {
 
     },
     computed: {
-        //
+        envSpecList() {
+            if (this.envSpecs.length == 0) return [];
+            else {
+                if (this.searchtext != "") {
+                    return this.envSpecs.filter((v) =>
+                        !v.environment.disabled && v.displayedName.toLowerCase().includes(this.searchtext.toLowerCase())
+                    )
+                } else {
+                    return this.envSpecs.filter((v) =>  !v.environment.disabled )
+                    
+
+                }
+            }
+        }
 
     },
     // Fetches posts when the component is created.

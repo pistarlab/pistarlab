@@ -25,7 +25,7 @@
         <!-- <b-button title="Browse Data" class="mr-2" variant="secondary" :to="`/data_browser/?path=session/${uid}`" size="sm"><i class="fa fa-folder"></i> Browse Files</b-button> -->
 
         <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
-        <b-button v-if="item && !item.archived" variant="warning" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
+        <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
         <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Restore from Archive</b-button>
         <b-button-group class="ml-auto">
 

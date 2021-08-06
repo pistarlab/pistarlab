@@ -93,7 +93,7 @@
                     </b-col>
 
                 </b-row>
-                <hr />
+                <hr/>
             </div>
         </b-container>
 
@@ -156,12 +156,14 @@ export default {
                 categories
                 pluginVersion
                 version
+                disabled
                 specs {
                     id
                     ident
                     description
                     displayedName
                     tags
+                    
                     envType
                     entryPoint
                 }
@@ -192,7 +194,7 @@ export default {
         items() {
             if (this.environments.length == 0) return [];
             else {
-                let envs = this.environments.edges.map((v) => v.node);
+                let envs = this.environments.edges.map((v) => v.node).filter((v)=>!v.disabled);
                 if (this.searchtext!=""){
                     return envs.filter((v)=>
                         v.displayedName.toLowerCase().includes(this.searchtext.toLowerCase())

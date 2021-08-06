@@ -310,9 +310,13 @@ class PluginManager:
         with lock:
             for plugin in self.get_installed_plugins().values():
                 if plugin['status'] == "INSTALLED":
-                    self.logger.debug("Loading {}".format(plugin['id']))
-                    module_name = plugin.get('module_name', plugin['id'].replace('-', "_"))
-                    self._run_module_function(module_name, "load", kwargs=plugin.get("load_kwargs", {}))
+                    try:
+                        self.logger.debug("Loading {}".format(plugin['id']))
+                        module_name = plugin.get('module_name', plugin['id'].replace('-', "_"))
+                        self._run_module_function(module_name, "load", kwargs=plugin.get("load_kwargs", {}))
+                    except ModuleNotFoundError as e:
+                        logging.error(f"Unable to load plugin {plugin}")
+
 
     def update_plugin_status(self, plugin, state, msg=""):
         lock = FileLock(os.path.join(self.plugin_path, ".updating.lock"))
@@ -445,5 +449,9 @@ class PluginManager:
             return True
         except Exception as e:
             self.logger.error(e)
-            self.update_plugin_status(plugin, "UNINSTALL_FAILED", msg="{}\n{}".format(e, traceback.format_exc()))
-            return False
+            self.logger.info("Removing anyway")
+            self.remove_plugin_by_id(plugin_id)
+            return True
+            # self.logger.error(e)
+            # self.update_plugin_status(plugin, "UNINSTALL_FAILED", msg="{}\n{}".format(e, traceback.format_exc()))
+            # return False

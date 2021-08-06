@@ -7,8 +7,10 @@
         <AgentSpecs @specSelected="newAgentModal($event)"></AgentSpecs>
     </b-modal>
     <b-button-toolbar>
-    <b-button target="_blank" variant="primary" size="sm" v-b-modal:agentspecs>New Agent Instance</b-button>
-    <b-button variant="secondary" class="ml-auto" size="sm" @click="refreshAgents()">Refresh List  </b-button>
+        <b-button target="_blank" variant="primary" size="sm" v-b-modal:agentspecs>New Agent Instance</b-button>
+        <b-button variant="secondary" class="ml-auto" size="sm" @click="refreshAgents()">Refresh List </b-button>
+        <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;" class='ml-auto'></b-form-input>
+
     </b-button-toolbar>
     <div class="mt-4"></div>
     <div v-for="(agent,idx) in agents" v-bind:key="idx">
@@ -104,7 +106,8 @@ export default {
         return {
             allAgents: [],
             selectedExistingAgent: null,
-            selectedSpecId: null
+            selectedSpecId: null,
+            searchtext: ""
 
         };
     },
@@ -141,7 +144,26 @@ export default {
         agents() {
             if (this.allAgents.length == 0) return [];
             else {
-                return this.allAgents.edges.map((v) => v.node);
+                let agents = this.allAgents.edges.map((v) => v.node);
+                if (this.searchtext != "") {
+                    return agents.filter((v) => {
+                        var vals = [v.displayedName, v.name, v.specId]
+                        var keep = false
+                        for (let st of vals) {
+                            if (st != null && st.toLowerCase().includes(this.searchtext.toLowerCase())) {
+                                keep = true
+                                break;
+                            }
+
+                        }
+                        return keep
+
+                    }).sort((a,b) =>  b.created - a.created)
+                } else {
+                    return agents.sort((a,b) =>  b.created - a.created)
+
+                }
+
             }
         }
         //

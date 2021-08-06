@@ -2,7 +2,47 @@
 <div>
     <h1><i class="fa fa-cogs"></i> Plugins</h1>
     <div class="mt-4"></div>
+    <b-modal id="modal-help" title="Plugin Help" size="lg">
+        <div>
+            Plugins are used to add new Agents, Environments, and other functionality.
 
+            <br />
+            <br />
+
+            <h4>Plugin Repos</h4>
+            There are three predifined plugin reposistories:
+            <ul>
+                <li>
+                    buildin: these are local plugins included with installation
+                </li>
+                <li>
+                    workspace: plugins located in your pistarlab workspace. This is a local repo for plugins developed by the user (you).
+                </li>
+                <li>
+                    main: plugins located in the the remote pistarlab-repo project on github. See https://github.com/pistarlab/pistarlab-repo/main/plugins
+                </li>
+            </ul>
+            To add additional sources, you can make changes to the pistarlab/data/plugin_sources.json file.
+            <br />
+            Source types are defined as follows:
+            <br />
+
+            <ul>
+                <li>
+                    path: scans path for plugins
+                </li>
+                <li>
+                    workspace: scans workspace path for plugins.
+                </li>
+                <li>
+                    file: plugins are defined in a local repo.json file
+                </li>
+                <li>
+                    remote: plugins are defined in a remote repo.json file
+                </li>
+            </ul>
+        </div>
+    </b-modal>
     <b-modal id="modal-logviewer" title="Plugin Manager Logs" size="lg">
         <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/plugin_manager`"> </LogViewer>
     </b-modal>
@@ -22,6 +62,7 @@
    
         </b-button-group> -->
             <b-button class="ml-auto mr-2" v-b-modal:modal-logviewer size="sm" variant="info"><i class="fa fa-bug"></i> View Logs</b-button>
+            <b-button class="ml-1" v-b-modal:modal-help size="sm" variant="secondary" title="help"><i class="fa fa-question"></i></b-button>
 
         </b-navbar>
         <b-navbar toggleable="lg" type="light" variant="alert">
@@ -38,13 +79,10 @@
                 <b-row>
                     <b-col>
                         <div>
-
-                                <h4>{{item.name}}</h4>
-
+                            <h4>{{item.name}}</h4>
                         </div>
                     </b-col>
                     <b-col>
-
                     </b-col>
                     <b-col>
                         <div>
@@ -62,7 +100,7 @@
                         </div>
                     </b-col>
                 </b-row>
-                                <b-row v-if="item.source.name == 'Workspace'" class="mb-2">
+                <b-row v-if="item.source.name == 'Workspace'" class="mb-2">
                     <b-col cols=1 class="text-right">
                         <b-badge pill variant="warning"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
 
@@ -95,12 +133,6 @@
                             <span class="data_label mt-1">Categories: </span>
                             <span>{{item.categories.join(",")}}</span>
                         </div>
-                    </b-col>
-                    <b-col class="">
-                        <div>
-                            <span class="data_label mt-1">Source: </span>
-                            <span>{{item.source.name}}</span>
-                        </div>
                         <div>
                             <span class="data_label mt-1">Original Author: </span>
                             <span>{{item.original_author}}</span>
@@ -109,6 +141,24 @@
                             <span class="data_label mt-1">Plugin Author: </span>
                             <span>{{item.plugin_author}}</span>
                         </div>
+                    </b-col>
+                    <b-col class="">
+                        <div>
+                            <span class="data_label mt-1">Source Name: </span>
+                            <span>{{item.source.name}} </span>
+
+                        </div>
+                        <div v-if="item.source.type">
+                            <span class="data_label mt-1">Source Type: </span>
+
+                            <span>{{item.source.type}}</span>
+                        </div>
+                        <div v-if="item.source.path">
+                            <span class="data_label mt-1">Source Path: </span>
+
+                            <span>{{item.source.path}}</span>
+                        </div>
+
                     </b-col>
                     <b-col class="">
                         <span class="data_label mt-1">State: </span>

@@ -41,7 +41,7 @@
                             Notes: <b-link variant="white" size="sm" v-b-modal:edit-notes @click="loadNotes()"><i class="fa fa-edit"></i></b-link> <p>{{agent.notes}}</p>
                         </div>
                         <div class="mt-2">
-                            <b-button v-if="agent && !agent.archived" variant="warning" pill @click="updateArchive(true)" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
+                            <b-button v-if="agent && !agent.archived" variant="secondary" pill @click="updateArchive(true)" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
                             <b-button v-if="agent && agent.archived" variant="secondary" pill @click="updateArchive(false)" size="sm"><i class="fa fa-eye"></i> Unarchive</b-button>
                         </div>
                     </div>

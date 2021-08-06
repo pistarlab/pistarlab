@@ -169,7 +169,7 @@ export default {
     data() {
         return {
             sessions: [],
-            first: 20,
+            first: 10000000, //TODO: Fix pagination bug
             startCursor: "",
             endCursor: "",
             searchQuery: "",

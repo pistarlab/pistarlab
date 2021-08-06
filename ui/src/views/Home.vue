@@ -23,12 +23,19 @@
 
                 NOTE: IDE Integration is under development.
             </b-alert>
+            <br />
+
+            <b-button v-if="ideFound" size="sm" @click="openWithIDE(selectedPlugin.id)">Open with VS Code</b-button>
+            <div v-else>VSCode not nound. See https://code.visualstudio.com/</div>
+            <br />
+            <br />
             <div>
-                <b-button size="sm" :to="`/plugin/home/?managePluginId=${selectedPlugin.id}`">Manage</b-button>
+                <b-link size="sm" :to="`/plugin/home/?managePluginId=${selectedPlugin.id}`">Manage Plugin</b-link>
+
             </div>
             <div class="mt-3">
-            Open IDE or File browser of choice to path below:
-            <pre v-if="selectedPlugin">{{selectedPlugin.full_path}}</pre>
+                Open IDE or File browser of choice to path below:
+                <pre v-if="selectedPlugin">{{selectedPlugin.full_path}}</pre>
             </div>
         </div>
     </b-modal>
@@ -57,7 +64,7 @@
                                         </span>
                                     </div>
                                 </template>
-                                            <template v-slot:cell(link)="data">
+                                <template v-slot:cell(link)="data">
 
                                     <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident }} : {{ data.item.envSpecId }}</router-link>
 
@@ -122,17 +129,15 @@
 
                     <b-card v-for="(plugin,key) in workspace.plugins" v-bind:key="key" class="mb-0 mt-2">
                         <b-row>
-                            <b-col cols=6>
+                            <b-col >
                                 <div>
                                     <b-link @click="openPlugin(plugin)">
                                         <h4>{{plugin.name}}</h4>
                                     </b-link>
                                 </div>
-                                <div>{{plugin.id}}</div>
-                                <div></div>
-
+         
                             </b-col>
-                            <b-col cols=4>
+                            <b-col>
                                 <span v-if="plugin.status == 'AVAILABLE'">
                                     Not Installed
                                 </span>
@@ -141,8 +146,8 @@
                                 </span>
 
                             </b-col>
-                            <b-col cols=2>
-                                <b-button size="sm" @click="openPlugin(plugin)">Open</b-button>
+                            <b-col>
+                                <b-button v-if="ideFound" size="sm" @click="openWithIDE(plugin.id)" title="View in code editor (VS CODE)">View in VS Code</b-button>
                             </b-col>
 
                         </b-row>
@@ -158,8 +163,8 @@
                 <h3>Overview</h3>
                 <div v-if="overview">
                     <div class="mb-4">
-                        <div class="data_label">Sessions</div>
-                        <div class="stat_value"> {{overview['total_sessions']}}
+                        <div class="data_label">Sessions Active</div>
+                        <div class="stat_value"> {{overview['active_sessions']}}
                         </div>
                     </div>
                     <div class="mb-4">
@@ -182,6 +187,7 @@
                         <div class="stat_value"> {{overview['total_installed_plugins']}}
                         </div>
                     </div>
+
                 </div>
             </b-col>
 
@@ -295,7 +301,9 @@ export default {
             packageName: "",
             message: ".",
             overview: null,
-            appConfig,
+            ideFound: false,
+            appConfig
+
         };
     },
     computed: {
@@ -382,12 +390,42 @@ export default {
                     this.message = error;
                 });
         },
+        checkForIDE() {
+            console.log("Request for opening plugin in IDE")
+            axios
+                .get(`${appConfig.API_URL}/api/check_for_ide/`)
+                .then((response) => {
+                    if (response.data.success) {
+                        this.ideFound = true;
+                        console.log(response.data.message)
+
+                    } else {
+                        console.log(response.data.message)
+                    }
+
+                })
+                .catch((error) => {
+                    this.message = error;
+                });
+        },
+        openWithIDE(pluginId) {
+            console.log("Request for opening plugin in IDE")
+            axios
+                .get(`${appConfig.API_URL}/api/open_plugin_with_ide/${pluginId}`)
+                .then((response) => {
+                    this.overview = response.data;
+                })
+                .catch((error) => {
+                    this.message = error;
+                });
+        },
 
     },
 
     created() {
         this.loadWorkspace()
         this.loadOverview()
+        this.checkForIDE()
         //
     },
 };

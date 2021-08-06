@@ -304,7 +304,6 @@ class SysContext:
             session = ctx.get_dbsession()
             obj = session.query(AgentTagModel).get((tag_id, agent_id))
             session.delete(obj)
-
             # session.query(AgentTagModel).filter(
             #     AgentTagModel.agent_id == agent_id,
             #     AgentTagModel.tag_id == tag_id).delete()
@@ -316,8 +315,8 @@ class SysContext:
 
     # Agent specs
     def list_agent_specs(self) -> List[str]:
-        query = self.get_dbsession().query(AgentSpecModel.id)
-        return [v[0] for v in query.all()]
+        query = self.get_dbsession().query(AgentSpecModel)
+        return [v for v in query.all() if v.disabled==False]
 
     def get_agent_spec(self, id) -> AgentSpec:
         query = self.get_dbsession().query(AgentSpecModel)
@@ -361,9 +360,14 @@ class SysContext:
         return query.all()
 
     # Sessions
-    def list_sessions(self) -> List[str]:
+    def list_sessions(self, status_filter=None) -> List[str]:
         query = self.get_dbsession().query(SessionModel)
-        return [{'id': v.id, 'env_spec_id': v.env_spec_id, 'task_id': v.task_id, 'agent_id': v.agent_id, 'status': v.status} for v in query.all()]
+        sessions =  [{'id': v.id, 'env_spec_id': v.env_spec_id, 'task_id': v.task_id, 'agent_id': v.agent_id, 'status': v.status} for v in query.all()]
+        if status_filter is not None:
+            filtered_sessions = [s for s in sessions if s['status'] in status_filter]
+            return filtered_sessions
+        else:
+            return sessions
 
     def get_session(self, id) -> SessionModel:
         query = self.get_dbsession().query(SessionModel)
@@ -393,10 +397,11 @@ class SysContext:
     def uninstall_plugin(self, id):
         return self.plugin_manager.uninstall_plugin(id)
 
+
     # Environment Specs
     def list_env_specs(self) -> List[str]:
-        query = self.get_dbsession().query(EnvSpecModel.id)
-        return [v[0] for v in query.all()]
+        query = self.get_dbsession().query(EnvSpecModel)
+        return [v.id for v in query.all() if v.environment.disabled == False]
 
     def get_env_spec(self, id) -> EnvSpec:
         query = self.get_dbsession().query(EnvSpecModel)
@@ -762,6 +767,9 @@ class SysContext:
         last_checkpoint = dbmodel.last_checkpoint
         current_timestamp = datetime.datetime.now()
 
+        if last_checkpoint is None:
+            raise Exception("Unable to create Snapshot: No checkpoints found.")
+            
         session_data = []
         for s in dbmodel.sessions:
             session_data.append({
@@ -784,7 +792,7 @@ class SysContext:
             'snapshot_version': snapshot_version,
             'session_data': session_data,
             'config': config}
-
+        
         temp_dir = tempfile.mkdtemp()
 
         # Add Config

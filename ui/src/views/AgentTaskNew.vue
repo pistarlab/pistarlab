@@ -22,13 +22,17 @@
         </template>
     </b-modal>
 
-    <b-modal id="modal-configure-envspec" title="Config Environment" size="lg">
+    <b-modal id="modal-configure-envspec" title="Environment Kwargs" size="lg">
         <b-container fluid>
             <b-row>
                 <b-col>
                     <div>
-                        Env Config
-                        <b-textarea v-model="envSpecKwargOverrides" class="mt-3" rows="6" max-rows="10" no-auto-shrink size="sm"></b-textarea>
+                        
+                        These are aguments passed directly to the environment. Changing these may impact behavior and incomparable and inconsistant results.
+                        <br/>
+                        <br/>
+                        JSON format required.
+                        <b-textarea v-model="envSpecKwargOverrides" class="mt-4" rows="10" no-auto-shrink size="lg" height="100%"></b-textarea>
                     </div>
                 </b-col>
             </b-row>
@@ -36,15 +40,9 @@
     </b-modal>
 
     <b-modal id="modal-full-config" title="Config Output" size="lg">
-        <b-container fluid>
-            <b-row>
-                <b-col>
-                    <div>
-                        <b-textarea v-model="fullConfig" class="mt-3" rows="20" max-rows="40" size="sm"></b-textarea>
-                    </div>
-                </b-col>
-            </b-row>
-        </b-container>
+        <div>
+            <pre class="mt-3" >{{fullConfig}}</pre>
+        </div>        
     </b-modal>
 
     <b-modal id="modal-configure-agent" title="Configure Agent" size="lg">
@@ -230,7 +228,9 @@
                             </b-container>
                         </b-card>
                         <div class="mt-4"></div>
-                        <b-button size="sm" variant="secondary" v-b-modal.modal-select-envspec>Change Environment</b-button>
+                        <b-button size="sm" variant="info" v-b-modal.modal-select-envspec>Change Environment</b-button>
+                        <b-button size="sm" class="ml-2"  variant="secondary" v-b-modal.modal-configure-envspec>Edit Arguments</b-button>
+
 
                     </div>
                     <div v-else>
@@ -298,11 +298,8 @@
                     <span>
                         <b-card body-text-variant="" class="h-100 card-shadow card-flyer  " style="width: 100px;background-color:#ccc;color:#000" v-b-modal.modal-select-agent>
                             <b-card-body class="text-center align-middle">
-
                                 <i class="fa fa-plus"></i>
-
                             </b-card-body>
-
                         </b-card>
                     </span>
 
@@ -317,11 +314,8 @@
                 <div class="mt-2 mb-3">
                     <div class="h-5">Multi Agent Session Configuration <b-button size="sm" variant="white" v-b-modal.modal-config><i class="fa fa-edit"></i></b-button>
                     </div>
-
                 </div>
-
             </div>
-
             <div class="mt-4"></div>
             <hr />
             <b-row>
@@ -339,7 +333,7 @@
                             <b-spinner small type="grow"></b-spinner>Processing...
                         </b-button>
 
-                        <b-button size="sm" class="ml-2" variant="primary" v-on:click="showFullConfig()">View Config Output</b-button>
+                        <b-button size="sm" class="ml-2" variant="secondary" v-on:click="showFullConfig()">View Config Output</b-button>
 
                     </div>
                 </b-col>
@@ -620,6 +614,7 @@ export default {
             this.envSpec = val
             if (this.envSpec) {
                 this.envMeta = JSON.parse(this.envSpec.meta)
+                this.envSpecKwargOverrides = JSON.stringify(JSON.parse(this.envSpec.config).env_kwargs,null,2)
                 this.resetPlayers();
             }
         }
