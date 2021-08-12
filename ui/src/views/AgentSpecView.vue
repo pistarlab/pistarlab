@@ -40,7 +40,14 @@
                 </b-col>
             </b-row>
             <div class="mt-4"></div>
-
+            <b-row>
+                <b-col>
+                    <div class="data_label">Params</div>
+                    <div v-if="agentSpec && agentSpec.params">
+                        <pre>{{JSON.parse(agentSpec.params)}}</pre>
+                    </div>
+                </b-col>
+            </b-row>
         </b-container>
     </b-card>
 </div>
@@ -68,6 +75,7 @@ const GET_AGENT_SPEC = gql `
       pluginId
       version
       config
+      params
       disabled
     }
   }

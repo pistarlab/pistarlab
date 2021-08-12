@@ -133,9 +133,87 @@ class Agent(Entity):
         self.last_flush_time = 0
         self.flush_freq_seconds = 2
 
-    def init_stat_logger(self, cols):
-        self.stat_buffer = DataBuffer(cols=cols, size=100)
+    def get_id(self):
+        return self._id
 
+    def initialize(self):
+        pass
+
+    def cleanup(self):
+        pass
+
+    def __repr__(self):
+        return 'id: {}, spec_id: {}'.format(self._id, self._spec_id)
+
+    def get_seed_as_int(self):
+        return int(self.get_dbmodel().seed, 0)
+
+    def get_task_runner_cls(self):
+        dbmodel: AgentModel = self.get_dbmodel()
+        return get_class_from_entry_point(dbmodel.spec.runner_entry_point)
+
+    def get_dbmodel(self) -> AgentModel:
+        return Agent.get_dbmodel_by_id(self._id)
+
+    # TODO: add lazy loading support?
+    def _sync_data_model(self):
+        dbmodel = self.get_dbmodel()
+        if dbmodel is None:
+            try:
+                seed = self.custom_seed
+                if seed is None:
+                    seed = ctx.get_next_seed()
+
+                logging.info("Creating new agent record. {}".format(self._id))
+                dbmodel = AgentModel(
+                    id=self._id,
+                    config=self._config,
+                    spec_id=self._spec_id,
+                    seed=seed,
+                    meta=self._meta)
+                ctx.get_dbsession().add(dbmodel)
+                ctx.get_dbsession().commit()
+            except Exception as e:
+                ctx.get_dbsession().rollback()
+                raise e
+            return True
+
+    def get_sessions(self):
+        dbmodel = self.get_dbmodel()
+        ids = []
+        for sess in dbmodel.sessions:
+            ids.append(sess.id)
+        return ids
+
+    # Config Methods
+    def get_config(self, run_config={}):
+        return merged_dict(
+            self.get_dbmodel().config,
+            run_config)
+
+    def update_config(self, config):
+        dbmodel = self.get_dbmodel()
+        dbmodel.config = copy.copy(config)
+        ctx.get_dbsession().add(dbmodel)
+        ctx.get_dbsession().commit()
+
+    def update_config_key(self, key, value):
+        dbmodel = self.get_dbmodel()
+        config = copy.copy(dbmodel.config)
+        config[key] = value
+        dbmodel.config = config
+        ctx.get_dbsession().add(dbmodel)
+        ctx.get_dbsession().commit()
+
+    def get_config_key(self, key, default=None):
+        dbmodel = self.get_dbmodel()
+        return dbmodel.config.get(key, default)
+
+    def get_default_config(self):
+        dbmodel = self.get_dbmodel()
+        return dbmodel.config
+
+    # Component Methods
     def create_components(self):
         config = self.get_config()
         components_def = config.get('components')
@@ -151,9 +229,26 @@ class Agent(Entity):
             logging.info("Created Component {} with id {} for agent {}".format(
                 name, component.get_id(), self.get_id()))
 
-    def get_task_runner_cls(self):
-        dbmodel: AgentModel = self.get_dbmodel()
-        return get_class_from_entry_point(dbmodel.spec.runner_entry_point)
+    def add_component(self, component: Component):
+        component.set_agent(self.get_id())
+        ctx.get_dbsession().commit()
+
+    def get_component_by_name(self, name) -> Component:
+        for comp in self.get_components():
+            if comp.get_name() == name:
+                return comp
+        return None
+
+    def get_components(self) -> List[Component]:
+        dbmodel = self.get_dbmodel()
+        results = []
+        for item in dbmodel.components:
+            results.append(Component(_id=item.id))
+        return results
+
+    # Stat Methods
+    def init_stat_logger(self, cols):
+        self.stat_buffer = DataBuffer(cols=cols, size=100)
 
     def flush_stats(self):
         if self.stat_buffer is None:
@@ -171,13 +266,10 @@ class Agent(Entity):
         data['timestamp'] = time.time()
         data['task_id'] = task_id
         data['learn_step'] = self.learn_step
+        # data['sessions'] = sorted([sess.id for sess in self.get_dbmodel().sessions if sess.status == STATE_RUNNING])
         self.learn_step += 1
         self.stat_buffer.add_dict(data)
         if self.stat_buffer.is_full() or (time.time() - self.last_flush_time > self.flush_freq_seconds):
-            self.flush_stats()
-
-    def close(self):
-        if self.stat_buffer:
             self.flush_stats()
 
     def load_stats(self):
@@ -195,9 +287,11 @@ class Agent(Entity):
         ctx.get_dbsession().add(dbmodel)
         ctx.get_dbsession().commit()
 
-    def get_seed_as_int(self):
-        return int(self.get_dbmodel().seed, 0)
+    def close(self):
+        if self.stat_buffer:
+            self.flush_stats()
 
+    # Checkpoint Methods
     def get_last_checkpoint(self):
         return self.get_dbmodel().last_checkpoint
 
@@ -238,96 +332,7 @@ class Agent(Entity):
 
         self.update_last_checkpoint(checkpoint_id, path, meta)
 
-    def get_config(self, run_config={}):
-        return merged_dict(
-            self.get_dbmodel().config,
-            run_config)
-
-    def get_dbmodel(self) -> AgentModel:
-        return Agent.get_dbmodel_by_id(self._id)
-
     def list_checkpoints(self):
         path = ctx.get_store().get_path_from_key(
             (self.entity_type, self.get_id(), 'checkpoints'))
         return os.listdir(path)
-
-    # TODO: add lazy loading support?
-    def _sync_data_model(self):
-        dbmodel = self.get_dbmodel()
-        if dbmodel is None:
-            try:
-                seed = self.custom_seed
-                if seed is None:
-                    seed = ctx.get_next_seed()
-
-                logging.info("Creating new agent record. {}".format(self._id))
-                dbmodel = AgentModel(
-                    id=self._id,
-                    config=self._config,
-                    spec_id=self._spec_id,
-                    seed=seed,
-                    meta=self._meta)
-                ctx.get_dbsession().add(dbmodel)
-                ctx.get_dbsession().commit()
-            except Exception as e:
-                ctx.get_dbsession().rollback()
-                raise e
-            return True
-
-    def update_config(self, config):
-        dbmodel = self.get_dbmodel()
-        dbmodel.config = copy.copy(config)
-        ctx.get_dbsession().add(dbmodel)
-        ctx.get_dbsession().commit()
-
-    def update_config_key(self, key, value):
-        dbmodel = self.get_dbmodel()
-        config = copy.copy(dbmodel.config)
-        config[key] = value
-        dbmodel.config = config
-        ctx.get_dbsession().add(dbmodel)
-        ctx.get_dbsession().commit()
-
-    def get_config_key(self, key, default=None):
-        dbmodel = self.get_dbmodel()
-        return dbmodel.config.get(key, default)
-
-    def get_default_config(self):
-        dbmodel = self.get_dbmodel()
-        return dbmodel.config
-
-    def add_component(self, component: Component):
-        component.set_agent(self.get_id())
-        ctx.get_dbsession().commit()
-
-    def get_sessions(self):
-        dbmodel = self.get_dbmodel()
-        ids = []
-        for sess in dbmodel.sessions:
-            ids.append(sess.id)
-        return ids
-
-    def get_component_by_name(self, name) -> Component:
-        for comp in self.get_components():
-            if comp.get_name() == name:
-                return comp
-        return None
-
-    def get_components(self) -> List[Component]:
-        dbmodel = self.get_dbmodel()
-        results = []
-        for item in dbmodel.components:
-            results.append(Component(_id=item.id))
-        return results
-
-    def get_id(self):
-        return self._id
-
-    def initialize(self):
-        pass
-
-    def cleanup(self):
-        pass
-
-    def __repr__(self):
-        return 'id: {}, spec_id: {}'.format(self._id, self._spec_id)

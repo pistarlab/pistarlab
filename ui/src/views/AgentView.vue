@@ -1,5 +1,9 @@
 <template>
 <div>
+    <b-modal id="agent-browser" size="lg" title="File Data Browser" scrollable :hide-footer="true">
+        <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
+        <div class="mb-5"></div>
+    </b-modal>
     <h1><i class="fas fa-robot"></i> Agent Details</h1>
     <div v-if="item && item.ident">
 
@@ -36,7 +40,8 @@
 
         <div class="mt-4"></div>
 
-        <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button>
+        <!-- <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button> -->
+
         <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
         <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm">Configuration</b-button>
         <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm">Metadata</b-button>
@@ -44,27 +49,37 @@
         <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm">Assign Task</b-button>
         <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
         <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
+        <b-button variant="secondary" class="ml-1" v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
 
         <div class="mt-4"></div>
         <b-modal id="errorbox" size="xl">
-         <b-alert show v-if="error != null" variant="danger"><pre>{{error}}</pre><pre>{{traceback}}</pre></b-alert>
+            <b-alert show v-if="error != null" variant="danger">
+                <pre>{{error}}</pre>
+                <pre>{{traceback}}</pre>
+            </b-alert>
         </b-modal>
         <AgentCard v-if="item" :agent="item" @update="refetch()"></AgentCard>
 
         <b-card title="Session History">
             <div style="display: block; position: relative;height:280px;overflow: auto;">
+                 <b-button  :disabled="selected.length <= 1" v-on:click="runCompare" variant="info" size="sm">
+                <span v-if="selected.length > 1">Compare: {{ selected.length }}</span>
+                <span v-else>Compare: select at least 2</span>
+
+            </b-button>
+                <b-form-checkbox-group v-model="selected">
                 <b-table show-empty empty-text="No Sessions Found" hover table-busy :items="rowData" :fields="fields" :dark="false" :small="false" :borderless="false" sortBy="created" :sortDesc="true">
-                    <template v-slot:cell(tasklink)="data">
+                     <template v-slot:cell(selector)="data">
+
+                        <b-form-checkbox v-if="data.item.parentSessionId != null" :value="data.item.ident"></b-form-checkbox>
+                    </template>
+                    <template v-slot:cell(parentlink)="data">
                         <!-- `data.value` is the value after formatted by the Formatter -->
-                        <router-link :to="`/task/view/${data.item.task.ident}`">{{
-                data.item.task.ident
-              }}</router-link>
+                        <router-link :to="`/session/view/${data.item.parentSessionId}`">{{data.item.parentSessionId}}</router-link>
                     </template>
                     <template v-slot:cell(link)="data">
                         <!-- `data.value` is the value after formatted by the Formatter -->
-                        <router-link :to="`/session/view/${data.item.ident}`">{{
-                data.item.ident
-              }}</router-link>
+                        <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident}}</router-link>
                     </template>
                     <template v-slot:cell(status)="data">
                         <!-- `data.value` is the value after formatted by the Formatter -->
@@ -72,14 +87,51 @@
                         <b-button class="ml-1" variant="danger" v-if="data.item.status && data.item.status == 'RUNNING'" v-on:click="stopSession(data.item.task.ident)" size="sm">Abort</b-button>
 
                     </template>
+                    <template v-slot:cell(steps)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <span>{{data.item.summary.step_count.toLocaleString('en-US', 
+                            {
+                            useGrouping: true
+                            })}}</span>
+                    </template>
+                    <template v-slot:cell(episodes)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <span>{{data.item.summary.episode_count.toLocaleString('en-US', 
+                            {
+                            useGrouping: true
+                            })}}</span>
 
+                    </template>
+                                        <template v-slot:cell(runtime)="data">
+                        <!-- `data.value` is the value after formatted by the Formatter -->
+                        <span>{{data.item.summary.runtime.toLocaleString('en-US', 
+                            {
+                            useGrouping: true
+                            })}}</span>
+                    </template>
                 </b-table>
+            </b-form-checkbox-group>
+
             </div>
             <div class="mt-2"></div>
         </b-card>
 
         <b-card title="Statistics">
             <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <b-form-group label="History" v-slot="{ ariaDescribedby }">
+                            <b-form-radio-group v-model="plotStepMax" @click="loadGraphs()" :options="plotStepMaxOptions" :aria-describedby="ariaDescribedby" button-variant="secondary" size="sm" name="radio-btn-outline" buttons></b-form-radio-group>
+                            <span> Showing steps: {{plot_total_count-plot_actual_count}} to {{plot_total_count}}</span>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group label="Bin Size" v-slot="{ ariaDescribedby }" class="pull-right">
+                            <b-form-radio-group v-model="plotBinSize" @click="loadGraphs()" :options="plotBinSizeOptions" :aria-describedby="ariaDescribedby" button-variant="secondary" size="sm" name="radio-btn-outline" buttons></b-form-radio-group>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <div class="mt-4"></div>
                 <b-row>
                     <b-col cols=3 v-for="graph in graphList" :key="graph.key">
 
@@ -106,21 +158,28 @@ import {
 } from "../app.config";
 import {
     timedelta,
-    timepretty
+    timepretty,
+    timelength,
+    formatNum
 } from "../funcs";
 import gql from "graphql-tag";
 import {
     Plotly as PlotlyVue
 } from 'vue-plotly'
 
-const fields = [{
+const fields = [
+    {
+        key: "selector",
+        label: "",
+        sortable: false,
+    },{
         key: "link",
         label: "Session",
-        sortable: true,
+        sortable: false,
     },
     {
-        key: "tasklink",
-        label: "Task",
+        key: "parentlink",
+        label: "Parent",
         sortable: true,
     },
     {
@@ -128,19 +187,36 @@ const fields = [{
         label: "Environment",
     },
     {
-        key: "created",
-        label: "Created",
-        sortable: true,
-        // formatter: timepretty,
-    },
-
-    {
         key: "sessionType",
         label: "Session Type",
     },
-    {
+      {
         key: "status",
         label: "Status",
+        sortable: true,
+        // formatter: timepretty,
+    },
+    {
+        key: "runtime",
+        label: "Run Time (Sec)",
+        sortable: true    },
+
+    // {
+    //     key: "statusTimestamp",
+    //     label: "Last Update",
+    //     sortable: true,
+    //      formatter: (d=>d.toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })),
+    // },
+  
+    {
+        key: "steps",
+        label: "Total Steps",
+        sortable: true,
+        // formatter: timepretty,
+    },
+    {
+        key: "episodes",
+        label: "Completed Episodes",
         sortable: true,
         // formatter: timepretty,
     }
@@ -221,8 +297,10 @@ const GET_AGENT = gql `
             sessionType
             created
             status
+            statusTimestamp
             archived
             summary 
+            parentSessionId
           }
         }
       }
@@ -230,6 +308,7 @@ const GET_AGENT = gql `
   }
 `;
 import AgentCard from "../components/AgentCard.vue";
+import DataBrowser from "./DataBrowser.vue";
 
 import AgentEdit from "../components/AgentEdit.vue";
 
@@ -238,7 +317,8 @@ export default {
     components: {
         AgentCard,
         AgentEdit,
-        PlotlyVue
+        PlotlyVue,
+        DataBrowser
     },
     apollo: {
         // Simple query that will update the 'hello' vue property
@@ -254,12 +334,19 @@ export default {
     },
     data() {
         return {
+
             taskDetailsList: [],
             fields,
             pubfields,
             snapshot_description: "",
             snapshot_version: "0-dev",
             snapshots: [],
+            plot_actual_count: 0,
+            plot_total_count: 0,
+            plotBinSize: 0,
+            plotStepMax: 0,
+            selected:[],
+
             componentFields: [{
                     key: "name",
                     label: "Name",
@@ -275,7 +362,8 @@ export default {
             graphList: [],
             error: null,
             item: {},
-            timer: null
+            timer: null,
+            timelength,formatNum
         };
     },
     props: {
@@ -288,6 +376,61 @@ export default {
         meta() {
             return JSON.parse(this.item.meta)
         },
+
+        plotStepMaxOptions() {
+            if (this.plot_total_count == 0) {
+                return []
+            }
+            const places = this.plot_total_count.toString().length - 1
+
+            const options = []
+            options.push({
+                text: `All (${this.plot_total_count})`,
+                value: '0'
+            })
+            for (let p = places; p > 2; p--) {
+                const val = Math.pow(10, p)
+                options.push({
+                    'text': `last ${val}`,
+                    'value': `${val}`
+                })
+
+            }
+            return options
+
+        },
+        plotBinSizeOptions() {
+            if (this.plot_total_count == 0) {
+                return []
+            }
+            const places = this.plot_total_count.toString().length - 2
+
+            const options = []
+            options.push({
+                text: `Auto`,
+                value: '0'
+            })
+            if (places > 1) {
+                for (let p = places; p > 0; p--) {
+                    const val = Math.pow(10, p)
+                    options.push({
+                        'text': `${val}`,
+                        'value': `${val}`
+                    })
+
+                }
+            }
+            options.push({
+                text: `5`,
+                value: '5'
+            })
+            options.push({
+                text: `1`,
+                value: '1'
+            })
+            return options
+
+        },
         rowData() {
             const rows = [];
             if (this.item.sessions == null) {
@@ -295,7 +438,7 @@ export default {
             }
 
             for (const session of this.item.sessions.edges) {
-                if (session.node.archived != true){
+                if (session.node.archived != true) {
                     rows.push(session.node);
                 }
             }
@@ -310,6 +453,11 @@ export default {
         refetch() {
             this.$apollo.queries.item.refetch()
 
+        },
+        runCompare() {
+            this.$router.push({
+                path: `/session/compare?uids=` + this.selected.join(","),
+            });
         },
         configUpdated() {
             console.log("ConfigUPdate")
@@ -395,10 +543,20 @@ export default {
         loadGraphs() {
             axios
                 .get(
-                    `${appConfig.API_URL}/api/agent_plots_json/${this.uid}`
+                    `${appConfig.API_URL}/api/agent_plots_json/${this.uid}?max_steps=${this.plotStepMax}&bin_size=${this.plotBinSize}`
                 )
                 .then((response) => {
-                    const graphdata = response.data;
+                    const graphdata = response.data.plot_data;
+                    if (graphdata == null) {
+                        this.error = response.data.error
+                        this.traceback = response.data.traceback
+                        console.log(this.error)
+                        console.log(this.traceback)
+                        return
+                    }
+
+                    this.plot_actual_count = response.data.actual_count;
+                    this.plot_total_count = response.data.total_count;
 
                     this.graphList = []
 
@@ -455,7 +613,7 @@ export default {
             }
             console.log(JSON.stringify(outgoingData, null, 2))
             this.error = null
-            this.traceback= null
+            this.traceback = null
             axios
                 .post(`${appConfig.API_URL}/api/snapshot/publish`, outgoingData)
                 .then((response) => {

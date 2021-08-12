@@ -211,7 +211,7 @@
                     <b-col>
 
                         <div>
-                            <div class="stat_label">Total Episodes</div>
+                            <div class="stat_label">Completed Episodes</div>
                             <span class="stat_value">{{
                           numberToString(item.summary.episode_count)
                         }}</span>

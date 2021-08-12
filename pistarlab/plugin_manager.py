@@ -365,7 +365,21 @@ class PluginManager:
         plugin_key = get_plugin_key(plugin_id, plugin_version)
 
         plugin = self.get_all_plugins().get(plugin_key)
+
+            # xvfb-run pistarlab_plugin_tools --action=save_manifest --plugin_path /home/brandyn/pistarlab/workspace/pistarlab-landia
+
+
         plugin_id = plugin['id']
+
+        if plugin['source']['type'] == "workspace":
+            try:
+                self.logger.info(f"Attempting to (re)create workspace plugin manifest {plugin_id}")
+                cmd = f"xvfb-run pistarlab_plugin_tools --action=save_manifest --plugin_path {plugin['full_path']}"
+                cmd_result = run_bash_command(cmd)
+                self.logger.info(cmd_result)
+            except Exception as e:
+                self.logger.error(f"Failed to load plugin manifest with f{cmd}")
+                self.logger.error("Please resolve the issue and try again")
 
         if plugin is None:
             raise Exception("Plugin {} not found.".format(plugin_key))

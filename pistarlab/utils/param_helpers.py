@@ -24,7 +24,7 @@ def create_params_from_flattened(flattened_config,overrides={},interfaces=[],mod
                 'displayed_name': k.split('.')[-1],
                 "description": "",
                 'path': k,
-                "default": v,
+                "default": str(v),
                 "mode":mode,
                 "data_type": tp.__name__,
                 "type_info": {},

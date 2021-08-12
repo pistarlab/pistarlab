@@ -387,8 +387,7 @@ class RLSession(Session):
 
     def run_command_check(self):
         msg = self.pub.get_message()
-
-        self.get_logger().info("Issuing command check")
+        self.get_logger().debug("Issuing command check")
         reading_messages = msg is not None
         while reading_messages:
             if msg:
@@ -398,7 +397,7 @@ class RLSession(Session):
                     reading_messages = False
                 else:
                     command_data = json.loads(data.decode('utf-8'))
-                    msg = "Received command update {}".format(command_data)
+                    msg = "Received command update, but not executing TODO {}".format(command_data)
                     self.get_logger().info(msg)
                     response = {'msg': msg}
                     ctx.get_redis_client().publish("SESSION_COMMAND_RESPONSE_{}".format(self._id), json.dumps(response))
@@ -500,6 +499,7 @@ class RLSession(Session):
             runtime = cur_time - self.session_start_time
         summary = {
             'runtime': runtime,
+            'last_update': cur_time,
             "step_count": self.step_counter,
             "reward_total": self.reward_total,
             "episode_count": self.episode_counter,

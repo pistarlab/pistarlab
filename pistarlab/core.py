@@ -412,7 +412,7 @@ class SysContext:
         env = self.get_dbsession().query(EnvSpecModel).get(spec_id)
         return env_helpers.get_env_instance(env.config.get('entry_point'), kwargs=env.config.get('env_kwargs', {}))
 
-    def install_plugin_from_manifest(self, plugin_id, plugin_version):
+    def install_plugin_from_manifest(self, plugin_id, plugin_version, replace_images = True):
         plugin = self.get_plugin(plugin_id, plugin_version)
         module_name = plugin.get('module_name', plugin_id.replace("-", "_"))
         manifest_path = pkg_resources.resource_filename(
@@ -443,8 +443,9 @@ class SysContext:
                         image_save_path, image_filename)
                     image_source_path = os.path.join(
                         manifest_files_path, image_filename)
-                    if not os.path.exists(image_target_path) and os.path.exists(image_source_path):
+                    if (not os.path.exists(image_target_path) or replace_images) and os.path.exists(image_source_path):
                         import shutil
+                        self.get_logger().info(f"Copying spec image from {image_source_path} to {image_target_path}")
                         shutil.copy(image_source_path, image_target_path)
                 except Exception as e:
                     logging.error(

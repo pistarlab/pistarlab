@@ -1,8 +1,6 @@
 <template>
 <div>
     <h1><i class="fa fa-cube"></i> Session</h1>
-    <hr />
-
     <b-modal id="def-modal" size="lg">
         <div>Config</div>
         <pre v-if="item.config">{{ JSON.parse(item.config) }}</pre>
@@ -28,9 +26,7 @@
         <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
         <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Restore from Archive</b-button>
         <b-button-group class="ml-auto">
-
             <b-button size="sm" v-b-toggle.tasklogs variant="info">Task Log</b-button>
-
             <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
         </b-button-group>
     </b-button-toolbar>
@@ -85,7 +81,7 @@
                 <div>
                     <div class="data_label">State</div>
                     <span class="stat_value" v-if="item.status=='RUNNING'" style="color:green;font-weight:600">{{ item.status }}</span>
-                    <span class="stat_value" v-else  style="color:red;font-weight:600">{{ item.status }}</span>
+                    <span class="stat_value" v-else style="color:red;font-weight:600">{{ item.status }}</span>
                 </div>
                 <div class="mt-3">
                 </div>
@@ -352,7 +348,9 @@ export default {
                     color: 'rgba(0, 255, 0,1)',
                     colormin: 'rgba(0, 255, 0,0.2)',
                     colormax: 'rgba(0, 255, 0,0.2)',
-                    stats: [{}]
+                    stats: [{}],
+                    binSize: 20,
+                    count: 0,
                 },
 
                 {
@@ -364,7 +362,9 @@ export default {
                     color: 'rgb(255, 160, 0)',
                     colormin: 'rgba(255, 160, 0,0.2)',
                     colormax: 'rgba(255, 160, 0,0.2)',
-                    stats: [{}]
+                    stats: [{}],
+                    binSize: 20,
+                    count: 0,
                 },
 
                 {
@@ -376,7 +376,9 @@ export default {
                     color: 'rgb(255, 100, 100)',
                     colormin: 'rgba(255, 100, 100,0.2)',
                     colormax: 'rgba(255, 100, 100,0.2)',
-                    stats: [{}]
+                    stats: [{}],
+                    binSize: 20,
+                    count: 0,
                 },
                 {
                     title: "Step Latency",
@@ -387,7 +389,9 @@ export default {
                     color: 'rgb(55, 128, 191)',
                     colormin: 'rgba(55, 128, 191,0.2)',
                     colormax: 'rgba(55, 128, 191,0.2)',
-                    stats: [{}]
+                    stats: [{}],
+                    binSize: 20,
+                    count: 0,
                 },
             ],
             timer: "",
@@ -516,7 +520,7 @@ export default {
             // this.graphListResults = []
 
             this.graphList.forEach((graphItem, idx) => {
-                let url = `${appConfig.API_URL}/api/session_plots_json/${this.uid}/${graphItem.group}/${graphItem.value}/${graphItem.stepField}`;
+                let url = `${appConfig.API_URL}/api/session_plots_json/${this.uid}/${graphItem.group}/${graphItem.value}/${graphItem.stepField}?bin_size=${graphItem.binSize}`;
                 // console.log("Fetching: "+ url);
 
                 axios

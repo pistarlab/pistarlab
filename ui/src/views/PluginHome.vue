@@ -49,10 +49,10 @@
     <div v-if="!managePluginId">
         <b-navbar toggleable="lg" type="light" variant="alert">
             Status:
-            <b-button-group>
-                <b-button :pressed="selectedStatus==''" size="sm" variant="primary" @click="updateStatusFilter('')">Any</b-button>
-                <b-button :pressed="selectedStatus=='installed'" size="sm" variant="primary" @click="updateStatusFilter('installed')">Installed</b-button>
-                <b-button :pressed="selectedStatus=='avail'" size="sm" variant="primary" @click="updateStatusFilter('avail')">Not Installed</b-button>
+            <b-button-group size="sm">
+                <b-button :pressed="selectedStatus==''"  variant="" @click="updateStatusFilter('')">Any</b-button>
+                <b-button :pressed="selectedStatus=='installed'"  variant="" @click="updateStatusFilter('installed')">Installed</b-button>
+                <b-button :pressed="selectedStatus=='avail'"  variant="" @click="updateStatusFilter('avail')">Not Installed</b-button>
 
             </b-button-group>
             <b-form-input v-model="searchtext" placeholder="Search Plugins" style="width:250px;" class='ml-2'></b-form-input>
@@ -87,25 +87,23 @@
                     <b-col>
                         <div>
                             <b-button v-if="item.status == 'AVAILABLE'" size="sm" variant="info" @click="installPlugin(item.id,item.version);">Install</b-button>
-                            <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="primary" disabled>
+                            <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="" disabled>
                                 <b-spinner small type="grow"></b-spinner>Installing...
                             </b-button>
                             <div v-else>
                                 <b-button v-if="item.status == 'INSTALL_FAILED'" size="sm" variant="secondary" class="mr-2" @click="installPlugin(item.id,item.version);">Retry Install</b-button>
                                 <b-button v-if="item.status == 'INSTALLED'" size="sm" variant="secondary" class="mr-2" @click="installPlugin(item.id,item.version);">Reinstall</b-button>
 
-                                <b-button class="mr-2" size="sm" variant="danger" @click="removePlugin(item.id,item.version)">Uninstall</b-button>
+                                <b-button class="mr-2" size="sm" variant="" @click="removePlugin(item.id,item.version)">Uninstall</b-button>
                                 <!-- <b-button v-if="['INSTALLED','PREPPED_RELOAD'].includes(item.status)" class="mr-2" size="sm" variant="secondary" @click="reloadPlugin(item.id,item.version)">Reload</b-button> -->
                             </div>
                         </div>
                     </b-col>
                 </b-row>
                 <b-row v-if="item.source.name == 'Workspace'" class="mb-2">
-                    <b-col cols=1 class="text-right">
-                        <b-badge pill variant="warning"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
 
-                    </b-col>
                     <b-col>
+                        <b-badge pill variant="warning" class="mr-2"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
                         <span style="color:yellow">{{item.full_path}}</span>
 
                     </b-col>

@@ -1,10 +1,12 @@
 <template>
 <div>
-    <h3>Agent Specs</h3>
+    <h3>Agent Specs </h3>
+    <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;"></b-form-input>
+
     <b-container fluid>
         <div v-if="$apollo.queries.agentSpecs.loading">Loading..</div>
         <div v-else-if="agentSpecs && agentSpecs.length > 0">
-            <div v-for="item in agentSpecs" :key="item.id">
+            <div v-for="item in specs" :key="item.id">
                 <b-row class="pt-4" v-if="!item.disabled">
 
                     <b-col class="">
@@ -82,16 +84,36 @@ export default {
         return {
             selectedSpecId: null,
             agentSpecs: [],
-            searchQuery: "",
+            searchtext: "",
             error: "",
             message: "No Agent Specs Available",
         };
     },
 
     computed: {
-        // items() {
-        //   return this.qlitems
-        // }
+        specs() {
+            if (this.agentSpecs == null || this.agentSpecs.length == 0) return [];
+            else {
+                if (this.searchtext != "") {
+                    return this.agentSpecs.filter((v) => {
+                        var vals = [v.displayedName, v.ident, v.pluginId]
+                        var keep = false
+                        for (let st of vals) {
+                            if (st != null && st.toLowerCase().includes(this.searchtext.toLowerCase())) {
+                                keep = true
+                                break;
+                            }
+
+                        }
+                        return keep
+
+                    })
+                } else {
+                    return this.agentSpecs
+                }
+
+            }
+        }
     },
     methods: {
         select(specId) {

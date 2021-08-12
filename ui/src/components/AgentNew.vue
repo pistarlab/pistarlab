@@ -55,7 +55,10 @@
                     <b-tabs content-class="mt-3" justified>
                         <b-tab title="Create using defaults" active>
 
-                            <div class="mt-4"></div>
+                            <div class="mt-4">
+                                Use default parameters.
+
+                            </div>
 
                         </b-tab>
                         <b-tab title="Create with Agent Builder">

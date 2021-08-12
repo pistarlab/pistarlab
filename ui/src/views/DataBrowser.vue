@@ -12,9 +12,13 @@
     <div class="pt-2"></div>
 
     <b-table striped hover :items="itemList" :fields="fields" :dark="false" :small="true">
+
         <template v-slot:cell(name)="data">
-            <b-link  @click="updateURL(`${urlFilePath}${data.item.name}`,data.item.is_dir)">{{ data.item.name }}</b-link>
-            
+
+            <b-link @click="updateURL(`${urlFilePath}${data.item.name}`,data.item.is_dir)">
+                <i v-if="data.item.is_dir" class="fa fa-folder" style="color:yellow"></i>
+                <i v-else class="fa fa-file" style="color:white"></i> 
+                <span class="ml-2">{{ data.item.name }}</span></b-link>
         </template>
     </b-table>
 
@@ -36,11 +40,6 @@ const fields = [{
     {
         key: "date",
         label: "Date Modified",
-        sortable: true
-    },
-    {
-        key: "is_dir",
-        label: "is_directory",
         sortable: true
     },
     {
@@ -90,21 +89,20 @@ export default {
         }
     },
     methods: {
-        updateURL(newUrlPath,is_dir) {
+        updateURL(newUrlPath, is_dir) {
             if (!newUrlPath || newUrlPath == "/") {
                 newUrlPath = "";
             }
-            if (is_dir){
+            if (is_dir) {
                 this.urlFilePath = newUrlPath
             }
-            
+
             this.fetchData(newUrlPath)
 
         },
 
         fetchData(url) {
             let fullURL = `${appConfig.API_URL}/api/browser/` + url
-
 
             axios
                 .get(fullURL)

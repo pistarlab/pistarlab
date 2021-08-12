@@ -123,11 +123,12 @@ DEFAULT_AGENT_PARAMS = {
         "path": "trainer_config.model.dim",
         "data_type": "int",
         "mode": "default",
+        "default": 84,
+
         "interfaces": [],
         "type_info": {
             "min": 1,
-            "max": 1000,
-            "default": 84
+            "max": 1000
         }
     },
     "trainer_config.model.conv_filters": {
@@ -136,13 +137,14 @@ DEFAULT_AGENT_PARAMS = {
         "path": "trainer_config.model.conv_filters",
         "data_type": "list",
         "mode": "default",
+        "default":"[[16, [4, 4], 2], [32, [4, 4], 2], [256, [11, 11], 1]]",
         "interfaces": [],
         "type_info": {
-            "sub_type": "int",
-            "default": "[[16, [4, 4], 2], [32, [4, 4], 2], [256, [11, 11], 1]]"
+            "sub_type": "int"
 
         }
     },
+       
     "trainer_config.model.fcnet_hiddens": {
         "displayed_name": "Fully Connected Hiddens",
         "description": "Size and number of hidden layers to be used. These are used if no custom model is specified and the input space is 1D",
@@ -151,8 +153,7 @@ DEFAULT_AGENT_PARAMS = {
         "mode": "default",
         "interfaces": [],
         "type_info": {
-            "sub_type": "int",
-            "default": 256
+            "sub_type": "int"
         }
     },
 

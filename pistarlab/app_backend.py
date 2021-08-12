@@ -53,13 +53,14 @@ app.add_url_rule(
     )
 )
 
+
 def not_in_readonly_mode(fn):
     @wraps(fn)
-    def decorator(*args, **kwargs):            
+    def decorator(*args, **kwargs):
         if ctx.config.read_only_mode:
-            msg =  "Not available in read-only mode"
+            msg = "Not available in read-only mode"
             ctx.get_logger().error(msg)
-            response = make_response({'item': {'error':msg}})
+            response = make_response({'item': {'error': msg}})
             response.headers['Content-Type'] = 'application/json'
             return response
         return fn(*args, **kwargs)
@@ -79,7 +80,7 @@ def api_task_admin(command, uid):
     message = ""
     try:
         if command == "stop":
-            task:Task = Task.load(uid)
+            task: Task = Task.load(uid)
             task.shutdown()
             success = True
             message = "Task stop Request Sucessful for {}".format(uid)
@@ -93,7 +94,8 @@ def api_task_admin(command, uid):
             message = "Error"
     except Exception as e:
         success = False
-        message = "Error during {} request of TASK with id {}.\nException: {},\nTraceback: {}".format(command, uid, e, traceback.format_exc())
+        message = "Error during {} request of TASK with id {}.\nException: {},\nTraceback: {}".format(
+            command, uid, e, traceback.format_exc())
     response = make_response({'message': message, 'success': success})
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -139,6 +141,7 @@ def api_workspace_data():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 @app.route("/api/overview/")
 def api_overview_data():
     # TODO: Cleanup/speedup by using COUNT query
@@ -146,12 +149,15 @@ def api_overview_data():
     data['total_agents'] = len(ctx.list_agents())
     data['total_agent_specs'] = len(ctx.list_agent_specs())
     data['total_env_specs'] = len(ctx.list_env_specs())
-    data['total_installed_plugins'] = len(ctx.list_plugins(status_filter="INSTALLED"))
+    data['total_installed_plugins'] = len(
+        ctx.list_plugins(status_filter="INSTALLED"))
     data['total_sessions'] = len(ctx.list_sessions())
-    data['active_sessions'] = len(ctx.list_sessions(status_filter=set(STATE_RUNNING)))
+    data['active_sessions'] = len(
+        ctx.list_sessions(status_filter={STATE_RUNNING}))
     response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @app.route("/api/status/")
 def api_status_data():
@@ -159,6 +165,7 @@ def api_status_data():
     response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @app.route("/api/reload_default_data/")
 @not_in_readonly_mode
@@ -174,6 +181,7 @@ def api_reload_default_data():
     response = make_response({'data': message})
     response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @app.route("/api/open_plugin_with_ide/<plugin_id>")
 @not_in_readonly_mode
@@ -194,23 +202,23 @@ def open_plugin_with_ide(plugin_id):
         except Exception as e:
             message = f"Failed to launch  VSCode {e}"
 
-
-    response = make_response({'success': success, "message":message})
+    response = make_response({'success': success, "message": message})
     response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @app.route("/api/check_for_ide/")
 @not_in_readonly_mode
 def api_check_for_ide():
     success = False
-    message =""
+    message = ""
     try:
         output = subprocess.check_output(f"code --version", shell=True)
         message = f"VS Code Found: {output}"
         success = True
     except Exception as e:
         message = f"VSCode not found? Error: {e}"
-    response = make_response({'success': success, "message":message})
+    response = make_response({'success': success, "message": message})
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -247,17 +255,19 @@ def api_plugin_create():
     try:
         logging.info("Create Plugin")
         data = request.get_json()
-        ctx.create_new_plugin(data['plugin_id'], data['plugin_name'], data['description'])
+        ctx.create_new_plugin(
+            data['plugin_id'], data['plugin_name'], data['description'])
         response = make_response({'successful': True})
     except Exception as e:
         logging.error(e)
-        response = make_response({'successful': False, 'error': "{}".format(e), "traceback": traceback.format_exc()})
+        response = make_response({'successful': False, 'error': "{}".format(
+            e), "traceback": traceback.format_exc()})
     response.headers['Content-Type'] = 'application/json'
     return response
 
-#-----------------------------------------
+# -----------------------------------------
 #              plugins
-#-----------------------------------------
+# -----------------------------------------
 @app.route("/api/plugins/list")
 def api_plugins_list():
     results = ctx.plugin_manager.get_all_plugins()
@@ -265,12 +275,14 @@ def api_plugins_list():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 @app.route("/api/plugin/view/<plugin_id>")
 def api_plugin_view(plugin_id):
     results = ctx.plugin_manager.get_plugins_by_id(plugin_id)[0]
     response = make_response({'item': results})
     response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @app.route("/api/plugins/action/<action_name>/<plugin_id>/<plugin_version>")
 @not_in_readonly_mode
@@ -289,14 +301,15 @@ def api_plugin_action(action_name, plugin_id, plugin_version):
 
     return response
 
-#-----------------------------------------
+# -----------------------------------------
 #              Snapshots
-#-----------------------------------------
+# -----------------------------------------
 @app.route("/api/snapshots/list/<spec_id>")
 def api_snapshots_list(spec_id=None):
     if spec_id == "undefined":
         spec_id = None
-    snapshots = [entry for entry in ctx.get_snapshot_index()['entries'].values() if spec_id is None or entry['spec_id'] == spec_id]
+    snapshots = [entry for entry in ctx.get_snapshot_index(
+    )['entries'].values() if spec_id is None or entry['spec_id'] == spec_id]
     response = make_response({'items': snapshots})
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -304,7 +317,8 @@ def api_snapshots_list(spec_id=None):
 
 @app.route("/api/snapshots/agent/list/<seed>")
 def api_snapshots_list_for_agent_id(seed):
-    snapshots = [entry for entry in ctx.get_snapshot_index()['entries'].values() if entry['seed'] == seed]
+    snapshots = [entry for entry in ctx.get_snapshot_index(
+    )['entries'].values() if entry['seed'] == seed]
     response = make_response({'items': snapshots})
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -326,13 +340,14 @@ def api_snapshot_publish():
         ctx.update_snapshot_index()
         response = make_response({'item': {'snapshot_data': snapshot_data}})
     except Exception as e:
-        response = make_response({'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
     response.headers['Content-Type'] = 'application/json'
     return response
 
-#-----------------------------
+# -----------------------------
 #         Data Streams
-#-----------------------------
+# -----------------------------
 @app.route('/api/stream/events')
 def stream_events():
     logging.info("Connecting to server event stream")
@@ -437,7 +452,8 @@ def stream_entity_logs(entity, id):
             path = ctx.get_store().get_path_from_key((entity, id))
             for file in os.listdir(path):
                 if file.startswith("log_"):
-                    data_batch.extend(ctx.get_store().get(key=(entity, id), name=file.replace(".txt", ""), stype="txt"))
+                    data_batch.extend(ctx.get_store().get(
+                        key=(entity, id), name=file.replace(".txt", ""), stype="txt"))
         except:
             pass
         clear_old = True
@@ -473,9 +489,9 @@ def stream_entity_logs(entity, id):
 
     return Response(gen(), mimetype='text/event-stream')
 
-#-----------------------------------------
+# -----------------------------------------
 #               Agents
-#-----------------------------------------
+# -----------------------------------------
 @app.route("/api/new_agent_submit", methods=['POST'])
 def api_new_agent_submit():
     try:
@@ -487,12 +503,14 @@ def api_new_agent_submit():
         if snapshot_id is None or snapshot_id == "":
             agent = Agent.create(spec_id=spec_id, config=config)
         else:
-            logging.info(f"Creating New Agent Instance from snapshot id {snapshot_id}")
+            logging.info(
+                f"Creating New Agent Instance from snapshot id {snapshot_id}")
             agent = ctx.create_agent_from_snapshot(snapshot_id)
 
         response = make_response({'item': {'uid': agent.get_id()}})
     except Exception as e:
-        response = make_response({'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -511,13 +529,14 @@ def api_agent_modify_tag(action, agent_id, tag):
         response = make_response({'status': "ok"})
 
     except Exception as e:
-        response = make_response({'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
     response.headers['Content-Type'] = 'application/json'
     return response
 
-#-----------------------------------------
+# -----------------------------------------
 #                 Tasks
-#-----------------------------------------
+# -----------------------------------------
 @app.route("/api/new_session_task_submit", methods=['POST'])
 @app.route("/api/submit_agent_task", methods=['POST'])
 @not_in_readonly_mode
@@ -554,7 +573,8 @@ def api_submit_agent_task():
 
         response = make_response({'item': {'uid': task_id}})
     except Exception as e:
-        response = make_response({'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -593,13 +613,16 @@ def api_new_task_submit():
 
         response = make_response({'item': {'uid': task_id}})
     except Exception as e:
-        response = make_response({'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
     response.headers['Content-Type'] = 'application/json'
     return response
 
 # ---------------------------------------
 #              Plot Data
 # ---------------------------------------
+
+
 def chunk_list_simple(data, chunk_max=10):
     """
     if more than one value in range for a given chunk, returns both max and min
@@ -626,27 +649,34 @@ def chunk_list_simple(data, chunk_max=10):
     return result_data
 
 
-def bin_data(data, bins=[(50, 10), (200, 20), (500, 50), (1000, 100), (10000, 1000), (50000, 2000), (100000, 10000), (1000000, 50000), (2000000, 100000)]):
-    data_size = len(data)
-    chunk_size = 1
-    for thresh, chunk_size_candidate in bins:
-        if data_size > thresh:
-            chunk_size = chunk_size_candidate
+def select_bin_size(count, bins=[(50, 10), (200, 20), (500, 50), (1000, 100), (10000, 1000), (50000, 2000), (100000, 10000), (1000000, 50000), (2000000, 100000)]):
+    bin_size = 1
+    for thresh, bin_size_candidate in bins:
+        if count > thresh:
+            bin_size = bin_size_candidate
         else:
-            break
+            return bin_size
 
-    parts = int(data_size / chunk_size)
+    return bin_size
+
+
+def bin_data(data, bin_size=None,start_idx_offset=0):
+    data_size = len(data)
+    if bin_size is None:
+        bin_size = select_bin_size(data_size)
+
+    parts = int(data_size / bin_size)
     result_data = []
     include_stats = False
-    if chunk_size == 1:
+    if bin_size == 1:
         for i in range(data_size):
             val = data[i]
             result_data.append((i, val[1]))
     else:
         include_stats = True
         for chunk in range(parts):
-            start_idx = chunk * chunk_size
-            end_idx = min(chunk * chunk_size + chunk_size, data_size)
+            start_idx = chunk * bin_size
+            end_idx = min(chunk * bin_size + bin_size, data_size)
             vals = [data[i][1] for i in range(start_idx, end_idx)]
             num_vals = len(vals)
             xmin = min(vals)
@@ -655,24 +685,56 @@ def bin_data(data, bins=[(50, 10), (200, 20), (500, 50), (1000, 100), (10000, 10
             std_dev = math.sqrt(sum((x - xmean)**2 for x in vals) / num_vals)
             xlower = xmean - std_dev
             xupper = xmean + std_dev
-            result_data.append((start_idx, xmean, xmin, xmax, xlower, xupper))
+            result_data.append((start_idx+start_idx_offset, xmean, xmin, xmax, xlower, xupper))
 
     return result_data, include_stats
 
 
+def slice_dict_head(data, idx):
+    ndata = {}
+    for k, items in data.items():
+        ndata[k] = items[idx:]
+    return ndata
+
+
 @app.route("/api/session_plots_json/<sid>/<data_group>/<data_name>/<step_field>")
 def api_session_plots_json(sid, data_group, data_name, step_field):
+    bin_size = int(request.args.get('bin_size',"0"))
+    max_steps = int(request.args.get('max_steps',"0"))
+    total_count = 0
+    actual_count = 0
     try:
+
         orig_data = ctx.get_store().get_session_data(session_id=sid, name=data_group)
+
         step_counts = orig_data[step_field]
+        total_count = len(step_counts)
+        actual_count = total_count
+        step_counts = range(total_count)
+
+        if max_steps > 0:
+            max_steps = int(max_steps)
+            if total_count > max_steps:
+                orig_data = slice_dict_head(orig_data, total_count-max_steps)
+                actual_count = len(step_counts)
+                step_counts = range(actual_count)
+
         data = orig_data[data_name]
-        values, include_stats = bin_data([(step, value) for step, value in zip(step_counts, data)])
-        logging.debug("total_data {}, final_values= {}".format(len(orig_data), len(values)))
+        if bin_size > 0:
+            bin_size = int(bin_size)
+        else:
+            bin_size = select_bin_size(actual_count)
+
+        values, include_stats = bin_data(
+            [(step, value) for step, value in zip(step_counts, data)],bin_size=bin_size)
+        logging.debug("total_data {}, final_values= {}".format(
+            len(orig_data), len(values)))
         graph = {}
         graph['include_stats'] = include_stats
         if include_stats:
             idxs, means, mins, maxs, lowers, uppers = map(list, zip(*values))
-            graph['data'] = dict(idxs=idxs, means=means, mins=mins, maxs=maxs, lowers=lowers, uppers=uppers)
+            graph['data'] = dict(
+                idxs=idxs, means=means, mins=mins, maxs=maxs, lowers=lowers, uppers=uppers)
         else:
             idxs, vals = map(list, zip(*values))
             graph['data'] = dict(idxs=idxs, vals=vals)
@@ -681,7 +743,8 @@ def api_session_plots_json(sid, data_group, data_name, step_field):
         response = make_response(graphJSON)
 
     except Exception as e:
-        response = make_response({'error': '{}'.format(e), 'traceback': traceback.format_exc()})
+        response = make_response(
+            {'error': '{}'.format(e), 'traceback': traceback.format_exc()})
         logging.error(e)
 
     response.headers['Content-Type'] = 'application/json'
@@ -694,8 +757,10 @@ def api_session_plotly_json(sid, data_group, data_name, step_field):
         orig_data = ctx.get_store().get_session_data(session_id=sid, name=data_group)
         step_counts = orig_data[step_field]
         data = orig_data[data_name]
-        values, include_stats = bin_data([(step, value) for step, value in zip(step_counts, data)])
-        logging.debug("total_data {}, final_values= {}".format(len(orig_data), len(values)))
+        values, include_stats = bin_data(
+            [(step, value) for step, value in zip(step_counts, data)])
+        logging.debug("total_data {}, final_values= {}".format(
+            len(orig_data), len(values)))
         graph = {}
         if include_stats:
             idxs, means, mins, maxs, lowers, uppers = map(list, zip(*values))
@@ -708,48 +773,91 @@ def api_session_plotly_json(sid, data_group, data_name, step_field):
         response = make_response(graphJSON)
 
     except Exception as e:
-        response = make_response({'error': '{}'.format(e), 'traceback': traceback.format_exc()})
+        response = make_response(
+            {'error': '{}'.format(e), 'traceback': traceback.format_exc()})
         logging.error(e)
 
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 @app.route("/api/agent_plots_json/<uid>")
 def api_agent_plots_json(uid):
+    bin_size = int(request.args.get('bin_size',"0"))
+    max_steps = int(request.args.get('max_steps',"0"))
+    total_count = 0
+    actual_count = 0
+    allplotdata = {}
 
     try:
-        orig_data = ctx.get_store().get_multipart_dict(key=('agent', uid), name='stats')
-        step_counts = range(len(orig_data['timestamp']))
 
-        cols = [col for col in orig_data.keys() if col not in ['timestamp', 'learn_step', 'task_id']]
-        allplotdata = {}
+        orig_data = ctx.get_store().get_multipart_dict(key=('agent', uid), name='stats')
+        if orig_data is None:
+            raise Exception(f"No stats data found for agent {uid}")
+        orig_data.pop("model") #TODO: fix at source
+
+        total_count = len(orig_data['timestamp'])
+        actual_count = total_count
+        step_counts = range(total_count)
+        start_idx_offset = 0
+
+        if max_steps > 0:
+            max_steps = int(max_steps)
+            if total_count > max_steps:
+                start_idx_offset = total_count-max_steps
+                orig_data = slice_dict_head(orig_data, total_count-max_steps)
+                actual_count = len(orig_data['timestamp'])
+                step_counts = range(actual_count)
+
+        cols = [col for col in orig_data.keys() if col not in [
+            'timestamp', 'learn_step', 'task_id']]
 
         color_map = cm.get_cmap('tab20', 20)
+        if bin_size > 0:
+            bin_size = int(bin_size)
+        else:
+            bin_size = select_bin_size(actual_count)
 
         for i, col in enumerate(cols):
             data = orig_data[col]
             try:
-                values, include_stats = bin_data([(step, value) for step, value in zip(step_counts, data)])
-                logging.debug("total_data {}, final_values= {}".format(len(orig_data), len(values)))
+                values, include_stats = bin_data(
+                    [(step, value) for step, value in zip(step_counts, data)], bin_size=bin_size,start_idx_offset=start_idx_offset)
+                logging.info("total_data {}, final_values= {}".format(
+                    len(orig_data), len(values)))
                 graph = {}
                 color_code = [int(v * 255) for v in color_map(i % 20)[0:3]]
-                color = "rgb({},{},{})".format(color_code[0], color_code[1], color_code[2])
+                color = "rgb({},{},{})".format(
+                    color_code[0], color_code[1], color_code[2])
 
                 if include_stats:
-                    idxs, means, mins, maxs, lowers, uppers = map(list, zip(*values))
-                    graph['data'] = dict(x=idxs, y=means, name=uid, line={"color": color})
+                    idxs, means, mins, maxs, lowers, uppers = map(
+                        list, zip(*values))
+                    graph['data'] = dict(
+                        x=idxs, y=means, name=uid, line={"color": color})
                 else:
                     idxs, vals = map(list, zip(*values))
-                    graph['data'] = dict(x=idxs, y=vals, name=uid, line={"color": color})
+                    graph['data'] = dict(
+                        x=idxs, y=vals, name=uid, line={"color": color})
 
                 graph['layout'] = dict(title=col)
                 allplotdata[col] = graph
-            except:
+            except Exception as e:
+                logging.error(e)
+
                 pass
-        graphDataJSON = json.dumps(allplotdata)  # , cls=plotly.utils.PlotlyJSONEncoder)
-        response = make_response(graphDataJSON)
+        response_data = {
+            'plot_data': allplotdata,
+            'total_count': total_count,
+            'actual_count': actual_count,
+        }  # , cls=plotly.utils.PlotlyJSONEncoder)
+
+
+        response = make_response(response_data)
     except Exception as e:
-        response = make_response({'error': '{}'.format(e), 'traceback': traceback.format_exc()})
+        logging.error('msg: {}, traceback: {}'.format(e,traceback.format_exc()))
+        response = make_response(
+            {'error': '{}'.format(e), 'traceback': traceback.format_exc()})
 
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -783,7 +891,8 @@ def session_episode_mp4(sid, eid):
         default_fps = ctx.get_session(sid).env_spec.meta.get('render_fps', 30)
     except:
         default_fps = 30
-    video_filename = os.path.join(ctx.get_store().root_path, 'session', sid, 'episode', eid, "{}.mp4".format(eid))
+    video_filename = os.path.join(
+        ctx.get_store().root_path, 'session', sid, 'episode', eid, "{}.mp4".format(eid))
     fps = int(request.args.get('fps', str(default_fps)))
     # refresh = bool(request.args.get('refresh', "True"))
 
@@ -791,7 +900,8 @@ def session_episode_mp4(sid, eid):
     #     return send_file(video_filename, mimetype="video/mp4")
     # os.remove(video_filename)
 
-    image_path = os.path.join(ctx.get_store().root_path, 'session', sid, 'episode', eid, 'images')
+    image_path = os.path.join(
+        ctx.get_store().root_path, 'session', sid, 'episode', eid, 'images')
     try:
         import ffmpeg
         (
@@ -821,13 +931,15 @@ def tryparse(x, type_, default):
 def api_session_episodes(sid):
 
     _, episodes = ctx.get_store().list(('session', sid, 'episode'))
-    episodes = sorted(episodes, key=lambda x: tryparse(x, int, 0), reverse=True)
+    episodes = sorted(episodes, key=lambda x: tryparse(
+        x, int, 0), reverse=True)
     max_recorded_ep = None
 
     if len(episodes) > 0:
         max_recorded_ep = episodes[0]
 
-    data = {'items': episodes, 'max_recorded_ep': max_recorded_ep, 'total_recorded': len(episodes)}
+    data = {'items': episodes, 'max_recorded_ep': max_recorded_ep,
+            'total_recorded': len(episodes)}
     response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -835,7 +947,8 @@ def api_session_episodes(sid):
 
 @app.route("/api/session_episode_by_id/<sid>/<episode_id>")
 def api_session_episode_by_id(sid, episode_id):
-    episode = ctx.get_store().get_multipart_dict(('session', sid, 'episode', episode_id), name='recording')
+    episode = ctx.get_store().get_multipart_dict(
+        ('session', sid, 'episode', episode_id), name='recording')
     data = {'item': episode}
     response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
@@ -850,13 +963,15 @@ def api_session_max_episode_recorded(sid):
         response = make_response({'message': "Error"})
         response.headers['Content-Type'] = 'application/json'
         return response
-    episodes = sorted(episodes, key=lambda x: tryparse(x, int, 0), reverse=True)
+    episodes = sorted(episodes, key=lambda x: tryparse(
+        x, int, 0), reverse=True)
     max_recorded_ep = None
 
     if len(episodes) > 0:
         max_recorded_ep = episodes[0]
 
-    data = {'max_recorded_ep': max_recorded_ep, 'total_recorded': len(episodes)}
+    data = {'max_recorded_ep': max_recorded_ep,
+            'total_recorded': len(episodes)}
     response = make_response(data)
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -900,7 +1015,8 @@ def api_browser(urlFilePath=""):
 
             if len(urlFilePath) > 0:
                 urlFilePath = urlFilePath + "/"
-            response = make_response({'urlFilePath': urlFilePath, 'itemList': itemListResults})
+            response = make_response(
+                {'urlFilePath': urlFilePath, 'itemList': itemListResults})
             response.headers['Content-Type'] = 'application/json'
             return response
         elif os.path.isfile(fullFilePath):
@@ -909,7 +1025,8 @@ def api_browser(urlFilePath=""):
             response.headers['Content-Type'] = 'application/json'
             return response
     except Exception as e:
-        response = make_response({'error': "something bad happened", "exception": e})
+        response = make_response(
+            {'error': "something bad happened", "exception": e})
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -934,7 +1051,8 @@ def api_download(urlFilePath=""):
 
             return send_file(fullFilePath, mimetype=mimetype)
     except Exception as e:
-        response = make_response({'error': "something bad happened", "exception": e})
+        response = make_response(
+            {'error': "something bad happened", "exception": e})
         response.headers['Content-Type'] = 'application/json'
         return response
     response = make_response({'error': "invalid input {}".format(urlFilePath)})
@@ -942,9 +1060,9 @@ def api_download(urlFilePath=""):
     return response
 
 
-#-------------------------------
+# -------------------------------
 # Serve Static Files
-#-------------------------------
+# -------------------------------
 @app.route("/api/env_preview_image/<image_name>")
 def api_env_preview_image(image_name):
     path_root = ctx.get_store().get_path_from_key((SYS_CONFIG_DIR, 'envs'))
@@ -960,15 +1078,15 @@ def api_env_preview_image(image_name):
 @app.route("/api/config")
 def api_config():
     response = make_response(
-        {#"env": dict(os.environ),
-         "sys_config": ctx.config.__dict__})
+        {  # "env": dict(os.environ),
+            "sys_config": ctx.config.__dict__})
     response.headers['Content-Type'] = 'application/json'
     return response
 
 
 @app.route('/')
 def index():
-    return send_file(os.path.join('uidist','index.html'))
+    return send_file(os.path.join('uidist', 'index.html'))
 
 
 @app.route('/<path:path>')
@@ -1000,10 +1118,12 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--debug", action="store_true", help="debug mode")
-    parser.add_argument("--autoreload", action="store_true", help="auto reload changes")
+    parser.add_argument("--autoreload", action="store_true",
+                        help="auto reload changes")
     parser.add_argument("--port", help="port", default=7777)
     parser.add_argument("--host", help="host", default="0.0.0.0")
-    parser.add_argument("--enable_profiler", action="store_true", help="Enable profiler")
+    parser.add_argument("--enable_profiler",
+                        action="store_true", help="Enable profiler")
 
     args = parser.parse_args()
     if args.enable_profiler:
@@ -1017,13 +1137,15 @@ def main():
         ctx.close()
         if args.enable_profiler:
             profiler.stop()
-        print(profiler.output_text(unicode=True, color=True, show_all=True, timeline=True))
+        print(profiler.output_text(unicode=True,
+                                   color=True, show_all=True, timeline=True))
         print("Shutdown Complete")
         sys.exit()
 
     ctx.initialize()
     signal.signal(signal.SIGINT, graceful_exit)
-    app.run(host=args.host, port=args.port, debug=args.debug, use_reloader=args.autoreload)
+    app.run(host=args.host, port=args.port,
+            debug=args.debug, use_reloader=args.autoreload)
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ function timelength(mills) {
       return `${fSecs} ${secsname}`;
     }
 }
+
 function timedeltafordate(v) {
     
     const mills = (new Date()) - (new Date(v+"Z"));

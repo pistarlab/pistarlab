@@ -76,6 +76,7 @@ const GET_SESSIONLIST = gql `
       config
       runInfo
       status
+      sessionType
       task {
         ident
       }          
@@ -97,6 +98,9 @@ const fields = [{
         key: "envSpecId",
         label: "Environment",
     }, {
+        key: "sessionType",
+        label: "Session Type",
+    },{
         key: "agentId",
         label: "Agent",
     },
