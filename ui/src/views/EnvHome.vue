@@ -113,7 +113,7 @@
 
              <div class="mt-4"></div>
                 <b-row>
-                    <b-col class="d-flex flex-wrap mb-4">
+                    <b-col class="d-flex flex-wrap justify-content-center  mb-4">
                         <span v-for="(item, idx) in items" v-bind:key="idx" class="m-2" @click="selectGroup(idx)" v-b-modal.modal-selected style="min-width:150px">
                             <EnvironmentCard :item="item"></EnvironmentCard>
                         </span>

@@ -671,21 +671,24 @@ def bin_data(data, bin_size=None,start_idx_offset=0):
     if bin_size == 1:
         for i in range(data_size):
             val = data[i]
-            result_data.append((i, val[1]))
+            result_data.append((i, val[1],val[0]))
     else:
         include_stats = True
         for chunk in range(parts):
             start_idx = chunk * bin_size
             end_idx = min(chunk * bin_size + bin_size, data_size)
             vals = [data[i][1] for i in range(start_idx, end_idx)]
+            xlabels = [data[i][0] for i in range(start_idx, end_idx)]
+            xlabel = max(xlabels)
             num_vals = len(vals)
-            xmin = min(vals)
-            xmax = max(vals)
-            xmean = sum(vals) / num_vals
-            std_dev = math.sqrt(sum((x - xmean)**2 for x in vals) / num_vals)
-            xlower = xmean - std_dev
-            xupper = xmean + std_dev
-            result_data.append((start_idx+start_idx_offset, xmean, xmin, xmax, xlower, xupper))
+            vmin = min(vals)
+            vmax = max(vals)
+            vmean = sum(vals) / num_vals
+            std_dev = math.sqrt(sum((x - vmean)**2 for x in vals) / num_vals)
+            vlower = vmean - std_dev
+            vupper = vmean + std_dev
+            result_data.append((start_idx+start_idx_offset, vmean, vmin, vmax, vlower, vupper,xlabel))
+
 
     return result_data, include_stats
 
@@ -710,14 +713,13 @@ def api_session_plots_json(sid, data_group, data_name, step_field):
         step_counts = orig_data[step_field]
         total_count = len(step_counts)
         actual_count = total_count
-        step_counts = range(total_count)
 
         if max_steps > 0:
             max_steps = int(max_steps)
             if total_count > max_steps:
                 orig_data = slice_dict_head(orig_data, total_count-max_steps)
                 actual_count = len(step_counts)
-                step_counts = range(actual_count)
+                step_counts = orig_data[step_field]
 
         data = orig_data[data_name]
         if bin_size > 0:
@@ -726,18 +728,20 @@ def api_session_plots_json(sid, data_group, data_name, step_field):
             bin_size = select_bin_size(actual_count)
 
         values, include_stats = bin_data(
-            [(step, value) for step, value in zip(step_counts, data)],bin_size=bin_size)
-        logging.debug("total_data {}, final_values= {}".format(
-            len(orig_data), len(values)))
+            [(step, value) for step, value in zip(step_counts, data)],
+            bin_size=bin_size)
+
+        logging.info("total_data {}, final_values= {}".format(
+            len(step_counts), len(values)))
         graph = {}
         graph['include_stats'] = include_stats
         if include_stats:
-            idxs, means, mins, maxs, lowers, uppers = map(list, zip(*values))
+            idxs, means, mins, maxs, lowers, uppers, xlabels = map(list, zip(*values))
             graph['data'] = dict(
-                idxs=idxs, means=means, mins=mins, maxs=maxs, lowers=lowers, uppers=uppers)
+                idxs=idxs, means=means, mins=mins, maxs=maxs, lowers=lowers, uppers=uppers,xlabels=xlabels)
         else:
-            idxs, vals = map(list, zip(*values))
-            graph['data'] = dict(idxs=idxs, vals=vals)
+            idxs, vals, xlabels = map(list, zip(*values))
+            graph['data'] = dict(idxs=idxs, vals=vals,xlabels=xlabels)
 
         graphJSON = json.dumps(graph)
         response = make_response(graphJSON)
@@ -763,14 +767,15 @@ def api_session_plotly_json(sid, data_group, data_name, step_field):
             len(orig_data), len(values)))
         graph = {}
         if include_stats:
-            idxs, means, mins, maxs, lowers, uppers = map(list, zip(*values))
+            idxs, means, mins, maxs, lowers, uppers,xlabels = map(list, zip(*values))
             graph['data'] = dict(x=idxs, y=means, name=sid)
         else:
-            idxs, vals = map(list, zip(*values))
+            idxs, vals,xlabels = map(list, zip(*values))
             graph['data'] = dict(x=idxs, y=vals, name=sid)
         graph['layout'] = dict(title="{} - {}".format(data_group, data_name))
         graphJSON = json.dumps(graph)
         response = make_response(graphJSON)
+
 
     except Exception as e:
         response = make_response(
@@ -831,12 +836,12 @@ def api_agent_plots_json(uid):
                     color_code[0], color_code[1], color_code[2])
 
                 if include_stats:
-                    idxs, means, mins, maxs, lowers, uppers = map(
+                    idxs, means, mins, maxs, lowers, uppers, xlabels = map(
                         list, zip(*values))
                     graph['data'] = dict(
                         x=idxs, y=means, name=uid, line={"color": color})
                 else:
-                    idxs, vals = map(list, zip(*values))
+                    idxs, vals, xlabels = map(list, zip(*values))
                     graph['data'] = dict(
                         x=idxs, y=vals, name=uid, line={"color": color})
 
@@ -887,13 +892,16 @@ def get_chunk(full_path, byte1=None, byte2=None):
 
 @app.route("/api/session_episode_mp4/<sid>/<eid>")
 def session_episode_mp4(sid, eid):
+
     try:
         default_fps = ctx.get_session(sid).env_spec.meta.get('render_fps', 30)
     except:
         default_fps = 30
     video_filename = os.path.join(
         ctx.get_store().root_path, 'session', sid, 'episode', eid, "{}.mp4".format(eid))
+    # TODO: Fix this type nonsense
     fps = int(request.args.get('fps', str(default_fps)))
+
     # refresh = bool(request.args.get('refresh', "True"))
 
     # if not refresh and os.path.exists(video_filename):

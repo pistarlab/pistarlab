@@ -147,7 +147,7 @@
 
                             </b-col>
                             <b-col>
-                                <b-button v-if="ideFound" size="sm" @click="openWithIDE(plugin.id)" title="View in code editor (VS CODE)">View in VS Code</b-button>
+                                <b-button v-if="ideFound" size="sm" @click="openWithIDE(plugin.id)" title="View in code editor (VS CODE) - NOTE: Only works when running piStar Lab local"><i class="fas fa-file-code"></i></b-button>
                             </b-col>
 
                         </b-row>

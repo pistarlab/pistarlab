@@ -48,7 +48,8 @@
                 </b-col>
                 <b-col>
 
-                    <div>
+                    <div class="small">
+                        <h4>Details</h4>
                         <div class="data_label mt-2">Spec Id: </div>
                         <b-link target="_blank" :to="`/agent_spec/${agent.specId}`">{{ agent.specId }}</b-link>
                         <div class="data_label mt-2">Seed: </div>
@@ -60,9 +61,10 @@
 
                 </b-col>
                 <b-col>
-                    <h3>Interfaces</h3>
+                    <h4>Interfaces</h4>
+                    <div class="small">
                     <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
-                        <span class="h4">
+                        <span   >
                             <b>{{id}}</b>
                         </span>
                         <div class="ml-2">
@@ -81,16 +83,18 @@
 
                         </div>
                     </div>
-
+                    </div>
                 </b-col>
                 <b-col>
-                    <h3>Components</h3>
+                    <h4>Components</h4>
+                    <div class="small">
 
                     <div v-for="(component, id) in components" v-bind:key="id">
                         - {{component}}
                     </div>
                     <div v-if="components.length ==0">
                         No components used
+                    </div>
                     </div>
                 </b-col>
             </b-row>

@@ -10,21 +10,21 @@
         <pre v-if="item.config">{{ JSON.parse(item.runInfo) }}</pre>
 
     </b-modal>
-     <b-button-toolbar>
-    <b-button-group class="mr-auto">
-        <b-button class="mr-2" variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm">Abort Task</b-button>
-        <b-button class="mr-2" title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Duplicate Session
-        </b-button>
-        <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
-    </b-button-group>
-    <b-button-group class="ml-auto">
+    <b-button-toolbar>
+        <b-button-group class="mr-auto">
+            <b-button class="mr-2" variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm">Abort Task</b-button>
+            <b-button class="mr-2" title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
+                <i class="fa fa-copy"></i> Duplicate Session
+            </b-button>
+            <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
+        </b-button-group>
+        <b-button-group class="ml-auto">
 
-        <b-button size="sm" v-b-toggle.tasklogs variant="info">Task Log</b-button>
+            <b-button size="sm" v-b-toggle.tasklogs variant="info">Task Log</b-button>
 
-        <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
-    </b-button-group>
-     </b-button-toolbar>
+            <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
+        </b-button-group>
+    </b-button-toolbar>
     <div class="mt-4"></div>
 
     <div class="mt-4"></div>
@@ -100,38 +100,41 @@
                     <div>
                         <h3>Environment</h3>
 
-                        <div class="text-center" style="height:320px;">
+                        <div class="text-center">
                             <div>
                                 <router-link :to="`/env_spec/view/${item.envSpecId }`"> {{item.envSpecId }}</router-link>
                             </div>
+                            <div>
+                                <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpec.environment.ident}`" alt="xxx" style="width:100%;" />
+                                <StreamView v-if="playingLive" :uid="uid" />
+                                <div v-if="playingLive" style="color:red;font-weight:900">Live</div>
+
+                                <video v-else-if="playingEpisode" loop autoplay controls style="width:100%">
+                                    <source :src="videoURL" type="video/mp4">
+                                </video>
+
+                                <!-- <img class="feature-image" :src="imageURL" @error="imageError" height="300px" alt="No Preview Available" /> -->
+                            </div>
                             <div class="mt-2">
-                                <div v-if="!playingPreview">
-                                    <img v-if="item.envSpec && item.envSpec.environment && item.envSpec.environment.ident" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpec.environment.ident}`" alt="" style="height:260px;" />
+                                <b-button size="sm" v-if="!playingLive && liveAvailable" @click="startLive()" variant="success"><i class="fa fa-live"></i>Stream Live</b-button>
+
+                                <b-button size="sm" v-if="!playingEpisode && maxEpisode" @click="startEpisode()" variant="success"><i class="fa fa-play"></i> Episode {{maxEpisode}}</b-button>
+                                <span v-if="playingEpisode" class="data_label mr-1">
+
+                                </span>
+
+                                <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i> Episode {{ maxEpisode }}</b-button>
+                                <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i></b-button>
+                            </div>
+
+                            <div class="mt-2">
+                                <div v-if="maxEpisode">
+                                    <router-link :to="`/episode/view/${item.ident}?episodeId=${maxEpisode}`">Total Recorded episodes: {{ totalRecordedEpisodes }}</router-link>
+                                </div>
+                                <div v-else-if="!loadingEpisodeData">
+                                    No Episodes Recorded
                                 </div>
 
-                                <div v-else>
-                                    <div v-if="item.status && item.status == 'RUNNING'" height="300px">
-                                        <StreamView :uid="uid" />
-                                    </div>
-                                    <div v-else-if="maxEpisode">
-
-                                        <embed :src="videoURL" type="video/mp4" style="width: 100%;height: 100%;">
-
-                                        <div class="data_label">
-                                            Showing Episode: {{ maxEpisode }}
-                                        </div>
-                                        <!-- <img class="feature-image" :src="imageURL" @error="imageError" height="300px" alt="No Preview Available" /> -->
-                                    </div>
-                                </div>
-                                <div>
-                                    <div v-if="maxEpisode">
-                                        <router-link :to="`/episode/view/${item.ident}?episodeId=${maxEpisode}`">Total Recorded episodes: {{ totalRecordedEpisodes }}</router-link>
-                                    </div>
-                                    <div v-else>
-                                        No Episodes Recorded
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -340,8 +343,12 @@ export default {
             graph: "",
             episodes: [],
             totalRecordedEpisodes: null,
+            liveAvailable: false,
             maxEpisode: "",
             playingPreview: false,
+            loadingEpisodeData: false,
+            playingLive: false,
+            playingEpisode: false,
             activeGraphs: {},
             fields,
             appConfig,
@@ -486,13 +493,27 @@ export default {
                 return num.toPrecision(prec);
             }
         },
+        startLive() {
+            this.playingLive = true
+            this.playingEpisode = false
+
+        },
+        startEpisode() {
+            this.playingEpisode = true
+            this.playingLive = false
+        },
+        stopPlaying() {
+            this.playingEpisode = false
+            this.playingLive = false
+        },
+
         imageError(event) {
             console.log(event);
             this.imageURL = "placeholder.jpg";
         },
         refreshData() {
+            this.liveAvailable = (this.item.status == "RUNNING")
             if (this.item.status == null || (this.item.status && this.item.status == "RUNNING")) {
-                // this.$apollo.queries.session.refetch();
                 this.loadData()
                 this.loadGraphs()
             } else {
@@ -502,6 +523,7 @@ export default {
         },
 
         loadData() {
+            this.loadingEpisodeData = true
 
             axios
                 .get(`${appConfig.API_URL}/api/session_max_episode_recorded/${this.uid}`)
@@ -512,10 +534,12 @@ export default {
                         this.totalRecordedEpisodes = response.data["total_recorded"];
                         this.imageURL = `${appConfig.API_URL}/api/session_episode_gif/${this.uid}/${this.maxEpisode}`;
                         this.videoURL = `${appConfig.API_URL}/api/session_episode_mp4/${this.uid}/${this.maxEpisode}`;
+                        this.loadingEpisodeData = false
                     }
                 })
                 .catch((e) => {
                     this.error = e;
+                    this.loadingEpisodeData = false
                 });
 
         },

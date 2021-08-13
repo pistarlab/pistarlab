@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
-import Dash from '../views/Dash.vue'
+import Welcome from '../views/Welcome.vue'
 import Help from '../views/Help.vue'
 import TaskHome from "../views/TaskHome.vue"
 import NProgress from "nprogress"
@@ -12,7 +12,17 @@ const routes: Array<RouteConfig> = [
         path: '/',
         name: 'Home',
         component: Home
-    }
+    },
+    {
+        path: '/welcome',
+        name: 'Welcome',
+        component: Welcome
+    },
+    // {
+    //     path: '/dash',
+    //     name: 'Dash',
+    //     component: Dash
+    // }
     // {
     //     path: '/dash',
     //     name: 'dash',
@@ -48,7 +58,7 @@ const routes: Array<RouteConfig> = [
     //     component: () => import('../views/LearningHome.vue')
 
     // }
-    ,
+    
     {
         path: '/session/view/:uid',
         component: () => import('../views/SessionView.vue'),

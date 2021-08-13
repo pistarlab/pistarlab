@@ -411,12 +411,12 @@ class Query(graphene.ObjectType):
         query = Session.get_query(info)
         from sqlalchemy import cast, text
         from sqlalchemy.types import FLOAT, JSON
-
+        # TODO: not using backend for sorting due to json sort issues
         # from sqlalchemy.dialects.postgres import JSON
         return query \
-            .filter(db.SessionModel.env_spec_id == env_spec_id) \
-            .order_by(text(f"CAST(session.summary->>'{stat_name}' AS FLOAT) DESC")) \
-            .all()
+            .filter(db.SessionModel.env_spec_id == env_spec_id).all()
+            # .order_by(text(f"CAST(session.summary->>'{stat_name}' AS FLOAT) DESC")) \
+            
 
     all_environments = SQLAlchemyConnectionField(Environment.connection)
 

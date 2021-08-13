@@ -74,7 +74,7 @@ Vue.config.productionTip = false
 Vue.mixin({
     data: function () {
         return {
-            //
+            docbar:true
         }
     },
     methods: {

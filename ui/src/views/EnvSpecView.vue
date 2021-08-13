@@ -42,19 +42,28 @@
                     </div>
                 </b-col>
             </b-row>
-            <h3>Top Session by Mean Episode Reward</h3>
-            <b-alert show variant="warning">Partially Broken: Only works when using PostgreSQL database (TODO: fix me)</b-alert>
+            <h3>Sessions Ranked by Mean Episode Reward</h3>
+            <p class="desc">
+                Multi Agent Parent sessions not included below.
+            </p>
+            <!-- <b-alert show variant="warning">Partially Broken: Only works when using PostgreSQL database (TODO: fix me)</b-alert> -->
             <div class="mt-2"></div>
             <b-row>
                 <b-col>
-                    <b-table show-empty empty-text="No Sessions Found" hover table-busy :items="bestSessions" :fields="sessionFields" :dark="false" :small="false" :borderless="false">
+                    <b-table show-empty empty-text="No Sessions Found" hover table-busy :items="orderedSessions" :fields="sessionFields" :dark="false" :small="false" :borderless="false">
                         <template v-slot:cell(ident)="data">
                             <!-- `data.value` is the value after formatted by the Formatter -->
                             <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident}}</router-link>
                         </template>
                         <template v-slot:cell(agent)="data">
                             <!-- `data.value` is the value after formatted by the Formatter -->
-                            <router-link :to="`/agent/view/${data.item.agent.ident}`">{{data.item.agent.ident}}: {{data.item.agent.specId}}</router-link>
+
+                            <router-link v-if="data.item.agent" :to="`/agent/view/${data.item.agent.ident}`">{{data.item.agent.ident}}: {{data.item.agent.specId}}</router-link>
+                        </template>
+                                                <template v-slot:cell(summary)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+
+                            {{data.item.summary}}
                         </template>
                     </b-table>
 
@@ -97,7 +106,22 @@ const sessionFields = [{
     },
     {
         key: "summary.best_ep_reward_mean_windowed",
-        label: "Best Ep Reward Mean Windowed",
+        label: "Best Episode Reward Mean (Windowed)",
+        sortable: true
+    },
+            {
+        key: "summary.step_count",
+        label: "Step Count",
+        sortable: true
+    },
+        {
+        key: "summary.episode_count",
+        label: "Episode Count",
+        sortable: true
+    },
+            {
+        key: "summary.mean_reward_per_episode",
+        label: "Mean Reward per episode",
         sortable: true
     }
 ];
@@ -128,6 +152,7 @@ const GET_BEST_SESSIONS = gql `
         id
         ident
         sessionType
+        parentSessionId
         agent {
             id
             ident
@@ -156,7 +181,7 @@ export default {
             variables() {
                 return {
                     envSpecId: this.specId,
-                    statName: 'best_ep_reward_mean_windowed',
+                    statName: 'best_ep_reward_mean_windowed', //TODO: not in use
                 };
             },
 
@@ -176,6 +201,17 @@ export default {
     },
     computed: {
 
+        orderedSessions() {
+            if (this.bestSessions == null || this.bestSessions.length == 0) {
+                return []
+            } else {
+                return this.bestSessions.slice().filter( a=> a.sessionType == "RL_SINGLEPLAYER_SESS").sort((a, b) =>
+                    b.summary.best_ep_reward_mean_windowed - a.summary.best_ep_reward_mean_windowed
+                )
+                
+            }
+
+        },
         config() {
             if (this.item)
                 return JSON.parse(this.item.config)

@@ -43,10 +43,11 @@
         <!-- <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button> -->
 
         <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
+        <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm">Assign Task</b-button>
+
         <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm">Configuration</b-button>
         <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm">Metadata</b-button>
         <b-button variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm">Create Snapshot</b-button>
-        <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm">Assign Task</b-button>
         <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
         <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
         <b-button variant="secondary" class="ml-1" v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
@@ -62,55 +63,55 @@
 
         <b-card title="Session History">
             <div style="display: block; position: relative;height:280px;overflow: auto;">
-                 <b-button  :disabled="selected.length <= 1" v-on:click="runCompare" variant="info" size="sm">
-                <span v-if="selected.length > 1">Compare: {{ selected.length }}</span>
-                <span v-else>Compare: select at least 2</span>
+                <b-button :disabled="selected.length <= 1" v-on:click="runCompare" variant="info" size="sm">
+                    <span>Compare: {{ selected.length }}</span>
 
-            </b-button>
+                </b-button>
                 <b-form-checkbox-group v-model="selected">
-                <b-table show-empty empty-text="No Sessions Found" hover table-busy :items="rowData" :fields="fields" :dark="false" :small="false" :borderless="false" sortBy="created" :sortDesc="true">
-                     <template v-slot:cell(selector)="data">
 
-                        <b-form-checkbox v-if="data.item.parentSessionId != null" :value="data.item.ident"></b-form-checkbox>
-                    </template>
-                    <template v-slot:cell(parentlink)="data">
-                        <!-- `data.value` is the value after formatted by the Formatter -->
-                        <router-link :to="`/session/view/${data.item.parentSessionId}`">{{data.item.parentSessionId}}</router-link>
-                    </template>
-                    <template v-slot:cell(link)="data">
-                        <!-- `data.value` is the value after formatted by the Formatter -->
-                        <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident}}</router-link>
-                    </template>
-                    <template v-slot:cell(status)="data">
-                        <!-- `data.value` is the value after formatted by the Formatter -->
-                        <span>{{data.item.status}}</span>
-                        <b-button class="ml-1" variant="danger" v-if="data.item.status && data.item.status == 'RUNNING'" v-on:click="stopSession(data.item.task.ident)" size="sm">Abort</b-button>
+                    <b-table show-empty empty-text="No Sessions Found" hover table-busy :items="rowData" :fields="fields" :dark="false" :small="false" :borderless="false" sortBy="created" :sortDesc="true">
+                        <template v-slot:cell(selector)="data">
 
-                    </template>
-                    <template v-slot:cell(steps)="data">
-                        <!-- `data.value` is the value after formatted by the Formatter -->
-                        <span>{{data.item.summary.step_count.toLocaleString('en-US', 
+                            <b-form-checkbox :value="data.item.ident"></b-form-checkbox>
+                        </template>
+                        <template v-slot:cell(parentlink)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+                            <router-link :to="`/session/view/${data.item.parentSessionId}`">{{data.item.parentSessionId}}</router-link>
+                        </template>
+                        <template v-slot:cell(link)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+                            <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident}}</router-link>
+                        </template>
+                        <template v-slot:cell(status)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+                            <span>{{data.item.status}}</span>
+                            <b-button class="ml-1" variant="danger" v-if="data.item.status && data.item.status == 'RUNNING'" v-on:click="stopSession(data.item.task.ident)" size="sm">Abort</b-button>
+
+                        </template>
+                        <template v-slot:cell(steps)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+                            <span>{{data.item.summary.step_count.toLocaleString('en-US',
                             {
                             useGrouping: true
                             })}}</span>
-                    </template>
-                    <template v-slot:cell(episodes)="data">
-                        <!-- `data.value` is the value after formatted by the Formatter -->
-                        <span>{{data.item.summary.episode_count.toLocaleString('en-US', 
+                        </template>
+                        <template v-slot:cell(episodes)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+                            <span>{{data.item.summary.episode_count.toLocaleString('en-US',
                             {
                             useGrouping: true
                             })}}</span>
 
-                    </template>
-                                        <template v-slot:cell(runtime)="data">
-                        <!-- `data.value` is the value after formatted by the Formatter -->
-                        <span>{{data.item.summary.runtime.toLocaleString('en-US', 
+                        </template>
+                        <template v-slot:cell(runtime)="data">
+                            <!-- `data.value` is the value after formatted by the Formatter -->
+                            <span>{{data.item.summary.runtime.toLocaleString('en-US',
                             {
                             useGrouping: true
                             })}}</span>
-                    </template>
-                </b-table>
-            </b-form-checkbox-group>
+                        </template>
+                    </b-table>
+                </b-form-checkbox-group>
 
             </div>
             <div class="mt-2"></div>
@@ -167,12 +168,11 @@ import {
     Plotly as PlotlyVue
 } from 'vue-plotly'
 
-const fields = [
-    {
+const fields = [{
         key: "selector",
         label: "",
         sortable: false,
-    },{
+    }, {
         key: "link",
         label: "Session",
         sortable: false,
@@ -190,7 +190,7 @@ const fields = [
         key: "sessionType",
         label: "Session Type",
     },
-      {
+    {
         key: "status",
         label: "Status",
         sortable: true,
@@ -199,7 +199,8 @@ const fields = [
     {
         key: "runtime",
         label: "Run Time (Sec)",
-        sortable: true    },
+        sortable: true
+    },
 
     // {
     //     key: "statusTimestamp",
@@ -207,7 +208,7 @@ const fields = [
     //     sortable: true,
     //      formatter: (d=>d.toLocaleString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })),
     // },
-  
+
     {
         key: "steps",
         label: "Total Steps",
@@ -345,7 +346,7 @@ export default {
             plot_total_count: 0,
             plotBinSize: 0,
             plotStepMax: 0,
-            selected:[],
+            selected: [],
 
             componentFields: [{
                     key: "name",
@@ -363,7 +364,8 @@ export default {
             error: null,
             item: {},
             timer: null,
-            timelength,formatNum
+            timelength,
+            formatNum
         };
     },
     props: {

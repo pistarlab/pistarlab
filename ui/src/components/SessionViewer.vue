@@ -254,6 +254,9 @@
                                                 <LineChart :chart-data="graph.graphData.chartData" :options="graph.graphData.chartOptions" :key="graphKey"></LineChart>
 
                                             </div>
+                                            <div v-if="graph.url">
+                                                <a :href="graph.url" target="_blank"><i class="fa fa-download"></i></a>
+                                            </div>
 
                                         </div>
 
@@ -349,7 +352,7 @@ export default {
                     colormin: 'rgba(0, 255, 0,0.2)',
                     colormax: 'rgba(0, 255, 0,0.2)',
                     stats: [{}],
-                    binSize: 20,
+                    binSize: 0,
                     count: 0,
                 },
 
@@ -363,7 +366,7 @@ export default {
                     colormin: 'rgba(255, 160, 0,0.2)',
                     colormax: 'rgba(255, 160, 0,0.2)',
                     stats: [{}],
-                    binSize: 20,
+                    binSize: 0,
                     count: 0,
                 },
 
@@ -377,7 +380,7 @@ export default {
                     colormin: 'rgba(255, 100, 100,0.2)',
                     colormax: 'rgba(255, 100, 100,0.2)',
                     stats: [{}],
-                    binSize: 20,
+                    binSize: 0,
                     count: 0,
                 },
                 {
@@ -390,7 +393,7 @@ export default {
                     colormin: 'rgba(55, 128, 191,0.2)',
                     colormax: 'rgba(55, 128, 191,0.2)',
                     stats: [{}],
-                    binSize: 20,
+                    binSize: 0,
                     count: 0,
                 },
             ],
@@ -521,12 +524,8 @@ export default {
 
             this.graphList.forEach((graphItem, idx) => {
                 let url = `${appConfig.API_URL}/api/session_plots_json/${this.uid}/${graphItem.group}/${graphItem.value}/${graphItem.stepField}?bin_size=${graphItem.binSize}`;
-                // console.log("Fetching: "+ url);
-
                 axios
-                    .get(
-                        url
-                    )
+                    .get(url)
                     .then((response) => {
                         const graph = response.data;
 
@@ -537,7 +536,7 @@ export default {
                         if (graph.include_stats) {
 
                             chartData = {
-                                labels: graph.data.idxs,
+                                labels: graph.data.xlabels,
 
                                 datasets: [{
                                         label: graphItem.key,
@@ -587,6 +586,7 @@ export default {
 
                         }
                         graphItem.graphData = {}
+                        graphItem.url = url
                         graphItem.graphData.chartData = chartData
 
                         graphItem.graphData.chartOptions = {

@@ -50,9 +50,9 @@
         <b-navbar toggleable="lg" type="light" variant="alert">
             Status:
             <b-button-group size="sm">
-                <b-button :pressed="selectedStatus==''"  variant="" @click="updateStatusFilter('')">Any</b-button>
-                <b-button :pressed="selectedStatus=='installed'"  variant="" @click="updateStatusFilter('installed')">Installed</b-button>
-                <b-button :pressed="selectedStatus=='avail'"  variant="" @click="updateStatusFilter('avail')">Not Installed</b-button>
+                <b-button :pressed="selectedStatus==''" variant="" @click="updateStatusFilter('')">Any</b-button>
+                <b-button :pressed="selectedStatus=='installed'" variant="" @click="updateStatusFilter('installed')">Installed</b-button>
+                <b-button :pressed="selectedStatus=='avail'" variant="" @click="updateStatusFilter('avail')">Not Installed</b-button>
 
             </b-button-group>
             <b-form-input v-model="searchtext" placeholder="Search Plugins" style="width:250px;" class='ml-2'></b-form-input>
@@ -78,14 +78,17 @@
             <div v-for="(item, idx) in filteredPlugins" :key="idx">
                 <b-row>
                     <b-col>
-                        <div>
-                            <h4>{{item.name}}</h4>
+                        <div v-b-toggle="'collapse_'+idx">
+                            <h4 class="hover">{{item.name}}</h4>
+                             <p class="desc">{{item.description}}</p>
                         </div>
                     </b-col>
-                    <b-col>
+                    <b-col class="text-center">
+                        <b-badge v-if="item.source.name == 'Workspace'" pill variant="warning" class="mr-2"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
                     </b-col>
+
                     <b-col>
-                        <div>
+                        <div class="text-right">
                             <b-button v-if="item.status == 'AVAILABLE'" size="sm" variant="info" @click="installPlugin(item.id,item.version);">Install</b-button>
                             <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="" disabled>
                                 <b-spinner small type="grow"></b-spinner>Installing...
@@ -100,26 +103,11 @@
                         </div>
                     </b-col>
                 </b-row>
-                <b-row v-if="item.source.name == 'Workspace'" class="mb-2">
 
-                    <b-col>
-                        <b-badge pill variant="warning" class="mr-2"><i class="fa fa-code"></i> Workspace Plugin</b-badge>
-                        <span style="color:yellow">{{item.full_path}}</span>
 
-                    </b-col>
-                </b-row>
-
-                <b-row>
-                    <b-col>
-
-                        <div class="ml-2">
-                            <p>{{item.description}}</p>
-                        </div>
-                    </b-col>
-                </b-row>
-                <div class="mt-1"></div>
-                <b-row>
-                    <b-col class="">
+                  <b-collapse v-bind:id="'collapse_'+idx">
+                <b-row class="small">
+                    <b-col >
 
                         <div>
                             <span class="data_label mt-1">ID: </span><span>{{item.id}}</span>
@@ -156,6 +144,11 @@
 
                             <span>{{item.source.path}}</span>
                         </div>
+                        <div v-if="item.full_path">
+                            <span class="data_label mt-1">Full Path: </span>
+
+                            <span style="color:yellow">{{item.full_path}}</span>
+                        </div>
 
                     </b-col>
                     <b-col class="">
@@ -167,6 +160,7 @@
                         </span>
                     </b-col>
                 </b-row>
+                  </b-collapse>
 
                 <span v-if="idx != Object.keys(filteredPlugins).length - 1">
                     <hr /> </span>

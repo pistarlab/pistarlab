@@ -9,8 +9,6 @@
         <div class="mb-5"></div>
     </b-modal>
 
-
-
     <b-modal id="sessions" size="xl" title="Sessions" scrollable :hide-footer="true">
         <Sessions></Sessions>
         <div class="mb-5"></div>
@@ -56,7 +54,7 @@
 
     <sidebar-menu :disableHover="false" :width="width" :menu="menu" :collapsed="collapsed" :theme="selectedTheme" :show-one-child="true" @toggle-collapse="onToggleCollapse">
         <div slot="header">
-            <router-link to="/">
+            <router-link to="/welcome">
                 <div v-if="!collapsed" class="logo">
                     <img height="42px" src="/pistar_edit_w.png" />
                 </div>
@@ -91,7 +89,6 @@
             <b-nav-item class="mr-1" v-b-modal.task-manager>
                 <i title="Task Manager" class="fa fa-tasks"></i> Tasks
             </b-nav-item>
- 
 
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
@@ -173,17 +170,18 @@ export default {
                 //   header: true,
                 //   title: 'piSTAR Lab',
                 //   hiddenOnCollapse: true
-                // },
-                // {
-                //   href: "/dash",
-                //   title: "Dash",
-                //   icon: "fas fa-tachometer-alt",
-                // },
+
                 {
                     href: "/",
                     title: "Home",
                     icon: "fas fa-home",
                 },
+
+                // {
+                //   href: "/dash",
+                //   title: "Dash",
+                //   icon: "fas fa-tachometer-alt"},
+                // },
                 //   {
                 //         href: "/missions/home",
                 //         title: "Missions",
@@ -777,5 +775,51 @@ button .default {
 
 .appname {
     font-weight: 600;
+}
+
+img .noscaleimg {
+    image-rendering: optimizeSpeed;
+    /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;
+    /* Firefox                        */
+    image-rendering: -o-crisp-edges;
+    /* Opera                          */
+    image-rendering: -webkit-optimize-contrast;
+    /* Chrome (and eventually Safari) */
+    image-rendering: pixelated;
+    /* Chrome */
+    image-rendering: optimize-contrast;
+    /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;
+    /* IE8+                           */
+
+}
+
+.desc {
+
+    font-size: 0.85em;
+    font-weight: 300;
+
+}
+
+.hover:hover {
+    color: white !important;
+}
+
+.page-content,
+.collapsed-side-bar,
+.side-bar {
+    display: table-cell;
+}
+
+.side-bar {
+    width: 360px;
+    border-left: 1px solid;
+    border-color: rgb(35, 35, 36);
+}
+
+.collapsed-side-bar
+{
+ width: 30px;   
 }
 </style>

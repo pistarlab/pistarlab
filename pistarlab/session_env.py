@@ -324,8 +324,6 @@ class RLMultiSessionEnv(RLSessionEnvBase):
         self.batch_size = batch_size
         self.child_session_configs = child_session_configs
 
-
-
         os.environ['SDL_VIDEODRIVER'] = 'dummy'
         os.environ['SDL_AUDIODRIVER'] = ""
 
@@ -347,10 +345,15 @@ class RLMultiSessionEnv(RLSessionEnvBase):
         if self.use_remote_client:
             # Remote Env
             self.get_logger().info("Is RemoteMultiAgentClient with {}".format(self.env_kwargs))
+            #TODO: Don't put this stuff in env_kwargs
             self.env = RemoteMultiAgentEnvClient(
                 agent_id=agent_id,
                 timeout_abort_check_callback=timeout_abort_check_callback,
-                **self.env_kwargs)
+                task_id = self.env_kwargs['task_id'],
+                session_id = self.env_kwargs['session_id'],
+                observation_spaces = pyson(self.env_kwargs['observation_spaces']),
+                action_spaces = pyson(self.env_kwargs['action_spaces']))
+                # **self.env_kwargs)
             self.parent_session_id = self.env_kwargs['session_id']
             self.player_list = self.env.players
         elif self.is_multiplayer:

@@ -32,7 +32,11 @@
         <div class="mt-2"></div>
         <b-row>
             <b-col>
+                <b-form-group label="FPS">
+                 <b-form-select  @change="loadData()" v-model="fps" :options="fpsOptions" size="sm" class="mt-3 mb-3"></b-form-select>
+                </b-form-group>
                 <embed :src="videoURL" type="video/mp4" height="300px">
+                
             </b-col>
         </b-row>
 
@@ -42,7 +46,7 @@
                     <b-card-text>
                         <b-table striped hover table-busy :items="episode" :fields="fields" :dark="false" :small="false" :bordered="false" :outlined="false" :borderless="false" :no-provider-paging="true" :per-page="perPage" :current-page="currentPage">
                             <template v-slot:cell(preview)="data">
-                                <img height="80" :src="`${appConfig.API_URL}/api/download/session/${item.ident}/episode/${selectedEpisodeId}/images/${pad(data.item.episode_step_count,5)}.jpg`" />
+                                <img class="noscaleimg" height="80" :src="`${appConfig.API_URL}/api/download/session/${item.ident}/episode/${selectedEpisodeId}/images/${pad(data.item.episode_step_count,5)}.jpg`" />
                             </template>
                             <template v-slot:cell(test)="data">
                                 {{data.item}}
@@ -111,7 +115,6 @@ const fields = [{
                 return v
             }
         }
-
     },
     {
         key: "done",
@@ -162,6 +165,15 @@ export default {
             session: {},
             fields,
             selectedEpisodeId: null,
+            fps: 15,
+            fpsOptions:[
+                { value: 2, text: '2 FPS' },
+                { value: 5, text: '5 FPS' },
+                { value: 15, text: '15 FPS' },
+                { value: 60, text: '60 FPS' },
+                { value: 120, text: '120 FPS' },
+                { value: 180, text: '180 FPS' }
+            ],
 
             episodes: [],
             episode: [],
@@ -263,7 +275,7 @@ export default {
 
                     // JSON resonses are automatically parsed.
                     this.episode = result
-                    this.videoURL = `${appConfig.API_URL}/api/session_episode_mp4/${this.uid}/${this.selectedEpisodeId}`;
+                    this.videoURL = `${appConfig.API_URL}/api/session_episode_mp4/${this.uid}/${this.selectedEpisodeId}?fps=${this.fps}`;
 
                 })
                 .catch((e) => {

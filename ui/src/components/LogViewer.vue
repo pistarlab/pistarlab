@@ -5,6 +5,7 @@
     </div>
     <div v-else>
         <b-card :title="title">
+            
             <b-button pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
             <div style="height:300px;overflow-y: scroll;">
                 <pre @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>

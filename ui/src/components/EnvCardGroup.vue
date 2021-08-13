@@ -8,14 +8,7 @@
 
         <b-card-text class="ml-3 mb-2 mt-3 h-100 flex-column d-flex">
             <h4> {{ item.displayedName }}</h4>
-            <div >
-                <span class="data_label  mt-2">Categories: </span>
-                <span >{{ item.categories }}</span>
-            </div>
-            <div v-if="item.specs">
-                <span class="data_label  mt-2">Specs: </span>
-                <span >{{ item.specs.length }}</span>
-            </div>
+
         </b-card-text>
 
     </b-card>
