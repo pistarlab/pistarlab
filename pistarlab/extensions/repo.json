@@ -1,0 +1,50 @@
+[
+
+  {
+    "id": "pistarlab-rllib",
+    "version": "0.0.1-dev",
+    "name": "RLLIB Agents",
+    "categories": [
+      "agents",
+      "components",
+      "tasks"
+    ],
+    "description": "Rllib :https://github.com/ray-project/ray/tree/master/rllib",
+    "extension_author": "piSTAR Lab",
+    "original_author": "Ray Project - https://docs.ray.io/",
+    "metafile": true
+  },
+  {
+    "id": "pistarlab-envs-gym-atari",
+    "version": "0.0.1-dev",
+    "name": "Gym[ATARI]",
+    "categories": [
+      "envs"
+    ],
+    "description": "ATARI Environments included with OpenAI Gym",
+    "extension_author": "piSTAR Lab",
+    "original_author": "OpenAI - openai.com"
+  },
+  {
+    "id": "pistarlab-envs-gym-main",
+    "version": "0.0.1-dev",
+    "name": "Gym[MAIN]",
+    "categories": [
+      "envs"
+    ],
+    "description": "Default Environments included with OpenAI Gym",
+    "extension_author": "piSTAR Lab",
+    "original_author": "OpenAI - openai.com"
+  },
+  {
+    "id": "pistarlab-envs-gym-minigrid",
+    "version": "0.0.1-dev",
+    "name": "MiniGrid",
+    "categories": [
+      "envs"
+    ],
+    "description": "Minimalistic Gridworld Environment: https://github.com/maximecb/gym-minigrid",
+    "extension_author": "piSTAR Lab",
+    "original_author": "Chevalier-Boisvert, Maxime et al. - https://github.com/maximecb/gym-minigrid"
+  }
+]

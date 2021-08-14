@@ -19,12 +19,12 @@
                         <!-- <div class="small data_label">Class/Module</div>
                       <span>{{ item.classHame }}/{{ item.module }}</span>-->
                         <div>
-                            <span class="data_label mt-1">Plugin/Version: </span>
-                            <span v-if="item.pluginId =='WORKSPACE'">
+                            <span class="data_label mt-1">Extension/Version: </span>
+                            <span v-if="item.extensionId =='WORKSPACE'">
                                 <b-badge variant="warning"><i class="fa fa-code"></i> in your workspace</b-badge>
                             </span>
                             <span v-else>
-                                {{ item.pluginId }}/{{ item.version }}
+                                {{ item.extensionId }}/{{ item.version }}
                             </span>
                         </div>
                         <div>
@@ -73,7 +73,7 @@ export default {
           ident
           displayedName
           disabled
-          pluginId
+          extensionId
           description
           version
         }
@@ -96,7 +96,7 @@ export default {
             else {
                 if (this.searchtext != "") {
                     return this.agentSpecs.filter((v) => {
-                        var vals = [v.displayedName, v.ident, v.pluginId]
+                        var vals = [v.displayedName, v.ident, v.extensionId]
                         var keep = false
                         for (let st of vals) {
                             if (st != null && st.toLowerCase().includes(this.searchtext.toLowerCase())) {

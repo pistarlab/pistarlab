@@ -167,7 +167,7 @@ const GET_ALL_COMPONENTS = gql `query
         created
         category
         parentClassEntryPoint
-        pluginId
+        extensionId
         config
         params
       }

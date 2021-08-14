@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="page">
     <div class="page-content">
         <h1><i class="fa fa-robot"></i> Agents</h1>
 
@@ -24,8 +24,14 @@
                 <b-col>
                     <h3>Recently Active</h3>
                 </b-col>
+                <b-col>
+                    
+                        
+                    
+                
+                </b-col>
             </b-row>
-            <div class="mt-2"></div>
+            <div class="mt-2 text-right mr-4"><b-link :to="`/agent/instances`">(View All)</b-link></div>
             <div v-if="$apollo.queries.recentAgents.loading">Loading..</div>
             <div v-else class="">
                 <div v-if="items.length > 0">
@@ -126,48 +132,14 @@
                 </div>
 
             </div>
-            <b-row>
-                <b-col>
 
-                    <div>
-                        <b-link :to="`/agent/instances`">View All Agent Instances</b-link>
-                    </div>
-                </b-col>
-            </b-row>
         </b-container>
-    
+
     </div>
-        <div v-if="docbar" class="side-bar">
-        <b-container>
-            <b-row>
-                <b-col>
-                    <h4>Agents</h4>
-                </b-col>
-                <b-col cols=1>
-                    <b-link size="sm" @click="toggledocbar()">x</b-link>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col>
-                    <p>
-                        An Agent is a configured instance of an "Agent Spec" or the learning algorithm.  Agents gain experience by interacting with environments.  
-                    </p>    
-                        
-    <br/>
-                        <br/>
-                    
-                     <h6>Agent-environment compatibility</h6> Not all agents or agent specs are compatible with all environments.  The observations an agent receives from an environment, but be supported by that agent. And likewise, the actions taken by the agent must be supported by the environment.
-                     <br/>
-                        <br/>
-                        <h6>Cloning Agents</h6>
-                </b-col>
-            </b-row>
-        </b-container>
-    </div>
-    <div v-else class="collapsed-side-bar">
-        <b-link size="sm" @click="toggledocbar()">?</b-link>
-    </div>
-        
+    <HelpInfo contentId="agents">
+    </HelpInfo>
+
+
 </div>
 </template>
 
@@ -192,6 +164,7 @@ import {
 
 import AgentSpecs from "../components/AgentSpecs.vue";
 import AgentNew from "../components/AgentNew.vue";
+
 
 export default {
     name: "Agents",
@@ -230,13 +203,6 @@ export default {
         }
     },
     methods: {
-        toggledocbar(){
-            // TODO: this isnt' how we should do this, need to store in Vuex
-            console.log(this.docbar)
-            this.docbar = !this.docbar;
-            
-
-        },
 
         timedeltafordate,
         timedelta,

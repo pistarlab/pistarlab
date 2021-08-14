@@ -45,8 +45,8 @@ class Agent(Entity):
 
         meta = {
             'spec_version': spec_dbmodel.version,
-            'spec_plugin_id': spec_dbmodel.plugin_id,
-            'spec_plugin_version': spec_dbmodel.plugin_version
+            'spec_extension_id': spec_dbmodel.extension_id,
+            'spec_extension_version': spec_dbmodel.extension_version
         }
         if spec_dbmodel.entry_point is None:
             agent_cls = Agent

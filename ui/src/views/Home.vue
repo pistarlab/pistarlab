@@ -2,40 +2,40 @@
 <div>
 
     <h1><i class="fa fa-home"></i> Home</h1>
-    <b-modal id="modal-create-plugin" title="Create New Plugin" size="lg" @ok="createNewPlugin()">
+    <b-modal id="modal-create-extension" title="Create New Extension" size="lg" @ok="createNewExtension()">
         <p>
-            Create a new plugin in your workspace.
+            Create a new extension in your workspace.
         </p>
         <div class="mt-2"></div>
-        <label for="newPluginId">Plugin Id:</label>
-        <b-form-input id="newPluginId" v-model="enteredPluginId" trim></b-form-input> {{newPluginId}}
+        <label for="newExtensionId">Extension Id:</label>
+        <b-form-input id="newExtensionId" v-model="enteredExtensionId" trim></b-form-input> {{newExtensionId}}
         <div class="mt-1"></div>
-        <label for="newPluginName">Plugin Name:</label>
-        <b-form-input id="newPluginName" v-model="newPluginName" trim></b-form-input>
-        <label for="newPluginDescription">Description:</label>
-        <b-form-input id="newPluginDescription" v-model="newPluginDescription" trim></b-form-input>
+        <label for="newExtensionName">Extension Name:</label>
+        <b-form-input id="newExtensionName" v-model="newExtensionName" trim></b-form-input>
+        <label for="newExtensionDescription">Description:</label>
+        <b-form-input id="newExtensionDescription" v-model="newExtensionDescription" trim></b-form-input>
     </b-modal>
 
-    <b-modal id="modal-open-workspace" title="Open Workspace Plugin" size="lg">
-        <div v-if="selectedPlugin">
-            <h4>Plugin Id: {{selectedPlugin.id}}</h4>
+    <b-modal id="modal-open-workspace" title="Open Workspace Extension" size="lg">
+        <div v-if="selectedExtension">
+            <h4>Extension Id: {{selectedExtension.id}}</h4>
             <b-alert show>
 
                 NOTE: IDE Integration is under development.
             </b-alert>
             <br />
 
-            <b-button v-if="ideFound" size="sm" @click="openWithIDE(selectedPlugin.id)">Open with VS Code</b-button>
+            <b-button v-if="ideFound" size="sm" @click="openWithIDE(selectedExtension.id)">Open with VS Code</b-button>
             <div v-else>VSCode not nound. See https://code.visualstudio.com/</div>
             <br />
             <br />
             <div>
-                <b-link size="sm" :to="`/plugin/home/?managePluginId=${selectedPlugin.id}`">Manage Plugin</b-link>
+                <b-link size="sm" :to="`/extension/home/?manageExtensionId=${selectedExtension.id}`">Manage Extension</b-link>
 
             </div>
             <div class="mt-3">
                 Open IDE or File browser of choice to path below:
-                <pre v-if="selectedPlugin">{{selectedPlugin.full_path}}</pre>
+                <pre v-if="selectedExtension">{{selectedExtension.full_path}}</pre>
             </div>
         </div>
     </b-modal>
@@ -122,23 +122,23 @@
 
             </b-col>
             <b-col cols=5>
-                <h3>Workspace Plugins</h3>
+                <h3>Extensions in your Workspace</h3>
                 <hr />
-                <b-button class="ml-auto" v-b-modal:modal-create-plugin size="sm" variant="success"><i class="fa fa-plus"></i> </b-button>
+                <b-button class="ml-auto" v-b-modal:modal-create-extension size="sm" variant="success"><i class="fa fa-plus"></i> </b-button>
                 <div v-if="workspace" class="mt-3">
 
-                    <b-card v-for="(plugin,key) in workspace.plugins" v-bind:key="key" class="mb-0 mt-2">
+                    <b-card v-for="(extension,key) in workspace.extensions" v-bind:key="key" class="mb-0 mt-2">
                         <b-row>
                             <b-col >
                                 <div>
-                                    <b-link @click="openPlugin(plugin)">
-                                        <h4>{{plugin.name}}</h4>
+                                    <b-link @click="openExtension(extension)">
+                                        <h4>{{extension.name}}</h4>
                                     </b-link>
                                 </div>
          
                             </b-col>
                             <b-col>
-                                <span v-if="plugin.status == 'AVAILABLE'">
+                                <span v-if="extension.status == 'AVAILABLE'">
                                     Not Installed
                                 </span>
                                 <span v-else>
@@ -147,7 +147,7 @@
 
                             </b-col>
                             <b-col>
-                                <b-button v-if="ideFound" size="sm" @click="openWithIDE(plugin.id)" title="View in code editor (VS CODE) - NOTE: Only works when running piStar Lab local"><i class="fas fa-file-code"></i></b-button>
+                                <b-button v-if="ideFound" size="sm" @click="openWithIDE(extension.id)" title="View in code editor (VS CODE) - NOTE: Only works when running piStar Lab local"><i class="fas fa-file-code"></i></b-button>
                             </b-col>
 
                         </b-row>
@@ -156,7 +156,7 @@
 
                 </div>
                 <div class="ml-3 mt-2">
-                    <b-link to="/plugin/home">View All Plugins</b-link>
+                    <b-link to="/extension/home">View All Extensions</b-link>
                 </div>
             </b-col>
             <b-col cols=2 class="text-center">
@@ -183,8 +183,8 @@
                         </div>
                     </div>
                     <div class="mb-4">
-                        <div class="data_label">Installed Plugins</div>
-                        <div class="stat_value"> {{overview['total_installed_plugins']}}
+                        <div class="data_label">Installed Extensions</div>
+                        <div class="stat_value"> {{overview['total_installed_extensions']}}
                         </div>
                     </div>
 
@@ -293,10 +293,10 @@ export default {
             recentAgents: null,
             sessions: null,
             workspace: null,
-            enteredPluginId: "",
-            newPluginName: "",
-            newPluginDescription: "",
-            selectedPlugin: null,
+            enteredExtensionId: "",
+            newExtensionName: "",
+            newExtensionDescription: "",
+            selectedExtension: null,
             projectName: "default",
             packageName: "",
             message: ".",
@@ -307,8 +307,8 @@ export default {
         };
     },
     computed: {
-        newPluginId() {
-            return "pistarlab-" + this.enteredPluginId
+        newExtensionId() {
+            return "pistarlab-" + this.enteredExtensionId
         },
 
         recentSessions() {
@@ -344,22 +344,22 @@ export default {
     methods: {
         timedeltafordate,
         getImageId,
-        openPlugin(plugin) {
-            this.selectedPlugin = plugin
+        openExtension(extension) {
+            this.selectedExtension = extension
 
             this.$bvModal.show("modal-open-workspace")
 
         },
-        createNewPlugin() {
+        createNewExtension() {
 
             let outgoingData = {
-                'plugin_id': this.newPluginId,
-                'plugin_name': this.newPluginName,
-                'description': this.newPluginDescription
+                'extension_id': this.newExtensionId,
+                'extension_name': this.newExtensionName,
+                'description': this.newExtensionDescription
 
             }
             axios
-                .post(`${appConfig.API_URL}/api/plugin/create`, outgoingData)
+                .post(`${appConfig.API_URL}/api/extension/create`, outgoingData)
                 .then((response) => {
                     console.log(response)
                     this.loadWorkspace()
@@ -391,7 +391,7 @@ export default {
                 });
         },
         checkForIDE() {
-            console.log("Request for opening plugin in IDE")
+            console.log("Request for opening extension in IDE")
             axios
                 .get(`${appConfig.API_URL}/api/check_for_ide/`)
                 .then((response) => {
@@ -408,10 +408,10 @@ export default {
                     this.message = error;
                 });
         },
-        openWithIDE(pluginId) {
-            console.log("Request for opening plugin in IDE")
+        openWithIDE(extensionId) {
+            console.log("Request for opening extension in IDE")
             axios
-                .get(`${appConfig.API_URL}/api/open_plugin_with_ide/${pluginId}`)
+                .get(`${appConfig.API_URL}/api/open_extension_with_ide/${extensionId}`)
                 .then((response) => {
                     this.overview = response.data;
                 })

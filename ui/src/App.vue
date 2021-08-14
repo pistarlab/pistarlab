@@ -219,8 +219,8 @@ export default {
                     header: true,
                 },
                 {
-                    href: "/plugin/home",
-                    title: "Plugins",
+                    href: "/extension/home",
+                    title: "Extensions",
                     icon: "fas fa-cogs",
                 }
                 // ,
@@ -246,8 +246,8 @@ export default {
                 //     icon: "far fa-folder",
                 // },
                 // {
-                //     href: "/plugin/home",
-                //     title: "Plugins",
+                //     href: "/extension/home",
+                //     title: "Extensions",
                 //     icon: "fa fa-plug",
                 // },
                 // {
@@ -255,6 +255,15 @@ export default {
                 //     title: "Preferences",
                 //     icon: "fa fa-cog",
                 // }
+                , {
+                    title: "",
+                    header: true,
+                },
+                {
+                    href: "/Help",
+                    title: "Help",
+                    icon: "fa fa-question-circle",
+                }
             ],
             collapsed: false,
             themes: [{
@@ -389,7 +398,12 @@ h5,
 h6 {}
 
 h1 {
-    font-size: 1.8rem;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 500;
 }
 
 #main {
@@ -435,6 +449,7 @@ td {
 
 .main {
     padding: 0px 15px 15px 15px;
+
 }
 
 .logo {
@@ -806,20 +821,63 @@ img .noscaleimg {
     color: white !important;
 }
 
-.page-content,
-.collapsed-side-bar,
-.side-bar {
-    display: table-cell;
+.page {
+    display: flex;
 }
 
-.side-bar {
+.page-content {
+    width: 100%;
+    margin-right: 20px;
+}
+
+.help-content {
     width: 360px;
+
     border-left: 1px solid;
     border-color: rgb(35, 35, 36);
 }
 
-.collapsed-side-bar
-{
- width: 30px;   
+.help-content-collapsed {
+    width: 30;
+
+}
+
+.iconlink {
+    color: #dedede;
+}
+
+.outline {
+    font-size: 1.3em;
+
+}
+
+.outline ul,
+li {
+    list-style-type: none;
+
+    list-style: none;
+    padding-left: 0;
+}
+
+.outline {
+    margin-left: 0px;
+    padding-left: 10px;
+}
+
+.outline a {
+    color: #dedede;
+    text-decoration: underline;
+}
+
+.outline a:hover {
+    color: #fff;
+}
+
+.help-content-fullpage {
+    width: 100%;
+    float: left;
+    display: flex;
+    margin-left: 10px;
+
 }
 </style>

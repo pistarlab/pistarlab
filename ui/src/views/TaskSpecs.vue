@@ -69,7 +69,7 @@
                       <span>{{ item.classHame }}/{{ item.module }}</span>
 -->
                             <div>
-                                <span class="data_label mt-1">Plugin: </span> {{ item.pluginId }}/{{ item.version }}
+                                <span class="data_label mt-1">Extension: </span> {{ item.extensionId }}/{{ item.version }}
                             </div>
                             <div class="mt-2">
                                 {{ item.description }}
@@ -123,7 +123,7 @@ export default {
           ident
           displayedName
           disabled
-          pluginId
+          extensionId
           description
           version
         }

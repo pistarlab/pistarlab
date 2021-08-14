@@ -64,7 +64,7 @@ const GET_AGENT_SPEC = gql `
       id
       ident
       description
-      pluginId
+      extensionId
       version
       config
       params
@@ -82,7 +82,7 @@ const GET_AGENT = gql `
         id
         ident
         description
-        pluginId
+        extensionId
         version
         config
         params

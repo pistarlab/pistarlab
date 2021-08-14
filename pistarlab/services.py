@@ -471,7 +471,7 @@ class ServiceContext:
             return ForegroundService(
                 name="theia_ide",
                 launch_args=['yarn', '--cwd', 'theia_ide/', 'start', self.config.workspace_path, '--hostname', '0.0.0.0', '--port', '7781'],
-                ready_string="Deploy plugins list took",
+                ready_string="Deploy extensions list took",
                 log_root=self.log_root,
                 pkill_string="theia_ide",
                 links={'main': "http://localhost:7781"},

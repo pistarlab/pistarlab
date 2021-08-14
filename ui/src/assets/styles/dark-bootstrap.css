@@ -85,7 +85,7 @@
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #aaa;
+    color: #eee;
     text-align: left;
     background-color: #0d1117;
   }
@@ -99,7 +99,8 @@
     height: 0;
     overflow: visible;
   }
-  
+ 
+
   h1,
   h2,
   h3,

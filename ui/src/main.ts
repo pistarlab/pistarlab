@@ -70,8 +70,13 @@ import { DropdownPlugin, TablePlugin } from 'bootstrap-vue'
 Vue.use(DropdownPlugin)
 
 Vue.config.productionTip = false
+import HelpInfo from "./components/HelpInfo.vue";
 
 Vue.mixin({
+    components:
+    {
+        HelpInfo
+    },
     data: function () {
         return {
             docbar:true

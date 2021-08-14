@@ -149,8 +149,8 @@ def api_overview_data():
     data['total_agents'] = len(ctx.list_agents())
     data['total_agent_specs'] = len(ctx.list_agent_specs())
     data['total_env_specs'] = len(ctx.list_env_specs())
-    data['total_installed_plugins'] = len(
-        ctx.list_plugins(status_filter="INSTALLED"))
+    data['total_installed_extensions'] = len(
+        ctx.list_extensions(status_filter="INSTALLED"))
     data['total_sessions'] = len(ctx.list_sessions())
     data['active_sessions'] = len(
         ctx.list_sessions(status_filter={STATE_RUNNING}))
@@ -183,21 +183,21 @@ def api_reload_default_data():
     return response
 
 
-@app.route("/api/open_plugin_with_ide/<plugin_id>")
+@app.route("/api/open_extension_with_ide/<extension_id>")
 @not_in_readonly_mode
-def open_plugin_with_ide(plugin_id):
+def open_extension_with_ide(extension_id):
     workspace = ctx.get_workspace_info()
-    selected_plugin = None
-    for plugin in workspace['plugins']:
-        if plugin['id'] == plugin_id:
-            selected_plugin = plugin
+    selected_extension = None
+    for extension in workspace['extensions']:
+        if extension['id'] == extension_id:
+            selected_extension = extension
             break
 
     success = False
-    if selected_plugin is not None:
-        plugin_path = selected_plugin['full_path']
+    if selected_extension is not None:
+        extension_path = selected_extension['full_path']
         try:
-            subprocess.check_output(f"code {plugin_path}", shell=True)
+            subprocess.check_output(f"code {extension_path}", shell=True)
             success = True
         except Exception as e:
             message = f"Failed to launch  VSCode {e}"
@@ -249,14 +249,14 @@ def api_workspace_info():
     return response
 
 
-@app.route("/api/plugin/create", methods=['POST'])
+@app.route("/api/extension/create", methods=['POST'])
 @not_in_readonly_mode
-def api_plugin_create():
+def api_extension_create():
     try:
-        logging.info("Create Plugin")
+        logging.info("Create Extension")
         data = request.get_json()
-        ctx.create_new_plugin(
-            data['plugin_id'], data['plugin_name'], data['description'])
+        ctx.create_new_extension(
+            data['extension_id'], data['extension_name'], data['description'])
         response = make_response({'successful': True})
     except Exception as e:
         logging.error(e)
@@ -266,38 +266,38 @@ def api_plugin_create():
     return response
 
 # -----------------------------------------
-#              plugins
+#              extensions
 # -----------------------------------------
-@app.route("/api/plugins/list")
-def api_plugins_list():
-    results = ctx.plugin_manager.get_all_plugins()
+@app.route("/api/extensions/list")
+def api_extensions_list():
+    results = ctx.extension_manager.get_all_extensions()
     response = make_response({'items': results})
     response.headers['Content-Type'] = 'application/json'
     return response
 
 
-@app.route("/api/plugin/view/<plugin_id>")
-def api_plugin_view(plugin_id):
-    results = ctx.plugin_manager.get_plugins_by_id(plugin_id)[0]
+@app.route("/api/extension/view/<extension_id>")
+def api_extension_view(extension_id):
+    results = ctx.extension_manager.get_extensions_by_id(extension_id)[0]
     response = make_response({'item': results})
     response.headers['Content-Type'] = 'application/json'
     return response
 
 
-@app.route("/api/plugins/action/<action_name>/<plugin_id>/<plugin_version>")
+@app.route("/api/extensions/action/<action_name>/<extension_id>/<extension_version>")
 @not_in_readonly_mode
-def api_plugin_action(action_name, plugin_id, plugin_version):
+def api_extension_action(action_name, extension_id, extension_version):
     if action_name == 'install':
-        result = ctx.plugin_manager.install_plugin(plugin_id, plugin_version)
+        result = ctx.extension_manager.install_extension(extension_id, extension_version)
     elif action_name == 'uninstall':
-        result = ctx.plugin_manager.uninstall_plugin(plugin_id)
+        result = ctx.extension_manager.uninstall_extension(extension_id)
     elif action_name == 'reload':
-        result = ctx.plugin_manager.reload_plugin_by_id(plugin_id)
+        result = ctx.extension_manager.reload_extension_by_id(extension_id)
     else:
         result = False
     response = make_response({"success": result})
     response.headers['Content-Type'] = 'application/json'
-    logging.info("Plugin action complete: {}".format(result))
+    logging.info("Extension action complete: {}".format(result))
 
     return response
 

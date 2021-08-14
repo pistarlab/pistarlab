@@ -54,8 +54,8 @@ class ComponentSpecModel(DbBase):
     description = db.Column(db.String)
     parent_class_entry_point = db.Column(db.String)
 
-    plugin_id = db.Column(db.String, nullable=False)
-    plugin_version = db.Column(db.String, nullable=False)
+    extension_id = db.Column(db.String, nullable=False)
+    extension_version = db.Column(db.String, nullable=False)
 
     disabled = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -111,8 +111,8 @@ class AgentSpecModel(DbBase):
 
     description = db.Column(db.String)
 
-    plugin_id = db.Column(db.String, nullable=False)
-    plugin_version = db.Column(db.String, nullable=False)
+    extension_id = db.Column(db.String, nullable=False)
+    extension_version = db.Column(db.String, nullable=False)
 
     disabled = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -179,8 +179,8 @@ class EnvironmentModel(DbBase):
     categories = db.Column(db.String)
     created = db.Column(db.DateTime, server_default=db.func.now())
 
-    plugin_id = db.Column(db.String, nullable=False)
-    plugin_version = db.Column(db.String, nullable=False)
+    extension_id = db.Column(db.String, nullable=False)
+    extension_version = db.Column(db.String, nullable=False)
 
     version = db.Column(db.String, nullable=False)
     disabled = db.Column(db.Boolean, nullable=False, default=False)
@@ -233,8 +233,8 @@ class TaskSpecModel(DbBase):
     description = db.Column(db.String)
     type_name = db.Column(db.String)
 
-    plugin_id = db.Column(db.String, nullable=False)
-    plugin_version = db.Column(db.String, nullable=False)
+    extension_id = db.Column(db.String, nullable=False)
+    extension_version = db.Column(db.String, nullable=False)
 
     disabled = db.Column(db.Boolean, nullable=False, default=False)
 

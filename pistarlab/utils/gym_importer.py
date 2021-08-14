@@ -4,7 +4,7 @@ from gym.envs import registry as gym_registry
 import logging
 from .env_helpers import get_env_spec_data
 from gym import make
-# TODO Move to plugin
+# TODO Move to extension
 ENV_EXCLUDE_SET = {'Defender-v0', 'Defender-v4',
                    'DefenderDeterministic-v0', 'DefenderDeterministic-v4', 'DefenderNoFrameskip-v0', 'DefenderNoFrameskip-v4', 'Defender-ram-v0',
                    'Defender-ram-v4', 'Defender-ramDeterministic-v0', 'Defender-ramDeterministic-v4', 'Defender-ramNoFrameskip-v0', 'Defender-ramNoFrameskip-v4'}

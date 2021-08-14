@@ -7,7 +7,7 @@ from .tasks.matask import MultiAgentRunner
 from .utils import env_helpers
 from .utils.agent_helpers import get_agent_spec_interface_dict
 
-BUILTIN_PLUGIN_ID = "built-in"
+BUILTIN_EXTENSION_ID = "built-in"
 
 
 def add_wrapper_components(sess: db_orm.Session):
@@ -28,9 +28,9 @@ def load_default_data():
         spec_id="agent_task",
         displayed_name="Agent Task",
         description="built-in",
-        plugin_id=BUILTIN_PLUGIN_ID,
+        extension_id=BUILTIN_EXTENSION_ID,
         version="0.0.1-dev",
-        plugin_version="0.0.1-dev",
+        extension_version="0.0.1-dev",
         entry_point="pistarlab.task:AgentTask",
         runner_entry_point=None,
         config={
@@ -48,8 +48,8 @@ def load_default_data():
         version="0.0.1-dev",
         disabled=False,
         entry_point='pistarlab.task:Task',
-        plugin_id=BUILTIN_PLUGIN_ID,
-        plugin_version="0.0.1-dev",
+        extension_id=BUILTIN_EXTENSION_ID,
+        extension_version="0.0.1-dev",
         runner_entry_point="pistarlab.tasks.tune_default:TuneDefaultRunner",
         config={
             'agent_spec_id': 'REQUIRED',
@@ -84,7 +84,7 @@ def load_default_data():
         config={
                 'interfaces': {'run': get_agent_spec_interface_dict()}
         },
-        plugin_id="builtin")
+        extension_id="builtin")
 
     # ctx.register_agent_spec_from_classes(
     #     runner_cls=A2CTaskRunner,
@@ -92,7 +92,7 @@ def load_default_data():
     #     config={
     #             'interfaces': {'run': get_agent_spec_interface_dict()}
     #     },
-    #     plugin_id="builtin")
+    #     extension_id="builtin")
 
 
     # MULTI AGENT RUNNER (OVER NETWORK)
@@ -107,5 +107,5 @@ def load_default_data():
         entry_point="pistarlab.envs.ma_test_envs:MultiAgentTestParallelEnv")
     spec_data['metadata'] = env_helpers.probe_env_metadata(spec_data)
     ctx.register_env_spec(
-        plugin_id="builtin",
+        extension_id="builtin",
         **spec_data)

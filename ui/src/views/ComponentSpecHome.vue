@@ -63,8 +63,8 @@ const fields = [
         sortable: true,
     },
     {
-        key: "pluginId",
-        label: "plugin",
+        key: "extensionId",
+        label: "extension",
         sortable: true,
     },
     {
@@ -94,7 +94,7 @@ const GET_ALL_COMPONENTS = gql `
           ident
           created
           category
-            pluginId
+            extensionId
           config
 
         }

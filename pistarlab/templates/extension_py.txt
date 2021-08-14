@@ -1,0 +1,22 @@
+import logging
+from pistarlab import ctx
+
+EXTENSION_ID="$id"
+EXTENSION_VERSION="$version"
+
+def manifest():
+    return {}
+
+def install():
+    # Uncomment if using manifest
+    # ctx.install_extension_from_manifest(EXTENSION_ID)
+
+    return True
+
+def load():
+    return True
+
+def uninstall():
+    logging.info("Uninstalling {}".format(EXTENSION_ID))
+    ctx.disable_extension_by_id(EXTENSION_ID)
+    return True

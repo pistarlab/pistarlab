@@ -24,8 +24,8 @@
             </b-col>
             <b-col>
                 <div>
-                    <div class=" data_label">Plugin ID</div>
-                    <span>{{ agentSpec.pluginId }}</span>
+                    <div class=" data_label">Extension ID</div>
+                    <span>{{ agentSpec.extensionId }}</span>
                 </div>
             </b-col>
             <b-col>
@@ -133,7 +133,7 @@ const GET_AGENT_SPEC = gql `
       id
       ident
       description
-      pluginId
+      extensionId
       version
       config
       params

@@ -1,5 +1,6 @@
 <template>
-<div>
+<div class="page">
+    <div class="page-content">
     <b-modal id="agent-browser" size="lg" title="File Data Browser" scrollable :hide-footer="true">
         <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
         <div class="mb-5"></div>
@@ -43,14 +44,15 @@
         <!-- <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button> -->
 
         <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
-        <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm">Assign Task</b-button>
+        <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm"><i class="fa fa-plus-square"></i> Assign</b-button>
 
-        <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm">Configuration</b-button>
-        <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm">Metadata</b-button>
-        <b-button variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm">Create Snapshot</b-button>
+        <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm"><i class="fa fa-edit"></i> Configure</b-button>
+        <b-button title="Create Snapshot" variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm"><i class="fa fa-camera-retro"></i> Snapshot</b-button>
         <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
         <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
         <b-button variant="secondary" class="ml-1" v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
+                <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm"><i class="fa fa-info-circle"></i> Metadata</b-button>
+
 
         <div class="mt-4"></div>
         <b-modal id="errorbox" size="xl">
@@ -148,6 +150,8 @@
             </b-container>
         </b-card>
     </div>
+    </div>
+      <HelpInfo contentId="agents"></HelpInfo>
 </div>
 </template>
 
@@ -319,8 +323,7 @@ export default {
         AgentCard,
         AgentEdit,
         PlotlyVue,
-        DataBrowser
-    },
+        DataBrowser    },
     apollo: {
         // Simple query that will update the 'hello' vue property
         item: {

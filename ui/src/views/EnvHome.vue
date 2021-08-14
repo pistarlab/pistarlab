@@ -1,5 +1,6 @@
 <template>
-<div>
+<div class="page">
+    <div class="page-content">
     <h1><i class="fa fa-gamepad"></i> Environments</h1>
     <div class="mt-4"></div>
 
@@ -27,8 +28,8 @@
                     </div>
 
                     <div>
-                        <span class="data_label  mt-2">Plugin: </span>
-                        <span class="data_label">{{ selectedEnvironment.pluginId }}: {{ selectedEnvironment.pluginVersion }}</span>
+                        <span class="data_label  mt-2">Extension: </span>
+                        <span class="data_label">{{ selectedEnvironment.extensionId }}: {{ selectedEnvironment.extensionVersion }}</span>
                     </div>
 
                     <div>
@@ -126,6 +127,8 @@
     </b-container>
     <br />
     <div class="mt-4"></div>
+    </div>
+        <HelpInfo contentId="envs"></HelpInfo>
 </div>
 </template>
 
@@ -137,11 +140,12 @@ import {
 } from "../app.config";
 import EnvironmentCard from "../components/EnvCardGroup.vue";
 
+
 export default {
     name: "Env",
     components: {
         EnvironmentCard
-    },
+        },
     apollo: {
         environments: gql `
       query {
@@ -152,9 +156,9 @@ export default {
                 ident
                 description
                 displayedName
-                pluginId
+                extensionId
                 categories
-                pluginVersion
+                extensionVersion
                 version
                 disabled
                 specs {

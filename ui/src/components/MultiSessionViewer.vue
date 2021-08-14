@@ -14,9 +14,9 @@
         <b-button-group class="mr-auto">
             <b-button class="mr-2" variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm">Abort Task</b-button>
             <b-button class="mr-2" title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-                <i class="fa fa-copy"></i> Duplicate Session
+                <i class="fa fa-copy"></i> Clone Session
             </b-button>
-            <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
+            <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
         </b-button-group>
         <b-button-group class="ml-auto">
 

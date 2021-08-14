@@ -31,8 +31,8 @@
                         <span>{{spec.environment.version}}</span>
                     </div>
                     <div>
-                        <span class="data_label mt-1">Plugin: </span>
-                        <span>{{spec.environment.pluginId}}: {{spec.environment.pluginVersion}}</span>
+                        <span class="data_label mt-1">Extension: </span>
+                        <span>{{spec.environment.extensionId}}: {{spec.environment.extensionVersion}}</span>
                     </div>
                 </b-col>
                 <b-col class="">
@@ -78,9 +78,9 @@ const GET_ENV_SPECS = gql `
       environment{
           id
           ident
-          pluginId
+          extensionId
             version
-            pluginVersion
+            extensionVersion
             disabled
       }
     }

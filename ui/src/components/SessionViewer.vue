@@ -14,17 +14,17 @@
         <b-button class="mr-2" variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm"><i class="fa fa-stop"></i> Abort</b-button>
 
         <b-button class="mr-2" v-if="item && item.parentSession && item.parentSession.task" title="title" variant="secondary" :to="`/task/new/agenttask/${item.parentSession.task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Duplicate
+            <i class="fa fa-copy"></i> Clone
         </b-button>
         <b-button class="mr-2" v-else title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Duplicate
+            <i class="fa fa-copy"></i> Clone
         </b-button>
 
         <!-- <b-button title="Browse Data" class="mr-2" variant="secondary" :to="`/data_browser/?path=session/${uid}`" size="sm"><i class="fa fa-folder"></i> Browse Files</b-button> -->
 
-        <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
-        <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
-        <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" class="mr-2" size="sm"><i class="fa fa-eye"></i> Restore from Archive</b-button>
+        <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
+        <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
+        <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" class="mr-2" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
         <b-button-group class="ml-auto">
             <b-button size="sm" v-b-toggle.tasklogs variant="info">Task Log</b-button>
             <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>

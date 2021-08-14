@@ -38,11 +38,12 @@
                                 </b-input-group>
                             </b-modal>
 
-                            Notes: <b-link variant="white" size="sm" v-b-modal:edit-notes @click="loadNotes()"><i class="fa fa-edit"></i></b-link> <p>{{agent.notes}}</p>
+                            Notes: <b-link variant="white" size="sm" v-b-modal:edit-notes @click="loadNotes()"><i class="fa fa-edit"></i></b-link>
+                            <p>{{agent.notes}}</p>
                         </div>
                         <div class="mt-2">
-                            <b-button v-if="agent && !agent.archived" variant="secondary" pill @click="updateArchive(true)" size="sm"><i class="fa fa-eye"></i> Move to Archive</b-button>
-                            <b-button v-if="agent && agent.archived" variant="secondary" pill @click="updateArchive(false)" size="sm"><i class="fa fa-eye"></i> Unarchive</b-button>
+                            <b-button title="archive" v-if="agent && !agent.archived" variant="secondary" pill @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
+                            <b-button title="restore from archive" v-if="agent && agent.archived" variant="secondary" pill @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
                         </div>
                     </div>
                 </b-col>
@@ -61,40 +62,45 @@
 
                 </b-col>
                 <b-col>
-                    <h4>Interfaces</h4>
+                    <h4 id="interface_label">Interfaces</h4>
+                    <b-popover target="interface_label" triggers="hover" placement="left">
+                        <template #title>Interfaces</template>
+                        Interfaces define how an agent can interact with an environment. Agents that support multiple interfaces can interact with environments with different obvservation/action spaces. For example: an RL agent that can learn from prior gathered experiences as well as run on the environment directly.
+                        <a href="http://www.google.com">learn more</a>
+                    </b-popover>
                     <div class="small">
-                    <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
-                        <span   >
-                            <b>{{id}}</b>
-                        </span>
-                        <div class="ml-2">
-                            <span class="data_label mt-1">Type: </span>{{iface.interface_type}}
-                            <div class="data_label mt-1">Observation Space: </div>
-                            <div class="ml-1" v-if="iface && iface.observation_space">
-                                {{iface.observation_space.class_name}} (args={{iface.observation_space.args}},{{iface.observation_space.kwargs}})
-                            </div>
-                            <div v-else>Undefined</div>
+                        <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
+                            <span>
+                                <b>{{id}}</b>
+                            </span>
+                            <div class="ml-2">
+                                <span class="data_label mt-1">Type: </span>{{iface.interface_type}}
+                                <div class="data_label mt-1">Observation Space: </div>
+                                <div class="ml-1" v-if="iface && iface.observation_space">
+                                    {{iface.observation_space.class_name}} (args={{iface.observation_space.args}},{{iface.observation_space.kwargs}})
+                                </div>
+                                <div v-else>Undefined</div>
 
-                            <div class="data_label mt-1">Action Space: </div>
-                            <div class="ml-1" v-if="iface && iface.action_space">
-                                {{iface.action_space.class_name}} (args={{iface.action_space.args}},{{iface.action_space.kargs}})
-                            </div>
-                            <div v-else>Undefined</div>
+                                <div class="data_label mt-1">Action Space: </div>
+                                <div class="ml-1" v-if="iface && iface.action_space">
+                                    {{iface.action_space.class_name}} (args={{iface.action_space.args}},{{iface.action_space.kargs}})
+                                </div>
+                                <div v-else>Undefined</div>
 
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </b-col>
                 <b-col>
                     <h4>Components</h4>
                     <div class="small">
 
-                    <div v-for="(component, id) in components" v-bind:key="id">
-                        - {{component}}
-                    </div>
-                    <div v-if="components.length ==0">
-                        No components used
-                    </div>
+                        <div v-for="(component, id) in components" v-bind:key="id">
+                            - {{component}}
+                        </div>
+                        <div v-if="components.length ==0">
+                            No components used
+                        </div>
                     </div>
                 </b-col>
             </b-row>

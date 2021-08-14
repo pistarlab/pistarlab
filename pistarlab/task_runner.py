@@ -17,8 +17,8 @@ class TaskRunner(metaclass=ABCMeta):
     spec_id = None
     displayed_name = None
     entry_point = 'pistarlab.task:Task'
-    plugin_id = "WORKSPACE"
-    plugin_version = "0.0.1-dev"
+    extension_id = "WORKSPACE"
+    extension_version = "0.0.1-dev"
     version = "0.0.1-dev"
     config = {}
 

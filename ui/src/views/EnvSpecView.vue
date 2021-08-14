@@ -33,7 +33,7 @@
                         <span class="stat_label">Environment Id: </span>{{item.environment.ident}}
                     </div>
                     <div>
-                        <span class="stat_label">Plugin Id: </span> {{item.environment.pluginId}}
+                        <span class="stat_label">Extension Id: </span> {{item.environment.extensionId}}
                     </div>
                 </b-col>
                 <b-col>
@@ -137,7 +137,7 @@ const GET_ENV_SPEC = gql `
       environment {
           id
           ident
-                pluginId
+                extensionId
 
       }
       meta

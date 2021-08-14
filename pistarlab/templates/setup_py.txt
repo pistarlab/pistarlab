@@ -6,13 +6,13 @@ manifest_files = [name.replace("$module_name/","",1) for name in glob.glob("$mod
 setup(
     name="$id",
     version="$version",
-    author="$plugin_author",
+    author="$extension_author",
     description="$description",
-    long_description='This is a pistarlab plugin',
+    long_description='This is a pistarlab extension',
     url="",
     license='',
     install_requires=[],
-    package_data={'$module_name': ['README.md',"*.json","*.jpg", "manifest_files", "manifest.json","pistarlab_plugin.json"] + manifest_files
+    package_data={'$module_name': ['README.md',"*.json","*.jpg", "manifest_files", "manifest.json","pistarlab_extension.json"] + manifest_files
     packages=find_packages(),
     classifiers=[
         'Programming Language :: Python :: 3',

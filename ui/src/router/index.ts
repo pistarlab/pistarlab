@@ -85,16 +85,16 @@ const routes: Array<RouteConfig> = [
 
 
     {
-        path: '/plugin/home/:category?',
-        name: 'PluginHome',
+        path: '/extension/home/:category?',
+        name: 'ExtensionHome',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/PluginHome.vue'),
+        component: () => import('../views/ExtensionHome.vue'),
         props: (route) => ({
             category: route.params.category,
-            showWorkspacePlugins: route.query.episodeId,
-            managePluginId: route.query.managePluginId
+            showWorkspaceExtensions: route.query.episodeId,
+            manageExtensionId: route.query.manageExtensionId
         })
 
     }

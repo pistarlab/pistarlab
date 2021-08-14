@@ -20,7 +20,7 @@ from .dbmodels import (AgentSpec, AgentSpecModel, EnvironmentModel, EnvSpec,
                        EnvSpecModel, SessionModel)
 from .execution_context import ExecutionContext
 from .meta import *
-from .plugin_manager import PluginManager, create_new_plugin
+from .extension_manager import ExtensionManager, create_new_extension
 from .storage import Storage
 from .util_funcs import *
 # from .utils.code_meta import code_src_and_meta_from_instance
@@ -43,8 +43,8 @@ def get_task_spec_from_class(cls):
     spec['spec_id'] = cls.spec_id if cls.spec_id else cls.__module__
     spec['displayed_name'] = cls.displayed_name if cls.displayed_name else ""
     spec['description'] = cls.description if cls.description else ""
-    spec['plugin_id'] = cls.plugin_id
-    spec['plugin_version'] = cls.plugin_version
+    spec['extension_id'] = cls.extension_id
+    spec['extension_version'] = cls.extension_version
 
     spec['version'] = cls.version
     spec['config'] = cls.config if cls.config else {}
@@ -63,7 +63,7 @@ class SysContext:
         self.verbose = True
 
         self._redis_client: StrictRedis = None
-        self.plugin_manager: PluginManager = None
+        self.extension_manager: ExtensionManager = None
 
         self._initialized = False
         self._closed = False
@@ -175,19 +175,19 @@ class SysContext:
                 data_context.cleanup()
 
             #########################################
-            # Setup Plugins
+            # Setup Extensions
             #########################################
             # WARNING: need to be careful with the ordering here - Don't want to create an infinite loop.
-            #   ie. plugin need intiailizing contexts, which initialize plugins, which ..., etc
-            self.plugin_manager = PluginManager(
+            #   ie. extension need intiailizing contexts, which initialize extensions, which ..., etc
+            self.extension_manager = ExtensionManager(
                 'pistarlab',
                 workspace_path=self.config.workspace_path,
                 data_path=self.config.data_path,
-                logger=self.get_scopped_logger("plugin_manager"))
+                logger=self.get_scopped_logger("extension_manager"))
             if first_run:
-                self.plugin_manager.cleanup()
-                self.plugin_manager.finish_installing_new_plugins()
-            self.plugin_manager.load_plugins()
+                self.extension_manager.cleanup()
+                self.extension_manager.finish_installing_new_extensions()
+            self.extension_manager.load_extensions()
 
             #########################################
             # Load Snapshots
@@ -202,20 +202,20 @@ class SysContext:
         else:
             logging.debug("Already initalized, not reinitializing.")
 
-    def create_new_plugin(self, plugin_id, plugin_name, description=""):
-        create_new_plugin(
+    def create_new_extension(self, extension_id, extension_name, description=""):
+        create_new_extension(
             workspace_path=self.config.workspace_path,
-            plugin_id=plugin_id,
-            plugin_name=plugin_name,
+            extension_id=extension_id,
+            extension_name=extension_name,
             description=description,
             original_author=self.get_user_id(""),
-            plugin_author=self.get_user_id(""),)
+            extension_author=self.get_user_id(""),)
 
     def get_workspace_info(self):
-        plugins = self.plugin_manager.get_all_plugins()
-        plugins = [plugin for pid, plugin in plugins.items(
-        ) if plugin["source"]["type"] == "workspace"]
-        return {'path': self.config.workspace_path, 'plugins': plugins}
+        extensions = self.extension_manager.get_all_extensions()
+        extensions = [extension for pid, extension in extensions.items(
+        ) if extension["source"]["type"] == "workspace"]
+        return {'path': self.config.workspace_path, 'extensions': extensions}
 
     def get_store(self) -> Storage:
         return self.get_data_context().get_store()
@@ -373,29 +373,29 @@ class SysContext:
         query = self.get_dbsession().query(SessionModel)
         return query.get(id)
 
-    # Plugin methods
-    def disable_plugin_by_id(self, plugin_id):
+    # Extension methods
+    def disable_extension_by_id(self, extension_id):
         dbsession = self.get_dbsession()
         for cls in [EnvironmentModel, AgentSpecModel, ComponentSpecModel, TaskSpecModel]:
             dbmodels = dbsession.query(cls).filter(
-                cls.plugin_id == plugin_id).all()
+                cls.extension_id == extension_id).all()
             for dbmodel in dbmodels:
                 dbmodel.disabled = True
         dbsession.commit()
 
-    def list_plugins(self, status_filter=None):
-        plugins = [(p['id'], p['version']) for p in filter(lambda x: status_filter is None or x['status']
-                                                           == status_filter, self.plugin_manager.get_all_plugins().values())]
-        return plugins
+    def list_extensions(self, status_filter=None):
+        extensions = [(p['id'], p['version']) for p in filter(lambda x: status_filter is None or x['status']
+                                                           == status_filter, self.extension_manager.get_all_extensions().values())]
+        return extensions
 
-    def get_plugin(self, id, version):
-        return self.plugin_manager.get_plugin(id, version)
+    def get_extension(self, id, version):
+        return self.extension_manager.get_extension(id, version)
 
-    def install_plugin(self, id, plugin_version):
-        return self.plugin_manager.install_plugin(id, plugin_version)
+    def install_extension(self, id, extension_version):
+        return self.extension_manager.install_extension(id, extension_version)
 
-    def uninstall_plugin(self, id):
-        return self.plugin_manager.uninstall_plugin(id)
+    def uninstall_extension(self, id):
+        return self.extension_manager.uninstall_extension(id)
 
 
     # Environment Specs
@@ -412,12 +412,12 @@ class SysContext:
         env = self.get_dbsession().query(EnvSpecModel).get(spec_id)
         return env_helpers.get_env_instance(env.config.get('entry_point'), kwargs=env.config.get('env_kwargs', {}))
 
-    def install_plugin_from_manifest(self, plugin_id, plugin_version, replace_images = True):
-        plugin = self.get_plugin(plugin_id, plugin_version)
-        module_name = plugin.get('module_name', plugin_id.replace("-", "_"))
+    def install_extension_from_manifest(self, extension_id, extension_version, replace_images = True):
+        extension = self.get_extension(extension_id, extension_version)
+        module_name = extension.get('module_name', extension_id.replace("-", "_"))
         manifest_path = pkg_resources.resource_filename(
             module_name, "manifest.json")
-        self.get_logger().info("Loading plugin manifest files from {}".format(manifest_path))
+        self.get_logger().info("Loading extension manifest files from {}".format(manifest_path))
 
         with open(manifest_path, 'r') as f:
             manifest_data = json.load(f)
@@ -426,13 +426,13 @@ class SysContext:
             key=(SYS_CONFIG_DIR, 'envs', 'images'))
         manifest_files_path = pkg_resources.resource_filename(
             module_name, "manifest_files")
-        self.get_logger().info("Loading plugin manifest files from {}".format(manifest_files_path))
+        self.get_logger().info("Loading extension manifest files from {}".format(manifest_files_path))
 
         try:
             for data in manifest_data.get('environments', []):
                 self.register_environment(
-                    plugin_id=plugin_id,
-                    plugin_version=plugin_version,
+                    extension_id=extension_id,
+                    extension_version=extension_version,
                     **data)
 
             # ENV/ENV_SPEC
@@ -452,29 +452,29 @@ class SysContext:
                         f"Unable to copy image due to error while copying {e}")
 
                 self.register_env_spec(
-                    plugin_id=plugin_id,
-                    plugin_version=plugin_version,
+                    extension_id=extension_id,
+                    extension_version=extension_version,
                     **data)
 
             # COMPONENT_SPECS
             for data in manifest_data.get('component_specs', []):
                 self.register_component_spec(
-                    plugin_id=plugin_id,
-                    plugin_version=plugin_version,
+                    extension_id=extension_id,
+                    extension_version=extension_version,
                     **data)
 
             # AGENT_SPECS
             for data in manifest_data.get('agent_specs', []):
                 self.register_agent_spec(
-                    plugin_id=plugin_id,
-                    plugin_version=plugin_version,
+                    extension_id=extension_id,
+                    extension_version=extension_version,
                     **data)
 
             # TASK_SPECS
             for data in manifest_data.get('task_specs', []):
                 self.register_task_spec(
-                    plugin_id=plugin_id,
-                    plugin_version=plugin_version,
+                    extension_id=extension_id,
+                    extension_version=extension_version,
                     **data)
         except Exception as e:
             self.get_dbsession().rollback()
@@ -493,8 +493,8 @@ class SysContext:
             default_metadata=None,
             displayed_name=None,
             categories=[],
-            plugin_id=None,
-            plugin_version="0.0.1-dev",
+            extension_id=None,
+            extension_version="0.0.1-dev",
             version="0.0.1-dev",
             description=None,
             disabled=False):
@@ -508,8 +508,8 @@ class SysContext:
 
         environment.displayed_name = displayed_name or environment_id
         environment.description = description
-        environment.plugin_id = plugin_id
-        environment.plugin_version = plugin_version
+        environment.extension_id = extension_id
+        environment.extension_version = extension_version
         environment.default_entry_point = default_entry_point
         environment.version = version
         environment.disabled = disabled
@@ -528,8 +528,8 @@ class SysContext:
             categories=[],
             displayed_name=None,
             environment_displayed_name=None,
-            plugin_id=None,
-            plugin_version="0.0.1-dev",
+            extension_id=None,
+            extension_version="0.0.1-dev",
             version="0.0.1-dev",
             environment_id=None,
             description=None,
@@ -551,8 +551,8 @@ class SysContext:
             environment.description = description
             environment.categories = ",".join(
                 [v.lower().replace(" ", "") for v in categories])
-            environment.plugin_id = plugin_id
-            environment.plugin_version = plugin_version
+            environment.extension_id = extension_id
+            environment.extension_version = extension_version
             environment.default_entry_point = entry_point
             environment.version = version
             environment.disabled = disabled
@@ -598,8 +598,8 @@ class SysContext:
             params={},
             disabled=False,
             displayed_name=None,
-            plugin_id=None,
-            plugin_version="0.0.1-dev",
+            extension_id=None,
+            extension_version="0.0.1-dev",
             version="0.0.1-dev",
             description=None):
 
@@ -611,8 +611,8 @@ class SysContext:
 
         spec.displayed_name = displayed_name or spec_id
         spec.description = description
-        spec.plugin_id = plugin_id
-        spec.plugin_version = plugin_version
+        spec.extension_id = extension_id
+        spec.extension_version = extension_version
         spec.entry_point = entry_point
         spec.runner_entry_point = runner_entry_point
         spec.version = version
@@ -629,8 +629,8 @@ class SysContext:
             config={},
             params={},
             displayed_name=None,
-            plugin_id=None,
-            plugin_version="0.0.1-dev",
+            extension_id=None,
+            extension_version="0.0.1-dev",
             version="0.0.1-dev",
             category=None,
             disabled=False,
@@ -646,8 +646,8 @@ class SysContext:
 
         spec.displayed_name = displayed_name or spec_id
         spec.description = description
-        spec.plugin_id = plugin_id
-        spec.plugin_version = plugin_version
+        spec.extension_id = extension_id
+        spec.extension_version = extension_version
         spec.entry_point = entry_point
         spec.parent_class_entry_point = parent_class_entry_point
         spec.config = config
@@ -670,8 +670,8 @@ class SysContext:
             config={},
             params={},
             displayed_name=None,
-            plugin_id=None,
-            plugin_version="0.0.1-dev",
+            extension_id=None,
+            extension_version="0.0.1-dev",
             version="0.0.1-dev",
             type_name=None,
             disabled=False,
@@ -687,8 +687,8 @@ class SysContext:
 
         spec.displayed_name = displayed_name or spec_id
         spec.description = description
-        spec.plugin_id = plugin_id
-        spec.plugin_version = plugin_version
+        spec.extension_id = extension_id
+        spec.extension_version = extension_version
         spec.entry_point = entry_point
         spec.runner_entry_point = runner_entry_point
         spec.config = config
