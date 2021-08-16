@@ -100,12 +100,18 @@ def load_default_data():
         MultiAgentRunner)
 
     spec_data = env_helpers.get_env_spec_data(
-        spec_id="multiplayer_test_parallel",
-        displayed_name="MultiAgent Test Environment",
-        environment_displayed_name="MultiAgent Test Environment",
+        spec_id="test_multiplayer_parallel",
+        displayed_name="Test Environment: Multi-Agent Parallel",
+        spec_displayed_name="Multi-Agent Parallel",
         env_type=RL_MULTIPLAYER_ENV,
         entry_point="pistarlab.envs.ma_test_envs:MultiAgentTestParallelEnv")
+    
     spec_data['metadata'] = env_helpers.probe_env_metadata(spec_data)
-    ctx.register_env_spec(
+
+    env_data = env_helpers.get_environment_data(
+        environment_id="pistarlab_tests",
+        displayed_name="piSTAR Lab Tests",
+        env_specs=[spec_data])
+    ctx.register_environment(
         extension_id="builtin",
-        **spec_data)
+        **env_data)

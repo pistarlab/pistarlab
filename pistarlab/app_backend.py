@@ -348,6 +348,8 @@ def api_snapshot_publish():
 # -----------------------------
 #         Data Streams
 # -----------------------------
+
+# TODO: Copy Pasta -- Fix me
 @app.route('/api/stream/events')
 def stream_events():
     logging.info("Connecting to server event stream")
@@ -397,11 +399,13 @@ def stream_scoped_logs(scope_name):
     def gen():
         data_batch = []
         try:
-            file_path = os.path.join(ctx.config.log_root, f"{scope_name}.txt")
+            file_path = os.path.join(ctx.config.log_root, f"{scope_name}.log")
             with open(file_path, 'r') as f:
                 data_batch.extend(f.readlines())
-        except:
+        except Exception as e:
+            logging.info(f"Fload to load {file_path} {e}")
             pass
+            
         clear_old = True
         while (True):
             try:
@@ -799,7 +803,7 @@ def api_agent_plots_json(uid):
         orig_data = ctx.get_store().get_multipart_dict(key=('agent', uid), name='stats')
         if orig_data is None:
             raise Exception(f"No stats data found for agent {uid}")
-        orig_data.pop("model") #TODO: fix at source
+        orig_data.pop("model","NA") #TODO: fix at source
 
         total_count = len(orig_data['timestamp'])
         actual_count = total_count
@@ -828,7 +832,7 @@ def api_agent_plots_json(uid):
             try:
                 values, include_stats = bin_data(
                     [(step, value) for step, value in zip(step_counts, data)], bin_size=bin_size,start_idx_offset=start_idx_offset)
-                logging.info("total_data {}, final_values= {}".format(
+                logging.debug("total_data {}, final_values= {}".format(
                     len(orig_data), len(values)))
                 graph = {}
                 color_code = [int(v * 255) for v in color_map(i % 20)[0:3]]
@@ -1145,9 +1149,9 @@ def main():
         ctx.close()
         if args.enable_profiler:
             profiler.stop()
-        print(profiler.output_text(unicode=True,
+            print(profiler.output_text(unicode=True,
                                    color=True, show_all=True, timeline=True))
-        print("Shutdown Complete")
+        print("Backend Shutdown Complete")
         sys.exit()
 
     ctx.initialize()

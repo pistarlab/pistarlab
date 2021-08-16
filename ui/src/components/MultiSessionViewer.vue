@@ -477,13 +477,6 @@ export default {
     methods: {
         timedelta,
         timelength,
-        getImageId(uid) {
-            if (uid) {
-
-                let id = parseInt(uid.split("-")[1]);
-                return id % 19;
-            } else ""
-        },
         formatNum(num, prec) {
             if (num == null) {
                 return "";

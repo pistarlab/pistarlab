@@ -4,7 +4,7 @@
         <div class="h4 text-center">
         <b-link :to="`/agent/view/${agent.ident}`">
         <div class="">{{ agent.ident }}</div>
-        <b-img  style="max-height:200px;" :src="`/img/agent_cons/${getImageId(agent.ident)}.SVG`" alt="Image" class="rounded-0 svgagent" ></b-img> 
+        <b-img  style="max-height:200px;" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" class="rounded-0" ></b-img> 
             
         </b-link>
         </div>
@@ -35,10 +35,7 @@ export default {
     methods: {
         //
 
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
+
 
     },
     computed: {

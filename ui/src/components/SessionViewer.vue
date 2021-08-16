@@ -461,13 +461,6 @@ export default {
         timedeltafordate,
         numberToString,
         formatNum,
-        getImageId(uid) {
-            if (uid) {
-
-                let id = parseInt(uid.split("-")[1]);
-                return id % 19;
-            } else ""
-        },
         startLive() {
             this.playingLive = true
             this.playingEpisode = false

@@ -2,7 +2,7 @@ from ..meta import *
 from .. import ctx
 from gym.envs import registry as gym_registry
 import logging
-from .env_helpers import get_env_spec_data
+from .env_helpers import get_environment_data, get_env_spec_data
 from gym import make
 # TODO Move to extension
 ENV_EXCLUDE_SET = {'Defender-v0', 'Defender-v4',
@@ -25,7 +25,7 @@ def gym_make(id=None,**kwargs):
 
     return make(id,**kwargs)
 
-def get_env_specs_from_gym_registry(
+def get_environments_from_gym_registry(
         entry_point_prefix,
         environment_id_filter_set=None,
         default_wrappers=[],
@@ -36,10 +36,12 @@ def get_env_specs_from_gym_registry(
         env_type=RL_SINGLEPLAYER_ENV,
         additional_tags=[],
         additional_categories=[],
-        version="0.0.1-dev"):
+        version="0.0.1-dev",
+        force_environment_id=None,
+        force_environment_displayed_name=None):
 
     counter = 0
-    spec_list = []
+    envs = {}
     for gym_spec in gym_registry.all():
         if (gym_spec.id not in env_exclude_set) and \
             (gym_spec.entry_point is not None) and \
@@ -57,18 +59,28 @@ def get_env_specs_from_gym_registry(
             if environment_id_filter_set is not None and environment_id not in environment_id_filter_set:
                 continue
 
+            if force_environment_id is not None:
+                environment_id = force_environment_id
+                env_displayed_name = force_environment_displayed_name or environment_id.title().replace("_", " ")
+            
+            env = envs.get(environment_id)
+            if env is None:
+                env = get_environment_data(
+                    environment_id=environment_id,
+                    displayed_name=env_displayed_name,
+                    categories=additional_categories,
+                    version=version,
+                    env_specs=[])
+
             spec = get_env_spec_data(spec_id=gym_spec.id,
                                      entry_point="pistarlab.utils.gym_importer:gym_make",
                                      env_kwargs={'id':gym_spec.id},
                                      env_type=env_type,
-                                     version=version,
                                      tags=additional_tags,
-                                     categories=additional_categories,
-                                     environment_id=environment_id,
-                                     environment_displayed_name=environment_id,
                                      default_wrappers=default_wrappers,
                                      default_render_mode=default_render_mode)
-            spec_list.append(spec)
+            env['env_specs'].append(spec)
+            envs[environment_id] = env
 
             counter += 1
 
@@ -79,4 +91,4 @@ def get_env_specs_from_gym_registry(
             logging.debug("Skipping Env: {} {}".format(gym_spec.id, gym_spec.entry_point))
 
     logging.info("Added {} new envs".format(counter))
-    return spec_list
+    return list(envs.values())

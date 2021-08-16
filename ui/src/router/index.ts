@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import Workspace from '../views/Workspace.vue'
 import Welcome from '../views/Welcome.vue'
 import Help from '../views/Help.vue'
 import TaskHome from "../views/TaskHome.vue"
@@ -12,6 +13,10 @@ const routes: Array<RouteConfig> = [
         path: '/',
         name: 'Home',
         component: Home
+    },
+    {
+        path: '/workspace/home',
+        component: Workspace
     },
     {
         path: '/welcome',

@@ -24,8 +24,8 @@
         <div class="mb-5"></div>
     </b-modal>
 
-    <b-modal id="syslogviewer" size="lg" title="System Logs" scrollable :hide-footer="true">
-        <DataBrowser path="/logs/"></DataBrowser>
+    <b-modal id="syslogviewer" size="xl" title="System Logs" scrollable :hide-footer="true">
+        <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/backend_run`"> </LogViewer>
         <div class="mb-5"></div>
     </b-modal>
 
@@ -104,8 +104,8 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
 
-            <b-nav-item class="mr-2" v-b-modal.data-browser>
-                <i title="File Browser" class="fa fa-folder"></i> Files
+            <b-nav-item v-b-popover.hover.top="'Browse Data Files'" class="mr-2" v-b-modal.data-browser>
+                <i class="fa fa-folder"></i> Files
             </b-nav-item>
             <!-- <b-nav-item title="Switch to IDE View" class="mr-2" to="/ide">
                 <i class="fa fa-laptop-code"></i> IDE
@@ -122,10 +122,12 @@
             <b-nav-text class="ml-auto appstatus" title="Connected" v-else>
                 <i class="fa fa-plug"></i> Connected
             </b-nav-text>
-            <b-nav-item title="Settings" class="ml-auto" v-b-modal.settings>
+            <b-nav-item v-b-popover.hover.top="'Settings'" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>
             </b-nav-item>
-
+            <b-nav-item v-b-popover.hover.top="'Show system logs'" class="ml-auto" v-b-modal.syslogviewer>
+                <i class="fa fa-bug"></i>
+            </b-nav-item>
         </b-navbar-nav>
 
     </b-navbar>
@@ -220,8 +222,13 @@ export default {
                 },
                 {
                     href: "/extension/home",
-                    title: "Extensions",
+                    title: "Extension Manager",
                     icon: "fas fa-cogs",
+                },
+                {
+                    href: "/workspace/home",
+                    title: "Workspace",
+                    icon: "fas fa-code",
                 }
                 // ,
                 //                 {
@@ -458,6 +465,7 @@ td {
     vertical-align: middle;
     height: 50px;
     padding: 10px;
+    padding-top: 15px;
 }
 
 .svgagent {
@@ -509,6 +517,10 @@ hr {
 .vsm--toggle-btn {
     background-color: #161b22 !important;
 
+}
+
+.vsm--mobile-item {
+    max-width: 220px !important;
 }
 
 pre {
@@ -810,6 +822,11 @@ img .noscaleimg {
 
 }
 
+img{
+     -webkit-filter: drop-shadow(10px 10px 10px #000);
+        filter: drop-shadow(10px 10px 10px  #000);
+}
+
 .desc {
 
     font-size: 0.85em;
@@ -879,5 +896,9 @@ li {
     display: flex;
     margin-left: 10px;
 
+}
+
+b {
+    font-weight: 600;
 }
 </style>

@@ -16,17 +16,28 @@
 
                 <b-col class="d-flex justify-content-center align-self-center">
 
-                    <b-card style="width:400px">
+                    <b-card style="width:400px" class="text-center">
                         <h3 class="text-center">Build, Play, Learn
                         </h3>
 
           
                         <a target="_blank" href="http://pistarlab.org">Website</a>
                         <br />
-                        <a target="_blank" href="http://github.com/pistarlab/pistarlab">Github</a>
+                        <a target="_blank" href="http://github.com/pistarlab/pistarlab"> Github</a>
                         <br />
                         <a target="_blank" href="http://pistarlab.readthedocs.io/">Documentation</a>
+
                     </b-card>
+ </b-col>
+       </b-row>
+            <b-row>
+              
+               
+                                <b-col class="d-flex justify-content-center align-self-center">
+
+                    <b-alert show variant="warning">
+                        <b>Warning:</b> piSTAR Lab is in early development. Compatibility with newer versions is not guarenteed.
+                    </b-alert>
                 </b-col>
             </b-row>
 

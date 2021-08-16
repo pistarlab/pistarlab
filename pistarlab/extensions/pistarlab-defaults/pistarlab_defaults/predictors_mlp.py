@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.nn.utils import clip_grad_norm_
 
-from .. import ctx
+from pistarlab import ctx
 # because stocastic
 
 

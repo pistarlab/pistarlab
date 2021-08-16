@@ -10,7 +10,7 @@
 
         <div v-if="focus =='outline'">
             <div class="ml-3">
-                 <h4>Contents</h4>
+                <h4>Contents</h4>
             </div>
 
             <b-container>
@@ -29,6 +29,9 @@
                             </li>
                             <li>
                                 <b-link @click="focus='extensions'">Extensions</b-link>
+                            </li>
+                            <li>
+                                <b-link @click="focus='workspace'">Workspace</b-link>
                             </li>
                         </ul>
 
@@ -61,7 +64,6 @@
                         <br />
 
                         <b-link size="sm" @click="focus='agents_details'">more</b-link>
-
                     </b-col>
                 </b-row>
             </b-container>
@@ -74,6 +76,8 @@
             <b-container>
                 <b-row>
                     <b-col>
+              
+
                         <br />
 
                         <h6>Checkpoints</h6>
@@ -93,7 +97,9 @@
                             Statistics gathered while an agent is running usually during the learning step.
                         </p>
                         <br />
-
+          <div class="text-center">
+                         <img src="ai-play_5.png" width=200 />
+                         </div>
                     </b-col>
                 </b-row>
             </b-container>
@@ -127,6 +133,22 @@
                 </b-row>
             </b-container>
         </div>
+        <div v-else-if="focus =='workspace'">
+            <div class="ml-3">
+                <h4>Workspace</h4>
+            </div>
+            <b-container>
+                <b-row>
+                    <b-col>
+                        <p>
+                            Your workspace is where you can create and develop your own custom extensions.
+                            By default, your workspace directory is under you the pistarlab/workspace folder in your home directory.
+                        </p>
+                    </b-col>
+                </b-row>
+            </b-container>
+
+        </div>
         <div v-else-if="focus =='extensions'">
             <div class="ml-3">
                 <h4>Extensions</h4>
@@ -139,15 +161,13 @@
 
                         <br />
                         <br />
-<h6>Workspace</h6>
-<p>
-    Your workspace is where you can create and develop your own custom extensions.
-    By default, your workspace directory is under you the pistarlab/workspace folder in your home directory.
-</p>
-
+                        <h6>Workspace</h6>
+                        <p>
+                            Your workspace is where you can create and develop your own custom extensions.
+                            By default, your workspace directory is under you the pistarlab/workspace folder in your home directory.
+                        </p>
 
                         <br />
-
 
                         <h6>Repositories</h6>
                         There are three predefined extension repositories:

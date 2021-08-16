@@ -186,34 +186,28 @@ def render_env_frame_as_image(
 
     return img
 
-
 def get_env_spec_data(
         spec_id,
         entry_point=None,
         env_kwargs={},
         env_type=RL_SINGLEPLAYER_ENV,
         displayed_name=None,
-        version="0.0.1-dev",
-        environment_id=None,
-        environment_displayed_name=None,
+        spec_displayed_name= None,
         description=None,
         default_wrappers=[],
         default_render_mode=None,
         metadata={},
-        tags=[],
-        categories=[]):
+        tags=[]):
+    displayed_name = displayed_name or spec_id
+    spec_displayed_name = spec_displayed_name or displayed_name
     spec_data = {}
     spec_data['spec_id'] = spec_id
-    spec_data['displayed_name'] = displayed_name or spec_id
+    spec_data['displayed_name'] = displayed_name
+    spec_data['spec_displayed_name'] = spec_displayed_name
     spec_data['description'] = description
     spec_data['entry_point'] = entry_point
-    spec_data['version'] = version
-    spec_data['disabled'] = False
     spec_data['env_type'] = env_type
     spec_data['tags'] = tags
-    spec_data['categories'] = categories
-    spec_data['environment_id'] = environment_id or spec_id
-    spec_data['environment_displayed_name'] = environment_displayed_name or environment_id
     spec_data['metadata'] = metadata
     spec_data['config'] = get_env_def(
         default_render_mode=default_render_mode,
@@ -221,8 +215,38 @@ def get_env_spec_data(
         default_wrappers=default_wrappers)
     return spec_data
 
+def get_environment_data(
+            environment_id,
+            default_entry_point=None,
+            default_config=None,
+            default_meta=None,
+            displayed_name=None,
+            categories=[],
+            version="0.0.1-dev",
+            description=None,
+            disabled=False,
+            env_specs = []):
+    
+    displayed_name = displayed_name or environment_id
 
-def probe_env_metadata(spec_data, image_path=None):
+    data = {}
+    data['environment_id'] = environment_id
+
+    data['displayed_name'] = displayed_name
+    data['description'] = description
+    data['default_entry_point'] = default_entry_point
+    data['version'] = version
+    data['disabled'] = disabled
+
+    data['categories'] = categories
+    data['default_meta'] = default_meta
+    data['default_config'] = default_config
+    data['env_specs'] = env_specs
+    
+    return data
+
+
+def probe_env_metadata(spec_data, image_path=None, replace_images=True):
     """
     TODO: needs cleaned
     """
@@ -233,7 +257,6 @@ def probe_env_metadata(spec_data, image_path=None):
     render_mode = spec_data['config']['default_render_mode']
     env_type = spec_data['env_type']
     metadata = spec_data.get('metadata', {})
-    environment_id = spec_data['environment_id']
 
     env_class = get_class_from_entry_point(entry_point)
 
@@ -248,6 +271,8 @@ def probe_env_metadata(spec_data, image_path=None):
 
     if "render.modes" not in metadata:
         metadata['render.modes'] = []
+    else:
+        metadata['render.modes'] = list(set(metadata['render.modes']))
     if "render.fps" not in metadata:
         metadata['render.fps'] = 30
 
@@ -274,20 +299,20 @@ def probe_env_metadata(spec_data, image_path=None):
 
     # Generate Preview Image
     if image_path is not None:
-        logging.debug("Generating Preview Image")
-        try:
-            img = render_env_frame_as_image(env_ref.render, render_mode, ob=ob)
-        except Exception as e:
-            img = None
-            logging.error(e)
-        if img is not None:
-            image_filename = f"{environment_id}.jpg"
-            image_filepath = os.path.join(image_path, image_filename)
-            logging.debug("Creating image {}".format(image_filepath))
-            img.save(image_filepath)
-            metadata['image_filename'] = image_filename
-        else:
-            logging.debug("img is None")
+        image_filename = f"{spec_id}.jpg"
+        image_filepath = os.path.join(image_path, image_filename)
+        if replace_images or not os.path.exists(image_filepath):
+            logging.info("Generating Preview Image")
+            try:
+                img = render_env_frame_as_image(env_ref.render, render_mode, ob=ob)
+            except Exception as e:
+                img = None
+                logging.error(e)
+            if img is not None:
+                logging.debug("Creating image {}".format(image_filepath))
+                img.save(image_filepath)
+            else:
+                logging.debug("img is None")
 
         try:
             import pygame

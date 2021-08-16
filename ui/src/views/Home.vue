@@ -39,12 +39,44 @@
             </div>
         </div>
     </b-modal>
+<div >
 
-    <b-container fluid>
+    <b-container fluid >
 
-        <b-row>
+        <b-row class="">
+              <b-col cols=2 class="text-center">
+                <h3>Overview</h3>
+                <div v-if="overview">
+                    <div class="mb-4">
+                        <div class="data_label">Sessions Active</div>
+                        <div class="stat_value"> {{overview['active_sessions']}}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="data_label">Agent Instances</div>
+                        <div class="stat_value"> {{overview['total_agents']}}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="data_label">Agent Specs</div>
+                        <div class="stat_value"> {{overview['total_agent_specs']}}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="data_label">Environment Specs</div>
+                        <div class="stat_value"> {{overview['total_env_specs']}}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="data_label">Installed Extensions</div>
+                        <div class="stat_value"> {{overview['total_installed_extensions']}}
+                        </div>
+                    </div>
 
-            <b-col cols=5>
+                </div>
+            </b-col>
+
+            <b-col cols=6 >
                 <h3>Recent activity</h3>
                 <hr />
                 <div class="mt-3"></div>
@@ -106,7 +138,7 @@
                                 <b-link :to="`/agent/view/${item.ident}`">
                                     <b-card class="m-1">
 
-                                        <b-img style="max-height:40px;" :src="`/img/agent_cons/${getImageId(item.ident)}.SVG`" alt="Image" class="rounded-0 svgagent"></b-img>
+                                        <b-img style="max-height:40px;" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`" alt="Image" class="rounded-0"></b-img>
                                         <span class="ml-2"> {{item.ident}} : {{item.spec.displayedName}}</span>
 
                                     </b-card>
@@ -121,80 +153,16 @@
                 </div>
 
             </b-col>
-            <b-col cols=5>
-                <h3>Extensions in your Workspace</h3>
-                <hr />
-                <b-button class="ml-auto" v-b-modal:modal-create-extension size="sm" variant="success"><i class="fa fa-plus"></i> </b-button>
-                <div v-if="workspace" class="mt-3">
-
-                    <b-card v-for="(extension,key) in workspace.extensions" v-bind:key="key" class="mb-0 mt-2">
-                        <b-row>
-                            <b-col >
-                                <div>
-                                    <b-link @click="openExtension(extension)">
-                                        <h4>{{extension.name}}</h4>
-                                    </b-link>
-                                </div>
-         
-                            </b-col>
-                            <b-col>
-                                <span v-if="extension.status == 'AVAILABLE'">
-                                    Not Installed
-                                </span>
-                                <span v-else>
-                                    Installed
-                                </span>
-
-                            </b-col>
-                            <b-col>
-                                <b-button v-if="ideFound" size="sm" @click="openWithIDE(extension.id)" title="View in code editor (VS CODE) - NOTE: Only works when running piStar Lab local"><i class="fas fa-file-code"></i></b-button>
-                            </b-col>
-
-                        </b-row>
-
-                    </b-card>
-
-                </div>
-                <div class="ml-3 mt-2">
-                    <b-link to="/extension/home">View All Extensions</b-link>
-                </div>
+            <b-col cols=4>
             </b-col>
-            <b-col cols=2 class="text-center">
-                <h3>Overview</h3>
-                <div v-if="overview">
-                    <div class="mb-4">
-                        <div class="data_label">Sessions Active</div>
-                        <div class="stat_value"> {{overview['active_sessions']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Agent Instances</div>
-                        <div class="stat_value"> {{overview['total_agents']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Agent Specs</div>
-                        <div class="stat_value"> {{overview['total_agent_specs']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Environment Specs</div>
-                        <div class="stat_value"> {{overview['total_env_specs']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Installed Extensions</div>
-                        <div class="stat_value"> {{overview['total_installed_extensions']}}
-                        </div>
-                    </div>
 
-                </div>
-            </b-col>
+          
 
         </b-row>
 
     </b-container>
 
+</div>
     <!-- <b-card title="Missions in Progress">
         <b-card-text>
             <ul>
@@ -229,7 +197,6 @@ import {
 } from "../queries";
 
 import {
-    getImageId,
     timedeltafordate
 } from "../funcs";
 
@@ -343,7 +310,6 @@ export default {
     },
     methods: {
         timedeltafordate,
-        getImageId,
         openExtension(extension) {
             this.selectedExtension = extension
 

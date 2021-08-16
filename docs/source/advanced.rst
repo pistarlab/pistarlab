@@ -93,12 +93,12 @@ Startup
     python pistarlab/launcher.py --ray_address="IP_ADDRESS:6379" 
 
 
-Install plugins on nodes
+Install extensions on nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-   ray exec $HOME/pistarlab/cluster.yaml  "pip install --user -e /home/pistarlabuser/app/pistarlab/plugins/pistarlab-envs-gym-main"
+   ray exec $HOME/pistarlab/cluster.yaml  "pip install --user -e /home/pistarlabuser/app/pistarlab/extensions/pistarlab-envs-gym-main"
 
 
 Sync Data with Nodes

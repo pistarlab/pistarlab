@@ -39,5 +39,5 @@ EXPOSE 7776
 EXPOSE 7778 
 EXPOSE 7781 
 EXPOSE 8265
-ENV PYTHONUSERBASE /home/ray/pistarlab/plugins/site-packages/
+ENV PYTHONUSERBASE /home/ray/pistarlab/extensions/site-packages/
 ENTRYPOINT "pistarlab_launcher"

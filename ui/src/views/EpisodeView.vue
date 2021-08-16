@@ -226,10 +226,6 @@ export default {
         },
         timedelta,
         timelength,
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
         formatNum,
         imageError(event) {
             console.log(event);

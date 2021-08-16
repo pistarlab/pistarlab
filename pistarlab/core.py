@@ -5,6 +5,7 @@ import os
 import shutil
 import tempfile
 import datetime
+from unittest.case import skip
 import requests
 from typing import List
 
@@ -205,7 +206,7 @@ class SysContext:
     def create_new_extension(self, extension_id, extension_name, description=""):
         create_new_extension(
             workspace_path=self.config.workspace_path,
-            extension_id=extension_id,
+            extension_id=extension_id,  
             extension_name=extension_name,
             description=description,
             original_author=self.get_user_id(""),
@@ -397,6 +398,16 @@ class SysContext:
     def uninstall_extension(self, id):
         return self.extension_manager.uninstall_extension(id)
 
+    # Environments
+    def list_environments(self) -> List[str]:
+        query = self.get_dbsession().query(EnvironmentModel)
+        return [v.id for v in query.all() if v.disabled == False]
+
+    def get_environment(self, id) -> EnvironmentModel:
+        query = self.get_dbsession().query(EnvironmentModel)
+        return query.get(id)
+
+
 
     # Environment Specs
     def list_env_specs(self) -> List[str]:
@@ -412,7 +423,11 @@ class SysContext:
         env = self.get_dbsession().query(EnvSpecModel).get(spec_id)
         return env_helpers.get_env_instance(env.config.get('entry_point'), kwargs=env.config.get('env_kwargs', {}))
 
-    def install_extension_from_manifest(self, extension_id, extension_version, replace_images = True):
+    def install_extension_from_manifest(
+            self, 
+            extension_id, 
+            extension_version, 
+            replace_images = True):
         extension = self.get_extension(extension_id, extension_version)
         module_name = extension.get('module_name', extension_id.replace("-", "_"))
         manifest_path = pkg_resources.resource_filename(
@@ -422,39 +437,43 @@ class SysContext:
         with open(manifest_path, 'r') as f:
             manifest_data = json.load(f)
 
-        image_save_path = self.get_store().get_path_from_key(
-            key=(SYS_CONFIG_DIR, 'envs', 'images'))
         manifest_files_path = pkg_resources.resource_filename(
             module_name, "manifest_files")
         self.get_logger().info("Loading extension manifest files from {}".format(manifest_files_path))
 
         try:
             for data in manifest_data.get('environments', []):
+  
                 self.register_environment(
                     extension_id=extension_id,
                     extension_version=extension_version,
+                    manifest_files_path = manifest_files_path,
                     **data)
 
-            # ENV/ENV_SPEC
-            for data in manifest_data.get('env_specs', []):
-                try:
-                    image_filename = data['metadata']['image_filename']
-                    image_target_path = os.path.join(
-                        image_save_path, image_filename)
-                    image_source_path = os.path.join(
-                        manifest_files_path, image_filename)
-                    if (not os.path.exists(image_target_path) or replace_images) and os.path.exists(image_source_path):
-                        import shutil
-                        self.get_logger().info(f"Copying spec image from {image_source_path} to {image_target_path}")
-                        shutil.copy(image_source_path, image_target_path)
-                except Exception as e:
-                    logging.error(
-                        f"Unable to copy image due to error while copying {e}")
+            # image_save_path = self.get_store().get_path_from_key(
+            # key=(SYS_CONFIG_DIR, 'envs', 'images'))
 
-                self.register_env_spec(
-                    extension_id=extension_id,
-                    extension_version=extension_version,
-                    **data)
+            # # ENV/ENV_SPEC
+            # for data in manifest_data.get('env_specs', []):
+            #     self.get_logger().info(f"{data}")
+            #     try:
+            #         image_filename = data['metadata']['image_filename']
+            #         image_target_path = os.path.join(
+            #             image_save_path, image_filename)
+            #         image_source_path = os.path.join(
+            #             manifest_files_path, image_filename)
+            #         if (not os.path.exists(image_target_path) or replace_images) and os.path.exists(image_source_path):
+            #             import shutil
+            #             self.get_logger().info(f"Copying spec image from {image_source_path} to {image_target_path}")
+            #             shutil.copy(image_source_path, image_target_path)
+            #     except Exception as e:
+            #         logging.error(
+            #             f"Unable to copy image due to error while copying {e}")
+
+            #     self.register_env_spec_and_environment(
+            #         extension_id=extension_id,
+            #         extension_version=extension_version,
+            #         **data)
 
             # COMPONENT_SPECS
             for data in manifest_data.get('component_specs', []):
@@ -482,28 +501,40 @@ class SysContext:
 
     def register_env_spec_from_class(self, spec_id, env_class, *args, **kwargs):
         entry_point = get_entry_point_from_class(env_class)
-        self.register_env_spec(
+        self.register_env_spec_and_environment(
             spec_id=spec_id, entry_point=entry_point, *args, **kwargs)
+
+    def copy_file(self,source,target,replace_files=True):
+        if (not os.path.exists(target) or replace_files):
+            import shutil
+            self.get_logger().info(f"Copying spec image from {source} to {target}")
+            shutil.copy(source, target)
+
 
     def register_environment(
             self,
             environment_id,
             default_entry_point=None,
             default_config=None,
-            default_metadata=None,
+            default_meta=None,
             displayed_name=None,
             categories=[],
             extension_id=None,
             extension_version="0.0.1-dev",
             version="0.0.1-dev",
             description=None,
-            disabled=False):
-
+            disabled=False,
+            env_specs=None,
+            skip_commit = False,
+            manifest_files_path = None,
+            replace_images=True):
+        # NOTE: If updated also update, env_helpers.get_environment_data
+        self.get_logger().info(f"importing environment_id {environment_id}")
         session = self.get_dbsession()
         environment = session.query(EnvironmentModel).get(environment_id)
         if environment is None:
             environment = EnvironmentModel(id=environment_id)
-            environment = session.merge(environment)
+            # environment = session.merge(environment)
             session.add(environment)
 
         environment.displayed_name = displayed_name or environment_id
@@ -515,11 +546,116 @@ class SysContext:
         environment.disabled = disabled
         environment.categories = ",".join(
             [v.lower().replace(" ", "") for v in categories])
-        environment.default_meta = default_metadata
+        environment.default_meta = default_meta
         environment.default_config = default_config
-        session.commit()
+        if not skip_commit:
+            session.commit()
+
+        image_save_path = self.get_store().get_path_from_key(key=(SYS_CONFIG_DIR, 'envs', 'images'))
+
+        env_image_created= False
+        env_image_target_path = os.path.join(image_save_path, f"env_{environment_id}.jpg")
+        if manifest_files_path is None:
+            env_image_source_path = pkg_resources.resource_filename("pistarlab", "templates/env_default.jpg")
+        else:
+            env_image_source_path = os.path.join(manifest_files_path, f"env_{environment_id}.jpg")
+
+        try:
+            self.copy_file(
+                env_image_source_path,
+                env_image_target_path,
+                replace_files=replace_images)
+            env_image_created = True
+        except Exception as e:
+            env_image_created = False
+            self.get_logger().error(
+                f"Unable to copy image due to error while copying {e}")
+
+        if env_specs is not None:
+            for data in env_specs:
+                spec_id = data['spec_id']
+                self.get_logger().info(f"importing spec_id {spec_id}")
+                self.register_env_spec(
+                    environment_id=environment_id,
+                    manifest_files_path = manifest_files_path,
+                    replace_images = replace_images,
+                    **data)
+                # Use spec image for environment
+                if manifest_files_path is not None:
+                    image_source_path = os.path.join(manifest_files_path, f"{spec_id}.jpg")
+                    if not env_image_created and os.path.exists(image_source_path):
+                        self.get_logger().info(f"Environment image not found, using EnvSpec: {spec_id} image for Environment: {environment_id} image")
+                        self.copy_file(
+                            image_source_path,
+                            env_image_target_path,
+                            replace_files=replace_images)
+                        env_image_created = True
+        # if not env_image_created:
+        #     default_image_path = pkg_resources.resource_filename(
+        #     "pistarlab", "templates/env_default.jpg")
+        #     self.copy_file(
+        #         default_image_path,
+        #         env_image_target_path,
+        #         replace_files=replace_images)
+  
 
     def register_env_spec(
+            self,
+            spec_id =None,
+            environment_id = None,
+            entry_point=None,
+            env_type=RL_SINGLEPLAYER_ENV,
+            tags=[],
+            displayed_name=None,
+            spec_displayed_name=None,
+            description=None,
+            config=None,
+            params={},
+            metadata=None,
+            skip_commit = False,
+            manifest_files_path = None,
+            replace_images= True):
+        # NOTE: If updated also update, env_helpers.get_env_spec_data
+        environment_id = environment_id or spec_id
+        spec_displayed_name = spec_displayed_name or displayed_name
+
+        session = self.get_dbsession()
+        environment = session.query(EnvironmentModel).get(environment_id)
+        if environment is None:
+            msg = f"No Environment with name {environment_id} exists. Adding using provided values."
+            raise Exception(msg)
+        
+        spec = session.query(EnvSpecModel).get(spec_id)
+        if spec is None:
+            spec = EnvSpec(id=spec_id)
+            session.add(spec)
+
+        spec.environment_id = environment_id # parent relationship
+        spec.displayed_name = displayed_name or spec_id
+        spec.spec_displayed_name = spec_displayed_name
+        spec.description = description
+        spec.entry_point = entry_point
+        spec.meta = metadata
+        spec.env_type = env_type
+        spec.tags = ",".join([v.lower().replace(" ", "") for v in tags])
+        spec.config = config
+        spec.params = params
+        if not skip_commit:
+            session.commit()
+        image_save_path = self.get_store().get_path_from_key(key=(SYS_CONFIG_DIR, 'envs', 'images'))
+        image_target_path = os.path.join(image_save_path, f"{spec_id}.jpg")
+        if manifest_files_path is None:
+            image_source_path = pkg_resources.resource_filename("pistarlab", "templates/env_default.jpg")
+        else:
+            image_source_path = os.path.join(manifest_files_path, f"{spec_id}.jpg")
+        self.copy_file(
+            image_source_path,
+            image_target_path,
+            replace_files=replace_images)
+  
+
+
+    def register_env_spec_and_environment(
             self,
             spec_id,
             entry_point=None,
@@ -527,6 +663,7 @@ class SysContext:
             tags=[],
             categories=[],
             displayed_name=None,
+            spec_displayed_name=None,
             environment_displayed_name=None,
             extension_id=None,
             extension_version="0.0.1-dev",
@@ -537,45 +674,74 @@ class SysContext:
             params={},
             metadata=None,
             disabled=False):
-
+        # NOTE: If updated also update, env_helpers.get_env_spec_data
         environment_id = environment_id or spec_id
         environment_displayed_name = environment_displayed_name or displayed_name
+        spec_displayed_name = spec_displayed_name or displayed_name
 
-        session = self.get_dbsession()
-        environment = session.query(EnvironmentModel).get(environment_id)
-        if environment is None:
-            logging.info("No Environment with name {} exists. Adding using provided values.".format(
-                environment_id))
-            environment = EnvironmentModel(id=environment_id)
-            environment.displayed_name = environment_displayed_name
-            environment.description = description
-            environment.categories = ",".join(
-                [v.lower().replace(" ", "") for v in categories])
-            environment.extension_id = extension_id
-            environment.extension_version = extension_version
-            environment.default_entry_point = entry_point
-            environment.version = version
-            environment.disabled = disabled
-            environment.default_meta = metadata
-            environment.default_config = config
-            environment = session.merge(environment)
-            session.add(environment)
+        self.register_environment(
+            environment_id=environment_id,
+            default_entry_point=entry_point,
+            default_config=config,
+            default_meta=metadata,
+            displayed_name=environment_displayed_name,
+            categories=categories,
+            extension_id=extension_id,
+            extension_version=extension_version,
+            version=version,
+            description=description,
+            disabled=disabled,
+            skip_commit = True
+        )
 
-        spec = session.query(EnvSpecModel).get(spec_id)
-        if spec is None:
-            spec = EnvSpec(id=spec_id)
-            session.add(spec)
+        self.register_env_spec(
+            spec_id,
+            environment_id=environment_id,
+            displayed_name=displayed_name,
+            spec_displayed_name= spec_displayed_name,
+            description= description,
+            entry_point=entry_point,
+            metadata=metadata,
+            env_type=env_type,
+            tags = tags,
+            config = config,
+            params = params,
+        )
 
-        spec.displayed_name = displayed_name or spec_id
-        spec.description = description
-        spec.entry_point = entry_point
-        spec.meta = metadata
-        spec.env_type = env_type
-        spec.tags = ",".join([v.lower().replace(" ", "") for v in tags])
-        spec.environment = environment
-        spec.config = config
-        spec.params = params
-        session.commit()
+        # environment = session.query(EnvironmentModel).get(environment_id)
+        # if environment is None:
+        #     logging.info("No Environment with name {} exists. Adding using provided values.".format(
+        #         environment_id))
+        #     environment = EnvironmentModel(id=environment_id)
+        #     session.add(environment)
+        # environment.displayed_name = environment_displayed_name
+        # environment.description = description
+        # environment.categories = ",".join(
+        #     [v.lower().replace(" ", "") for v in categories])
+        # environment.extension_id = extension_id
+        # environment.extension_version = extension_version
+        # environment.default_entry_point = entry_point
+        # environment.version = version
+        # environment.disabled = disabled
+        # environment.default_meta = metadata
+        # environment.default_config = config
+
+        # spec = session.query(EnvSpecModel).get(spec_id)
+        # if spec is None:
+        #     spec = EnvSpec(id=spec_id)
+        #     session.add(spec)
+
+        # spec.displayed_name = displayed_name or spec_id
+        # spec.spec_displayed_name = spec_displayed_name
+        # spec.description = description
+        # spec.entry_point = entry_point
+        # spec.meta = metadata
+        # spec.env_type = env_type
+        # spec.tags = ",".join([v.lower().replace(" ", "") for v in tags])
+        # spec.environment_id = environment_id
+        # spec.config = config
+        # spec.params = params
+        # session.commit()
 
     def register_agent_spec_from_classes(self, runner_cls, cls=None, *args, **kwargs):
         # TODO: merge with register_agent_spec

@@ -44,3 +44,4 @@ def generate_seed(input: str, salt=None):
     d = m.digest()
     seed = hex((int("0x{}".format(d.hex()), 0) % (2**32 - 1)))
     return seed
+

@@ -7,8 +7,8 @@
         <b-card-text class="h-100 mt-4 mb-4">
             <b-row>
                 <b-col>
-                    <div>
-                        <b-card-img :src="`/img/agent_cons/${getImageId(agent.ident)}.SVG`" alt="Image" class="svgagent" style="max-height:200px;"></b-card-img>
+                    <div class="text-center">
+                        <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image"  style="max-width:120px;"></b-card-img>
                     </div>
                     <div class="ml-4 mt-2">
 
@@ -200,10 +200,6 @@ export default {
             })
         },
 
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
 
         modifyTag(action, tag) {
 

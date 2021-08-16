@@ -11,10 +11,10 @@ with open("README.md", "r") as f:
 
 # Package Data
 ui_files = [name.replace("pistarlab/", "", 1) for name in glob.glob("pistarlab/uidist/**", recursive=True)]
-plugin_files = [name.replace("pistarlab/", "", 1) for name in glob.glob("pistarlab/plugins/**", recursive=True)]
+extension_files = [name.replace("pistarlab/", "", 1) for name in glob.glob("pistarlab/extensions/**", recursive=True)]
 template_files = [name.replace("pistarlab/", "", 1) for name in glob.glob("pistarlab/templates/**", recursive=True)]
 
-package_files = ui_files + plugin_files + template_files
+package_files = ui_files + extension_files + template_files
 
 additional_files = ["thirdparty_lib/redis-server", "thirdparty_lib/redis-server.exe"]
 
@@ -85,7 +85,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pistarlab_launcher = pistarlab.launcher:main',
-            'pistarlab_plugin_tools = pistarlab.plugin_tools:main'
+            'pistarlab_extension_tools = pistarlab.extension_tools:main'
         ]
     },
     extras_require={

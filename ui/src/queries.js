@@ -4,9 +4,16 @@ import gql from "graphql-tag";
 const GET_RECENT_AGENTS = gql`
 {
   recentAgents {
+    id
     ident
     created
     specId
+    spec{
+      id
+      ident
+      displayedName
+
+    }
     lastCheckpoint
     tags{
         edges{
@@ -22,6 +29,15 @@ const GET_RECENT_AGENTS = gql`
       envSpecId
       sessionType
       parentSessionId
+      envSpec{
+          ident
+          environment {
+              id
+              ident
+          }
+          
+        }
+      
       
     }
   }
@@ -88,7 +104,36 @@ const GET_ALL_SESSIONS = gql `
   }
 `;
 
+const GET_ALL_ENVS=  gql `
+query {
+  environments: allEnvironments {
+    edges {
+      node {
+          id
+          ident
+          description
+          displayedName
+          extensionId
+          categories
+          extensionVersion
+          version
+          disabled
+          specs {
+              id
+              ident
+              description
+              displayedName
+              tags
+              
+              envType
+              entryPoint
+              meta
+          }
+      }
+    }
+  }
+}
+`
 
 
-
-export { GET_RECENT_AGENTS,GET_RECENT_AGENT_SMALL,GET_ALL_SESSIONS };
+export {GET_ALL_ENVS, GET_RECENT_AGENTS,GET_RECENT_AGENT_SMALL,GET_ALL_SESSIONS };

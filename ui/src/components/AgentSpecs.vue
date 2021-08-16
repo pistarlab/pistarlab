@@ -8,6 +8,11 @@
         <div v-else-if="agentSpecs && agentSpecs.length > 0">
             <div v-for="item in specs" :key="item.id">
                 <b-row class="pt-4" v-if="!item.disabled">
+                    <b-col cols="2" class="text-center">
+                     <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(item.ident)}.png`" alt="Image"  style="max-width:60px;"></b-card-img>
+
+                    </b-col>
+
 
                     <b-col class="">
                         <h3>

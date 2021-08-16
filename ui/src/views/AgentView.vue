@@ -514,10 +514,6 @@ export default {
                     this.message = this.error;
                 });
         },
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
 
         agentControl(action) {
             axios

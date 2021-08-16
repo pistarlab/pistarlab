@@ -1,797 +1,761 @@
 {
-  "env_specs": [
+  "environments": [
     {
-      "spec_id": "CartPole-v0",
-      "displayed_name": "CartPole-v0",
+      "environment_id": "gym_classic_and_box2d",
+      "displayed_name": "Gym Classic Control and Box2d",
       "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
+      "default_entry_point": null,
       "version": "0.0.1-dev",
       "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
       "categories": [
         "classic_control"
       ],
-      "environment_id": "CartPole",
-      "environment_displayed_name": "CartPole",
-      "metadata": {
-        "image_filename": "CartPole.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  4
-                ]
-              },
-              "low": -3.4028234663852886e+38,
-              "high": 3.4028234663852886e+38
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
+        {
+          "spec_id": "CartPole-v0",
+          "displayed_name": "CartPole-v0",
+          "spec_displayed_name": "CartPole-v0",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      4
+                    ]
+                  },
+                  "low": -3.4028234663852886e+38,
+                  "high": 3.4028234663852886e+38
+                },
+                "args": []
+              }
             },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Discrete",
-            "module": "gym.spaces.discrete",
-            "kwargs": {},
-            "args": [
-              2
-            ]
-          }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "CartPole-v0"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "CartPole-v1",
-      "displayed_name": "CartPole-v1",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "classic_control"
-      ],
-      "environment_id": "CartPole",
-      "environment_displayed_name": "CartPole",
-      "metadata": {
-        "image_filename": "CartPole.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  4
-                ]
-              },
-              "low": -3.4028234663852886e+38,
-              "high": 3.4028234663852886e+38
-            },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Discrete",
-            "module": "gym.spaces.discrete",
-            "kwargs": {},
-            "args": [
-              2
-            ]
-          }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "CartPole-v1"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "MountainCar-v0",
-      "displayed_name": "MountainCar-v0",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "classic_control"
-      ],
-      "environment_id": "MountainCar",
-      "environment_displayed_name": "MountainCar",
-      "metadata": {
-        "image_filename": "MountainCar.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 30,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
+            "action_spaces": {
+              "default": {
+                "class_name": "Discrete",
+                "module": "gym.spaces.discrete",
+                "kwargs": {},
+                "args": [
                   2
                 ]
-              },
-              "low": -1.2000000476837158,
-              "high": 0.6000000238418579
+              }
             },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Discrete",
-            "module": "gym.spaces.discrete",
-            "kwargs": {},
-            "args": [
-              3
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
             ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "CartPole-v0"
+            },
+            "default_wrappers": []
           }
         },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "MountainCar-v0"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "MountainCarContinuous-v0",
-      "displayed_name": "MountainCarContinuous-v0",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "classic_control"
-      ],
-      "environment_id": "MountainCar",
-      "environment_displayed_name": "MountainCar",
-      "metadata": {
-        "image_filename": "MountainCar.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 30,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
+        {
+          "spec_id": "CartPole-v1",
+          "displayed_name": "CartPole-v1",
+          "spec_displayed_name": "CartPole-v1",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      4
+                    ]
+                  },
+                  "low": -3.4028234663852886e+38,
+                  "high": 3.4028234663852886e+38
+                },
+                "args": []
+              }
+            },
+            "action_spaces": {
+              "default": {
+                "class_name": "Discrete",
+                "module": "gym.spaces.discrete",
+                "kwargs": {},
+                "args": [
                   2
                 ]
-              },
-              "low": -1.2000000476837158,
-              "high": 0.6000000238418579
+              }
             },
-            "args": []
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "CartPole-v1"
+            },
+            "default_wrappers": []
           }
         },
-        "action_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  1
-                ]
-              },
-              "low": -1.0,
-              "high": 1.0
+        {
+          "spec_id": "MountainCar-v0",
+          "displayed_name": "MountainCar-v0",
+          "spec_displayed_name": "MountainCar-v0",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 30,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      2
+                    ]
+                  },
+                  "low": -1.2000000476837158,
+                  "high": 0.6000000238418579
+                },
+                "args": []
+              }
             },
-            "args": []
-          }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "MountainCarContinuous-v0"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "Pendulum-v0",
-      "displayed_name": "Pendulum-v0",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "classic_control"
-      ],
-      "environment_id": "Pendulum",
-      "environment_displayed_name": "Pendulum",
-      "metadata": {
-        "image_filename": "Pendulum.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 30,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
+            "action_spaces": {
+              "default": {
+                "class_name": "Discrete",
+                "module": "gym.spaces.discrete",
+                "kwargs": {},
+                "args": [
                   3
                 ]
-              },
-              "low": -8.0,
-              "high": 8.0
+              }
             },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  1
-                ]
-              },
-              "low": -2.0,
-              "high": 2.0
-            },
-            "args": []
-          }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "Pendulum-v0"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "Acrobot-v1",
-      "displayed_name": "Acrobot-v1",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "classic_control"
-      ],
-      "environment_id": "Acrobot",
-      "environment_displayed_name": "Acrobot",
-      "metadata": {
-        "image_filename": "Acrobot.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 15,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  6
-                ]
-              },
-              "low": -28.274333953857422,
-              "high": 28.274333953857422
-            },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Discrete",
-            "module": "gym.spaces.discrete",
-            "kwargs": {},
-            "args": [
-              3
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
             ]
-          }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "Acrobot-v1"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "LunarLander-v2",
-      "displayed_name": "LunarLander-v2",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "box2d"
-      ],
-      "environment_id": "LunarLander",
-      "environment_displayed_name": "LunarLander",
-      "metadata": {
-        "image_filename": "LunarLander.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  8
-                ]
-              },
-              "low": -1e+100,
-              "high": 1e+100
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "MountainCar-v0"
             },
-            "args": []
+            "default_wrappers": []
           }
         },
-        "action_spaces": {
-          "default": {
-            "class_name": "Discrete",
-            "module": "gym.spaces.discrete",
-            "kwargs": {},
-            "args": [
-              4
+        {
+          "spec_id": "MountainCarContinuous-v0",
+          "displayed_name": "MountainCarContinuous-v0",
+          "spec_displayed_name": "MountainCarContinuous-v0",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 30,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      2
+                    ]
+                  },
+                  "low": -1.2000000476837158,
+                  "high": 0.6000000238418579
+                },
+                "args": []
+              }
+            },
+            "action_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      1
+                    ]
+                  },
+                  "low": -1.0,
+                  "high": 1.0
+                },
+                "args": []
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
             ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "MountainCarContinuous-v0"
+            },
+            "default_wrappers": []
           }
         },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "LunarLander-v2"
+        {
+          "spec_id": "Pendulum-v0",
+          "displayed_name": "Pendulum-v0",
+          "spec_displayed_name": "Pendulum-v0",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 30,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      3
+                    ]
+                  },
+                  "low": -8.0,
+                  "high": 8.0
+                },
+                "args": []
+              }
+            },
+            "action_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      1
+                    ]
+                  },
+                  "low": -2.0,
+                  "high": 2.0
+                },
+                "args": []
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "Pendulum-v0"
+            },
+            "default_wrappers": []
+          }
         },
-        "default_wrappers": []
-      }
+        {
+          "spec_id": "Acrobot-v1",
+          "displayed_name": "Acrobot-v1",
+          "spec_displayed_name": "Acrobot-v1",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 15,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      6
+                    ]
+                  },
+                  "low": -28.274333953857422,
+                  "high": 28.274333953857422
+                },
+                "args": []
+              }
+            },
+            "action_spaces": {
+              "default": {
+                "class_name": "Discrete",
+                "module": "gym.spaces.discrete",
+                "kwargs": {},
+                "args": [
+                  3
+                ]
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "Acrobot-v1"
+            },
+            "default_wrappers": []
+          }
+        }
+      ]
     },
     {
-      "spec_id": "LunarLanderContinuous-v2",
-      "displayed_name": "LunarLanderContinuous-v2",
+      "environment_id": "gym_classic_and_box2d",
+      "displayed_name": "Gym Classic Control and Box2d",
       "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
+      "default_entry_point": null,
       "version": "0.0.1-dev",
       "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
       "categories": [
         "box2d"
       ],
-      "environment_id": "LunarLander",
-      "environment_displayed_name": "LunarLander",
-      "metadata": {
-        "image_filename": "LunarLander.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  8
-                ]
-              },
-              "low": -1e+100,
-              "high": 1e+100
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
+        {
+          "spec_id": "LunarLander-v2",
+          "displayed_name": "LunarLander-v2",
+          "spec_displayed_name": "LunarLander-v2",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      8
+                    ]
+                  },
+                  "low": -1e+100,
+                  "high": 1e+100
+                },
+                "args": []
+              }
             },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  2
-                ]
-              },
-              "low": -1.0,
-              "high": 1.0
-            },
-            "args": []
-          }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "LunarLanderContinuous-v2"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "BipedalWalker-v3",
-      "displayed_name": "BipedalWalker-v3",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "box2d"
-      ],
-      "environment_id": "BipedalWalker",
-      "environment_displayed_name": "BipedalWalker",
-      "metadata": {
-        "image_filename": "BipedalWalker.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  24
-                ]
-              },
-              "low": -1e+100,
-              "high": 1e+100
-            },
-            "args": []
-          }
-        },
-        "action_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
+            "action_spaces": {
+              "default": {
+                "class_name": "Discrete",
+                "module": "gym.spaces.discrete",
+                "kwargs": {},
+                "args": [
                   4
                 ]
-              },
-              "low": -1.0,
-              "high": 1.0
+              }
             },
-            "args": []
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "LunarLander-v2"
+            },
+            "default_wrappers": []
           }
         },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "BipedalWalker-v3"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "BipedalWalkerHardcore-v3",
-      "displayed_name": "BipedalWalkerHardcore-v3",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "box2d"
-      ],
-      "environment_id": "BipedalWalker",
-      "environment_displayed_name": "BipedalWalker",
-      "metadata": {
-        "image_filename": "BipedalWalker.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  24
-                ]
-              },
-              "low": -1e+100,
-              "high": 1e+100
+        {
+          "spec_id": "LunarLanderContinuous-v2",
+          "displayed_name": "LunarLanderContinuous-v2",
+          "spec_displayed_name": "LunarLanderContinuous-v2",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      8
+                    ]
+                  },
+                  "low": -1e+100,
+                  "high": 1e+100
+                },
+                "args": []
+              }
             },
-            "args": []
+            "action_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      2
+                    ]
+                  },
+                  "low": -1.0,
+                  "high": 1.0
+                },
+                "args": []
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "LunarLanderContinuous-v2"
+            },
+            "default_wrappers": []
           }
         },
-        "action_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  4
-                ]
-              },
-              "low": -1.0,
-              "high": 1.0
+        {
+          "spec_id": "BipedalWalker-v3",
+          "displayed_name": "BipedalWalker-v3",
+          "spec_displayed_name": "BipedalWalker-v3",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      24
+                    ]
+                  },
+                  "low": -1e+100,
+                  "high": 1e+100
+                },
+                "args": []
+              }
             },
-            "args": []
+            "action_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      4
+                    ]
+                  },
+                  "low": -1.0,
+                  "high": 1.0
+                },
+                "args": []
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "BipedalWalker-v3"
+            },
+            "default_wrappers": []
           }
         },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "BipedalWalkerHardcore-v3"
-        },
-        "default_wrappers": []
-      }
-    },
-    {
-      "spec_id": "CarRacing-v0",
-      "displayed_name": "CarRacing-v0",
-      "description": null,
-      "entry_point": "pistarlab.utils.gym_importer:gym_make",
-      "version": "0.0.1-dev",
-      "disabled": false,
-      "env_type": "RL_SINGLEPLAYER_ENV",
-      "tags": [],
-      "categories": [
-        "box2d"
-      ],
-      "environment_id": "CarRacing",
-      "environment_displayed_name": "CarRacing",
-      "metadata": {
-        "image_filename": "CarRacing.jpg",
-        "render.modes": [
-          "human",
-          "rgb_array",
-          "state_pixels"
-        ],
-        "video.frames_per_second": 50,
-        "render.fps": 30,
-        "render_mode": "rgb_array",
-        "render_stats": false,
-        "observation_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  96,
-                  96,
-                  3
-                ]
-              },
-              "low": 0.0,
-              "high": 255.0
+        {
+          "spec_id": "BipedalWalkerHardcore-v3",
+          "displayed_name": "BipedalWalkerHardcore-v3",
+          "spec_displayed_name": "BipedalWalkerHardcore-v3",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      24
+                    ]
+                  },
+                  "low": -1e+100,
+                  "high": 1e+100
+                },
+                "args": []
+              }
             },
-            "args": []
+            "action_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      4
+                    ]
+                  },
+                  "low": -1.0,
+                  "high": 1.0
+                },
+                "args": []
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "BipedalWalkerHardcore-v3"
+            },
+            "default_wrappers": []
           }
         },
-        "action_spaces": {
-          "default": {
-            "class_name": "Box",
-            "module": "gym.spaces.box",
-            "kwargs": {
-              "shape": {
-                "__type": "tuple",
-                "values": [
-                  3
-                ]
-              },
-              "low": -1.0,
-              "high": 1.0
+        {
+          "spec_id": "CarRacing-v0",
+          "displayed_name": "CarRacing-v0",
+          "spec_displayed_name": "CarRacing-v0",
+          "description": null,
+          "entry_point": "pistarlab.utils.gym_importer:gym_make",
+          "env_type": "RL_SINGLEPLAYER_ENV",
+          "tags": [],
+          "metadata": {
+            "image_filename": null,
+            "render.modes": [
+              "rgb_array",
+              "human",
+              "state_pixels"
+            ],
+            "video.frames_per_second": 50,
+            "render.fps": 30,
+            "render_mode": "rgb_array",
+            "render_stats": false,
+            "observation_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      96,
+                      96,
+                      3
+                    ]
+                  },
+                  "low": 0.0,
+                  "high": 255.0
+                },
+                "args": []
+              }
             },
-            "args": []
+            "action_spaces": {
+              "default": {
+                "class_name": "Box",
+                "module": "gym.spaces.box",
+                "kwargs": {
+                  "shape": {
+                    "__type": "tuple",
+                    "values": [
+                      3
+                    ]
+                  },
+                  "low": -1.0,
+                  "high": 1.0
+                },
+                "args": []
+              }
+            },
+            "num_players": 1,
+            "max_num_players": 1,
+            "players": [
+              "default"
+            ],
+            "possible_players": [
+              "default"
+            ]
+          },
+          "config": {
+            "default_render_mode": null,
+            "env_kwargs": {
+              "id": "CarRacing-v0"
+            },
+            "default_wrappers": []
           }
-        },
-        "num_players": 1,
-        "max_num_players": 1,
-        "players": [
-          "default"
-        ],
-        "possible_players": [
-          "default"
-        ]
-      },
-      "config": {
-        "default_render_mode": null,
-        "env_kwargs": {
-          "id": "CarRacing-v0"
-        },
-        "default_wrappers": []
-      }
+        }
+      ]
     }
   ]
 }

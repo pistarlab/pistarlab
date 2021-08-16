@@ -197,8 +197,11 @@ class ExtensionManager:
             if source["type"] == "remote":
                 repo_filename = f"{pistarlab.__version__}.json"
                 repo_path = "{}{}".format(source["path"], repo_filename)
-                with urllib.request.urlopen(repo_path) as url:
-                    extensions = json.loads(url.read().decode())
+                try:
+                    with urllib.request.urlopen(repo_path) as url:
+                        extensions = json.loads(url.read().decode())
+                except Exception as e:
+                    self.logger.error(f"Failed to download remote source {repo_path}, {e}")
             elif source["type"] == "test":
                 # For testing a repo locally
                 repo_filename = f"{pistarlab.__version__}.json"

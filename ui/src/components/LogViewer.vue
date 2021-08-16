@@ -1,12 +1,13 @@
 <template>
 <div>
-    <div v-if="nocard">
+    <div v-if="nocard" >
+        <b-button title="refresh and move to latest output" pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
         <pre @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
     </div>
     <div v-else>
         <b-card :title="title">
             
-            <b-button pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
+            <b-button title="refresh and move to latest output"  pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
             <div style="height:300px;overflow-y: scroll;">
                 <pre @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
             </div>
@@ -114,13 +115,20 @@ export default {
     white-space: pre-wrap;
     background-color: #111;
     color: white;
+    
 }
 
 .logdefault {
     height: 300px;
     overflow-y: scroll;
     white-space: pre-wrap;
-    background-color: transparent;
+    
     color: black;
 }
+pre{
+    font-size: 0.7em;
+     background-color: #111 !important;
+}
+
+
 </style>

@@ -21,36 +21,45 @@
         <b-container fluid>
 
             <b-row>
-                <b-col>
+                <b-col class="d-flex justify-content-center">
                     <h3>Recently Active</h3>
+                    <br />
+
                 </b-col>
-                <b-col>
-                    
-                        
-                    
-                
-                </b-col>
+
             </b-row>
-            <div class="mt-2 text-right mr-4"><b-link :to="`/agent/instances`">(View All)</b-link></div>
+            <b-row>
+                <b-col class="d-flex justify-content-center">
+
+                    <div class="mt-2 text-right mr-4">
+                        <b-link :to="`/agent/instances`">(view all)</b-link>
+                    </div>
+
+                </b-col>
+
+            </b-row>
             <div v-if="$apollo.queries.recentAgents.loading">Loading..</div>
             <div v-else class="">
                 <div v-if="items.length > 0">
                     <b-row>
-                        <b-col class="d-flex flex-wrap justify-content-center  mb-4">
+                        <b-col class="d-flex flex-wrap justify-content-center ">
                             <span v-for="item in items" v-bind:key="item.ident" class="m-3">
                                 <b-card no-body header-bg-variant="info" header-text-variant="white" class="h-100 card-shadow card-flyer" style="width: 260px">
                                     <template v-slot:header>
-                                        <div class="custom-card-header mb-2">
+                                        <b-button-toolbar>
+                                        <span class="custom-card-header mb-2">
                                             <b-link style="color: white" :to="`/agent/view/${item.ident}`">{{ item.ident }}</b-link>
-                                        </div>
+                                        </span>
+                                        <b-link v-b-popover.hover.top="'Assign Task'" class="ml-auto mt-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-link>
+                                        </b-button-toolbar>
 
                                     </template>
                                     <b-card-text class="h-100">
                                         <b-container class="mt-2">
                                             <b-row>
-                                                <b-col>
+                                                <b-col class="text-center">
                                                     <b-link :to="`/agent/view/${item.ident}`">
-                                                        <b-card-img height="160px" :src="`/img/agent_cons/${getImageId(item.ident)}.SVG`" alt="Image" class="rounded-0 svgagent"></b-card-img>
+                                                        <b-card-img style="width:80px" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`"></b-card-img>
                                                     </b-link>
                                                     <div class="mt-2">
                                                         <b-badge pill v-for="(tag,id) in item.tags.edges" v-bind:key="id" variant="tag" class="mr-1">{{tag.node.tagId}}</b-badge>
@@ -67,7 +76,7 @@
 
                                                         <span class="data_label mr-1 mt-0">Spec:</span>
                                                         <span class="">
-                                                            <b-link :to="`/agent_spec/${item.specId}`">{{ item.specId }}</b-link>
+                                                            <b-link :to="`/agent_spec/${item.specId}`">{{ item.spec.displayedName }}</b-link>
                                                         </span>
                                                     </div>
 
@@ -77,20 +86,34 @@
                                                     </div>
 
                                                     <!-- <b-collapse id="sess_group" class="mt-2 "> -->
-                                                    <div class="mt-1 small">
-                                                        <div class="ml-2 pl-0 " v-if="item.recentSessions.length ==0">None</div>
-                                                        <div class="ml-2 pl-0" v-for="(session, widx) in item.recentSessions" v-bind:key="widx">
-                                                            <i v-if="session.status=='RUNNING'" class="fa fa-circle mr-2" style="color:green"></i>
-                                                            <i v-else class="fa fa-circle mr-2"></i>
-
-                                                            <b-link class="mr-1" :to="`/session/view/${session.ident}`">
-                                                                <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"><i class="fas fa-cubes" title="multiagent"></i> </span>
-                                                                <span v-else><i class="fas fa-cube" title="multiagent"></i> </span>
-                                                                {{ session.envSpecId }} ({{session.ident}})
-                                                            </b-link>
-                                                            <span v-if="session.parentSessionId" class="mr-1">
+                                                    <div class="mt-3 small">
+                                                        Recent Sessions
+                                                        <div class="ml-2 mt-2 " v-if="item.recentSessions.length ==0">No Sessions Found</div>
+                                                        <div v-else class="d-flex flex-wrap ">
+                                                            <div class=" mt-2 mr-2 mb-0" v-for="(session, widx) in item.recentSessions" v-bind:key="widx">
+                                                                <!-- <span v-if="session.parentSessionId" class="mr-1">
                                                                 <b-link v-if="session.parentSessionId" class="" :to="`/session/view/${session.parentSessionId}`" title="parent session"> {{session.parentSessionId}}</b-link>
-                                                            </span>
+                                                            </span> -->
+                                                                <b-link class="mr-1" :to="`/session/view/${session.ident}`" 
+                                                                v-b-popover.hover.top="session.envSpecId">
+                                                                    <div style="color:lightgrey" >
+                                                                        
+
+                                                                        <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"><i class="fas fa-cubes" title="multiagent"></i> </span>
+                                                                        <span v-else><i class="fas fa-cube" title="multiagent"></i> </span>
+                                                                        {{session.ident}}
+                                                                        <i v-if="session.status=='RUNNING'" class="fa fa-circle ml-1" style="color:lightgreen"></i>
+                                                                    </div>
+                                                                    <div class="mt-1">
+
+                                                                        <img width=60 
+                                                                        :src="`${appConfig.API_URL}/api/env_preview_image/${session.envSpec.environment.ident}`" 
+                                                                        alt="" />
+                                                                        
+                                                                    </div>
+                                                                </b-link>
+
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -101,14 +124,7 @@
 
                                         </b-container>
                                     </b-card-text>
-                                    <template v-slot:footer>
 
-                                        <b-button-toolbar class="mr-auto">
-                                            <b-button title="Assign Task" variant="dark" class="mr-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-button>
-
-                                        </b-button-toolbar>
-
-                                    </template>
                                 </b-card>
                             </span>
                         </b-col>
@@ -139,7 +155,6 @@
     <HelpInfo contentId="agents">
     </HelpInfo>
 
-
 </div>
 </template>
 
@@ -164,7 +179,6 @@ import {
 
 import AgentSpecs from "../components/AgentSpecs.vue";
 import AgentNew from "../components/AgentNew.vue";
-
 
 export default {
     name: "Agents",
@@ -232,11 +246,11 @@ export default {
                     this.message = this.error;
                 });
             console.log(uid);
-        },
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
+        }
+        // getImageId(uid) {
+        //     let id = parseInt(uid.split("-")[1]);
+        //     return id % 19;
+        // },
     },
 
     created() {
@@ -244,3 +258,5 @@ export default {
     },
 };
 </script>
+<style>
+</style>

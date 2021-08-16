@@ -87,7 +87,8 @@ class ForegroundService(SystemServiceBase):
             stdin_pipe=None,
             links={},
             env={},
-            log_stdout=True):
+            log_stdout=True,
+            wait_after_kill_delay =0):
         super().__init__(name=name, log_root=log_root)
         self.launch_args = launch_args
         self.ready_string = ready_string
@@ -99,6 +100,8 @@ class ForegroundService(SystemServiceBase):
         self.state = "CREATED"
         self.wait_retries = 1000
         self.wait_retries_delay = 0.1
+        self.wait_after_kill_delay = wait_after_kill_delay
+        
         self.links = links
         self.msg = ""
         self.env = env
@@ -144,12 +147,15 @@ class ForegroundService(SystemServiceBase):
         if block:
             self._block_until(['TERMINATED', 'FAILED', 'CREATED'])
             self.kill_all()
+        time.sleep(self.wait_after_kill_delay)
 
     def restart(self, block=True):
         try:
             self.stop(block)
         except:
             self.kill_all()
+            self._block_until(['TERMINATED', 'FAILED', 'CREATED'])
+
         self.proc = None
         self.start(block)
 
@@ -202,9 +208,13 @@ class ForegroundService(SystemServiceBase):
                     cmdline = " ".join(p.info['cmdline'])
                     if (self.pkill_string in cmdline) \
                             and ('pistarlab' in cmdline):
+                        logging.info(f"Terminating {self.name} with {self.pkill_string} via pid {p.pid}")
+                        
                         os.kill(p.pid, signal.SIGTERM)
             except:
+                logging.error(f"Error when tring to terminate {self.name} using {self.pkill_string}")
                 pass
+        time.sleep(self.wait_after_kill_delay)
 
     def get_pid(self):
         with open(self.pid_path, 'r') as f:
@@ -449,6 +459,7 @@ class ServiceContext:
                 log_root=self.log_root,
                 pkill_string="pistarlab/thirdparty_lib/redis-server",
                 links={},
+                wait_after_kill_delay = 0,
                 env={})
         elif name == "backend":
             return ForegroundService(
@@ -477,9 +488,11 @@ class ServiceContext:
                 links={'main': "http://localhost:7781"},
                 log_stdout=self.verbose)
         elif name == "dev_ui":
+            project_root = Path(__file__).parent.parent
+            logging.info(f"Using project root {project_root} ui dev mode")
             service = ForegroundService(
                 name="dev_ui",
-                launch_args=['npm', 'run', 'serve', '--prefix', 'ui/', '--port=8080'],
+                launch_args=['npm', 'run', 'serve', '--prefix', os.path.join(project_root,'ui/'), '--port=8080'],
                 ready_string="App running at",
                 log_root=self.log_root,
                 pkill_string=None,

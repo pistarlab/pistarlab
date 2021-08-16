@@ -129,10 +129,7 @@ export default {
 
         },
 
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
+       
         refreshAgents() {
             this.$apollo.queries.allAgents.refetch();
 

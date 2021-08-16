@@ -3,13 +3,13 @@
     <b-card class="h-100 card-shadow card-flyer" no-body header-bg-variant="white" header-text-variant="dark">
 
         <div class="text-center image-box">
-            <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${item.ident}`" alt="No Image Found" style="max-height:200px;"></b-card-img>
+            <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/env_${item.ident}`" alt="No Image Found" style="max-height:200px;"></b-card-img>
         </div>
 
-        <b-card-text class="ml-3 mb-2 mt-3 h-100 flex-column d-flex">
+        <b-card-body >
             <h4> {{ item.displayedName }}</h4>
 
-        </b-card-text>
+        </b-card-body>
 
     </b-card>
 </div>

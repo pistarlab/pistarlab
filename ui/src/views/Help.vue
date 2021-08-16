@@ -9,6 +9,7 @@
                 </b-card>
             </b-col>
             <b-col cols=4>
+
                 <b-card>
 
                     <ul>
@@ -28,6 +29,7 @@
                     </ul>
                 </b-card>
             </b-col>
+            
         </b-row>
     </b-container>
 

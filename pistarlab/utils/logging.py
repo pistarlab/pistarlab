@@ -67,6 +67,12 @@ def setup_logging(path, level: logging.INFO, redis_client, verbose=True):
         consoleHandler = logging.StreamHandler()
         consoleHandler.setFormatter(DEFAULT_LOG_FORMAT)
         rootLogger.addHandler(consoleHandler)
+    
+    logformatter = logging.Formatter("%(asctime)s [%(levelname)-5.5s]  %(message)s")
+
+    redisHandler = RedisHandler("backend_run", redis_client)
+    redisHandler.setFormatter(logformatter)
+    rootLogger.addHandler(redisHandler)
 
 
 def new_entity_logger(path, entity_type, uid, level: logging.INFO, redis_client, log_to_stdout=True, sub_id="default"):
@@ -76,7 +82,7 @@ def new_entity_logger(path, entity_type, uid, level: logging.INFO, redis_client,
     log_path = os.path.join(path, entity_type, uid)
     os.makedirs(log_path, exist_ok=True)
 
-    log_filename = os.path.join(log_path, f"log_{sub_id}.txt")  # .format(platform.node(),os.getpid()))
+    log_filename = os.path.join(log_path, f"log_{sub_id}.log")  # .format(platform.node(),os.getpid()))
     logformatter = logging.Formatter("%(asctime)s [%(levelname)-5.5s]  %(message)s")
     custom_logger = logging.getLogger(entity_type + "/" + uid)
     custom_logger.setLevel(level)
@@ -95,7 +101,7 @@ def new_entity_logger(path, entity_type, uid, level: logging.INFO, redis_client,
 def new_scoped_logger(path, scope_name, level: logging.INFO, redis_client):
 
     warnings.filterwarnings('ignore', category=FutureWarning)
-    log_filename = os.path.join(path, f"{scope_name}.txt")
+    log_filename = os.path.join(path, f"{scope_name}.log")
     logformatter = logging.Formatter("%(asctime)s [%(levelname)-5.5s]  %(message)s")
     custom_logger = logging.getLogger(scope_name)
     custom_logger.setLevel(level)

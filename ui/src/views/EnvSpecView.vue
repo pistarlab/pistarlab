@@ -18,6 +18,9 @@
         <b-button variant="secondary" v-b-modal="'config-modal'" class="ml-1" size="sm">Config</b-button>
     </b-button-group>
     <div class="mt-4"></div>
+    <b-alert v-if="item.environment.disabled" show variant="warning">
+        Warning, this environment has been <b>disabled</b>.  This is happens when the Environment's extension is uninstalled.
+    </b-alert>
     <b-card>
         <b-container fluid>
             <b-row>
@@ -34,6 +37,9 @@
                     </div>
                     <div>
                         <span class="stat_label">Extension Id: </span> {{item.environment.extensionId}}
+                    </div>
+                                        <div>
+                        <span class="stat_label">Disabled: </span> {{item.environment.disabled}}
                     </div>
                 </b-col>
                 <b-col>
@@ -138,6 +144,7 @@ const GET_ENV_SPEC = gql `
           id
           ident
                 extensionId
+                disabled
 
       }
       meta

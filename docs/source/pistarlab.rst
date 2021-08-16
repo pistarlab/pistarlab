@@ -153,18 +153,18 @@ pistarlab.meta module
    :undoc-members:
    :show-inheritance:
 
-pistarlab.plugin\_manager module
+pistarlab.extension\_manager module
 --------------------------------
 
-.. automodule:: pistarlab.plugin_manager
+.. automodule:: pistarlab.extension_manager
    :members:
    :undoc-members:
    :show-inheritance:
 
-pistarlab.plugin\_tools module
+pistarlab.extension\_tools module
 ------------------------------
 
-.. automodule:: pistarlab.plugin_tools
+.. automodule:: pistarlab.extension_tools
    :members:
    :undoc-members:
    :show-inheritance:

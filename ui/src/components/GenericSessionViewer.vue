@@ -11,15 +11,13 @@
 
     <h3><i class="fa fa-cube"></i> Generic Session</h3>
 
-    
     <div class="mt-4"></div>
 
     <b-button-toolbar>
-<b-button variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm">Abort Task</b-button>
-    <b-button title="Browse Data" class="ml-2" variant="secondary" :to="`/data_browser/?path=session/${uid}`" size="sm"><i class="fa fa-folder"></i> Browse Files</b-button>
+        <b-button variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm">Abort Task</b-button>
+        <b-button title="Browse Data" class="ml-2" variant="secondary" :to="`/data_browser/?path=session/${uid}`" size="sm"><i class="fa fa-folder"></i> Browse Files</b-button>
 
-    <b-button class="ml-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
-
+        <b-button class="ml-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-cog"></i> View Configuration</b-button>
 
         <b-button-group class="ml-auto">
 
@@ -28,7 +26,7 @@
             <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
         </b-button-group>
     </b-button-toolbar>
-    
+
     <b-collapse id="tasklogs" class="mt-2" v-if="task">
         <h3>Task Log</h3>
         <LogViewer :logStreamUrl="`${appConfig.API_URL}/api/stream/entity_logs/task/${task.ident}`"> </LogViewer>
@@ -38,7 +36,7 @@
         <h3>Session Log</h3>
         <LogViewer :logStreamUrl="`${appConfig.API_URL}/api/stream/entity_logs/session/${uid}`"> </LogViewer>
     </b-collapse>
-        <div class="mt-4"></div>
+    <div class="mt-4"></div>
 
     <b-container fluid>
         <b-row>
@@ -75,7 +73,7 @@
 
             <b-col>
                 <div class="data_label">Session Type</div>
-                <span >{{ item.sessionType }}</span>
+                <span>{{ item.sessionType }}</span>
             </b-col>
 
         </b-row>
@@ -281,13 +279,6 @@ export default {
     methods: {
         timedelta,
         timelength,
-        getImageId(uid) {
-            if (uid) {
-
-                let id = parseInt(uid.split("-")[1]);
-                return id % 19;
-            } else ""
-        },
         formatNum(num, prec) {
             if (num == null) {
                 return "";

@@ -7,8 +7,11 @@
     <div class="mt-4"></div>
     <b-button size="sm" :disabled=agentSpec.disabled v-b-modal:agentnew variant="primary">New Instance</b-button>
     <div class="mt-2"></div>
+    <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agentSpec.ident)}.png`" alt="Image"  style="max-width:60px;"></b-card-img>
+
     <b-card>
         <b-container fluid>
+            
             <b-row>
                 <b-col>
                     <div class="pt-2">

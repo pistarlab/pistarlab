@@ -28,7 +28,7 @@ app.logger.disabled = False
 logging.info("Starting Launcher")
 service_ctx = ServiceContext()
 
-
+# <button style="color:red;" onClick="disabebuttons();window.location='/service/reset_all_data'">Reset All Data and Restart Services</button>
 page = """
 <head>
 </head>
@@ -48,7 +48,7 @@ page = """
     <button onClick="disabebuttons();window.location='/service/stop_all'">Stop All</button>
     <br/>
     <br/>
-    <button style="color:red;" onClick="disabebuttons();window.location='/service/reset_all_data'">Reset All Data and Restart Services</button>
+    
     <br/>
     <br/>
     <br/>
@@ -246,7 +246,7 @@ def main():
                 print("{:<15} State: {:<12}".format(name, state))
         print("")
 
-    services_list = ['redis']
+    services_list = []
 
     if not args.disable_xvfb or os.name=='nt':
         services_list.append('xvfb')
@@ -254,7 +254,7 @@ def main():
     if not args.skip_ray_start:
         services_list.append('ray')
 
-    services_list = services_list + ['backend', 'streamer']
+    services_list = services_list + ['redis','backend', 'streamer']
 
     if args.enable_ide:
         services_list.append('theia_ide')

@@ -71,18 +71,25 @@ Vue.use(DropdownPlugin)
 
 Vue.config.productionTip = false
 import HelpInfo from "./components/HelpInfo.vue";
+import LogViewer from "./components/LogViewer.vue";
+import {getImageIdFromUID} from "./funcs";
 
 Vue.mixin({
     components:
     {
-        HelpInfo
+        HelpInfo,LogViewer
     },
     data: function () {
         return {
+            appConfig,
             docbar:true
         }
     },
     methods: {
+
+        getImageId(uid){
+            return getImageIdFromUID(uid)
+        },
         makeToast(message, title = "", variant = null) {
             this.$bvToast.toast(message, {
                 title: title,

@@ -199,6 +199,7 @@ class EnvSpecModel(DbBase):
     __tablename__ = ENV_SPEC_ENTITY
     id = db.Column(db.String, primary_key=True)  # spec_id
     displayed_name = db.Column(db.String)
+    spec_displayed_name = db.Column(db.String)
     entry_point = db.Column(db.String)
     description = db.Column(db.String)
     created = db.Column(db.DateTime, server_default=db.func.now())

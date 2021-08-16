@@ -16,7 +16,7 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 
 ## Features
 * Web UI
-* Plugin System for adding new agents, environments or tasks types
+* Extension System for adding new agents, environments or tasks types
 * Python API, anthing you can do in the UI, you can do in Python as well
 * Run agents in single and multi player environments
 * Experiment tracking

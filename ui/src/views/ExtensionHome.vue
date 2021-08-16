@@ -46,7 +46,7 @@
                         </div>
                     </b-col>
                     <b-col class="text-center">
-                        <b-badge v-if="item.source.name == 'Workspace'" pill variant="warning" class="mr-2"><i class="fa fa-code"></i> Extensions in your Workspace</b-badge>
+                        <b-link to="/workspace/home"><b-badge v-if="item.source.name == 'Workspace'" pill variant="warning" class="mr-2"><i class="fa fa-code"></i> In your Workspace</b-badge></b-link>
                     </b-col>
 
                     <b-col>
@@ -222,25 +222,30 @@ export default {
 
     computed: {
         filteredExtensions() {
+            let extensionlist = {}
             if (this.manageExtensionId) {
-                return this.filtered.filter(extension => {
+                extensionlist = this.filtered.filter(extension => {
                     return extension.id == this.manageExtensionId;
                 })
             } else {
 
                 if (this.selectedStatus == 'installed') {
-                    return this.filtered.filter(extension => {
+                    extensionlist = this.filtered.filter(extension => {
                         return extension.status != "AVAILABLE";
                     })
 
                 } else if (this.selectedStatus == 'avail') {
-                    return this.filtered.filter(extension => {
+                    extensionlist = this.filtered.filter(extension => {
                         return extension.status == "AVAILABLE" || extension.status == "INSTALLING" || extension.status == "INSTALL_FAILED" || extension.status == "UNINSTALL_FAILED";
                     })
                 } else {
-                    return this.filtered
+                    extensionlist = this.filtered
                 }
             }
+            
+            return extensionlist.sort((a,b)=> {
+                return a.name > b.name
+            })
         },
 
         filtered() {
@@ -370,7 +375,7 @@ export default {
         if (this.showWorkspaceExtensions) {
             this.onlyWorkspaceExtensions = true
         }
-        this.selectedStatus = "installed"
+        this.selectedStatus = ""
         // if (this.category) {
         //     console.log(this.category);
         //     this.filterCategories[this.category]["state"] = true;

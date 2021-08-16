@@ -259,7 +259,7 @@
                                 <b-row>
                                     <b-col>
 
-                                        <b-card-img :src="`/img/agent_cons/${getImageId(agent.ident)}.SVG`" alt="Image" style="max-height:100px;" class="svgagent">
+                                        <b-card-img  :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="max-height:100px;">
                                         </b-card-img>
                                     </b-col>
 
@@ -711,10 +711,7 @@ export default {
                 this.envPlayers = [];
 
         },
-        getImageId(uid) {
-            let id = parseInt(uid.split("-")[1]);
-            return id % 19;
-        },
+
 
         prepData() {
             try {
