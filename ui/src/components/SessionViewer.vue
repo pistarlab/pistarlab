@@ -11,20 +11,22 @@
     </b-modal>
 
     <b-button-toolbar>
-        <b-button class="mr-2" variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm"><i class="fa fa-stop"></i> Abort</b-button>
-
-        <b-button class="mr-2" v-if="item && item.parentSession && item.parentSession.task" title="title" variant="secondary" :to="`/task/new/agenttask/${item.parentSession.task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Clone
-        </b-button>
-        <b-button class="mr-2" v-else title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Clone
-        </b-button>
+        <!-- <span v-if="item.status && item.status == 'RUNNING'">
+            <b-button class="mr-2" variant="danger" v-on:click="stopSession" size="sm"><i class="fa fa-stop"></i> Abort</b-button>
+        </span> -->
 
         <!-- <b-button title="Browse Data" class="mr-2" variant="secondary" :to="`/data_browser/?path=session/${uid}`" size="sm"><i class="fa fa-folder"></i> Browse Files</b-button> -->
 
         <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
         <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
         <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" class="mr-2" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
+        <b-button class="mr-2" v-if="item && item.parentSession && item.parentSession.task" title="title" variant="secondary" :to="`/task/new/agenttask/${item.parentSession.task.ident}`" size="sm">
+            <i class="fa fa-copy"></i> Copy Task
+        </b-button>
+        <b-button class="mr-2" v-else title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
+            <i class="fa fa-copy"></i> Copy Task
+        </b-button>
+ <SessionRuntimeController :item="item"></SessionRuntimeController>
         <b-button-group class="ml-auto">
             <b-button size="sm" v-b-toggle.tasklogs variant="info">Task Log</b-button>
             <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
@@ -54,14 +56,22 @@
                 <div class="mt-3">
                     <hr />
                 </div>
+                <div class="d-flex justify-content-center">
 
-                <div class="data_label">Parent</div>
-                <div class="stat_value" v-if="parentSessionId">
-                    <router-link :to="`/session/view/${parentSessionId}`">{{parentSessionId}}</router-link>
+                    <AgentCardSmall :agent="item.agent"></AgentCardSmall>
 
                 </div>
-                <div class="stat_value" v-else>
-                    None
+                                                
+
+                <hr />
+                <div v-if="parentSessionId">
+                    <div class="data_label">Parent Session</div>
+
+                    <div class="stat_value" v-if="parentSessionId">
+                        <router-link :to="`/session/view/${parentSessionId}`">{{parentSessionId}}</router-link>
+
+                    </div>
+
                 </div>
 
                 <div class="mt-3">
@@ -99,26 +109,21 @@
                     <span class="stat_value" v-if="item && item.summary">{{timelength(item.summary.runtime * 1000)}}</span>
 
                 </div>
-                <div class="mt-3">
-                    <hr />
-                </div>
-                <div>
-                    <h4>Agent</h4>
-                    <AgentCardSmall :agent="item.agent"></AgentCardSmall>
 
-                </div>
             </b-col>
             <b-col cols=10>
                 <b-container fluid>
                     <b-row>
                         <b-col cols=4 class="text-center">
                             <div>
+                                                           
+
                                 <div class="h4">
                                     <router-link :to="`/env_spec/view/${item.envSpecId }`">{{item.envSpec.displayedName }} </router-link>
                                 </div>
 
                                 <div>
-                                    <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpec.environment.ident}`" alt="xxx" style="width:100%;" />
+                                    <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpecId}`" alt="xxx" style="height:100%;max-width:400px" />
                                     <StreamView v-if="playingLive" :uid="uid" />
                                     <div v-if="playingLive" style="color:red;font-weight:900">Live</div>
 
@@ -129,15 +134,14 @@
                                     <!-- <img class="feature-image" :src="imageURL" @error="imageError" height="300px" alt="No Preview Available" /> -->
                                 </div>
                                 <div class="mt-2">
-                                    <b-button size="sm" v-if="!playingLive && liveAvailable" @click="startLive()" variant="success"><i class="fa fa-live"></i>Stream Live</b-button>
-
-                                    <b-button size="sm" v-if="!playingEpisode && maxEpisode" @click="startEpisode()" variant="success"><i class="fa fa-play"></i> Episode {{maxEpisode}}</b-button>
+                                    <b-button size="sm" v-if="!playingLive && liveAvailable" @click="startLive()" variant="success" class="mr-2"><i class="fa fa-live"></i>Stream Live</b-button>
+                                    <b-button size="sm" v-if="!playingEpisode && maxEpisode" @click="startEpisode()" variant="success" class="mr-2"><i class="fa fa-play"></i> Episode {{maxEpisode}}</b-button>
                                     <span v-if="playingEpisode" class="data_label mr-1">
 
                                     </span>
 
-                                    <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i> Episode {{ maxEpisode }}</b-button>
-                                    <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i></b-button>
+                                    <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger" class="mr-2"><i class="fa fa-stop" ></i> Episode {{ maxEpisode }}</b-button>
+                                    <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger" class="mr-2"><i class="fa fa-stop"></i></b-button>
                                 </div>
 
                                 <div class="mt-2">
@@ -150,6 +154,20 @@
                                 </div>
                             </div>
                             <div class="mt-4">
+                                <!-- <span v-if="item.status && item.status == 'RUNNING'">
+                                    <b-button :disabled="this.commandSubmitting" v-if="!runtimeStatus.recording" class="mr-2" v-on:click="sessionCommand('recording','enabled',true)" size="sm">
+                                        <i class="fa fa-circle"></i> Start Recording</b-button>
+                                    <b-button :disabled="this.commandSubmitting" v-if="runtimeStatus.recording" class="mr-2" v-on:click="sessionCommand('recording','enabled',false)" size="sm">
+                                        <i class="fa fa-square"></i> Stop Recording</b-button>
+
+                                    <b-button :disabled="this.commandSubmitting" v-if="!runtimeStatus.runtime_logging" class="mr-2" v-on:click="sessionCommand('runtime_logging','enabled',true)" size="sm">
+                                        <i class="fa fa-circle"></i> Enable Logging</b-button>
+                                    <b-button :disabled="this.commandSubmitting" v-if="runtimeStatus.runtime_logging" class="mr-2" v-on:click="sessionCommand('runtime_logging','enabled',false)" size="sm">
+                                        <i class="fa fa-circle"></i> Disable Logging</b-button>
+                                    <b-form-group label="Step Speed">
+                                        <b-form-select style="width:100px" :disabled="this.commandSubmitting" @change="updateStepSpeed()" v-model="stepSpeed" :options="stepSpeedOptions" size="sm" class="mt-3 mb-3"></b-form-select>
+                                    </b-form-group>
+                                </span> -->
                                 <hr />
                             </div>
                             <h4>Statistics</h4>
@@ -160,9 +178,7 @@
 
                                         <b-col>
                                             <div class="stat_label">Avg Reward/Episode</div>
-                                            <span class="stat_value">{{
-                          numberToString(formatNum(item.summary.mean_reward_per_episode, 4))
-                        }}</span>
+                                            <span class="stat_value">{{numberToString(formatNum(item.summary.mean_reward_per_episode, 4))}}</span>
                                         </b-col>
                                         <b-col>
 
@@ -247,29 +263,37 @@
                             <b-container fluid>
                                 <b-row>
                                     <b-col v-for="(graph,i) in graphListResults" :key="i" cols=6>
-                                        <div v-if="graph && graph.graphData" class="mb-4">
+                                        <div v-if="graph">
+                                            <div v-if="graph && graph.graphData" class="mb-4">
 
-                                            <div v-if="graph.graphData.chartData">
-                                                <!-- <PlotlyVue :data="graph.graphData.data" :layout="graph.graphData.layout" :display-mode-bar="false"></PlotlyVue> -->
-                                                <LineChart :chart-data="graph.graphData.chartData" :options="graph.graphData.chartOptions" :key="graphKey"></LineChart>
+                                                <div v-if="graph.graphData.chartData">
+                                                    <!-- <PlotlyVue :data="graph.graphData.data" :layout="graph.graphData.layout" :display-mode-bar="false"></PlotlyVue> -->
+                                                    <LineChart :chart-data="graph.graphData.chartData" :options="graph.graphData.chartOptions" :key="graphKey"></LineChart>
+
+                                                </div>
+                                                <div v-if="graph.url">
+                                                    <a :href="graph.url" target="_blank"><i class="fa fa-download"></i></a>
+                                                </div>
 
                                             </div>
-                                            <div v-if="graph.url">
-                                                <a :href="graph.url" target="_blank"><i class="fa fa-download"></i></a>
+                                            <div v-if="graph.error != null" class="m-4">
+                                                {{graph.error}}
                                             </div>
-
                                         </div>
-
                                     </b-col>
 
-                                    <b-button class="mr-2" v-on:click="graphKey++" size="sm">reset view</b-button>
                                 </b-row>
+                                <b-row>
+                                    <b-col class="m-4 text-right">
+                                        <b-button class="mr-2" v-on:click="graphKey++" size="sm">reset plot view</b-button>
+
+                                    </b-col>
+                                </b-row>
+
                             </b-container>
                         </b-col>
                     </b-row>
-                    <b-row>
 
-                    </b-row>
                 </b-container>
 
             </b-col>
@@ -304,6 +328,7 @@ import AgentCardSmall from "../components/AgentCardSmall.vue";
 import LogViewer from "../components/LogViewer.vue";
 
 import StreamView from "../components/StreamView.vue";
+import SessionRuntimeController from "../components/SessionRuntimeController.vue";
 // import {
 //     Plotly as PlotlyVue
 // } from 'vue-plotly'
@@ -320,7 +345,7 @@ export default {
         StreamView,
         LineChart,
         AgentCardSmall,
-        LogViewer
+        LogViewer,SessionRuntimeController
     },
     apollo: {
         // Simple query that will update the 'hello' vue property
@@ -337,7 +362,6 @@ export default {
             liveAvailable: false,
             playingEpisode: false,
             playingLive: false,
-
             imageURL: "placeholder.jpg",
             videoURL: "",
             graphListResults: [],
@@ -522,10 +546,17 @@ export default {
                     .then((response) => {
                         const graph = response.data;
 
-                        if (graph.data == undefined) {
+                        if (graph == undefined || graph.data == undefined) {
+                            let msg = `${graphItem.title}: Data not found`
+                            graphItem.error = msg
+                            console.log(msg)
+                            this.$set(this.graphListResults, idx, graphItem)
+
                             return
                         }
                         var chartData = null;
+                        graphItem.error = null
+
                         if (graph.include_stats) {
 
                             chartData = {
@@ -624,27 +655,11 @@ export default {
                     .catch((e) => {
                         console.log(e);
                         this.error = e;
+
                     });
             });
         },
-        stopSession() {
-            if (this.item) {
-                axios
-                    .get(
-                        `${appConfig.API_URL}/api/admin/task/stop/${this.item.task.ident}`
-                    )
-                    .then((response) => {
-                        let message = response.data["message"];
-                        this.makeToast(message, "User Abort Request", "info")
-                        console.log(` ${message}`)
-                        this.refreshData()
-                    })
-                    .catch((e) => {
-                        this.error = e;
-                        this.message = this.error;
-                    });
-            }
-        },
+
     },
     created() {
         console.log(this.uid);

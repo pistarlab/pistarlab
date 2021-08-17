@@ -92,14 +92,14 @@
                         </template>
                         <template v-slot:cell(steps)="data">
                             <!-- `data.value` is the value after formatted by the Formatter -->
-                            <span>{{data.item.summary.step_count.toLocaleString('en-US',
+                            <span v-if="data.item.summary.step_count">{{data.item.summary.step_count.toLocaleString('en-US',
                             {
                             useGrouping: true
                             })}}</span>
                         </template>
                         <template v-slot:cell(episodes)="data">
                             <!-- `data.value` is the value after formatted by the Formatter -->
-                            <span>{{data.item.summary.episode_count.toLocaleString('en-US',
+                            <span v-if="data.item.summary.episode_count">{{data.item.summary.episode_count.toLocaleString('en-US',
                             {
                             useGrouping: true
                             })}}</span>
@@ -107,7 +107,7 @@
                         </template>
                         <template v-slot:cell(runtime)="data">
                             <!-- `data.value` is the value after formatted by the Formatter -->
-                            <span>{{data.item.summary.runtime.toLocaleString('en-US',
+                            <span v-if="data.item.summary.runtime">{{data.item.summary.runtime.toLocaleString('en-US',
                             {
                             useGrouping: true
                             })}}</span>
@@ -350,6 +350,7 @@ export default {
             plotBinSize: 0,
             plotStepMax: 0,
             selected: [],
+            traceback:null,
 
             componentFields: [{
                     key: "name",

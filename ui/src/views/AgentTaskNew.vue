@@ -125,7 +125,7 @@
                             <b-container fluid>
                                 <b-row>
                                     <b-col cols=3 class="text-center  align-self-center">
-                                        <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${envSpec.environment.ident}`" alt="" style="max-height:200px; width:auto;"></b-card-img>
+                                        <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${envSpec.ident}`" alt="" style="max-height:200px; width:auto;"></b-card-img>
                                     </b-col>
                                     <b-col>
                                         <b-container>
@@ -213,7 +213,7 @@
                                                         </div>
                                                         </div>
                                                         <div v-if="envSpec && envSpec.envType== 'RL_SINGLEPLAYER_ENV'" class="mt-2">
-                                                            <hl/>
+                                                            <hr/>
                                                              <h4>Environment Instances</h4>
 
                                                             <b-form-input v-model="batchSize" type="number" style="width:100px" class="ml-2 pl-5"></b-form-input>

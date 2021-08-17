@@ -44,7 +44,7 @@
                 </b-col>
                 <b-col>
                     <div class="text-center image-box">
-                        <img :src="`${appConfig.API_URL}/api/env_preview_image/${item.environment.ident}`" alt="" style="max-height:200px;" />
+                        <img :src="`${appConfig.API_URL}/api/env_preview_image/${item.ident}`" alt="" style="max-height:200px;" />
                     </div>
                 </b-col>
             </b-row>

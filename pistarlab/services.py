@@ -24,7 +24,7 @@ class SystemServiceBase:
     def __init__(self, name, log_root):
         self.name = name
         self.log_root = log_root
-        self.log_path = os.path.join(self.log_root, "{}_run.log".format(self.name))
+        self.log_path = os.path.join(self.log_root, "{}_run.txt".format(self.name))
         self.pid_path = os.path.join(self.log_root, "{}_run.pid".format(self.name))
 
     def get_info(self):

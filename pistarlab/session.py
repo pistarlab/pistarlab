@@ -306,26 +306,29 @@ class RLSession(Session):
         self.render_stats_enabled = self.env_run_meta.get("render_stats")
 
         self.recording = False
-        self.recording_interval_secs = 10.0
+        self.recording_interval_secs = 10.0 # TODO: is this used?
         self.recording_last_timestamp = 0
         self.continuous_recording_enabled = False
         self.render_frame_enabled = self.config.preview_rendering
 
-        self.disable_runtime_logging = False
+        self.runtime_logging = True
 
         # Publish render/preview frame to redis
         self.frame_stream_enabled = self.config.frame_stream_enabled
         self.last_frame_update_timestamp = 0
         self.frame_update_interval_secs = 0.1
 
-        # User Command Check
+        # User Command Check/Status Publish
         self.last_command_check = 0
-        self.command_check_interval = 10
+        self.command_check_interval = 3
+        self.last_command_update =0
+        
         self.pub = ctx.get_redis_client().pubsub()
         self.pub.subscribe(f"SESSION_COMMAND_REQUEST_{self._id}")
 
         self.last_stats_update_timestamp = 0
         self.stats_update_interval_secs = 1
+
         # Experience History
         self.history = DataBuffer(
             cols=[
@@ -385,25 +388,50 @@ class RLSession(Session):
         if persists_at_creation:
             self._sync_data_model()
 
-    def run_command_check(self):
-        msg = self.pub.get_message()
+    def run_status_update(self):
         self.get_logger().debug("Issuing command check")
-        reading_messages = msg is not None
+        reading_messages = True
         while reading_messages:
+            msg = self.pub.get_message()
             if msg:
                 # channel = msg['channel']
+                
+                if "data" not in msg:
+                    self.get_logger().info(f"Unexpected message? raw message value: {msg}")
+                    continue
                 data = msg['data']
                 if data is None or data == 1 or data == 2:
                     reading_messages = False
                 else:
+                    
                     command_data = json.loads(data.decode('utf-8'))
-                    msg = "Received command update, but not executing TODO {}".format(command_data)
+                    msg = "Received command update {}".format(command_data)
                     self.get_logger().info(msg)
-                    response = {'msg': msg}
-                    ctx.get_redis_client().publish("SESSION_COMMAND_RESPONSE_{}".format(self._id), json.dumps(response))
-                    msg = self.pub.get_message()
+                    command = command_data.get("command")
+                    params = command_data.get("params")
+                    self.last_command_update = time.time()
+                    if command == "recording":    
+                        self.continuous_recording_enabled = params.get("enabled",False)
+                        self.get_logger().info(f"Set recording to {self.continuous_recording_enabled}")
+                    elif command == "runtime_logging":    
+                        self.runtime_logging = params.get("enabled",True)
+                        self.get_logger().info(f"Set runtime_logging to {self.runtime_logging}")
+                    elif command == "step_speed_limitor":    
+                        self.step_speed_limitor = params.get("value",None)
+                        self.get_logger().info(f"Set step_speed_limitor to {self.step_speed_limitor}")
+                    else:
+                        self.get_logger().info(f"Command '{command}' not found")
+
             else:
                 reading_messages = False
+
+        # TODO: need to clean up redis when session terminates
+        ctx.get_redis_client().set(f"SESSION_STATUS_{self._id}", json.dumps({
+            'recording':self.continuous_recording_enabled,
+            'runtime_logging': self.runtime_logging,
+            "step_speed_limitor": self.step_speed_limitor,
+            "last_update":self.last_command_update # for tracking if submission successful
+        }))
 
         self.last_command_check = time.time()
 
@@ -421,7 +449,7 @@ class RLSession(Session):
     def before_reset(self):
         if not self.initialized:
             self._initialize()
-        if not self.disable_runtime_logging:
+        if self.runtime_logging:
             self.recording = self.is_episode_recorded()
         return
 
@@ -435,7 +463,7 @@ class RLSession(Session):
     # -------------STEP--------------------
     def before_step(self, action):
         # Log of previous env output + agent's action in response
-        if not self.disable_runtime_logging and not self.prev_done:  # when done, gets logged after step
+        if self.runtime_logging and not self.prev_done:  # when done, gets logged after step
             self._log_step(
                 observation=self.prev_observation,
                 reward=self.prev_reward,
@@ -448,13 +476,13 @@ class RLSession(Session):
 
     def after_step(self, observation, reward, done, info, action):
         if self.step_speed_limitor:
-            sleep_needed = (time.time() - self.last_tick) - self.step_speed_limitor
+            sleep_needed = 1/self.step_speed_limitor - (time.time() - self.last_tick)
             if sleep_needed > 0:
                 time.sleep(sleep_needed)
             self.last_tick = time.time()
 
         if (time.time() - self.last_command_check) > self.command_check_interval:
-            self.run_command_check()
+            self.run_status_update()
 
         if self.config.max_steps_in_episode and self.episode_step_counter >= self.config.max_steps_in_episode:
             done = True
@@ -471,7 +499,7 @@ class RLSession(Session):
         self.timer_agent_step_start = time.time()
 
         if done:
-            if not self.disable_runtime_logging:
+            if self.runtime_logging:
                 self._log_step(
                     observation=observation,
                     reward=reward,

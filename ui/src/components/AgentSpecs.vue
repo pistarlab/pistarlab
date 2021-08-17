@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h3>Agent Specs </h3>
+    <h3>Agent Specs</h3>
     <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;"></b-form-input>
 
     <b-container fluid>
@@ -9,10 +9,9 @@
             <div v-for="item in specs" :key="item.id">
                 <b-row class="pt-4" v-if="!item.disabled">
                     <b-col cols="2" class="text-center">
-                     <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(item.ident)}.png`" alt="Image"  style="max-width:60px;"></b-card-img>
+                        <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(item.ident)}.png`" alt="Image" style="max-width:60px;"></b-card-img>
 
                     </b-col>
-
 
                     <b-col class="">
                         <h3>
@@ -24,19 +23,18 @@
                         <!-- <div class="small data_label">Class/Module</div>
                       <span>{{ item.classHame }}/{{ item.module }}</span>-->
                         <div>
-                            <span class="data_label mt-1">Extension/Version: </span>
-                            <span v-if="item.extensionId =='WORKSPACE'">
-                                <b-badge variant="warning"><i class="fa fa-code"></i> in your workspace</b-badge>
-                            </span>
-                            <span v-else>
-                                {{ item.extensionId }}/{{ item.version }}
+                            <span class="data_label mt-1">Spec Id: </span>
+                            <span>
+                                {{ item.ident }}
                             </span>
                         </div>
                         <div>
-                            <div class="data_label">Description: </div>
-                            <span>
-                                {{ item.description }}
+
+                            <span v-if="item.extensionId =='WORKSPACE'">
+                                <b-badge variant="warning"><i class="fa fa-code"></i> in your workspace</b-badge>
                             </span>
+                            <span class="data_label mt-1" v-else> Extension/Version </span> {{ item.extensionId }}/{{ item.version }}
+
                         </div>
                     </b-col>
                     <b-col cols="4">
@@ -79,7 +77,6 @@ export default {
           displayedName
           disabled
           extensionId
-          description
           version
         }
       }

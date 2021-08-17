@@ -901,4 +901,11 @@ li {
 b {
     font-weight: 600;
 }
+
+select option{
+    background-color: #000;
+    border-color: #000;
+}
+
+
 </style>

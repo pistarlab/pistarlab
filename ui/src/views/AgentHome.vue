@@ -107,7 +107,7 @@
                                                                     <div class="mt-1">
 
                                                                         <img width=60 
-                                                                        :src="`${appConfig.API_URL}/api/env_preview_image/${session.envSpec.environment.ident}`" 
+                                                                        :src="`${appConfig.API_URL}/api/env_preview_image/${session.envSpec.ident}`" 
                                                                         alt="" />
                                                                         
                                                                     </div>

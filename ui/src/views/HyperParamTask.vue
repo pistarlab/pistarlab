@@ -125,7 +125,7 @@
                             <b-container fluid>
                                 <b-row>
                                     <b-col cols=3 class="text-center  align-self-center">
-                                        <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${envSpec.environment.ident}`" alt="" style="max-height:200px; width:auto;"></b-card-img>
+                                        <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${envSpec.ident}`" alt="" style="max-height:200px; width:auto;"></b-card-img>
                                     </b-col>
                                     <b-col>
                                         <b-container>

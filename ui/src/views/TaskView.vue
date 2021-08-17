@@ -2,15 +2,14 @@
 <div>
     <h1>Task Details</h1>
 
-    <b-modal id="modal-config" title="View config">
+    <b-modal id="modal-config" title="View config" size="xl">
         <div>
-            <pre>{{ taskConfig }}</pre>
+            <pre>{{JSON.stringify(taskConfig,null,2)}}</pre>
         </div>
     </b-modal>
 
-    <b-modal id="modal-summary" title="View Summary">
-        <pre v-if="task && task.summary">
-        {{task.summary}}
+    <b-modal id="modal-summary" title="View Summary" size="xl">
+        <pre v-if="task && task.summary">{{JSON.parse(task.summary)}}
         </pre>
     </b-modal>
 
@@ -23,14 +22,13 @@
     <b-button-toolbar size="sm" class="mr-1">
 
         <b-button size="sm" :to="`/data_browser/?path=task/${uid}`">Browse Data</b-button>
-        <b-button size="sm" class="ml-1" :to="`/task/new/agenttask/${task.ident}`">Duplicate</b-button>
         <b-button size="sm" class="ml-1" v-b-modal.modal-config>View Config</b-button>
         <b-button size="sm" class="ml-1" v-b-modal.modal-summary>View Summary</b-button>
         <b-button size="sm" class="ml-1" v-b-toggle.logs variant="info">Log</b-button>
         <b-button size="sm" class="ml-1" v-if="task.status && task.status == 'RUNNING'" variant="danger" v-on:click="taskControl('STOP')">Abort</b-button>
         <b-button size="sm" class="ml-1" v-if="task.status && (task.status == 'ABORTED' || task.status == 'TERMINATED')" variant="success" v-on:click="taskControl('RUN')">Run</b-button>
-        <b-button size="sm" class="ml-1"  v-b-modal.modal-modify-source >Run in debug mode (TODO)</b-button>
-        <b-button size="sm" class="ml-1"  v-b-modal.modal-modify-source >Modify Source Code (TODO)</b-button>
+        <b-button size="sm" class="ml-1" :to="`/task/new/agenttask/${task.ident}`">Copy Task</b-button>
+
 
     </b-button-toolbar>
 

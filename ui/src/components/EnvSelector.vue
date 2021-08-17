@@ -7,21 +7,15 @@
     <b-container fluid>
         <div v-for="(spec,idx) in envSpecList" v-bind:key="idx">
             <b-row>
-                <b-col>
+                <b-col cols=3 class="text-center">
                     <div>
                         <router-link :to="`/env_spec/view/${spec.ident}`"> {{ spec.displayedName }}</router-link>
                     </div>
+                    <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${spec.ident}`" alt="" style="width:100px"></b-card-img>
+
                 </b-col>
                 <b-col>
-                    <div>
-                        <b-button size="sm" variant="primary" @click="select(spec.ident)">Select</b-button>
-                    </div>
-                </b-col>
-            </b-row>
-
-            <div class="mt-1"></div>
-            <b-row>
-                <b-col class="">
+ <div class="mt-3"></div>
                     <div>
                         <span class="data_label mt-1">Environment: </span>
                         <span>{{spec.environment.ident}}</span>
@@ -34,9 +28,7 @@
                         <span class="data_label mt-1">Extension: </span>
                         <span>{{spec.environment.extensionId}}: {{spec.environment.extensionVersion}}</span>
                     </div>
-                </b-col>
-                <b-col class="">
-                    <div>
+                                       <div>
                         <span class="data_label mt-1">Type: </span>
                         <span>{{spec.envType}}</span>
                     </div>
@@ -45,7 +37,16 @@
                         <span>{{spec.description}}</span>
                     </div>
                 </b-col>
+                <b-col cols=2>
+                    <div class="mt-3"></div>
+                    <div>
+                        <b-button size="sm" variant="primary" @click="select(spec.ident)">Select</b-button>
+                    </div>
+ 
+
+                </b-col>
             </b-row>
+
             <hr />
         </div>
     </b-container>
@@ -122,8 +123,7 @@ export default {
                         !v.environment.disabled && v.displayedName.toLowerCase().includes(this.searchtext.toLowerCase())
                     )
                 } else {
-                    return this.envSpecs.filter((v) =>  !v.environment.disabled )
-                    
+                    return this.envSpecs.filter((v) => !v.environment.disabled)
 
                 }
             }

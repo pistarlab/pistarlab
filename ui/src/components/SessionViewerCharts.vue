@@ -123,7 +123,7 @@
                         <div class="mt-2">
 
                             <div v-if="!playingPreview">
-                                <img v-if="item.envSpec && item.envSpec.environment && item.envSpec.environment.ident" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpec.environment.ident}`" alt="" style="width:auto;height:250px;" />
+                                <img v-if="item.envSpec && item.envSpec.environment && item.envSpec.environment.ident" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpec.ident}`" alt="" style="width:auto;height:250px;" />
                             </div>
 
                             <div v-else>

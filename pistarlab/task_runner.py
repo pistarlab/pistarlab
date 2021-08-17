@@ -70,11 +70,13 @@ class TaskRunner(metaclass=ABCMeta):
                 summary, exit_state = self.run()
             except:
                 e = sys.exc_info()[0]
-                msg = "Exception while executing task runner {}. traceback {}".format(e, traceback.format_exc())
-                self.get_logger().error(msg)
+                exit_msg = "Exception while executing task runner {}. traceback {}".format(e, traceback.format_exc())
+                self.get_logger().info(exit_msg)
                 exit_state = STATE_ABORTED
         # Will throw exception, this is expected and handled by the RunFuture object
         except Exception as e:
+            exit_msg = "Exception while executing task runner {}. traceback {}".format(e, traceback.format_exc())
+            self.get_logger().info(exit_msg)
             exit_state = STATE_ABORTED
         finally:
             task.shutdown(exit_state, exit_msg)

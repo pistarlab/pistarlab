@@ -4,7 +4,7 @@
     <b-card no-body class="overflow-hidden card-shadow">
         <b-row no-gutters>
             <b-col md="4">
-                <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${item.environment.ident}`" alt="" style="max-height:350px; max-width:400px; min-height:200px; min-width:250px; height:auto; width: auto;"></b-card-img>
+                <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${item.ident}`" alt="" style="max-height:350px; max-width:400px; min-height:200px; min-width:250px; height:auto; width: auto;"></b-card-img>
             </b-col>
             <b-col md="8">
                 <b-card-body :title="item.ident" >

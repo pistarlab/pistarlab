@@ -288,7 +288,8 @@ def api_extension_view(extension_id):
 @not_in_readonly_mode
 def api_extension_action(action_name, extension_id, extension_version):
     if action_name == 'install':
-        result = ctx.extension_manager.install_extension(extension_id, extension_version)
+        result = ctx.extension_manager.install_extension(
+            extension_id, extension_version)
     elif action_name == 'uninstall':
         result = ctx.extension_manager.uninstall_extension(extension_id)
     elif action_name == 'reload':
@@ -342,6 +343,56 @@ def api_snapshot_publish():
     except Exception as e:
         response = make_response(
             {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+def get_session_update(sid):
+    return json.loads(ctx.get_redis_client().get(f"SESSION_STATUS_{sid}").decode())
+    
+
+@app.route("/api/session_command/<sid>/<command>", methods=['POST'])
+@not_in_readonly_mode
+def api_session_command(sid, command):
+    try:
+        params = request.get_json()
+        logging.info(f"Sending command {command} with params: {params}")
+        before_update = get_session_update(sid)['last_update']
+        ctx.get_redis_client().publish(
+            f"SESSION_COMMAND_REQUEST_{sid}",
+            json.dumps({
+                'command': command,
+                'params': params
+            }))
+        data = {}
+        for i in range(0,10):
+            time.sleep(0.5)
+            data = get_session_update(sid)
+            if data['last_update'] > before_update:
+                break
+            
+        response = make_response(data)
+
+    except Exception as e:
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route("/api/session_runtime_status/<sid>")
+@not_in_readonly_mode
+def api_session_runtime_status(sid):
+    try:
+        data = ctx.get_redis_client().get(f"SESSION_STATUS_{sid}")
+
+        response = make_response(json.loads(data.decode()))
+
+    except Exception as e:
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -399,13 +450,13 @@ def stream_scoped_logs(scope_name):
     def gen():
         data_batch = []
         try:
-            file_path = os.path.join(ctx.config.log_root, f"{scope_name}.log")
+            file_path = os.path.join(ctx.config.log_root, f"{scope_name}.txt")
             with open(file_path, 'r') as f:
                 data_batch.extend(f.readlines())
         except Exception as e:
             logging.info(f"Fload to load {file_path} {e}")
             pass
-            
+
         clear_old = True
         while (True):
             try:
@@ -664,7 +715,7 @@ def select_bin_size(count, bins=[(50, 10), (200, 20), (500, 50), (1000, 100), (1
     return bin_size
 
 
-def bin_data(data, bin_size=None,start_idx_offset=0):
+def bin_data(data, bin_size=None, start_idx_offset=0):
     data_size = len(data)
     if bin_size is None:
         bin_size = select_bin_size(data_size)
@@ -675,7 +726,7 @@ def bin_data(data, bin_size=None,start_idx_offset=0):
     if bin_size == 1:
         for i in range(data_size):
             val = data[i]
-            result_data.append((i, val[1],val[0]))
+            result_data.append((i, val[1], val[0]))
     else:
         include_stats = True
         for chunk in range(parts):
@@ -691,8 +742,8 @@ def bin_data(data, bin_size=None,start_idx_offset=0):
             std_dev = math.sqrt(sum((x - vmean)**2 for x in vals) / num_vals)
             vlower = vmean - std_dev
             vupper = vmean + std_dev
-            result_data.append((start_idx+start_idx_offset, vmean, vmin, vmax, vlower, vupper,xlabel))
-
+            result_data.append((start_idx+start_idx_offset,
+                                vmean, vmin, vmax, vlower, vupper, xlabel))
 
     return result_data, include_stats
 
@@ -706,13 +757,16 @@ def slice_dict_head(data, idx):
 
 @app.route("/api/session_plots_json/<sid>/<data_group>/<data_name>/<step_field>")
 def api_session_plots_json(sid, data_group, data_name, step_field):
-    bin_size = int(request.args.get('bin_size',"0"))
-    max_steps = int(request.args.get('max_steps',"0"))
+    bin_size = int(request.args.get('bin_size', "0"))
+    max_steps = int(request.args.get('max_steps', "0"))
     total_count = 0
     actual_count = 0
     try:
 
         orig_data = ctx.get_store().get_session_data(session_id=sid, name=data_group)
+
+        if orig_data is None:
+            raise Exception(f"Session {sid}, {data_group} data not found.")
 
         step_counts = orig_data[step_field]
         total_count = len(step_counts)
@@ -735,17 +789,18 @@ def api_session_plots_json(sid, data_group, data_name, step_field):
             [(step, value) for step, value in zip(step_counts, data)],
             bin_size=bin_size)
 
-        logging.info("total_data {}, final_values= {}".format(
+        logging.debug("total_data {}, final_values= {}".format(
             len(step_counts), len(values)))
         graph = {}
         graph['include_stats'] = include_stats
         if include_stats:
-            idxs, means, mins, maxs, lowers, uppers, xlabels = map(list, zip(*values))
+            idxs, means, mins, maxs, lowers, uppers, xlabels = map(
+                list, zip(*values))
             graph['data'] = dict(
-                idxs=idxs, means=means, mins=mins, maxs=maxs, lowers=lowers, uppers=uppers,xlabels=xlabels)
+                idxs=idxs, means=means, mins=mins, maxs=maxs, lowers=lowers, uppers=uppers, xlabels=xlabels)
         else:
             idxs, vals, xlabels = map(list, zip(*values))
-            graph['data'] = dict(idxs=idxs, vals=vals,xlabels=xlabels)
+            graph['data'] = dict(idxs=idxs, vals=vals, xlabels=xlabels)
 
         graphJSON = json.dumps(graph)
         response = make_response(graphJSON)
@@ -753,7 +808,7 @@ def api_session_plots_json(sid, data_group, data_name, step_field):
     except Exception as e:
         response = make_response(
             {'error': '{}'.format(e), 'traceback': traceback.format_exc()})
-        logging.error(e)
+        logging.error(f"Error: {e} 'traceback': {traceback.format_exc()}" )
 
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -771,15 +826,15 @@ def api_session_plotly_json(sid, data_group, data_name, step_field):
             len(orig_data), len(values)))
         graph = {}
         if include_stats:
-            idxs, means, mins, maxs, lowers, uppers,xlabels = map(list, zip(*values))
+            idxs, means, mins, maxs, lowers, uppers, xlabels = map(
+                list, zip(*values))
             graph['data'] = dict(x=idxs, y=means, name=sid)
         else:
-            idxs, vals,xlabels = map(list, zip(*values))
+            idxs, vals, xlabels = map(list, zip(*values))
             graph['data'] = dict(x=idxs, y=vals, name=sid)
         graph['layout'] = dict(title="{} - {}".format(data_group, data_name))
         graphJSON = json.dumps(graph)
         response = make_response(graphJSON)
-
 
     except Exception as e:
         response = make_response(
@@ -792,8 +847,8 @@ def api_session_plotly_json(sid, data_group, data_name, step_field):
 
 @app.route("/api/agent_plots_json/<uid>")
 def api_agent_plots_json(uid):
-    bin_size = int(request.args.get('bin_size',"0"))
-    max_steps = int(request.args.get('max_steps',"0"))
+    bin_size = int(request.args.get('bin_size', "0"))
+    max_steps = int(request.args.get('max_steps', "0"))
     total_count = 0
     actual_count = 0
     allplotdata = {}
@@ -803,7 +858,7 @@ def api_agent_plots_json(uid):
         orig_data = ctx.get_store().get_multipart_dict(key=('agent', uid), name='stats')
         if orig_data is None:
             raise Exception(f"No stats data found for agent {uid}")
-        orig_data.pop("model","NA") #TODO: fix at source
+        orig_data.pop("model", "NA")  # TODO: fix at source
 
         total_count = len(orig_data['timestamp'])
         actual_count = total_count
@@ -831,7 +886,7 @@ def api_agent_plots_json(uid):
             data = orig_data[col]
             try:
                 values, include_stats = bin_data(
-                    [(step, value) for step, value in zip(step_counts, data)], bin_size=bin_size,start_idx_offset=start_idx_offset)
+                    [(step, value) for step, value in zip(step_counts, data)], bin_size=bin_size, start_idx_offset=start_idx_offset)
                 logging.debug("total_data {}, final_values= {}".format(
                     len(orig_data), len(values)))
                 graph = {}
@@ -861,10 +916,10 @@ def api_agent_plots_json(uid):
             'actual_count': actual_count,
         }  # , cls=plotly.utils.PlotlyJSONEncoder)
 
-
         response = make_response(response_data)
     except Exception as e:
-        logging.error('msg: {}, traceback: {}'.format(e,traceback.format_exc()))
+        logging.error('msg: {}, traceback: {}'.format(
+            e, traceback.format_exc()))
         response = make_response(
             {'error': '{}'.format(e), 'traceback': traceback.format_exc()})
 
@@ -1150,7 +1205,7 @@ def main():
         if args.enable_profiler:
             profiler.stop()
             print(profiler.output_text(unicode=True,
-                                   color=True, show_all=True, timeline=True))
+                                       color=True, show_all=True, timeline=True))
         print("Backend Shutdown Complete")
         sys.exit()
 

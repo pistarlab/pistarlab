@@ -4,7 +4,7 @@
         <div class="h4 text-center">
         <b-link :to="`/agent/view/${agent.ident}`">
         <div class="">{{ agent.ident }}</div>
-        <b-img  style="max-height:200px;" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" class="rounded-0" ></b-img> 
+        <b-img  style="max-height:100px;" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" class="rounded-0" ></b-img> 
             
         </b-link>
         </div>
@@ -12,7 +12,7 @@
         <div class="text-center">
 
             <span class="">
-                <b-link :to="`/agent_spec/${agent.specId}`">{{ agent.specId }}</b-link>
+                <b-link :to="`/agent_spec/${agent.specId}`">{{ agent.spec.displayedName }}</b-link>
             </span>
         </div>
 </b-card>
@@ -22,7 +22,8 @@
 <script >
 export default {
     props: {
-        agent: Object
+        agent: Object,
+        
     },
     data() {
         return {

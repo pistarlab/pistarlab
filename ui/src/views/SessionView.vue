@@ -63,6 +63,7 @@ const GET_SESSION = gql `
       specId
       spec {
         id
+        displayedName
         ident
         config
         meta
@@ -86,6 +87,7 @@ const GET_SESSION = gql `
           agent {
             id
             ident
+            displayedName
             specId
           }
           createdTimestamp

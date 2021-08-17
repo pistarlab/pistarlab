@@ -12,11 +12,12 @@
     </b-modal>
     <b-button-toolbar>
         <b-button-group class="mr-auto">
-            <b-button class="mr-2" variant="danger" v-if="item.status && item.status == 'RUNNING'" v-on:click="stopSession" size="sm">Abort Task</b-button>
             <b-button class="mr-2" title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-                <i class="fa fa-copy"></i> Clone Session
+                <i class="fa fa-copy"></i> Copy Session
             </b-button>
             <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
+                     <SessionRuntimeController :item="item"></SessionRuntimeController>
+
         </b-button-group>
         <b-button-group class="ml-auto">
 
@@ -24,6 +25,7 @@
 
             <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
         </b-button-group>
+
     </b-button-toolbar>
     <div class="mt-4"></div>
 
@@ -105,7 +107,7 @@
                                 <router-link :to="`/env_spec/view/${item.envSpecId }`"> {{item.envSpecId }}</router-link>
                             </div>
                             <div>
-                                <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpec.environment.ident}`" alt="xxx" style="width:100%;" />
+                                <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpecId}`" alt=""  style="height:100%;max-width:400px"  />
                                 <StreamView v-if="playingLive" :uid="uid" />
                                 <div v-if="playingLive" style="color:red;font-weight:900">Live</div>
 
@@ -299,6 +301,7 @@ import {
     timedelta,
     timepretty
 } from "../funcs";
+import SessionRuntimeController from "../components/SessionRuntimeController.vue";
 
 import StreamView from "../components/StreamView.vue";
 import {
@@ -333,7 +336,8 @@ export default {
     components: {
         StreamView,
         PlotlyVue,
-        LogViewer
+        LogViewer,
+        SessionRuntimeController
     },
     apollo: {
         //

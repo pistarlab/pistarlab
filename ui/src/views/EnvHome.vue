@@ -36,7 +36,7 @@
                         </div>
                     </b-col>
                     <b-col>
-                        <img :src="`${appConfig.API_URL}/api/env_preview_image/${selectedEnvironment.ident}`" alt="" style="max-height:200px;" />
+                        <img :src="`${appConfig.API_URL}/api/env_preview_image/env_${selectedEnvironment.ident}`" alt="" style="max-height:200px;" />
                     </b-col>
                 </b-row>
             </b-container>
