@@ -1,6 +1,14 @@
 <template>
 <div>
-
+    <b-modal id="helpinfo-modal" title="Help" size="lg" ok-only>
+        <HelpInfo contentId="sessions" :fullPage="true">
+        </HelpInfo>
+    </b-modal>
+    <div class="ml-2 text-right">
+        <b-link v-b-modal="'helpinfo-modal'" style="color:white">
+            <i class="fa fa-question-circle"></i>
+        </b-link>
+    </div>
     <b-form-checkbox class="ml-2" switch v-model="archived">Archived Sessions Only</b-form-checkbox>
 
     <div class="mt-4"></div>

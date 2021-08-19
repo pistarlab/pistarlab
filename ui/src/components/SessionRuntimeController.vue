@@ -1,32 +1,38 @@
 <template>
 <span>
     <span v-if="item.status && item.status == 'RUNNING'">
-        <b-button class="mr-2" variant="danger" v-on:click="stopSession" size="sm"><i class="fa fa-stop"></i> Abort Session</b-button>
 
-        <span v-if="'last_update' in runtimeStatus">
-            <b-button id="recording_info" :disabled="this.commandSubmitting" variant="info" v-if="!runtimeStatus.recording" class="mr-2" v-on:click="sessionCommand('recording','enabled',true)" size="sm">
-                <i class="fa fa-video"></i> Start Recording</b-button>
-            <b-button :disabled="this.commandSubmitting" variant="warning" v-if="runtimeStatus.recording" class="mr-2" v-on:click="sessionCommand('recording','enabled',false)" size="sm">
-                <i class="fa fa-stop"></i> Stop Recording</b-button>
+        <b-button class="ml-2 mr-2" v-b-popover.hover.top="'WARNING, this will terminate all sessions managed by this task.'" variant="danger" v-on:click="stopSession" size="sm"><i class="fa fa-stop"></i> Abort Task</b-button>
 
-            <b-popover target="recording_info" triggers="hover" placement="right">
-                <template #title>Start Recording </template>
-                <span><span>Click to start recording immediately. Note: This session will automatically record every </span>{{JSON.parse(item.config).episode_record_freq}} episodes</span>.
+        <b-button-group>
+            <span v-if="'last_update' in runtimeStatus">
+                <span id="recording_info">
 
-            </b-popover>
+                    <b-button :disabled="this.commandSubmitting" variant="info" v-if="!runtimeStatus.recording" class="mr-2" v-on:click="sessionCommand('recording','enabled',true)" size="sm">
+                        <i class="fa fa-video"></i> Start Recording</b-button>
+                    <b-button :disabled="this.commandSubmitting" variant="warning" v-if="runtimeStatus.recording" class="mr-2" v-on:click="sessionCommand('recording','enabled',false)" size="sm">
+                        <i class="fa fa-stop"></i> Stop Recording</b-button>
+                </span>
 
-            <b-button :disabled="this.commandSubmitting" v-if="!runtimeStatus.runtime_logging" class="mr-2" v-on:click="sessionCommand('runtime_logging','enabled',true)" size="sm">
-                <i class="fa fas-monitor-heart-rate"></i> Enable Logging</b-button>
-            <b-button :disabled="this.commandSubmitting" variant="warning" v-if="runtimeStatus.runtime_logging" class="mr-2" v-on:click="sessionCommand('runtime_logging','enabled',false)" size="sm">
-                <i class="fa fa-stop"></i> Disable Logging</b-button>
+                <b-popover target="recording_info" triggers="hover" placement="right">
+                    <template #title>Start Recording </template>
+                    <span><span>Click to start recording immediately. Note: This session will automatically record every </span>{{JSON.parse(item.config).episode_record_freq}} episodes</span>.
 
-            <span>
-                <span class="mr-2">Step Per Second</span>
-                <b-form-select style="width:100px" :disabled="this.commandSubmitting" @change="updateStepSpeed()" v-model="stepSpeed" :options="stepSpeedOptions" size="sm"></b-form-select>
-            </span>
+                </b-popover>
 
-        </span>
+                <b-button :disabled="this.commandSubmitting" v-if="!runtimeStatus.runtime_logging" class="mr-2" v-on:click="sessionCommand('runtime_logging','enabled',true)" size="sm">
+                    <i class="fa fas-monitor-heart-rate"></i> Enable Logging</b-button>
+                <b-button :disabled="this.commandSubmitting" variant="warning" v-if="runtimeStatus.runtime_logging" class="mr-2" v-on:click="sessionCommand('runtime_logging','enabled',false)" size="sm">
+                    <i class="fa fa-stop"></i> Disable Logging</b-button>
+
+                <span>
+                    <span class="mr-2">Step Per Second</span>
+                    <b-form-select style="width:100px" :disabled="this.commandSubmitting" @change="updateStepSpeed()" v-model="stepSpeed" :options="stepSpeedOptions" size="sm"></b-form-select>
+                </span>
+
     </span>
+            </b-button-group>
+</span>
 
 </span>
 </template>

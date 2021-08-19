@@ -208,6 +208,42 @@ def api_admin(cmd, name):
     response.headers['Content-Type'] = 'application/json'
     return response
 
+def start_minimal_mode(
+        redis_port="7771", 
+        redis_password=DEFAULT_REDIS_PASSWORD, 
+        ray_address="localhost", 
+        ray_redis_password=None,
+        disable_xvfb=False,
+        skip_ray_start=False,
+        verbose=False):
+    import os
+    
+    services_list = []
+
+    if not disable_xvfb or os.name=='nt':
+        services_list.append('xvfb')
+
+    if not skip_ray_start:
+        services_list.append('ray')
+
+    services_list = services_list + ['redis']
+
+    service_ctx.set_commandline_args({
+        'redis_port': redis_port,
+        'ray_address': ray_address,
+        'ray_redis_password': ray_redis_password,
+        'redis_password':redis_password
+    })
+    service_ctx.prep_services(services_list)
+
+    service_ctx.verbose = verbose
+    service_ctx.auto_restart_enabled = False
+    service_ctx.clean_up()
+    service_ctx.start_all()
+
+def stop_minimal_mode():
+    service_ctx.clean_up()
+    
 
 def main():
     import argparse

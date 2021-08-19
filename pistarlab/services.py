@@ -9,7 +9,7 @@ import time
 from .meta import DEFAULT_REDIS_PASSWORD
 from pathlib import Path
 from typing import Dict
-
+import json
 import psutil
 
 from .config import get_sys_config
@@ -341,11 +341,12 @@ class RayService(SystemServiceBase):
 
 class XVFB(SystemServiceBase):
 
-    def __init__(self, log_root):
+    def __init__(self, root_path, log_root):
         super().__init__("xvfb", log_root)
         self.vdisplay = None
         self.state = "CREATED"
-
+        self.root_path =root_path
+ 
     def kill_all(self):
         try:
             for p in psutil.process_iter(attrs=['pid', 'name']):
@@ -369,8 +370,16 @@ class XVFB(SystemServiceBase):
             self.vdisplay.start()
             self.display = self.vdisplay.new_display
             self.state = "READY"
+            self.save_display_info()
+
         except:
             self.state = "TERMINATED"
+
+    def save_display_info(self):
+        with open(os.path.join(self.root_path,"display_info.json"), 'w') as f:
+            json.dump({
+                'provider': 'xvfb',
+                'id':self.display},f)
 
     def stop(self, block=True):
         try:
@@ -432,7 +441,7 @@ class ServiceContext:
 
     def get_service_instance(self, name):
         if name == "xvfb":
-            return XVFB(log_root=self.log_root)
+            return XVFB(root_path=self.config.root_path,log_root=self.log_root)
         elif name == "ray":
             return RayService(
                 log_root=self.log_root,

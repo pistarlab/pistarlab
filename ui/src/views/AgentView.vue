@@ -1,69 +1,102 @@
 <template>
 <div class="page">
     <div class="page-content">
-    <b-modal id="agent-browser" size="lg" title="File Data Browser" scrollable :hide-footer="true">
-        <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
-        <div class="mb-5"></div>
-    </b-modal>
-    <h1><i class="fas fa-robot"></i> Agent Details</h1>
-    <div v-if="item && item.ident">
+        <b-modal id="agent-browser" size="lg" title="File Data Browser" scrollable :hide-footer="true">
+            <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
+            <div class="mb-5"></div>
+        </b-modal>
+        <h1><i class="fas fa-robot"></i> Agent: <span v-if="item">{{item.ident}}</span></h1>
+        <div v-if="item && item.ident">
 
-        <!-- <b-modal id="def-modal" size="lg">
+            <!-- <b-modal id="def-modal" size="lg">
             <pre v-if="item && item.config">{{ JSON.parse(item.config) }}</pre>
         </b-modal> -->
-        <b-modal id="edit-modal" size="xl" :hide-footer="true" title="Edit Agent">
-            <AgentEdit :uid="uid" @updated="configUpdated()"></AgentEdit>
-        </b-modal>
-        <b-modal id="meta-modal" size="lg">
-            <pre v-if="item && item.meta">{{ JSON.parse(item.meta) }}</pre>
-        </b-modal>
+            <b-modal id="edit-modal" size="xl" :hide-footer="true" title="Edit Agent">
+                <AgentEdit :uid="uid" @updated="configUpdated()"></AgentEdit>
+            </b-modal>
+            <b-modal id="meta-modal" size="lg">
+                <pre v-if="item && item.meta">{{ JSON.parse(item.meta) }}</pre>
+            </b-modal>
 
-        <b-modal id="modal-publish-snapshot" title="Create Snapshot" size="lg">
+            <b-modal id="modal-publish-snapshot" title="Create Snapshot" size="lg">
+                <label for="snapshot_version">Version: (Must be unique, otherwise will overwrite snapshots with same version)</label>
+                <b-form-input id="snapshot_version" v-model="snapshot_version" placeholder="Enter the snapshot version." trim></b-form-input>
+                <div class="mt-1"></div>
 
-            <label for="snapshot_description">Description:</label>
-            <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
-            <div class="mt-1"></div>
-            <label for="snapshot_version">Version:</label>
-            <b-form-input id="snapshot_version" v-model="snapshot_version" placeholder="Enter the snapshot version." trim></b-form-input>
-            <b-button class="mt-2" variant="secondary" v-on:click="publish()" size="sm">Save</b-button>
+                <label for="snapshot_description">Description:</label>
+                <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
 
-            <hr />
-            <div class="mt-2"></div>
-            <h3>Available Snapshots</h3>
-            <div class="mt-2"></div>
-            <b-table :items="snapshots" :fields="pubfields">
-            </b-table>
+                <b-button class="mt-2" variant="secondary" v-on:click="publish()" size="sm">Save</b-button>
 
-            <template v-slot:modal-footer="{ ok }">
-                <b-button variant="primary" @click="ok();">Close</b-button>
-            </template>
-        </b-modal>
-
-        <div class="mt-4"></div>
-
-        <!-- <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button> -->
-
-        <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
-        <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" class="ml-1" size="sm"><i class="fa fa-plus-square"></i> Assign</b-button>
-
-        <b-button variant="secondary" v-b-modal="'edit-modal'" class="ml-1" size="sm"><i class="fa fa-edit"></i> Configure</b-button>
-        <b-button title="Create Snapshot" variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" class="ml-1" size="sm"><i class="fa fa-camera-retro"></i> Snapshot</b-button>
-        <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
-        <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
-        <b-button variant="secondary" class="ml-1" v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
-                <b-button variant="secondary" v-b-modal="'meta-modal'" class="ml-1" size="sm"><i class="fa fa-info-circle"></i> Metadata</b-button>
+                <hr />
+                <div class="mt-2"></div>
+                <b-card>
+                <h3>Current Snapshots</h3>
+                <div class="mt-2"></div>
+                <b-table :items="snapshots" :fields="pubfields">
+                </b-table>
+                </b-card>
+                <template v-slot:modal-footer="{ ok }">
+                    <b-button variant="primary" @click="ok();">Close</b-button>
+                </template>
+            </b-modal>
 
 
-        <div class="mt-4"></div>
-        <b-modal id="errorbox" size="xl">
-            <b-alert show v-if="error != null" variant="danger">
-                <pre>{{error}}</pre>
-                <pre>{{traceback}}</pre>
-            </b-alert>
-        </b-modal>
-        <AgentCard v-if="item" :agent="item" @update="refetch()"></AgentCard>
 
-        <b-card title="Session History">
+            <b-modal id="modal-create-clone" title="Create Clone">
+                <p>
+                    Cloned agents will not include session history or statistics.
+                </p>
+
+                <b-button :disabled="submitting" @click="createClone()">Create Full Clone</b-button>
+                <br/>
+                <br/>
+                <div class="text-center">
+                 <b-button 
+                    class="ml-2" v-if="clonedAgentId" :key="$route.path" :to="`/agent/view/${clonedAgentId}`" 
+                    @click="clonedAgentId = null;graphList=[];$bvModal.hide('modal-create-clone')">
+                 Agent Clone Id: {{clonedAgentId}}
+                </b-button>
+                <span v-else>...</span>
+                </div>
+
+            </b-modal>
+
+
+            <div class="mt-4"></div>
+
+            <!-- <b-button variant="secondary" :to="`/data_browser/?path=agent/${item.ident}`" size="sm">Browse Data</b-button> -->
+
+            <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
+            <b-button-toolbar>
+                <b-button-group>
+            <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`"  size="sm"><i class="fa fa-plus-square"></i> Assign</b-button>
+
+            <b-button variant="secondary" v-b-modal="'edit-modal'"  size="sm"><i class="fa fa-edit"></i> Configure</b-button>
+            <b-button title="Create Snapshot" variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()"  size="sm"><i class="fa fa-camera-retro"></i> Snapshot</b-button>
+            <b-button title="Create Clone" variant="secondary" v-b-modal="'modal-create-clone'"  size="sm"><i class="fa fa-clone"></i> Clone</b-button>
+            <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
+            <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
+            <b-button variant="secondary"  v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
+            <b-button variant="secondary" v-b-modal="'meta-modal'"  size="sm"><i class="fa fa-info-circle"></i> Metadata</b-button>
+                </b-button-group>
+            </b-button-toolbar>
+
+            <div class="mt-4"></div>
+            <b-modal id="errorbox" size="xl">
+                <b-alert show v-if="error != null" variant="danger">
+                    <pre>{{error}}</pre>
+                    <pre>{{traceback}}</pre>
+                </b-alert>
+            </b-modal>
+            <AgentCard v-if="item" :agent="item" @update="refetch()"></AgentCard>
+            <hr/>
+            <div class="mt-4"></div>
+
+            <h3>Session History</h3>
+                       <div class="mt-4 mb-4">
+                Total Steps Experienced: {{lifeSteps}}
+            </div>
             <div style="display: block; position: relative;height:280px;overflow: auto;">
                 <b-button :disabled="selected.length <= 1" v-on:click="runCompare" variant="info" size="sm">
                     <span>Compare: {{ selected.length }}</span>
@@ -116,10 +149,12 @@
                 </b-form-checkbox-group>
 
             </div>
-            <div class="mt-2"></div>
-        </b-card>
+            <div class="mt-4"></div>
 
-        <b-card title="Statistics">
+            <hr />
+            <h3>Statistics</h3>
+ 
+            <hr />
             <b-container fluid>
                 <b-row>
                     <b-col>
@@ -148,10 +183,9 @@
                     </b-col>
                 </b-row>
             </b-container>
-        </b-card>
+        </div>
     </div>
-    </div>
-      <HelpInfo contentId="agents"></HelpInfo>
+    <HelpInfo contentId="agents"></HelpInfo>
 </div>
 </template>
 
@@ -260,6 +294,11 @@ const GET_AGENT = gql `
       ident
       seed
       specId
+      spec{
+          id
+          ident
+          displayedName
+      }
       config
       meta
       created
@@ -323,7 +362,8 @@ export default {
         AgentCard,
         AgentEdit,
         PlotlyVue,
-        DataBrowser    },
+        DataBrowser
+    },
     apollo: {
         // Simple query that will update the 'hello' vue property
         item: {
@@ -338,6 +378,9 @@ export default {
     },
     data() {
         return {
+            clonedAgentId:null,
+            cloneError:null,
+            submitting:false,
 
             taskDetailsList: [],
             fields,
@@ -350,7 +393,7 @@ export default {
             plotBinSize: 0,
             plotStepMax: 0,
             selected: [],
-            traceback:null,
+            traceback: null,
 
             componentFields: [{
                     key: "name",
@@ -376,6 +419,20 @@ export default {
         uid: String,
     },
     computed: {
+        lifeSteps() {
+            if (this.item.sessions == null) {
+                return 0;
+            }
+            let totalSteps = 0
+            for (const session of this.item.sessions.edges) {
+                if (session.node.archived != true) {
+                    if (session.node.parentSessionId == null)
+                        totalSteps += session.node.summary.step_count
+                }
+            }
+            return totalSteps
+
+        },
         config() {
             return JSON.parse(this.item.config)
         },
@@ -634,6 +691,30 @@ export default {
                 })
                 .catch(function (error) {
                     this.error = error;
+                    this.submitting = false;
+                });
+        },
+        createClone() {
+            this.cloneError = null
+            this.submitting = true
+            axios
+                .get(`${appConfig.API_URL}/api/agent/clone/${this.uid}`)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data,null,2))
+                    if ("uid" in response.data){
+                        this.clonedAgentId = response.data.uid
+                        
+                        // this.$router.push({
+                        //         path: '/agent/view/' + ,
+                        //         key:this.$route.path
+                        //     })
+                    }else{
+                         this.cloneError = response.message
+                    }
+                    this.submitting = false;
+                })
+                .catch(function (error) {
+                    this.cloneError = error;
                     this.submitting = false;
                 });
         },

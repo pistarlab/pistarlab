@@ -304,7 +304,7 @@
                 <hr />
 
                 <div class="mt-2 mb-3">
-                    <div class="h-5">Multi Agent Session Configuration <b-button size="sm" variant="white" v-b-modal.modal-config><i class="fa fa-edit"></i></b-button>
+                    <div class="h-5">Multi-Agent Session Configuration <b-button size="sm" variant="white" v-b-modal.modal-config><i class="fa fa-edit"></i></b-button>
                     </div>
 
                 </div>

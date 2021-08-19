@@ -98,8 +98,7 @@
                                                                 v-b-popover.hover.top="session.envSpecId">
                                                                     <div style="color:lightgrey" >
                                                                         
-
-                                                                        <span v-if="session.sessionType == 'RL_MULTIPLAYER_SINGLEAGENT_SESS'"><i class="fas fa-cubes" title="multiagent"></i> </span>
+                                                                        <span  v-if="session.sessionType != 'RL_SINGLEPLAYER_SESS'"><i class="fas fa-list" title="multiagent"></i> </span>
                                                                         <span v-else><i class="fas fa-cube" title="multiagent"></i> </span>
                                                                         {{session.ident}}
                                                                         <i v-if="session.status=='RUNNING'" class="fa fa-circle ml-1" style="color:lightgreen"></i>

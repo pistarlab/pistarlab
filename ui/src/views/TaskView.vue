@@ -1,126 +1,135 @@
 <template>
-<div>
-    <h1>Task Details</h1>
+<div class="page">
+    <div class="page-content">
+        <h1>Task Details</h1>
 
-    <b-modal id="modal-config" title="View config" size="xl">
-        <div>
-            <pre>{{JSON.stringify(taskConfig,null,2)}}</pre>
-        </div>
-    </b-modal>
+        <b-modal id="modal-config" title="View config" size="xl">
+            <div>
+                <pre>{{JSON.stringify(taskConfig,null,2)}}</pre>
+            </div>
+        </b-modal>
 
-    <b-modal id="modal-summary" title="View Summary" size="xl">
-        <pre v-if="task && task.summary">{{JSON.parse(task.summary)}}
-        </pre>
-    </b-modal>
+        <b-modal id="modal-summary" title="View Summary" size="xl">
+            <pre v-if="task && task.summary">{{JSON.parse(task.summary)}}
+            </pre>
+        </b-modal>
 
+        <b-modal id="modal-modify-source" title="TODO">
+            TODO
+        </b-modal>
 
-    <b-modal id="modal-modify-source" title="TODO">
-        TODO    
-    </b-modal>
-
-
-    <b-button-toolbar size="sm" class="mr-1">
-
-        <b-button size="sm" :to="`/data_browser/?path=task/${uid}`">Browse Data</b-button>
-        <b-button size="sm" class="ml-1" v-b-modal.modal-config>View Config</b-button>
-        <b-button size="sm" class="ml-1" v-b-modal.modal-summary>View Summary</b-button>
-        <b-button size="sm" class="ml-1" v-b-toggle.logs variant="info">Log</b-button>
-        <b-button size="sm" class="ml-1" v-if="task.status && task.status == 'RUNNING'" variant="danger" v-on:click="taskControl('STOP')">Abort</b-button>
-        <b-button size="sm" class="ml-1" v-if="task.status && (task.status == 'ABORTED' || task.status == 'TERMINATED')" variant="success" v-on:click="taskControl('RUN')">Run</b-button>
-        <b-button size="sm" class="ml-1" :to="`/task/new/agenttask/${task.ident}`">Copy Task</b-button>
-
-
-    </b-button-toolbar>
-
-    <div class="mt-4"></div>
-    <b-collapse id="logs" class="mt-2">
-        <LogViewer :logStreamUrl="`${appConfig.API_URL}/api/stream/entity_logs/task/${uid}`"> </LogViewer>
-    </b-collapse>
-    <b-container fluid>
-
-        <b-row>
-            <b-col>
-                <b-card class="h-100">
-                    <b-card-text class="pl-2">
-                        <div class="pt-2">
-                            <div class="data_label">UID</div>
-                            <span>{{ uid }}</span>
-                        </div>
-
-                        <div class="pt-2">
-                            <div class="data_label">Creation Time</div>
-                            <span>{{ task.created }}</span>
-                        </div>
-
-                        <div class="pt-2">
-                            <div class="data_label">Status</div>
-                            <div v-if="task.status">
-                                {{ task.status }}
-                                <span class="" v-if="task.status && task.statusMsg">({{ task.statusMsg }})</span>
-                            </div>
-                        </div>
-
-                    </b-card-text>
-                </b-card>
-            </b-col>
-            <b-col>
-                <b-card class="h-100">
-                    <b-card-text>
-                        <div class="pt-2">
-                            <div class="data_label">Parent Task</div>
-                            <div v-if="task.parentTask">
-                                <router-link :to="`/task/view/${task.parentTaskId}`">{{task.parentTaskId}}</router-link>
-                                ({{ task.parentTask.specId }})
-                            </div>
-                            <div v-else>No Parent</div>
-                        </div>
-                        <div class="pt-2">
-                            <div class="data_label">Primary Session</div>
-                            <div v-if="task.primarySessionId">
-                                <router-link :to="`/session/view/${task.primarySessionId}`">{{task.primarySessionId}}</router-link>
-                            </div>
-                            <div v-else>No Primary Session</div>
-                        </div>
-                    </b-card-text>
-                </b-card>
-            </b-col>
-        </b-row>
+        <b-button-toolbar size="sm" class="mr-1">
+ <b-button-group size="sm" class="mr-1">
+            <b-button size="sm"  :to="`/task/new/agenttask/${task.ident}`"><i class="fa fa-copy"></i> Copy</b-button>
+            <b-button size="sm" :to="`/data_browser/?path=task/${uid}`"><i class="fa fa-folder"></i> Files</b-button>
+            <b-button size="sm"  v-b-modal.modal-config>View Config</b-button>
+            <b-button size="sm"  v-b-modal.modal-summary>View Summary</b-button>
+            <b-button size="sm"  v-if="task.status && task.status == 'RUNNING'" variant="danger" v-on:click="taskControl('STOP')"><i class="fa fa-stop"></i> Abort</b-button>
+            <b-button size="sm"  v-if="task.status && (task.status == 'ABORTED' || task.status == 'TERMINATED')" variant="success" v-on:click="taskControl('RUN')"><i class="fa fa-play"></i> Run</b-button>
+ </b-button-group>
+        </b-button-toolbar>
 
         <div class="mt-4"></div>
-        <b-row>
-            <b-col>
-                <div v-if="sessionData.length>0">
-                    <b-card class="mt-3" title="Sessions">
+        <b-alert show variant="warning" v-if="task.status && task.statusMsg">
+            <pre>{{ task.statusMsg }}</pre>
+        </b-alert>
 
-                        <b-table striped hover table-busy :items="sessionData" :fields="fields" :dark="false" :small="false">
+        <b-container fluid>
+
+            <b-row>
+                <b-col cols=2 class="text-center">
+
+                    <div class="pt-2">
+                        <div class="data_label">Task ID</div>
+                        <span>{{ uid }}</span>
+                    </div>
+                    <div class="pt-2">
+                        <div class="data_label">Spec ID</div>
+                        <span>{{ task.specId }}</span>
+                    </div>
+                    <div class="pt-2">
+                        <div class="data_label">Creation Time</div>
+                        <span>{{ task.created }}</span>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="data_label">Status</div>
+                        <div v-if="task.status">
+                            {{ task.status }}
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="data_label">Parent Task</div>
+                        <div v-if="task.parentTask">
+                            <router-link :to="`/task/view/${task.parentTaskId}`">{{task.parentTaskId}}</router-link>
+                            ({{ task.parentTask.specId }})
+                        </div>
+                        <div v-else>No Parent</div>
+                    </div>
+                    <hr />
+                    <div class="pt-2">
+                        <h3>Primary Session</h3>
+                        <div v-if="task.primarySessionId">
+                            <router-link style="font-size:1.4em" :to="`/session/view/${task.primarySessionId}`">{{task.primarySessionId}}</router-link>
+                        </div>
+                        <div v-else>No Primary Session</div>
+                    </div>
+
+                </b-col>
+
+                <b-col>
+                    
+                    <b-card title="Task Log">
+                        <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/entity_logs/task/${uid}`"> </LogViewer>
+                    </b-card>
+                </b-col>
+            </b-row>
+        </b-container>
+        <b-container fluid>
+            <b-row>
+                <b-col>
+                    <div v-if="sessionData.length>0">
+                        <div class="mb-4"></div>
+                        <div class="mb-4"></div>
+                        <div class="mb-4"></div>
+                        <b-card class="mt-3" title="Sessions">
+                            <b-card-text>
+
+                                <b-table striped hover table-busy :items="sessionData" :fields="fields" :dark="false" :small="false">
+                                    <template v-slot:cell(link)="data">
+                                        <!-- `data.value` is the value after formatted by the Formatter -->
+                                        <router-link :to="`/session/view/${data.item.ident}`">{{ data.item.ident }}</router-link>
+                                    </template>
+                                </b-table>
+                            </b-card-text>
+                        </b-card>
+                    </div>
+                </b-col>
+            </b-row>
+
+            <div class="mt-4"></div>
+            <b-row>
+                <b-col>
+                    <b-card v-if="subtaskData.length > 0" title="Sub Tasks">
+                        <b-table hover table-busy :items="subtaskData" :fields="subtaskfields" :dark="false" :small="false">
                             <template v-slot:cell(link)="data">
                                 <!-- `data.value` is the value after formatted by the Formatter -->
-                                <router-link :to="`/session/view/${data.item.ident}`">{{ data.item.ident }}</router-link>
+                                <router-link :to="`/task/view/${data.item.ident}`">{{
+                  data.item.ident
+                }}</router-link>
                             </template>
                         </b-table>
                     </b-card>
-                </div>
-            </b-col>
-        </b-row>
+                    <div v-else>
+                        No SubTasks
+                    </div>
+                </b-col>
+            </b-row>
+        </b-container>
 
         <div class="mt-4"></div>
-        <b-row>
-            <b-col>
-                <b-card v-if="subtaskData.length > 0" title="Sub Tasks">
-                    <b-table hover table-busy :items="subtaskData" :fields="subtaskfields" :dark="false" :small="false">
-                        <template v-slot:cell(link)="data">
-                            <!-- `data.value` is the value after formatted by the Formatter -->
-                            <router-link :to="`/task/view/${data.item.ident}`">{{
-                  data.item.ident
-                }}</router-link>
-                        </template>
-                    </b-table>
-                </b-card>
-            </b-col>
-        </b-row>
-    </b-container>
-
-    <div class="mt-4"></div>
+    </div>
+    <HelpInfo contentId="tasks"></HelpInfo>
 </div>
 </template>
 
@@ -188,6 +197,7 @@ const GET_TASK = gql `
       ident
       status
       statusMsg
+      specId
 
       config
       created

@@ -8,10 +8,11 @@ import datetime
 from unittest.case import skip
 import requests
 from typing import List
-
+import time
 import pkg_resources
 from redis import StrictRedis
 from sqlalchemy import orm as db_orm
+from sqlalchemy.orm.base import NON_PERSISTENT_OK
 
 from .api_schema import schema
 from .config import SysConfig, get_sys_config
@@ -29,6 +30,7 @@ from .utils.logging import (new_entity_logger, new_scoped_logger,
                             setup_default_logging, setup_logging)
 from .utils.misc import gen_shortuid, generate_seed
 from .utils.snapshot_helpers import make_tarfile, extract_tarfile
+from .utils.env_helpers import  get_wrapped_env_instance
 
 
 def get_entry_point_from_class(cls):
@@ -52,6 +54,21 @@ def get_task_spec_from_class(cls):
     return spec
 
 
+def get_display_info(config:SysConfig):
+    try:
+        with open(os.path.join(config.root_path,"display_info.json"),"r") as f:
+            display_info = json.load(f)
+        display_id = display_info.get("id")
+        if display_id is not None:
+            logging.info(f"Change Display :{os.environ.get('DISPLAY')} to :{display_id}")
+            os.environ['DISPLAY']=f":{display_id}"
+        else:
+            logging.error("Display ID not found")
+        return display_info
+    except Exception as e:
+        logging.error(f"ERROR loading display info {e}")
+        return {}
+
 PISTARLAB_INIT_KEY = "pistarlab_init"
 
 
@@ -69,11 +86,15 @@ class SysContext:
         self._initialized = False
         self._closed = False
         self.config: SysConfig = get_sys_config()
-
         self.default_logger = logging
 
+        self.display_info = get_display_info(self.config)
+
+  
     def __del__(self):
         self.close()
+
+    
 
     def get_data_context(self) -> DataContext:
         if self._data_context is None:
@@ -101,6 +122,14 @@ class SysContext:
             redis_client=self.get_redis_client(),
             sub_id=sub_id)
 
+    def start_minimal_mode(self):
+        import pistarlab.launcher as launcher
+        launcher.start_minimal_mode()
+
+    def stop_minimal_mode(self):
+        import pistarlab.launcher as launcher
+        launcher.stop_minimal_mode()
+
     def get_scopped_logger(self, scope_name, level=logging.INFO):
         return new_scoped_logger(path=self.config.log_root, scope_name=scope_name, level=level, redis_client=self.get_redis_client())
 
@@ -122,13 +151,21 @@ class SysContext:
                           redis_client=self.get_redis_client(),
                           verbose=self.verbose)
 
+            self.extension_manager = ExtensionManager(
+                'pistarlab',
+                workspace_path=self.config.workspace_path,
+                data_path=self.config.data_path,
+                logger=self.get_scopped_logger("extension_manager"))
+            self.extension_manager.load_extensions()
+
+
             # Set flag
             self._initialized = True
 
         else:
             logging.debug("Already initalized, not reinitializing.")
 
-    def initialize(self, force=False, execution_context_config=None):
+    def initialize(self, force=False, execution_context_config=None,log_mode=logging.INFO):
         """
         Initializes pistarlab. Should only be on run by primary instance to avoid race
         """
@@ -136,7 +173,7 @@ class SysContext:
             if execution_context_config is not None:
                 logging.info("OVERRIDING EXECUTION CONTEXT CONFIG")
                 self.config.execution_context_config = execution_context_config
-            setup_default_logging(logging.DEBUG)
+            setup_default_logging(log_mode)
             logging.debug("Initializing Context")
 
             #########################################
@@ -153,8 +190,7 @@ class SysContext:
                     raise Exception(
                         "Not initialized {}".format(is_initialized))
             except Exception as e:
-                logging.info(
-                    "First time running pistarlab context. {}".format(e))
+                logging.info("First time running pistarlab context.")
                 self.get_redis_client().set(PISTARLAB_INIT_KEY, "true")
                 first_run = True
 
@@ -319,6 +355,9 @@ class SysContext:
         query = self.get_dbsession().query(AgentSpecModel)
         return [v for v in query.all() if v.disabled==False]
 
+    def list_agent_spec_ids(self) -> List[str]:
+        return [v.id for v in self.list_agent_specs() if v.disabled==False]
+
     def get_agent_spec(self, id) -> AgentSpec:
         query = self.get_dbsession().query(AgentSpecModel)
         return query.get(id)
@@ -328,7 +367,11 @@ class SysContext:
         return query.get(id)
 
     # Agent instances
-    def list_agents(self) -> List[str]:
+    def list_agents(self, include_archive=False) -> List[str]:
+        query = self.get_dbsession().query(AgentModel)
+        return [v.id for v in query.all() if include_archive or v.archived is False]
+
+    def list_agents_detailed(self) -> List[str]:
         query = self.get_dbsession().query(AgentModel)
         return [{'id': v.id, 'spec_id': v.spec_id, 'sessions': [s.id for s in v.sessions], 'components':[s.name for s in v.components]} for v in query.all()]
 
@@ -351,9 +394,13 @@ class SysContext:
         return query.get(id)
 
     # Tasks
-    def list_tasks(self) -> List[Any]:
+    def list_tasks(self,status_filter=None) -> List[Any]:
         query = self.get_dbsession().query(TaskModel)
-        return [{'id': v.id, 'spec_id': v.spec_id, 'parent_task_id': v.parent_task_id, 'status': v.status, 'sessions': [s.id for s in v.sessions], 'child_tasks':[s.id for s in v.child_tasks]} for v in query.all()]
+        if status_filter is not None:
+            tasks = [v for v in query.all() if v.status in status_filter]
+        else:
+            tasks = query.all()
+        return [{'id': v.id, 'spec_id': v.spec_id, 'parent_task_id': v.parent_task_id, 'status': v.status, 'sessions': [s.id for s in v.sessions], 'child_tasks':[s.id for s in v.child_tasks]} for v in tasks]
 
     # Tasks
     def list_tasks_detailed(self) -> List[str]:
@@ -362,6 +409,14 @@ class SysContext:
 
     # Sessions
     def list_sessions(self, status_filter=None) -> List[str]:
+        query = self.get_dbsession().query(SessionModel)
+        sessions =  [v.id for v in query.all() if v.archived is False]
+        if status_filter is not None:
+            filtered_sessions = [s for s in sessions if s['status'] in status_filter]
+            return filtered_sessions
+        else:
+            return sessions
+    def list_sessions_detailed(self, status_filter=None) -> List[str]:
         query = self.get_dbsession().query(SessionModel)
         sessions =  [{'id': v.id, 'env_spec_id': v.env_spec_id, 'task_id': v.task_id, 'agent_id': v.agent_id, 'status': v.status} for v in query.all()]
         if status_filter is not None:
@@ -401,22 +456,37 @@ class SysContext:
     # Environments
     def list_environments(self) -> List[str]:
         query = self.get_dbsession().query(EnvironmentModel)
-        return [v.id for v in query.all() if v.disabled == False]
+        return [v for v in query.all() if v.disabled == False]
+
+    def list_environment_ids(self) -> List[str]:
+        return [v.id for v in self.list_environments()]
 
     def get_environment(self, id) -> EnvironmentModel:
         query = self.get_dbsession().query(EnvironmentModel)
         return query.get(id)
 
-
-
     # Environment Specs
+
     def list_env_specs(self) -> List[str]:
         query = self.get_dbsession().query(EnvSpecModel)
-        return [v.id for v in query.all() if v.environment.disabled == False]
+        return [v for v in query.all() if v.environment.disabled == False]
+
+    def list_env_spec_ids(self) -> List[str]:
+        return [v.id for v in self.list_env_specs()]
 
     def get_env_spec(self, id) -> EnvSpec:
         query = self.get_dbsession().query(EnvSpecModel)
         return query.get(id)
+# 
+    def get_env_spec_instance(self,spec_id,env_kwargs={}):
+        spec = self.get_env_spec(spec_id)
+        init_env_kwargs = spec.config['env_kwargs']
+        kwargs = merged_dict(init_env_kwargs,env_kwargs)
+        default_wrappers = spec.config['default_wrappers']
+        return get_wrapped_env_instance(
+            entry_point = spec.entry_point,
+            kwargs = kwargs,
+            wrappers =default_wrappers)
 
     def make_env(self, spec_id):
         from .utils import env_helpers
@@ -914,6 +984,20 @@ class SysContext:
         with open(self.config.snapshot_index_path, "r") as f:
             return json.load(f)
 
+    def clone_agent(
+            self,
+            entity_id,
+            submitter_id="default"):
+
+        snapshot_data = self.create_agent_snapshot(
+            entity_id=entity_id,
+            submitter_id=submitter_id,
+            snapshot_description="Agent Clone",
+            snapshot_version=f"PRECLONE_{time.time()}")
+        agent = self.create_agent_from_snapshot(snapshot_data['snapshot_id'])
+        return agent
+
+
     def create_agent_snapshot(
             self,
             entity_id,
@@ -945,6 +1029,13 @@ class SysContext:
                 'env_spec_config': s.env_spec_config,
                 'summary': s.summary})
 
+        snapshot_id = "{}_{}_{}_{}_{}".format(
+            entity_type, 
+            spec_id, 
+            submitter_id, 
+            seed, 
+            snapshot_version)
+
         snapshot_data = {
             'id': entity_id,
             'seed': seed,
@@ -953,13 +1044,15 @@ class SysContext:
             'submitter_id': submitter_id,
             'creation_time': str(current_timestamp),
             'meta': meta,
-            'notes': notes,
+            'notes': f"Cloned from {entity_id}.  {notes}",
             'last_checkpoint': last_checkpoint,
             'snapshot_description': snapshot_description,
             'snapshot_version': snapshot_version,
             'session_data': session_data,
-            'config': config}
-        
+            'config': config,
+            'snapshot_id':snapshot_id}
+
+       
         temp_dir = tempfile.mkdtemp()
 
         # Add Config

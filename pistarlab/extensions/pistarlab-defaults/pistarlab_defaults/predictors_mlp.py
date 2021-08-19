@@ -67,7 +67,7 @@ class PolicyModel:
             action_num=action_num,
             hidden_nodes=hidden_nodes)
 
-        self.policy_optimizer = optim.Adam(self.net.parameters(), lr=learning_rate, eps=1e-3)
+        self.policy_optimizer = optim.Adam(self.net.parameters(), lr=learning_rate)#, eps=1e-3)
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.net.to(self.device)
         self.update_counter = 0
@@ -90,7 +90,7 @@ class ValueModel:
             hidden_nodes=hidden_nodes)
 
         self.value_loss_fn = torch.nn.MSELoss(reduction='sum')
-        self.value_optimizer = optim.Adam(self.net.parameters(), lr=learning_rate, eps=1e-3)
+        self.value_optimizer = optim.Adam(self.net.parameters(), lr=learning_rate)
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.net.to(self.device)
         self.update_counter = 0
@@ -116,6 +116,7 @@ class PolicyEstimatorMLP:
         return choice, action_probs
 
     def update(self, ob, advantage, action):
+        self.model.policy_optimizer.zero_grad()
         ob = ob.astype("float32")
         ob = torch.from_numpy(ob).to(self.model.device)
 
@@ -136,9 +137,9 @@ class PolicyEstimatorMLP:
         loss = -torch.mean(torch.log(selected_action_probs) * advantage)
 
         # loss = torch.mean(torch.log(selected_action_probs) * advantage)
-        self.model.policy_optimizer.zero_grad()
+        
         loss.backward()
-
+        clip_grad_norm_(self.model.net.parameters(),40)
         self.model.policy_optimizer.step()
 
         self.model.update_counter += 1
@@ -161,6 +162,7 @@ class ValueEstimatorMLP:
         return np.squeeze(val)
 
     def update(self, ob, target):
+        self.model.value_optimizer.zero_grad()
         ob = ob.astype("float32")
         target = np.float32(target)
 
@@ -177,10 +179,10 @@ class ValueEstimatorMLP:
 
         # assert(value_estimate.ndim == 2)
 
-        loss = self.model.value_loss_fn(value_estimate, target)
-        self.model.value_optimizer.zero_grad()
+        loss = 0.5 * 0.5 * self.model.value_loss_fn(value_estimate, target)
+        
         loss.backward()
-        clip_grad_norm_(self.model.net.parameters(),0.01)
+        clip_grad_norm_(self.model.net.parameters(),40)
         self.model.value_optimizer.step()
 
         self.model.update_counter += 1

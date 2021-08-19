@@ -1,7 +1,6 @@
 <template>
 <div>
-    <h1><i class="fa fa-cubes"></i> Multi Agent Session</h1>
-    <hr />
+    <h1><i class="fa fa-cubes"></i> Multi-Agent Session: <span v-if="item">{{item.ident}}</span></h1>
 
     <b-modal id="def-modal" size="lg">
         <div>Config</div>
@@ -16,7 +15,7 @@
                 <i class="fa fa-copy"></i> Copy Session
             </b-button>
             <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
-                     <SessionRuntimeController :item="item"></SessionRuntimeController>
+            <SessionRuntimeController :item="item"></SessionRuntimeController>
 
         </b-button-group>
         <b-button-group class="ml-auto">
@@ -38,41 +37,48 @@
         <LogViewer title="Session Log" :logStreamUrl="`${appConfig.API_URL}/api/stream/entity_logs/session/${uid}`"> </LogViewer>
     </b-collapse>
     <b-container fluid>
-        <b-card>
 
-            <b-row>
-                <b-col>
-                    <b-alert v-if="message" show variant="warning">{{ message }}</b-alert>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col>
+        <b-row>
+            <b-col>
+                <b-alert v-if="message" show variant="warning">{{ message }}</b-alert>
+            </b-col>
+        </b-row>
+
+        <div class="mt-4"></div>
+
+        <b-row class="text-center">
+            <b-col cols=2>
+                <div>
                     <div class="data_label">Session Id</div>
-                    <span>{{item.ident}}
-                    </span>
-                </b-col>
-
-                <b-col>
+                    <h1>{{item.ident}}
+                    </h1>
+                </div>
+                <div class="mt-3">
+                </div>
+                <div>
                     <div class="data_label">Task Id</div>
                     <span>
                         <router-link :to="`/task/view/${task.ident}`">{{
                     task.ident
                   }}</router-link>
                     </span>
-                </b-col>
-
-                <b-col>
+                </div>
+                <div class="mt-3">
+                </div>
+                <div>
                     <div class="data_label">State</div>
                     <span>{{ item.status }}</span>
-                </b-col>
-
-                <b-col>
+                </div>
+                <div class="mt-3">
+                </div>
+                <div>
 
                     <div class="data_label ">Creation Time</div>
                     <span>{{ item.created }}</span>
-                </b-col>
-
-                <b-col>
+                </div>
+                <div class="mt-3">
+                </div>
+                <div>
                     <div class="data_label">Runtime (seconds)</div>
                     <span v-if="item && item.summary">{{
                                         timelength(
@@ -83,206 +89,203 @@
                                         )
                                         }}</span>
 
-                </b-col>
-
-                <!-- <b-col>
-                <div class="data_label">Comment</div>
-                <span v-if="item.comments">{{ item.comments }}</span>
-                <span v-else>+</span>
-            </b-col> -->
-
-            </b-row>
-        </b-card>
-        <div class="mt-4"></div>
-
-        <b-row class="text-center">
-
-            <b-col class="d-flex justify-content-around">
-                <b-card>
-                    <div>
-                        <h3>Environment</h3>
-
-                        <div class="text-center">
-                            <div>
-                                <router-link :to="`/env_spec/view/${item.envSpecId }`"> {{item.envSpecId }}</router-link>
-                            </div>
-                            <div>
-                                <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpecId}`" alt=""  style="height:100%;max-width:400px"  />
-                                <StreamView v-if="playingLive" :uid="uid" />
-                                <div v-if="playingLive" style="color:red;font-weight:900">Live</div>
-
-                                <video v-else-if="playingEpisode" loop autoplay controls style="width:100%">
-                                    <source :src="videoURL" type="video/mp4">
-                                </video>
-
-                                <!-- <img class="feature-image" :src="imageURL" @error="imageError" height="300px" alt="No Preview Available" /> -->
-                            </div>
-                            <div class="mt-2">
-                                <b-button size="sm" v-if="!playingLive && liveAvailable" @click="startLive()" variant="success"><i class="fa fa-live"></i>Stream Live</b-button>
-
-                                <b-button size="sm" v-if="!playingEpisode && maxEpisode" @click="startEpisode()" variant="success"><i class="fa fa-play"></i> Episode {{maxEpisode}}</b-button>
-                                <span v-if="playingEpisode" class="data_label mr-1">
-
-                                </span>
-
-                                <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i> Episode {{ maxEpisode }}</b-button>
-                                <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i></b-button>
-                            </div>
-
-                            <div class="mt-2">
-                                <div v-if="maxEpisode">
-                                    <router-link :to="`/episode/view/${item.ident}?episodeId=${maxEpisode}`">Total Recorded episodes: {{ totalRecordedEpisodes }}</router-link>
-                                </div>
-                                <div v-else-if="!loadingEpisodeData">
-                                    No Episodes Recorded
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </b-card>
-
+                </div>
             </b-col>
 
-            <b-col class="d-flex justify-content-around">
-                <b-card>
-                    <div>
-                        <h3> Player Sessions</h3>
+            <b-col cols=10>
+                <b-container fluid>
+                    <b-row>
+                        <b-col cols=4 class="text-center">
+                            <div>
+                                <div class="text-center">
+                                    <div class="mb-2">
+                                        <router-link class="h3" :to="`/env_spec/view/${item.envSpecId }`"> {{item.envSpec.displayedName }}</router-link>
+                                    </div>
+                                    <div>
+                                        <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpecId}`" alt="" style="height:100%;max-width:400px" />
+                                        <StreamView v-if="playingLive" :uid="uid" />
+                                        <div v-if="playingLive" style="color:red;font-weight:900">Live</div>
 
-                        <div v-if="Object.keys(childSessions).length > 0">
-                            <b-table striped hover table-busy :items="childSessions" :fields="fields">
-                                <template v-slot:cell(ident)="data">
-                                    <!-- `data.value` is the value after formatted by the Formatter -->
-                                    <router-link :to="`/session/view/${data.item.ident}`">{{ data.item.ident }}</router-link>
-                                </template>
+                                        <video v-else-if="playingEpisode" loop autoplay controls style="width:100%">
+                                            <source :src="videoURL" type="video/mp4">
+                                        </video>
 
-                                <template v-slot:cell(agentId)="data">
-                                    <!-- `data.value` is the value after formatted by the Formatter -->
-                                    <span v-if="data.item.agent">
-                                        <router-link :to="`/agent/view/${data.item.agent.ident}`">{{ data.item.agent.ident }}</router-link> ({{ data.item.agent.specId }})
-                                    </span>
-                                </template>
-                                <template v-slot:cell(taskId)="data">
-                                    <!-- `data.value` is the value after formatted by the Formatter -->
-                                    <router-link :to="`/task/view/${data.item.task.ident}`">{{ data.item.task.ident }}</router-link>
-                                </template>
-                            </b-table>
-                            <p>{{ error }}</p>
-                        </div>
+                                        <!-- <img class="feature-image" :src="imageURL" @error="imageError" height="300px" alt="No Preview Available" /> -->
+                                    </div>
+                                    <div class="mt-2">
+                                        <b-button size="sm" v-if="!playingLive && liveAvailable" @click="startLive()" variant="success"><i class="fa fa-live"></i>Stream Live</b-button>
 
-                    </div>
-                </b-card>
+                                        <b-button size="sm" v-if="!playingEpisode && maxEpisode" @click="startEpisode()" variant="success"><i class="fa fa-play"></i> Episode {{maxEpisode}}</b-button>
+                                        <span v-if="playingEpisode" class="data_label mr-1">
+
+                                        </span>
+
+                                        <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i> Episode {{ maxEpisode }}</b-button>
+                                        <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger"><i class="fa fa-stop"></i></b-button>
+                                    </div>
+
+                                    <div class="mt-2">
+                                        <div v-if="maxEpisode">
+                                            <router-link :to="`/episode/view/${item.ident}?episodeId=${maxEpisode}`">Total Recorded episodes: {{ totalRecordedEpisodes }}</router-link>
+                                        </div>
+                                        <div v-else-if="!loadingEpisodeData">
+                                            No Episodes Recorded
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </b-col>
+
+                        <b-col class="d-flex justify-content-around">
+                            <div>
+                                <h3> Agent Sessions</h3>
+
+                                <div v-if="Object.keys(childSessions).length > 0">
+                                    <b-card>
+
+                                        <b-table striped hover table-busy :items="childSessions" :fields="fields">
+                                            <template v-slot:cell(ident)="data">
+                                                <!-- `data.value` is the value after formatted by the Formatter -->
+                                                
+                                                
+                                                <router-link :to="`/session/view/${data.item.ident}`">{{ data.item.ident }}</router-link>
+                                            </template>
+
+                                            <template v-slot:cell(agentId)="data">
+                                                <!-- `data.value` is the value after formatted by the Formatter -->
+                                                <span v-if="data.item.agent">
+                                                    <b-img  style="max-height:50px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 mr-2" ></b-img> 
+                                                    <router-link :to="`/agent/view/${data.item.agent.ident}`">{{ data.item.agent.ident }}</router-link> ({{ data.item.agent.specId }})
+                                                </span>
+                                            </template>
+                                            <template v-slot:cell(taskId)="data">
+                                                <!-- `data.value` is the value after formatted by the Formatter -->
+                                                <router-link :to="`/task/view/${data.item.task.ident}`">{{ data.item.task.ident }}</router-link>
+                                            </template>
+                                        </b-table>
+                                    </b-card>
+                                    <p>{{ error }}</p>
+                                </div>
+
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-container>
+
             </b-col>
         </b-row>
     </b-container>
 
-    <b-card title="Statistics">
-        <b-container fluid>
-            <h3></h3>
-            <div class="mt-3"></div>
-            <div v-if="item.summary">
-                <b-row>
-                    <b-col>
+    <b-container fluid>
 
-                        <div>
-                            <div class="stat_label">Avg Reward/Episode</div>
-                            <span class="stat_value">{{
+        <h4>Statistics</h4>
+        <div class="mt-3"></div>
+        <div v-if="item.summary">
+            <b-row>
+                <b-col>
+
+                    <div>
+                        <div class="stat_label">Avg Reward/Episode</div>
+                        <span class="stat_value">{{
                           formatNum(item.summary.mean_reward_per_episode, 4)
                         }}</span>
-                        </div>
-                    </b-col>
-                    <b-col>
-                        <div>
-                            <div class="stat_label">Avg Reward/Step</div>
-                            <span class="stat_value">{{
+                    </div>
+                </b-col>
+                <b-col>
+                    <div>
+                        <div class="stat_label">Avg Reward/Step</div>
+                        <span class="stat_value">{{
                           formatNum(item.summary.mean_reward_per_step, 4)
                         }}</span>
+                    </div>
+                </b-col>
+                <b-col>
+                    <div>
+                        <div class="stat_label">
+                            Avg Reward/Step (Windowed)
                         </div>
-                    </b-col>
-                    <b-col>
-                        <div>
-                            <div class="stat_label">
-                                Avg Reward/Step (Windowed)
-                            </div>
-                            <span class="stat_value">{{
+                        <span class="stat_value">{{
                           formatNum(item.summary.reward_mean_windowed, 4)
                         }}</span>
-                        </div>
-                    </b-col>
-                    <b-col>
-                        <div>
-                            <div class="stat_label">Steps/Episode</div>
-                            <span class="stat_value">{{
+                    </div>
+                </b-col>
+                <b-col>
+                    <div>
+                        <div class="stat_label">Steps/Episode</div>
+                        <span class="stat_value">{{
                           formatNum(item.summary.mean_steps_per_episode, 4)
                         }}</span>
-                        </div>
-                    </b-col>
+                    </div>
+                </b-col>
 
-                    <b-col>
+                <b-col>
 
-                        <div>
-                            <div class="stat_label">Completed Episodes</div>
-                            <span class="stat_value">{{
+                    <div>
+                        <div class="stat_label">Completed Episodes</div>
+                        <span class="stat_value">{{
                           item.summary.episode_count
                         }}</span>
-                        </div>
-                    </b-col>
-                    <b-col>
-                        <div>
-                            <div class="stat_label">Total Reward</div>
-                            <span class="stat_value">{{
+                    </div>
+                </b-col>
+                <b-col>
+                    <div>
+                        <div class="stat_label">Total Reward</div>
+                        <span class="stat_value">{{
                           formatNum(item.summary.reward_total)
                         }}</span>
-                        </div>
-                    </b-col>
+                    </div>
+                </b-col>
 
-                    <b-col>
-                        <div>
-                            <div class="stat_label">Total Steps</div>
-                            <span class="stat_value">{{
+                <b-col>
+                    <div>
+                        <div class="stat_label">Total Steps</div>
+                        <span class="stat_value">{{
                           item.summary.step_count
                         }}</span>
-                        </div>
+                    </div>
 
-                    </b-col>
-                    <b-col>
+                </b-col>
+                <b-col>
 
-                        <div>
-                            <div class="stat_label">Steps/Second</div>
-                            <span class="stat_value">{{
+                    <div>
+                        <div class="stat_label">Steps/Second</div>
+                        <span class="stat_value">{{
                           formatNum(item.summary.steps_per_second, 4)
                         }}</span>
-                        </div>
-
-                    </b-col>
-                </b-row>
-            </div>
-            <div v-else>
-                <b-row>
-                    <b-col>
-                        Summary data is missing
-                    </b-col>
-                </b-row>
-            </div>
-            <div class="mt-4"></div>
-
-            <div class="mt-4"></div>
-
-            <b-row>
-                <b-col cols=3 v-for="graph in graphList" :key="graph.key">
-
-                    <div v-if="graph.graphData">
-
-                        <div v-if="graph.graphData.data && (graph.graphData.data.length > 0 ) && graph.graphData.data[0] && graph.graphData.data[0].x.length > 0">
-                            <PlotlyVue :data="graph.graphData.data" :layout="graph.graphData.layout" :display-mode-bar="false"></PlotlyVue>
-                        </div>
-
                     </div>
 
                 </b-col>
             </b-row>
-        </b-container>
-    </b-card>
+        </div>
+        <div v-else>
+            <b-row>
+                <b-col>
+                    Summary data is missing
+                </b-col>
+            </b-row>
+        </div>
+        <div class="mt-4"></div>
+    </b-container>
+    <div class="mt-4"></div>
+    <hr/>
+    <b-container fluid class="mt-4">
+
+        <b-row>
+            <b-col cols=3 v-for="graph in graphList" :key="graph.key">
+
+                <div v-if="graph.graphData">
+
+                    <div v-if="graph.graphData.data && (graph.graphData.data.length > 0 ) && graph.graphData.data[0] && graph.graphData.data[0].x.length > 0">
+                        <PlotlyVue :data="graph.graphData.data" :layout="graph.graphData.layout" :display-mode-bar="false"></PlotlyVue>
+                    </div>
+
+                </div>
+
+            </b-col>
+        </b-row>
+    </b-container>
 
 </div>
 </template>

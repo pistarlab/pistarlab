@@ -3,7 +3,7 @@
     <b-modal id="agentnew" size="xl" :hide-header="true" :hide-footer="true">
         <AgentNew :specId="agentSpec.ident" @agentCreated="agentCreated($event)"></AgentNew>
     </b-modal>
-    <h1><i class="fa fa-robot"></i> Agent Spec</h1>
+    <h1><i class="fa fa-robot"></i> Agent Spec: <span v-if="agentSpec">{{agentSpec.displayedName}}</span></h1>
     <div class="mt-4"></div>
     <b-button size="sm" :disabled=agentSpec.disabled v-b-modal:agentnew variant="primary">New Instance</b-button>
     <div class="mt-2"></div>
@@ -14,8 +14,12 @@
             
             <b-row>
                 <b-col>
+                                        <div class="pt-2">
+                        <div class="data_label">Name</div>
+                        <span>{{ agentSpec.displayedName }}</span>
+                    </div>
                     <div class="pt-2">
-                        <div class="data_label">Agent Spec</div>
+                        <div class="data_label">Spec Id</div>
                         <span>{{ agentSpec.ident }}</span>
                     </div>
                     <div class="pt-2">
@@ -74,6 +78,7 @@ const GET_AGENT_SPEC = gql `
     agentSpec(ident: $ident) {
       id
       ident
+      displayedName
       description
       extensionId
       version

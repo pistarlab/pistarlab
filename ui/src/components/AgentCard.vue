@@ -1,112 +1,120 @@
 <template>
 <div>
-    <b-card no-body header-bg-variant="info" header-text-variant="white">
-        <template v-slot:header>
-            <div class="custom-card-header mb-2">{{ agent.ident }}</div>
-        </template>
-        <b-card-text class="h-100 mt-4 mb-4">
-            <b-row>
-                <b-col>
-                    <div class="text-center">
-                        <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image"  style="max-width:120px;"></b-card-img>
-                    </div>
-                    <div class="ml-4 mt-2">
 
-                        <div>
-                            <b-modal id="edit-tags" title="edit tags" :hide-footer="true">
-                                <b-input-group>
-                                    <b-input v-model="newTag" style="width:50px" placeholder="Enter a tag" />
-                                    <b-button class="ml-2" variant="primary" v-b-modal:edit-tags size="sm" @click="modifyTag('add',newTag)">Add</b-button>
-                                </b-input-group>
-                                <div class="mt-2">
-                                    <span v-for="(tag,id) in tagList" v-bind:key="id" variant="tag" class="mr-2">
-                                        {{tag}} (<b-link @click="modifyTag('remove',tag)">remove</b-link>)
-                                        <span v-if="id != tagList.length-1">,
-                                        </span>
+    <b-container fluid>
+        <b-row>
+            <b-col>
+                <div class="text-center">
+                    <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="max-width:120px;"></b-card-img>
+                </div>
+                <div class="ml-4 mt-2">
+
+                    <div>
+                        <b-modal id="edit-tags" title="edit tags" :hide-footer="true">
+                            <b-input-group>
+                                <b-input v-model="newTag" style="width:50px" placeholder="Enter a tag" />
+                                <b-button class="ml-2" variant="primary" v-b-modal:edit-tags size="sm" @click="modifyTag('add',newTag)">Add</b-button>
+                            </b-input-group>
+                            <div class="mt-2">
+                                <span v-for="(tag,id) in tagList" v-bind:key="id" variant="tag" class="mr-2">
+                                    {{tag}} (<b-link @click="modifyTag('remove',tag)">remove</b-link>)
+                                    <span v-if="id != tagList.length-1">,
                                     </span>
-                                </div>
-
-                            </b-modal>
-                            Tags:
-                            <b-badge pill v-for="(tag,id) in tagList" v-bind:key="id" variant="tag" class="mr-1">{{tag}}</b-badge>
-                            <b-link variant="white" v-b-modal:edit-tags size="sm"><i class="fa fa-edit"></i></b-link>
-                        </div>
-                        <div class="mt-2">
-                            <b-modal id="edit-notes" title="edit notes" @ok="updateNotes()">
-                                <b-input-group>
-                                    <b-textarea v-model="notes" placeholder="Notes" />
-                                </b-input-group>
-                            </b-modal>
-
-                            Notes: <b-link variant="white" size="sm" v-b-modal:edit-notes @click="loadNotes()"><i class="fa fa-edit"></i></b-link>
-                            <p>{{agent.notes}}</p>
-                        </div>
-                        <div class="mt-2">
-                            <b-button title="archive" v-if="agent && !agent.archived" variant="secondary" pill @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
-                            <b-button title="restore from archive" v-if="agent && agent.archived" variant="secondary" pill @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
-                        </div>
-                    </div>
-                </b-col>
-                <b-col>
-
-                    <div class="small">
-                        <h4>Details</h4>
-                        <div class="data_label mt-2">Spec Id: </div>
-                        <b-link target="_blank" :to="`/agent_spec/${agent.specId}`">{{ agent.specId }}</b-link>
-                        <div class="data_label mt-2">Seed: </div>
-                        {{agent.seed}}
-                        <div class="data_label mt-2">Created: </div>{{ agent.created }}
-                        <div class="data_label mt-2">Last Checkpoint Id: </div>{{ lastCheckpoint }}
-
-                    </div>
-
-                </b-col>
-                <b-col>
-                    <h4 id="interface_label">Interfaces</h4>
-                    <b-popover target="interface_label" triggers="hover" placement="left">
-                        <template #title>Interfaces</template>
-                        Interfaces define how an agent can interact with an environment. Agents that support multiple interfaces can interact with environments with different obvservation/action spaces. For example: an RL agent that can learn from prior gathered experiences as well as run on the environment directly.
-                        <a href="http://www.google.com">learn more</a>
-                    </b-popover>
-                    <div class="small">
-                        <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
-                            <span>
-                                <b>{{id}}</b>
-                            </span>
-                            <div class="ml-2">
-                                <span class="data_label mt-1">Type: </span>{{iface.interface_type}}
-                                <div class="data_label mt-1">Observation Space: </div>
-                                <div class="ml-1" v-if="iface && iface.observation_space">
-                                    {{iface.observation_space.class_name}} (args={{iface.observation_space.args}},{{iface.observation_space.kwargs}})
-                                </div>
-                                <div v-else>Undefined</div>
-
-                                <div class="data_label mt-1">Action Space: </div>
-                                <div class="ml-1" v-if="iface && iface.action_space">
-                                    {{iface.action_space.class_name}} (args={{iface.action_space.args}},{{iface.action_space.kargs}})
-                                </div>
-                                <div v-else>Undefined</div>
-
+                                </span>
                             </div>
+
+                        </b-modal>
+                        Tags:
+                        <b-badge pill v-for="(tag,id) in tagList" v-bind:key="id" variant="tag" class="mr-1">{{tag}}</b-badge>
+                        <b-link variant="white" v-b-modal:edit-tags size="sm"><i class="fa fa-edit"></i></b-link>
+                    </div>
+                    <div class="mt-2">
+                        <b-modal id="edit-notes" title="edit notes" @ok="updateNotes()">
+                            <b-input-group>
+                                <b-textarea v-model="notes" placeholder="Notes" />
+                            </b-input-group>
+                        </b-modal>
+
+                        Notes: <b-link variant="white" size="sm" v-b-modal:edit-notes @click="loadNotes()"><i class="fa fa-edit"></i></b-link>
+                        <p>{{agent.notes}}</p>
+                    </div>
+                    <div class="mt-2">
+                        <b-button title="archive" v-if="agent && !agent.archived" variant="secondary" pill @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
+                        <b-button title="restore from archive" v-if="agent && agent.archived" variant="secondary" pill @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
+                    </div>
+                </div>
+            </b-col>
+            <b-col>
+
+                <div>
+                    <h4>Agent Details</h4>
+                    <div class="data_label mt-2">Spec Id: </div>
+                    <b-link target="_blank" :to="`/agent_spec/${agent.specId}`">{{ agent.spec.displayedName }}</b-link>
+                    <div class="data_label mt-2">Seed: </div>
+                    {{agent.seed}}
+                    <div class="data_label mt-2">Created: </div>{{ agent.created }}
+                    <div class="data_label mt-2">Last Checkpoint Id: </div>{{ lastCheckpoint }}
+
+                </div>
+
+            </b-col>
+            <b-col>
+                <span class="h4" id="interface_label">Agent Interfaces</span>
+
+                <b-modal id="helpinfo-modal" title="Help" size="lg" ok-only>
+                    <HelpInfo contentId="agent_interface" :fullPage="true">
+                    </HelpInfo>
+                </b-modal>
+                <span class="ml-2 text-right">
+                    <b-link v-b-modal="'helpinfo-modal'" style="color:white">
+                        <i class="fa fa-question-circle"></i>
+                    </b-link>
+                </span>
+
+                <!-- <b-popover target="interface_label" triggers="hover" placement="left">
+                    <template #title>Interfaces</template>
+                    Interfaces define how an agent can interact with an environment. Agents that support multiple interfaces can interact with environments with different obvservation/action spaces. For example: an RL agent that can learn from prior gathered experiences as well as run on the environment directly.
+                    <HelpInfo contentId="tasks" :fullPage="true">
+                    </HelpInfo>
+
+                </b-popover> -->
+                <div class="mt-2">
+                    <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
+                        <span>
+                            <b>{{id}}</b>
+                        </span>
+                        <div class="ml-2">
+                            <span class="data_label mt-1">Type: </span>{{iface.interface_type}}
+                            <div class="data_label mt-1">Observation Space: </div>
+                            <div class="ml-1" v-if="iface && iface.observation_space">
+                                {{iface.observation_space.class_name}} (args={{iface.observation_space.args}},{{iface.observation_space.kwargs}})
+                            </div>
+                            <div v-else>Undefined</div>
+
+                            <div class="data_label mt-1">Action Space: </div>
+                            <div class="ml-1" v-if="iface && iface.action_space">
+                                {{iface.action_space.class_name}} (args={{iface.action_space.args}},{{iface.action_space.kargs}})
+                            </div>
+                            <div v-else>Undefined</div>
+
                         </div>
                     </div>
-                </b-col>
-                <b-col>
-                    <h4>Components</h4>
-                    <div class="small">
+                </div>
+            </b-col>
+            <b-col>
+                <h4>Agent Components</h4>
+                <div>
 
-                        <div v-for="(component, id) in components" v-bind:key="id">
-                            - {{component}}
-                        </div>
-                        <div v-if="components.length ==0">
-                            No components used
-                        </div>
+                    <div v-for="(component, id) in components" v-bind:key="id">
+                        - {{component}}
                     </div>
-                </b-col>
-            </b-row>
-        </b-card-text>
-
-    </b-card>
+                    <div v-if="components.length ==0">
+                        No components used
+                    </div>
+                </div>
+            </b-col>
+        </b-row>
+    </b-container>
 </div>
 </template>
 
@@ -199,7 +207,6 @@ export default {
                 console.error(error)
             })
         },
-
 
         modifyTag(action, tag) {
 

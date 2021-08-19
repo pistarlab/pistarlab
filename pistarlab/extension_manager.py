@@ -318,7 +318,7 @@ class ExtensionManager:
                         module_name = extension.get('module_name', extension['id'].replace('-', "_"))
                         self._run_module_function(module_name, "load", kwargs=extension.get("load_kwargs", {}))
                     except ModuleNotFoundError as e:
-                        logging.error(f"Unable to load extension {extension}")
+                        logging.error(f"Unable to load extension {extension['id']}, {e}")
 
 
     def update_extension_status(self, extension, state, msg=""):
@@ -377,6 +377,7 @@ class ExtensionManager:
         if extension['source']['type'] == "workspace":
             try:
                 self.logger.info(f"Attempting to (re)create workspace extension manifest {extension_id}")
+                # TODO: xvfb may not be installed
                 cmd = f"xvfb-run pistarlab_extension_tools --action=save_manifest --extension_path {extension['full_path']}"
                 cmd_result = run_bash_command(cmd)
                 self.logger.info(cmd_result)

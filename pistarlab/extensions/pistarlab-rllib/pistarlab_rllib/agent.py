@@ -200,7 +200,7 @@ MODEL_COMPONENT_PARAMS = {
 def get_default_trainer_config(trainer_config, overrides={}):
     new_trainer_config = copy.deepcopy(trainer_config)
     del new_trainer_config['callbacks']
-    return merged_dict(overrides, new_trainer_config)
+    return merged_dict(new_trainer_config,overrides)
 
 
 def agent_reg_entry(
@@ -242,7 +242,7 @@ AGENT_REG = {
         A3CTFPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
-        config_overrides={'framework': 'tf'}),
+        config_overrides={'framework': 'tf',"num_workers":0}),
     "A2C_torch": lambda: agent_reg_entry(
         A3CTorchPolicy,
         a2c.A2CTrainer,
@@ -508,9 +508,10 @@ class RLlibAgent(Agent):
         trainer_config['env_config'] = env_config
         trainer_config['multiagent'] = multiagent_config
 
-        trainer_config['num_workers'] = num_workers
-        trainer_config['num_envs_per_worker'] = num_envs_per_worker
-        trainer_config['num_gpus_per_worker'] = num_gpus_per_worker
+        # TODO: Need to handle number of workers as standard parameter
+        # trainer_config['num_workers'] = num_workers
+        # trainer_config['num_envs_per_worker'] = num_envs_per_worker
+        # trainer_config['num_gpus_per_worker'] = num_gpus_per_worker
         trainer_config['num_gpus'] = num_gpus
         trainer_config['seed'] = self.get_seed_as_int()
 
@@ -586,14 +587,14 @@ class RLlibAgentRunner(AgentTaskRunner):
         interface_id = task_config['interface_id']
 
         # Prepare trainer config only using valid keys
-        num_workers = task_config.get('num_workers', 0)
+        # num_workers = task_config.get('num_workers', 0)
         checkpoint_freq = task_config['checkpoint_freq']
 
         session_count = 1
         total_gpus = 0
-        num_envs_per_worker = 1
+        # num_envs_per_worker = 1
         num_gpus = 0  # 0.0001
-        num_gpus_per_worker = 0 if num_workers == 0 else (total_gpus - num_gpus / num_workers)
+        # num_gpus_per_worker = 0 if num_workers == 0 else (total_gpus - num_gpus / num_workers)
 
         # Create trainer class
         trainer_config = agent.get_trainer_config(
@@ -602,10 +603,10 @@ class RLlibAgentRunner(AgentTaskRunner):
             task_id=task_id,
             session_config=task_config['session_config'],
             agent_run_config=task_config['agent_run_config'],
-            num_workers=num_workers,
+            # num_workers=num_workers,
             batch_size=task_config['batch_size'],
-            num_envs_per_worker=num_envs_per_worker,
-            num_gpus_per_worker=num_gpus_per_worker,
+            # num_envs_per_worker=num_envs_per_worker,
+            # num_gpus_per_worker=num_gpus_per_worker,
             num_gpus=num_gpus,
             use_remote_client=task_config.get('use_remote_client', False))
         if task_id is not None:
@@ -618,6 +619,13 @@ class RLlibAgentRunner(AgentTaskRunner):
                 value=trainer_config_copy, flush=True)
         trainer = agent.get_trainer(trainer_config)
         agent.update_space_config(trainer, interface_id)
+        num_workers = trainer_config['num_workers']
+        num_envs_per_worker = trainer_config['num_envs_per_worker']
+        if num_workers == 0:
+            session_count = num_envs_per_worker
+        else:
+            session_count = num_workers * num_envs_per_worker
+
 
         max_timesteps = task_config['session_config'].get('max_steps')
         if max_timesteps is not None:
@@ -665,7 +673,7 @@ class RLlibAgentRunner(AgentTaskRunner):
                 task.update_summary(train_summary)
                 agent.log_stat_dict(
                     task_id=task.get_id(),
-                    data=train_summary['info']['learner'][DEFAULT_POLICY_ID])
+                    data=train_summary['info']['learner'].get(DEFAULT_POLICY_ID,{}))
 
                 # make checkpoint if needed
                 if done or (i + 1) % checkpoint_freq == 0:

@@ -41,6 +41,7 @@ const GET_SESSION = gql `
     task {
       id
       ident
+      status
     }
     createdTimestamp
     parentSessionId
@@ -89,6 +90,7 @@ const GET_SESSION = gql `
             ident
             displayedName
             specId
+    
           }
           createdTimestamp
           summary 

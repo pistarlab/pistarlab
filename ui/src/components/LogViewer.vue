@@ -1,14 +1,14 @@
 <template>
-<div>
+<div style="overflow-x: auto;">
     <div v-if="nocard" >
         <b-button title="refresh and move to latest output" pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
-        <pre @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
+        <pre :style="'max-height:' + height +';overflow-y: scroll;'" @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
     </div>
     <div v-else>
         <b-card :title="title">
             
             <b-button title="refresh and move to latest output"  pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
-            <div style="height:300px;overflow-y: scroll;">
+            <div :style="'max-height:' + height +';overflow-y: scroll;'">
                 <pre @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
             </div>
         </b-card>
@@ -34,7 +34,11 @@ export default {
         logStreamUrl: String,
         logClass: String,
         title: String,
-        nocard: Boolean
+        nocard: Boolean,
+        height: {
+            type:String,
+            default:"300px"
+        }
     },
     computed: {
         //
@@ -110,7 +114,6 @@ export default {
 
 <style>
 .logdark {
-    height: 300px;
     overflow-y: scroll;
     white-space: pre-wrap;
     background-color: #111;
@@ -119,7 +122,6 @@ export default {
 }
 
 .logdefault {
-    height: 300px;
     overflow-y: scroll;
     white-space: pre-wrap;
     
@@ -129,6 +131,12 @@ pre{
     font-size: 0.7em;
      background-color: #111 !important;
 }
-
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
 
 </style>

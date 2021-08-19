@@ -20,8 +20,10 @@
                         <li>
                             <a target="_blank" href="http://github.com/pistarlab/pistarlab">Github</a>
                         </li>
+                 
                         <li>
-                            <a target="_blank" href="http://pistarlab.readthedocs.io/">Documentation</a>
+                            <a target="_blank" :href="appConfig.API_URL+'/docs/'">Documentation</a>  
+                            
                         </li>
                         <li>
                             <a target="_blank" href="TODO">Donate</a>

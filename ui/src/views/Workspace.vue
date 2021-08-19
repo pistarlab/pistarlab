@@ -65,7 +65,7 @@
                                 <b-col>
                                     <div>
                                         <b-link @click="openExtension(extension)">
-                                            <h4>{{extension.name}}</h4>
+                                            <h4><i class="fa fa-project-diagram"></i> {{extension.name}}</h4>
                                         </b-link>
                                     </div>
 

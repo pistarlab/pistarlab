@@ -16,24 +16,25 @@
 
                 <b-col class="d-flex justify-content-center align-self-center">
 
-                    <b-card style="width:400px" class="text-center">
-                        <h3 class="text-center">Build, Play, Learn
-                        </h3>
+                    <div style="width:400px" class="text-center">
+                        
+                        <p>
+                            An <b>open source</b> experimentation platform built to make AI development accessible and fun.
+                        </p>
 
-          
                         <a target="_blank" href="http://pistarlab.org">Website</a>
                         <br />
                         <a target="_blank" href="http://github.com/pistarlab/pistarlab"> Github</a>
                         <br />
                         <a target="_blank" href="http://pistarlab.readthedocs.io/">Documentation</a>
 
-                    </b-card>
- </b-col>
-       </b-row>
+                    </div>
+                </b-col>
+            </b-row>
+        <div class="mt-4"></div>
             <b-row>
-              
-               
-                                <b-col class="d-flex justify-content-center align-self-center">
+
+                <b-col class="d-flex justify-content-center align-self-center">
 
                     <b-alert show variant="warning">
                         <b>Warning:</b> piSTAR Lab is in early development. Compatibility with newer versions is not guarenteed.

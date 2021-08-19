@@ -12791,14 +12791,14 @@
     margin: 4px 1px;
     border-radius: 0.4285rem;
     cursor: pointer;
-    background: #344675;
-    background-image: -webkit-linear-gradient(to bottom left,  #1b1f2b, #344675, #344675);
+    /* background: #344675; */
+    /* background-image: -webkit-linear-gradient(to bottom left,  #1b1f2b, #344675, #344675);
     background-image: -o-linear-gradient(to bottom left,  #1b1f2b, #344675, #344675);
     background-image: -moz-linear-gradient(to bottom left,  #1b1f2b, #344675, #344675);
-    background-image: linear-gradient(to bottom left, #1b1f2b, #344675, #344675);
+    background-image: linear-gradient(to bottom left, #1b1f2b, #344675, #344675); */
     background-size: 210% 210%;
-    background-position: top right;
-    background-color: #344675;
+    background-position: left;
+    background-color: #1f2943;
     transition: all 0.15s ease;
     box-shadow: none;
     color: #ffffff;

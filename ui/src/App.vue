@@ -1,6 +1,6 @@
 <template>
 <div id="main" :class="[{'collapsed' : collapsed}, {'onmobile' : isOnMobile}]" style>
-    <b-modal id="task-manager" size="lg" title="Task History" scrollable :hide-footer="true">
+    <b-modal id="task-manager" size="xl" title="Task History" scrollable :hide-footer="true">
         <TaskHome></TaskHome>
         <div class="mb-5"></div>
     </b-modal>
@@ -25,7 +25,7 @@
     </b-modal>
 
     <b-modal id="syslogviewer" size="xl" title="System Logs" scrollable :hide-footer="true">
-        <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/backend_run`"> </LogViewer>
+        <LogViewer height="100%" :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/backend_run`"> </LogViewer>
         <div class="mb-5"></div>
     </b-modal>
 
@@ -116,6 +116,9 @@
                  <b-tooltip target="idebutton" triggers="hover">
                     Launch IDE
                 </b-tooltip> -->
+                        <b-nav-item v-b-popover.hover.top="'Show system logs'" class="ml-auto" v-b-modal.syslogviewer>
+                <i  class="fa fa-terminal"></i> System Logs
+            </b-nav-item>
             <b-nav-text class="ml-auto appstatus-disconnected" title="Disconnected from Server" v-if="!connected">
                 <i class="fas fa-exclamation-triangle"></i> Disconnected
             </b-nav-text>
@@ -125,9 +128,7 @@
             <b-nav-item v-b-popover.hover.top="'Settings'" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>
             </b-nav-item>
-            <b-nav-item v-b-popover.hover.top="'Show system logs'" class="ml-auto" v-b-modal.syslogviewer>
-                <i class="fa fa-bug"></i>
-            </b-nav-item>
+
         </b-navbar-nav>
 
     </b-navbar>
@@ -223,7 +224,7 @@ export default {
                 {
                     href: "/extension/home",
                     title: "Extension Manager",
-                    icon: "fas fa-cogs",
+                    icon: "fas fa-project-diagram",
                 },
                 {
                     href: "/workspace/home",

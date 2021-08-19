@@ -127,9 +127,6 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
-import {
-    appConfig
-} from "../app.config";
 
 export default {
     name: "Preferences",
@@ -149,7 +146,7 @@ export default {
         adminCommand(cmd) {
             this.submitting = true;
             axios
-                .get(`${appConfig.API_URL}/api/admin_command/` + cmd)
+                .get(`${this.appConfig.API_URL}/api/admin_command/` + cmd)
                 .then((response) => {
                     this.message = response.data["message"];
 
@@ -164,7 +161,7 @@ export default {
 
         loadAdminData() {
             axios
-                .get(`${appConfig.API_URL}/api/admin_data/`)
+                .get(`${this.appConfig.API_URL}/api/admin_data/`)
                 .then((response) => {
                     this.data = response.data["data"];
                 })

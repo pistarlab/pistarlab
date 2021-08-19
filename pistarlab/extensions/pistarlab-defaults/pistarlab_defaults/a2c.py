@@ -102,6 +102,9 @@ class A2CTaskRunner(AgentTaskRunner):
         advantage_batch = []
         action_batch = []
 
+        update_count = 0
+
+
         try:
 
             while running:
@@ -132,8 +135,9 @@ class A2CTaskRunner(AgentTaskRunner):
                 info = infos[player_id]
                 p_loss = 0
                 v_loss = 0
-                update_count = 0
                 obv = ob_transformer.transform(ob)
+                if update_count % 10 == 0:
+                    self.get_logger().info(f"ob: {ob.shape}, obv:{obv.shape}, reward:{reward}, done:{done}")
 
                 value_pred = value_estimator.predict(obv)
 
@@ -163,6 +167,8 @@ class A2CTaskRunner(AgentTaskRunner):
                             action_transformer.transform(np.array(action_batch)))
 
                         if update_count % 100 == 0:
+                            p_loss = p_loss/100
+                            v_loss = v_loss/100
                             self.get_logger().info(f"Step Count: {step_count}, p_loss:{p_loss}, v_loss: {v_loss}")
                             agent.log_stat_dict(
                                 task_id=task.get_id(),

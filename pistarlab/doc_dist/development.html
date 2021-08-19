@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Developer Notes &mdash; piSTAR Lab 0.0.1-dev documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Roadmap" href="roadmap.html" />
+    <link rel="prev" title="Design" href="design.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> piSTAR Lab
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">piSTAR Lab Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-your-environment">Setting up your environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#on-windows-experimental">on Windows [Experimental]</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#making-changes-to-the-ui">Making changes to the UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-for-readonly-viewing">Building for Readonly Viewing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-for-pipy">Building for PiPy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-documentation">Building the Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-and-publishing-a-new-docker-image">Building and Publishing a new Docker Image</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pistarlab</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">piSTAR Lab</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Developer Notes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/development.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developer-notes">
+<h1>Developer Notes<a class="headerlink" href="#developer-notes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setting-up-your-environment">
+<h2>Setting up your environment<a class="headerlink" href="#setting-up-your-environment" title="Permalink to this headline">¶</a></h2>
+<p>Tested on Ubuntu</p>
+<ol class="arabic">
+<li><p>Install Anaconda or Miniconda</p>
+<p>Visit <a class="reference external" href="https://www.anaconda.com/products/individual">https://www.anaconda.com/products/individual</a> for instructions</p>
+</li>
+<li><p>Create Conda Virtual Environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -n pistarlab <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+</pre></div>
+</div>
+</li>
+<li><p>Install PIP</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install pip
+</pre></div>
+</div>
+</li>
+<li><p>Clone Repo and install</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/pistarlab/pistarlab
+<span class="nb">cd</span> pistarlab
+pip install -e .
+</pre></div>
+</div>
+</li>
+<li><dl class="simple">
+<dt>Install additional dependencies</dt><dd><ul class="simple">
+<li><p>XVFB to render without display (No MS Windows Support)</p></li>
+<li><p>ffmpeg for video processing</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install -y xvfb ffmpeg
+</pre></div>
+</div>
+</li>
+<li><p>Install NPM/Nodejs for UI and Theia IDE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash ./install_node.sh
+</pre></div>
+</div>
+</li>
+<li><p>Build Web IDE (optional)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash ./build_ide.sh
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="on-windows-experimental">
+<h2>on Windows [Experimental]<a class="headerlink" href="#on-windows-experimental" title="Permalink to this headline">¶</a></h2>
+<p><strong>Limitation:</strong> no headless mode for many environments so rendering will open a window</p>
+<ol class="arabic simple">
+<li><p>Install Miniconda</p></li>
+<li><p>Install GitBash</p></li>
+<li><p>Follow Ubuntu Instructions</p></li>
+</ol>
+<div class="section" id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
+<p><strong>Building Theia IDE on Windows.</strong>
+* <a class="reference external" href="https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#building-on-windows">https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#building-on-windows</a></p>
+<p><strong>Install Scoop</strong></p>
+<p>See: <a class="reference external" href="https://github.com/lukesampson/scoop#installation">https://github.com/lukesampson/scoop#installation</a></p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Invoke-Expression <span class="o">(</span>New-Object System.Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">&#39;https://get.scoop.sh&#39;</span><span class="o">)</span>
+
+<span class="c1"># or shorter</span>
+iwr -useb get.scoop.sh <span class="p">|</span> iex
+<span class="c1"># IF SCOOP doesn&#39;t get added to path</span>
+<span class="nv">$env</span>:Path +<span class="o">=</span> <span class="s2">&quot;;C:\Users\${USER}\scoop\shims&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="making-changes-to-the-ui">
+<h2>Making changes to the UI<a class="headerlink" href="#making-changes-to-the-ui" title="Permalink to this headline">¶</a></h2>
+<p>The UI is build using Vuejs cli and requires npm to run.  Once setup, changes to the ui source code will be reflected immidiately in the browser.</p>
+<ol class="arabic simple">
+<li><p>Run the UI using <code class="docutils literal notranslate"><span class="pre">`npm</span> <span class="pre">run</span> <span class="pre">serve`</span></code></p></li>
+<li><p>By default, changes will be reflected at <a class="reference external" href="http://localhost:8080">http://localhost:8080</a></p></li>
+</ol>
+</div>
+<div class="section" id="building-for-readonly-viewing">
+<h2>Building for Readonly Viewing<a class="headerlink" href="#building-for-readonly-viewing" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -e . -no-deps
+pip install -r requirements-webreadonly.txt
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="building-for-pipy">
+<h2>Building for PiPy<a class="headerlink" href="#building-for-pipy" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Build Redis Server Binary and copy to pistarlab/thirdparty_lib</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash ./install_redis.sh_
+</pre></div>
+</div>
+</li>
+<li><p>Build and deploy UI in pistarlab/uidist/ package directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash ./build_ui.sh
+</pre></div>
+</div>
+</li>
+<li><p>Run Tests with tox</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install tox
+tox
+</pre></div>
+</div>
+</li>
+<li><p>Building wheel and source distribution and view files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm -rf build dist *.egg-info <span class="o">&amp;&amp;</span>
+python setup.py bdist_wheel <span class="o">&amp;&amp;</span> python -m build --sdist --wheel <span class="o">&amp;&amp;</span> unzip -l dist/*.whl
+</pre></div>
+</div>
+</li>
+<li><p>Uploading to PiPy</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install twine
+twine upload dist/*
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="building-the-documentation">
+<h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Install dependencies</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -r docs/requirements.txt
+</pre></div>
+</div>
+</li>
+<li><p>Rebuild API Docs</p>
+<p>From the project root, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> docs
+sphinx-apidoc -o <span class="nb">source</span> ../pistarlab
+</pre></div>
+</div>
+</li>
+<li><p>Update the HTML</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> docs
+make html
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="building-and-publishing-a-new-docker-image">
+<h2>Building and Publishing a new Docker Image<a class="headerlink" href="#building-and-publishing-a-new-docker-image" title="Permalink to this headline">¶</a></h2>
+<p>Instructions on how to create a docker image from an Ubuntu environment</p>
+<ol class="arabic">
+<li><p>Make changes to docker file</p></li>
+<li><dl>
+<dt>Update requirements.txt</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>conda create -n pistarlab377 python=3.7.7
+conda activate pistarlab377
+pip install -e .
+pip freeze &gt; requirements.txt</p>
+</dd>
+</dl>
+</li>
+<li><p>Run Docker Build</p></li>
+</ol>
+<p>./build_docker</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="roadmap.html" class="btn btn-neutral float-right" title="Roadmap" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="design.html" class="btn btn-neutral float-left" title="Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Brandyn Kusenda.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

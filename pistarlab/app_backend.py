@@ -278,7 +278,11 @@ def api_extensions_list():
 
 @app.route("/api/extension/view/<extension_id>")
 def api_extension_view(extension_id):
-    results = ctx.extension_manager.get_extensions_by_id(extension_id)[0]
+    elist = ctx.extension_manager.get_extensions_by_id(extension_id)
+    if len(elist) > 0:
+        results = elist
+    else:
+        results = []
     response = make_response({'item': results})
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -569,6 +573,19 @@ def api_new_agent_submit():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+@app.route("/api/agent/clone/<agent_id>")
+def api_clone_agent(agent_id):
+    try:
+        logging.info(f"Cloning agent instance {agent_id}")
+        agent = ctx.clone_agent(agent_id)
+        logging.info(f"New agent instance {agent.get_id()}")
+        response = make_response({'uid': agent.get_id()})
+    except Exception as e:
+        logging.error(f"Failed to create clone {e}")
+        response = make_response(
+            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 @app.route("/api/agent/<action>/tag/<agent_id>/<tag>")
 def api_agent_modify_tag(action, agent_id, tag):
@@ -1150,10 +1167,18 @@ def api_config():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+@app.route('/docs/')
+def docs():
+    return send_file(os.path.join('doc_dist', 'index.html'))
+
+@app.route('/docs/<path:path>')
+def docs_servce_static(path):
+    return send_from_directory('doc_dist', path)
 
 @app.route('/')
 def index():
     return send_file(os.path.join('uidist', 'index.html'))
+
 
 
 @app.route('/<path:path>')

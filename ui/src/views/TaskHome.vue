@@ -1,5 +1,14 @@
 <template>
 <div>
+    <b-modal id="helpinfo-modal" title="Help" size="lg" ok-only>
+        <HelpInfo contentId="tasks" :fullPage="true">
+        </HelpInfo>
+    </b-modal>
+    <div class="ml-2 text-right">
+        <b-link v-b-modal="'helpinfo-modal'" style="color:white">
+            <i class="fa fa-question-circle"></i>
+        </b-link>
+    </div>
 
     <div class="mt-4"></div>
 
@@ -7,25 +16,25 @@
 
         <b-row>
             <b-col>
-                    <div v-if="$apollo.queries.allTask.loading">Loading..</div>
-                    <div v-else>
-                        <div v-if="Object.keys(taskList).length > 0">
-                            <b-form-checkbox-group v-model="selected">
-                                <b-table hover table-busy :items="taskList" :fields="fields" :dark="false" :outlined="false" size="small">
-                                    <template v-slot:cell(link)="data">
-                                        <router-link :to="`/task/view/${data.item.ident}`">{{data.item.ident}}</router-link>
-                                    </template>
-                                    <template v-slot:cell(actions)="data">
-                                        <b-button size="sm" v-if="data.item.status && data.item.status == 'RUNNING'" variant="danger" v-on:click="taskControl('STOP',data.item.ident)">Terminate</b-button>
+                <div v-if="$apollo.queries.allTask.loading">Loading..</div>
+                <div v-else>
+                    <div v-if="Object.keys(taskList).length > 0">
+                        <b-form-checkbox-group v-model="selected">
+                            <b-table hover table-busy :items="taskList" :fields="fields" :dark="false" :outlined="false" size="small">
+                                <template v-slot:cell(link)="data">
+                                    <router-link :to="`/task/view/${data.item.ident}`">{{data.item.ident}}</router-link>
+                                </template>
+                                <template v-slot:cell(actions)="data">
+                                    <b-button size="sm" v-if="data.item.status && data.item.status == 'RUNNING'" variant="danger" v-on:click="taskControl('STOP',data.item.ident)">Terminate</b-button>
 
-                                    </template>
-                                </b-table>
-                            </b-form-checkbox-group>
-                            <p>{{ error }}</p>
-                        </div>
-
-                        <div v-else>No Items Found </div>
+                                </template>
+                            </b-table>
+                        </b-form-checkbox-group>
+                        <p>{{ error }}</p>
                     </div>
+
+                    <div v-else>No Items Found </div>
+                </div>
             </b-col>
         </b-row>
     </b-container>

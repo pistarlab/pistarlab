@@ -1,346 +1,357 @@
 <template>
-<div>
-    <h1>New Agent Task</h1>
+<div class="page">
+    <div class="page-content">
+        <h1>New Agent Task</h1>
 
-    <b-modal id="modal-launch-task" title="Launching Task" size="lg" :hide-footer="true" :hide-header-close="true" :no-close-on-backdrop="true" :no-close-on-esc="true">
-        <TaskLoad :uid="newTaskId"></TaskLoad>
-    </b-modal>
+        <b-modal id="modal-launch-task" title="Launching Task" size="lg" :hide-footer="true" :hide-header-close="true" :no-close-on-backdrop="true" :no-close-on-esc="true">
+            <TaskLoad :uid="newTaskId"></TaskLoad>
+        </b-modal>
 
-    <b-modal id="modal-select-envspec" title="Select Environment" size="lg">
-        <EnvSelector @click="selectEnvSpec($event)"></EnvSelector>
+        <b-modal id="modal-select-envspec" title="Select Environment" size="lg">
+            <EnvSelector @click="selectEnvSpec($event)"></EnvSelector>
 
-        <template v-slot:modal-footer="{ cancel }">
-            <b-button variant="secondary" @click="cancel()">Cancel</b-button>
-        </template>
-    </b-modal>
+            <template v-slot:modal-footer="{ cancel }">
+                <b-button variant="secondary" @click="cancel()">Cancel</b-button>
+            </template>
+        </b-modal>
 
-    <b-modal id="modal-select-agent" title="Select Agent" size="lg">
-        <AgentSelector @click="loadAgent($event)"></AgentSelector>
+        <b-modal id="modal-select-agent" title="Select Agent" size="lg">
+            <AgentSelector @click="loadAgent($event)"></AgentSelector>
 
-        <template v-slot:modal-footer="{ cancel }">
-            <b-button variant="secondary" @click="cancel()">Cancel</b-button>
-        </template>
-    </b-modal>
+            <template v-slot:modal-footer="{ cancel }">
+                <b-button variant="secondary" @click="cancel()">Cancel</b-button>
+            </template>
+        </b-modal>
 
-    <b-modal id="modal-configure-envspec" title="Environment Kwargs" size="lg">
-        <b-container fluid>
-            <b-row>
-                <b-col>
-                    <div>
-                        
-                        These are aguments passed directly to the environment. Changing these may impact behavior and incomparable and inconsistant results.
-                        <br/>
-                        <br/>
-                        JSON format required.
-                        <b-textarea v-model="envSpecKwargOverrides" class="mt-4" rows="10" no-auto-shrink size="lg" height="100%"></b-textarea>
+        <b-modal id="modal-configure-envspec" title="Environment Kwargs" size="lg">
+            <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <div>
+
+                            These are aguments passed directly to the environment. Changing these may impact behavior and incomparable and inconsistant results.
+                            <br />
+                            <br />
+                            JSON format required.
+                            <b-textarea v-model="envSpecKwargOverrides" class="mt-4" rows="10" no-auto-shrink size="lg" height="100%"></b-textarea>
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </b-modal>
+
+        <b-modal id="modal-full-config" title="Config Output" size="lg">
+            <div>
+                <pre class="mt-3">{{fullConfig}}</pre>
+            </div>
+        </b-modal>
+
+        <b-modal id="modal-configure-agent" title="Configure Agent" size="lg">
+            <b-tabs content-class="mt-4" justified>
+                <b-tab title="Session Configuration">
+                    <div class="d-flex flex-wrap">
+                        <b-form-group style="width:320px" class="ml-2" v-for="item in agentSessionConfigFields" :key="item.key" :label="item.label" :description="item.description">
+                            <b-form-checkbox v-if="item.type == 'boolean'" v-model="agentSessionConfig[item.key]" value="true" unchecked-value="false">
+                            </b-form-checkbox>
+                            <b-form-input v-else v-model="agentSessionConfig[item.key]" :type="item.type" size="sm" class="mt-1"></b-form-input>
+                        </b-form-group>
                     </div>
-                </b-col>
-            </b-row>
-        </b-container>
-    </b-modal>
+                </b-tab>
+                <b-tab title="Agent Configuration">
+                    <ParamEditor interfaceFilter="run" buttonText="Save" :params="selectedAgentParams" :values="agentRunConfig" @update="agentRunConfig = $event"></ParamEditor>
+                </b-tab>
 
-    <b-modal id="modal-full-config" title="Config Output" size="lg">
-        <div>
-            <pre class="mt-3" >{{fullConfig}}</pre>
-        </div>        
-    </b-modal>
+                <b-tab title="Environment Wrappers (BROKEN)">
 
-    <b-modal id="modal-configure-agent" title="Configure Agent" size="lg">
-        <b-tabs content-class="mt-4" justified>
-            <b-tab title="Session Configuration">
-                <div class="d-flex flex-wrap">
-                    <b-form-group style="width:320px" class="ml-2" v-for="item in agentSessionConfigFields" :key="item.key" :label="item.label" :description="item.description">
-                        <b-form-checkbox v-if="item.type == 'boolean'" v-model="agentSessionConfig[item.key]" value="true" unchecked-value="false">
-                        </b-form-checkbox>
-                        <b-form-input v-else v-model="agentSessionConfig[item.key]" :type="item.type" size="sm" class="mt-1"></b-form-input>
-                    </b-form-group>
-                </div>
-            </b-tab>
-            <b-tab title="Agent Configuration">
-                <ParamEditor interfaceFilter="run" buttonText="Save" :params="selectedAgentParams" :values="agentRunConfig" @update="agentRunConfig = $event"></ParamEditor>
-            </b-tab>
+                    <strong>WARNING wrappers currently not working. This wrapper need to be updated to support multi agent env interfaces</strong>
 
-            <b-tab title="Environment Wrappers (BROKEN)">
-
-                <strong>WARNING wrappers currently not working. This wrapper need to be updated to support multi agent env interfaces</strong>
-
-                <p>Please select wrappers in the order they will be added the the environment</p>
-                <b-form-checkbox-group v-model="agentWrappers" :options="wrapperOptions" name="wrappers" stacked></b-form-checkbox-group>
-                <div v-for="(item, i) in agentWrappers" :key="item">
-                    <div class="">
-                        {{ i }} - {{ wrappers[item]["entry_point"] }}
-                    </div>
-                </div>
-
-            </b-tab>
-
-        </b-tabs>
-
-        <template v-slot:modal-footer="{  }">
-            <b-button variant="primary" @click="updateAgentConfig();">Ok</b-button>
-            <b-button variant="danger" @click="removeAgent();">Remove Agent</b-button>
-
-        </template>
-    </b-modal>
-
-    <b-modal id="assign-player-modal" title="Assign Player">
-        <b-container fluid>
-            <b-row>
-                <b-col>
-                    <div v-if="currentPlayerId != null">
-                        {{envPlayers[currentPlayerId].id}}
-                        <div v-for="(agent,idx) in agents" v-bind:key="idx" class="m-2">
-                            <b-button v-on:click="assignPlayerToAgent(currentPlayerId,idx)">{{agent.ident}}</b-button>
+                    <p>Please select wrappers in the order they will be added the the environment</p>
+                    <b-form-checkbox-group v-model="agentWrappers" :options="wrapperOptions" name="wrappers" stacked></b-form-checkbox-group>
+                    <div v-for="(item, i) in agentWrappers" :key="item">
+                        <div class="">
+                            {{ i }} - {{ wrappers[item]["entry_point"] }}
                         </div>
                     </div>
-                </b-col>
-            </b-row>
-        </b-container>
-        <template v-slot:modal-footer="{ cancel }">
-            <b-button variant="secondary" @click="cancel()">Cancel</b-button>
-        </template>
-    </b-modal>
-    <b-modal id="modal-config" title="Run Configuration" size="lg">
-        <div class="d-flex flex-wrap mb-4">
-            <b-form-group style="width:300px" class="ml-2" v-for="item in rlSessionConfigFields" :key="item.key" :label="item.label" :description="item.description">
-                <b-form-checkbox v-if="item.type == 'boolean'" v-model="sessionConfig[item.key]" value="true" unchecked-value="false">
-                </b-form-checkbox>
-                <b-form-input v-else v-model="sessionConfig[item.key]" :type="item.type" size="sm" class="mt-1"></b-form-input>
-            </b-form-group>
-        </div>
-        <template v-slot:modal-footer="{ ok }">
-            <b-button variant="primary" @click="
+
+                </b-tab>
+
+            </b-tabs>
+
+            <template v-slot:modal-footer="{  }">
+                <b-button variant="primary" @click="updateAgentConfig();">Ok</b-button>
+                <b-button variant="danger" @click="removeAgent();">Remove Agent</b-button>
+
+            </template>
+        </b-modal>
+
+        <b-modal id="assign-player-modal" title="Assign Player">
+            <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <div v-if="currentPlayerId != null">
+                            {{envPlayers[currentPlayerId].id}}
+                            <div v-for="(agent,idx) in agents" v-bind:key="idx" class="m-2">
+                                <b-button v-on:click="assignPlayerToAgent(currentPlayerId,idx)">{{agent.ident}}</b-button>
+                            </div>
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-container>
+            <template v-slot:modal-footer="{ cancel }">
+                <b-button variant="secondary" @click="cancel()">Cancel</b-button>
+            </template>
+        </b-modal>
+        <b-modal id="modal-config" title="Run Configuration" size="lg">
+            <div class="d-flex flex-wrap mb-4">
+                <b-form-group style="width:300px" class="ml-2" v-for="item in rlSessionConfigFields" :key="item.key" :label="item.label" :description="item.description">
+                    <b-form-checkbox v-if="item.type == 'boolean'" v-model="sessionConfig[item.key]" value="true" unchecked-value="false">
+                    </b-form-checkbox>
+                    <b-form-input v-else v-model="sessionConfig[item.key]" :type="item.type" size="sm" class="mt-1"></b-form-input>
+                </b-form-group>
+            </div>
+            <template v-slot:modal-footer="{ ok }">
+                <b-button variant="primary" @click="
             ok();
           ">Ok</b-button>
-        </template>
-    </b-modal>
-    <div>
-        <b-container fluid>
-            <h3><i class="fas fa-gamepad"></i> Environment</h3>
-            <div class="mt-4"></div>
-            <b-row>
-                <b-col>
-                    <div v-if="envSpec">
-                        <b-card class="card-shadow card-flyer">
-                            <b-container fluid>
-                                <b-row>
-                                    <b-col cols=3 class="text-center  align-self-center">
-                                        <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${envSpec.ident}`" alt="" style="max-height:200px; width:auto;"></b-card-img>
-                                    </b-col>
-                                    <b-col>
-                                        <b-container>
-                                            <b-row>
-                                                <b-col>
-
-                                                    <div class="mt-auto">
-                                                        <div class="mb-4">
-                                                            <h3>{{envSpec.ident}}</h3>
-                                                        </div>
-
-                                                        <div class="data_label">Environment: {{ envSpec.environment.ident }}</div>
-                                                        <div class="data_label">Type: {{ envSpec.envType }}</div>
-
-                                                        <div class="data_label" v-if="envMeta.num_players">Num Agents:
-                                                            {{envMeta.num_players}}
-                                                        </div>
-
-                                                        <div class="data_label">
-
-                                                            <b-modal id="show-obvdetails" size="lg" scrollable>
-
-                                                                <span v-if="envMeta && envMeta.observation_spaces">
-                                                                    <pre> {{envMeta.observation_spaces}}</pre>
-
-                                                                </span>
-
-                                                                <span v-else>No observation spaces defined</span>
-
-                                                            </b-modal>
-                                                            <b-link v-b-modal.show-obvdetails variant="secondary" size="sm">Observation Space Details</b-link>
-
-                                                        </div>
-
-                                                        <div class="data_label">
-
-                                                            <b-modal id="show-actdetails" size="lg" scrollable>
-
-                                                                <span v-if="envMeta && envMeta.action_spaces">
-                                                                    <pre>
-                                                                    {{envMeta.action_spaces}}
-                                                                    </pre>
-                                                                </span>
-                                                                <span v-else>No action spaces defined</span>
-
-                                                            </b-modal>
-                                                            <b-link v-b-modal.show-actdetails variant="secondary" size="sm">Action Space Details</b-link>
-
-                                                        </div>
-
-                                                    </div>
-                                                </b-col>
-                                                <b-col>
-
-                                                    <b-container class="border-left">
-
-                                                        <div>
-                                                        <div style="max-height:250px;" class="overflow-auto">
-                                                            <h3>Players</h3>
-                                                            <hr />
-                                                            <b-row v-for="(slot,idx) in envPlayers" v-bind:key="idx" class="m-0 mb-2">
-                                                                <b-col>{{slot.id}}</b-col>
-                                                                <b-col>
-                                                                    <span v-if="slot.agent != null">
-                                                                        {{agents[slot.agent].ident}}
-                                                                    </span>
-                                                                    <span v-else>
-                                                                        Unassigned
-                                                                    </span>
-                                                                </b-col>
-
-                                                                <b-col>
-                                                                    <b-link size="sm" v-on:click="assignPlayerModal(idx)"><i class="fa fa-edit"></i></b-link>
-                                                                </b-col>
-
-                                                            </b-row>
-
-                                                        </div>
-                                                        <div v-if="envPlayers == null|| envPlayers.length==0">
-                                                            <b-row>
-                                                                <b-col>
-                                                                    No Players Found
-                                                                </b-col>
-                                                            </b-row>
-                                                        </div>
-                                                        </div>
-                                                        <div v-if="envSpec && envSpec.envType== 'RL_SINGLEPLAYER_ENV'" class="mt-2">
-                                                            <hr/>
-                                                             <h4>Environment Instances</h4>
-
-                                                            <b-form-input v-model="batchSize" type="number" style="width:100px" class="ml-2 pl-5"></b-form-input>
-                                                        </div>
-                                                    </b-container>
-
-                                                </b-col>
-                                            </b-row>
-                                        </b-container>
-                                    </b-col>
-                                </b-row>
-                            </b-container>
-                        </b-card>
+            </template>
+        </b-modal>
+        <div>
+            <b-container fluid>
+                <b-row >
+                    <b-col class="d-flex justify-content-center">
+                        <h3><i class="fas fa-gamepad"></i> Environment</h3>
                         <div class="mt-4"></div>
-                        <b-button size="sm" variant="info" v-b-modal.modal-select-envspec>Change Environment</b-button>
-                        <b-button size="sm" class="ml-2"  variant="secondary" v-b-modal.modal-configure-envspec>Edit Arguments</b-button>
+                    </b-col>
+                </b-row>
 
+                <b-row>
+                    <b-col>
 
-                    </div>
-                    <div v-else>
-                        <b-card body-text-variant="" v-b-modal.modal-select-envspec class="h-100 card-shadow card-flyer" style="width: 100px;background-color:#ccc;color:#000">
-                            <b-card-body class="text-center">
+                        <div v-if="envSpec">
+                            <b-card class="card-shadow card-flyer">
+                                <b-container fluid>
+                                    <b-row>
+                                        <b-col cols=3 class="text-center  align-self-center">
+                                            <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${envSpec.ident}`" alt="" style="max-height:200px; width:auto;"></b-card-img>
+                                        </b-col>
+                                        <b-col>
+                                            <b-container>
+                                                <b-row>
+                                                    <b-col>
 
-                                <div>
-                                    <i class="fa fa-plus"></i>
-                                </div>
-                            </b-card-body>
+                                                        <div class="mt-auto">
+                                                            <div class="mb-4">
+                                                                <h3>{{envSpec.ident}}</h3>
+                                                            </div>
 
-                        </b-card>
-                    </div>
+                                                            <div class="data_label">Environment: {{ envSpec.environment.ident }}</div>
+                                                            <div class="data_label">Type: {{ envSpec.envType }}</div>
 
-                </b-col>
-            </b-row>
+                                                            <div class="data_label" v-if="envMeta.num_players">Num Agents:
+                                                                {{envMeta.num_players}}
+                                                            </div>
 
-            <div class="mt-4"></div>
+                                                            <div class="data_label">
 
-            <hr />
-            <div class="mt-4"></div>
-            <h3><i class="fas fa-robot"></i> Agents</h3>
+                                                                <b-modal id="show-obvdetails" size="lg" scrollable>
 
-            <div class="mt-4"></div>
+                                                                    <span v-if="envMeta && envMeta.observation_spaces">
+                                                                        <pre> {{envMeta.observation_spaces}}</pre>
 
-            <b-row>
-                <b-col class="d-flex flex-wrap mb-4">
-                    <span v-for="(agent,idx) in agents" v-bind:key="idx" class="mr-3">
-                        <b-card no-body header-bg-variant="info" header-text-variant="white" type="button" class="h-100 card-shadow card-flyer stretched-link" style="width: 320px" v-on:click="agentConfigModal(idx)">
-                            <template v-slot:header>
-                                <div class="custom-card-header  mb-2">
-                                    {{agent.ident}}
-                                </div>
+                                                                    </span>
 
-                            </template>
+                                                                    <span v-else>No observation spaces defined</span>
 
-                            <b-container class="mt-2">
-                                <b-row>
-                                    <b-col class="text-center">
+                                                                </b-modal>
+                                                                <b-link v-b-modal.show-obvdetails variant="secondary" size="sm">Observation Space Details</b-link>
 
-                                        <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="width:100px;">
-                                        </b-card-img>
-                                    </b-col>
+                                                            </div>
 
-                                </b-row>
-                                <div class="mt-3"></div>
-                                <b-row>
-                                    <b-col>
-                                        <div>
-                                            <span class="data_label">Spec Id: </span> {{agent.specId}}
-                                        </div>
-                                        <div class="data_label">
+                                                            <div class="data_label">
 
-                                        </div>
-                                        <div class="data_label">
-                                            Players Assigned: {{getPlayersForAgent(idx).join(" ")}}
-                                        </div>
+                                                                <b-modal id="show-actdetails" size="lg" scrollable>
 
-                                    </b-col>
-                                </b-row>
-                            </b-container>
+                                                                    <span v-if="envMeta && envMeta.action_spaces">
+                                                                        <pre>
+                                                                        {{envMeta.action_spaces}}
+                                                                        </pre>
+                                                                    </span>
+                                                                    <span v-else>No action spaces defined</span>
 
-                        </b-card>
-                    </span>
-                    <span>
-                        <b-card body-text-variant="" class="h-100 card-shadow card-flyer  " style="width: 100px;background-color:#ccc;color:#000" v-b-modal.modal-select-agent>
-                            <b-card-body class="text-center align-middle">
-                                <i class="fa fa-plus"></i>
-                            </b-card-body>
-                        </b-card>
-                    </span>
+                                                                </b-modal>
+                                                                <b-link v-b-modal.show-actdetails variant="secondary" size="sm">Action Space Details</b-link>
 
-                </b-col>
-            </b-row>
+                                                            </div>
 
-            <div class="mt-4"></div>
+                                                        </div>
+                                                    </b-col>
+                                                    <b-col>
 
-            <div v-if="Object.keys(agents).length>1">
+                                                        <b-container class="border-left">
+
+                                                            <div>
+                                                                <div style="max-height:250px;" class="overflow-auto">
+                                                                    <h3>Players</h3>
+                                                                    <hr />
+                                                                    <b-row v-for="(slot,idx) in envPlayers" v-bind:key="idx" class="m-0 mb-2">
+                                                                        <b-col>{{slot.id}}</b-col>
+                                                                        <b-col>
+                                                                            <span v-if="slot.agent != null">
+                                                                                {{agents[slot.agent].ident}}
+                                                                            </span>
+                                                                            <span v-else>
+                                                                                Unassigned
+                                                                            </span>
+                                                                        </b-col>
+
+                                                                        <b-col>
+                                                                            <b-link size="sm" v-on:click="assignPlayerModal(idx)"><i class="fa fa-edit"></i></b-link>
+                                                                        </b-col>
+
+                                                                    </b-row>
+
+                                                                </div>
+                                                                <div v-if="envPlayers == null|| envPlayers.length==0">
+                                                                    <b-row>
+                                                                        <b-col>
+                                                                            No Players Found
+                                                                        </b-col>
+                                                                    </b-row>
+                                                                </div>
+                                                            </div>
+                                                            <div v-if="envSpec && envSpec.envType== 'RL_SINGLEPLAYER_ENV'" class="mt-2">
+                                                                <hr />
+                                                                <h4>Environment Instances</h4>
+
+                                                                <b-form-input v-model="batchSize" type="number" style="width:100px" class="ml-2 pl-5"></b-form-input>
+                                                            </div>
+                                                        </b-container>
+
+                                                    </b-col>
+                                                </b-row>
+                                            </b-container>
+                                        </b-col>
+                                    </b-row>
+                                </b-container>
+                            </b-card>
+                            <div class="d-flex mt-4 justify-content-center">
+                            <b-button size="sm" variant="info" v-b-modal.modal-select-envspec>Change Environment</b-button>
+                            <b-button size="sm" class="ml-2" variant="secondary" v-b-modal.modal-configure-envspec>Edit Arguments</b-button>
+                            </div>
+
+                        </div>
+                        <div v-else  class="d-flex justify-content-center">
+                            <b-card body-text-variant="" v-b-modal.modal-select-envspec class="h-100 card-shadow card-flyer" style="width: 100px;background-color:#ccc;color:#000">
+                                <b-card-body class="text-center">
+
+                                    <div>
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                </b-card-body>
+
+                            </b-card>
+                        </div>
+
+                    </b-col>
+                </b-row>
+
+                <div class="mt-4"></div>
+
                 <hr />
+                <div class="mt-4"></div>
+                <b-row>
+                    <b-col class="d-flex justify-content-center">
+                <h3><i class="fas fa-robot"></i> Agents</h3>
+                    </b-col></b-row>
+                <div class="mt-4"></div>
 
-                <div class="mt-2 mb-3">
-                    <div class="h-5">Multi Agent Session Configuration <b-button size="sm" variant="white" v-b-modal.modal-config><i class="fa fa-edit"></i></b-button>
+                <b-row>
+                    <b-col class="d-flex flex-wrap justify-content-center mb-4">
+                        <span v-for="(agent,idx) in agents" v-bind:key="idx" class="mr-3">
+                            <b-card no-body header-bg-variant="info" header-text-variant="white" type="button" class="h-100 card-shadow card-flyer stretched-link" style="width: 320px" v-on:click="agentConfigModal(idx)">
+                                <template v-slot:header>
+                                    <div class="custom-card-header  mb-2">
+                                        {{agent.ident}}
+                                    </div>
+
+                                </template>
+
+                                <b-container class="mt-2">
+                                    <b-row>
+                                        <b-col class="text-center">
+
+                                            <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="width:100px;">
+                                            </b-card-img>
+                                        </b-col>
+
+                                    </b-row>
+                                    <div class="mt-3"></div>
+                                    <b-row>
+                                        <b-col>
+                                            <div>
+                                                <span class="data_label">Spec Id: </span> {{agent.specId}}
+                                            </div>
+                                            <div class="data_label">
+
+                                            </div>
+                                            <div class="data_label">
+                                                Players Assigned: {{getPlayersForAgent(idx).join(" ")}}
+                                            </div>
+
+                                        </b-col>
+                                    </b-row>
+                                </b-container>
+
+                            </b-card>
+                        </span>
+                        <span>
+                            <b-card body-text-variant="" class="h-100 card-shadow card-flyer  " style="width: 100px;background-color:#ccc;color:#000" v-b-modal.modal-select-agent>
+                                <b-card-body class="text-center align-middle">
+                                    <i class="fa fa-plus"></i>
+                                </b-card-body>
+                            </b-card>
+                        </span>
+
+                    </b-col>
+                </b-row>
+
+                <div class="mt-4"></div>
+
+
+                <div v-if="Object.keys(agents).length>1">
+                    <hr />
+
+                    <div class="mt-2 mb-3 d-flex justify-content-center">
+                        <div class="h-5">Multi-Agent Session Configuration <b-button size="sm" variant="white" v-b-modal.modal-config><i class="fa fa-edit"></i></b-button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-4"></div>
-            <hr />
-            <b-row>
-                <b-col>
+                <div class="mt-4"></div>
+                <hr />
+                <b-row  >
+                    <b-col  class="d-flex justify-content-center">
 
-                    <b-alert show variant="danger" v-if="errorMessage">
-                        Submission Failed: {{ errorMessage }}
-                        <div>
-                            <pre class="error">{{ traceback }}</pre>
+                        <b-alert show variant="danger" v-if="errorMessage">
+                            Submission Failed: {{ errorMessage }}
+                            <div>
+                                <pre class="error">{{ traceback }}</pre>
+                            </div>
+                        </b-alert>
+                        <div >
+                            <b-button size="sm" v-if="!submitting" variant="primary" v-on:click="sendData">Submit</b-button>
+                            <b-button v-else variant="primary" disabled>
+                                <b-spinner small type="grow"></b-spinner>Processing...
+                            </b-button>
+
+                            <b-button size="sm" class="ml-2" variant="secondary" v-on:click="showFullConfig()">View Config Output</b-button>
+
                         </div>
-                    </b-alert>
-                    <div class="ml-auto">
-                        <b-button size="sm" v-if="!submitting" variant="primary" v-on:click="sendData">Submit</b-button>
-                        <b-button v-else variant="primary" disabled>
-                            <b-spinner small type="grow"></b-spinner>Processing...
-                        </b-button>
-
-                        <b-button size="sm" class="ml-2" variant="secondary" v-on:click="showFullConfig()">View Config Output</b-button>
-
-                    </div>
-                </b-col>
-            </b-row>
-        </b-container>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
     </div>
-    <div></div>
+    <HelpInfo contentId="agentenv"></HelpInfo>
 </div>
 </template>
 
@@ -614,7 +625,7 @@ export default {
             this.envSpec = val
             if (this.envSpec) {
                 this.envMeta = JSON.parse(this.envSpec.meta)
-                this.envSpecKwargOverrides = JSON.stringify(JSON.parse(this.envSpec.config).env_kwargs,null,2)
+                this.envSpecKwargOverrides = JSON.stringify(JSON.parse(this.envSpec.config).env_kwargs, null, 2)
                 this.resetPlayers();
             }
         }
@@ -724,7 +735,7 @@ export default {
             try {
 
                 let agentConfigList = []
-                Object.values(this.agents).forEach((agent:any) => {
+                Object.values(this.agents).forEach((agent: any) => {
                     let agentConfig = {}
                     agentConfig['ident'] = agent.ident
                     agentConfig['run_config'] = agent.run_config
@@ -761,7 +772,7 @@ export default {
                     env_kwargs: JSON.parse(this.envSpecKwargOverrides),
                     session_config: this.sessionConfig,
                     player_assignments: playerAssignments,
-                    batch_size :parseInt(this.batchSize)
+                    batch_size: parseInt(this.batchSize)
                 };
                 console.log("SENDING " + JSON.stringify(outgoingData));
                 return outgoingData;

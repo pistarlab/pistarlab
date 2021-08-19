@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h1><i class="fa fa-cube"></i> Session</h1>
+    <h1><i class="fa fa-cube"></i> Session: <span v-if="item">{{item.ident}}</span></h1>
     <b-modal id="def-modal" size="lg">
         <div>Config</div>
         <pre v-if="item.config">{{ JSON.parse(item.config) }}</pre>
@@ -16,17 +16,20 @@
         </span> -->
 
         <!-- <b-button title="Browse Data" class="mr-2" variant="secondary" :to="`/data_browser/?path=session/${uid}`" size="sm"><i class="fa fa-folder"></i> Browse Files</b-button> -->
+        <b-button-group  size="sm">
+            <b-button v-if="parentSessionId" :to="`/session/view/${parentSessionId}`"><i class="fa fa-arrow-alt-circle-up"></i> Parent Session</b-button>
 
-        <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
-        <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)" class="mr-2" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
-        <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" class="mr-2" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
-        <b-button class="mr-2" v-if="item && item.parentSession && item.parentSession.task" title="title" variant="secondary" :to="`/task/new/agenttask/${item.parentSession.task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Copy Task
-        </b-button>
-        <b-button class="mr-2" v-else title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-            <i class="fa fa-copy"></i> Copy Task
-        </b-button>
- <SessionRuntimeController :item="item"></SessionRuntimeController>
+            <b-button title="Show Config" variant="secondary" v-b-modal="'def-modal'"><i class="fa fa-info-circle"></i> View Configuration</b-button>
+            <b-button v-if="item && !item.archived" variant="secondary" @click="updateArchive(true)"><i class="fa fa-trash"></i> Archive</b-button>
+            <b-button v-if="item && item.archived" variant="secondary" @click="updateArchive(false)"><i class="fa fa-trash-restore"></i> Restore</b-button>
+            <b-button v-if="item && item.parentSession && item.parentSession.task" title="title" variant="secondary" :to="`/task/new/agenttask/${item.parentSession.task.ident}`" size="sm">
+                <i class="fa fa-copy"></i> Copy Task
+            </b-button>
+            <b-button v-else title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`">
+                <i class="fa fa-copy"></i> Copy Task
+            </b-button>
+        </b-button-group>
+        <SessionRuntimeController :item="item"></SessionRuntimeController>
         <b-button-group class="ml-auto">
             <b-button size="sm" v-b-toggle.tasklogs variant="info">Task Log</b-button>
             <b-button size="sm" v-b-toggle.sessionlogs variant="info">Session Log</b-button>
@@ -61,15 +64,13 @@
                     <AgentCardSmall :agent="item.agent"></AgentCardSmall>
 
                 </div>
-                                                
 
                 <hr />
                 <div v-if="parentSessionId">
-                    <div class="data_label">Parent Session</div>
+                    <div class="data_label"> Parent Session</div>
 
                     <div class="stat_value" v-if="parentSessionId">
-                        <router-link :to="`/session/view/${parentSessionId}`">{{parentSessionId}}</router-link>
-
+                        <router-link :to="`/session/view/${parentSessionId}`"><i class="fa fa-cubes"></i> {{parentSessionId}}</router-link>
                     </div>
 
                 </div>
@@ -80,9 +81,11 @@
                 <div>
                     <div class="data_label">Task</div>
                     <span class="stat_value">
-                        <router-link :to="`/task/view/${task.ident}`">{{
-                    task.ident
-                  }}</router-link>
+                        <router-link v-b-popover.hover.top="'Task Status: ' + task.status" :to="`/task/view/${task.ident}`">
+                            <i v-if="task.status=='RUNNING'" style="color:green" class="fa fa-circle"></i>
+                            <i v-else style="color:red" class="fa fa-circle"></i>
+                            {{task.ident}}</router-link>
+
                     </span>
                 </div>
                 <div class="mt-3">
@@ -116,11 +119,10 @@
                     <b-row>
                         <b-col cols=4 class="text-center">
                             <div>
-                                                           
 
-                                <div class="h4">
-                                    <router-link :to="`/env_spec/view/${item.envSpecId }`">{{item.envSpec.displayedName }} </router-link>
-                                </div>
+                                    <div class="mb-2">
+                                        <router-link class="h3" :to="`/env_spec/view/${item.envSpecId }`"> {{item.envSpec.displayedName }}</router-link>
+                                    </div>
 
                                 <div>
                                     <img v-if="!playingLive && !playingEpisode" :src="`${appConfig.API_URL}/api/env_preview_image/${item.envSpecId}`" alt="xxx" style="height:100%;max-width:400px" />
@@ -140,7 +142,7 @@
 
                                     </span>
 
-                                    <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger" class="mr-2"><i class="fa fa-stop" ></i> Episode {{ maxEpisode }}</b-button>
+                                    <b-button size="sm" v-if="playingEpisode" @click="stopPlaying()" variant="danger" class="mr-2"><i class="fa fa-stop"></i> Episode {{ maxEpisode }}</b-button>
                                     <b-button size="sm" v-if="playingLive" @click="stopPlaying()" variant="danger" class="mr-2"><i class="fa fa-stop"></i></b-button>
                                 </div>
 
@@ -345,7 +347,8 @@ export default {
         StreamView,
         LineChart,
         AgentCardSmall,
-        LogViewer,SessionRuntimeController
+        LogViewer,
+        SessionRuntimeController
     },
     apollo: {
         // Simple query that will update the 'hello' vue property

@@ -3,19 +3,20 @@ import json
 import logging
 import os
 import tarfile
+from typing import Dict,Any
 
 
-def make_tarfile(output_filename, source_dir):
+def make_tarfile(output_filename:str, source_dir:str) -> None:
     with tarfile.open(output_filename, "w:gz") as tar:
         tar.add(source_dir, arcname="data")
 
-def extract_tarfile(tarfilename,output_path):
+def extract_tarfile(tarfilename:str,output_path:str)  -> None:
     tar = tarfile.open(tarfilename)
     tar.extractall(output_path)
     tar.close()
 
 
-def get_snapshots_from_file_repo(data_root):
+def get_snapshots_from_file_repo(data_root:str) -> Dict[str,Dict[str,Any]]:
     logging.info("Loading snapshots {}".format(data_root))
     items = {}
     for (dirpath, dirnames, filenames) in os.walk(data_root):
@@ -24,8 +25,13 @@ def get_snapshots_from_file_repo(data_root):
                 file_path = os.path.join(dirpath, file)
                 with open(file_path, 'r') as f:
                     data = json.load(f)
-                    snapshot_id = "{}_{}_{}_{}_{}".format(data['entity_type'], data['spec_id'], data['submitter_id'], data['seed'], data['snapshot_version'])
+
+                    # For backward compatibility
+                    if "snapshot_id" not in data:
+                        data['snapshot_id'] = "{}_{}_{}_{}_{}".format(data['entity_type'], data['spec_id'], data['submitter_id'], data['seed'], data['snapshot_version'])
+
                     entry = {
+                        "snapshot_id": data['snapshot_id'],
                         'entity_type': data['entity_type'],
                         'spec_id': data['spec_id'],
                         'id': data['id'],
@@ -37,8 +43,7 @@ def get_snapshots_from_file_repo(data_root):
                         'snapshot_version': data['snapshot_version'],
                         'snapshot_description': data['snapshot_description'],
                         'path': dirpath.replace(data_root, "")[1:],
-                        'file_prefix': file.replace(".json", ""),
-                        "snapshot_id": snapshot_id
+                        'file_prefix': file.replace(".json", "")
                     }
-                    items[snapshot_id] = entry
+                    items[entry['snapshot_id']] = entry
     return items
