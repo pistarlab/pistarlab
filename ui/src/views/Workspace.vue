@@ -49,61 +49,71 @@
                     <h3>Your Extensions</h3>
                     <hr />
 
-                    <b-button class="ml-auto" v-b-modal:modal-create-extension size="sm" variant="success"><i class="fa fa-plus"></i> Create New Extension</b-button>
+                    <b-button class="ml-auto" v-b-modal:modal-create-extension size="sm" variant="success"><i class="fa fa-plus"></i> Start New Extension Project</b-button>
                     <div class="mt-4 mb-4">
-                    <div v-if="this.ideFound" >
-                       IDE Status: VS Code seems to be installed.
+                        <div v-if="this.ideFound">
+                            IDE Status: VS Code seems to be installed.
+                        </div>
+                        <div v-else>
+                            IDE Status: VSCode not found. For extension development, we recommend installing an IDE such as <b-link target="_blank" href="https://code.visualstudio.com/">VS Code</b-link>.
+                        </div>
                     </div>
-                    <b-div v-else>
-                       IDE Status: VSCode not found.  For extension development, we recommend installing an IDE such as <b-link target="_blank" href="https://code.visualstudio.com/">VS Code</b-link>.
-                    </b-div>
-                    </div>
-                    <div v-if="workspace" class="mt-3">
+                    <div v-if="!this.loading" class="mt-3">
 
-                        <b-card v-for="(extension,key) in workspace.extensions" v-bind:key="key" class="mb-0 mt-2">
-                            <b-row>
-                                <b-col>
-                                    <div>
-                                        <b-link @click="openExtension(extension)">
-                                            <h4><i class="fa fa-project-diagram"></i> {{extension.name}}</h4>
-                                        </b-link>
-                                    </div>
-
-                                </b-col>
-                                <b-col class="text-center">
-                                    <span v-if="extension.status == 'AVAILABLE'">
-                                        Not Installed
-                                    </span>
-                                    <span v-else>
-                                        Installed
-                                    </span>
-
-                                </b-col>
-                                <b-col class="text-right">
-                                    <b-button v-b-popover.hover.top="'View in code editor (VS CODE) - NOTE: Only works when running piStar Lab local'" class="mr-2" v-if="ideFound" size="sm" @click="openWithIDE(extension.id)"><i class="fas fa-file-code"></i> Open in VS Code</b-button>
-                                    <b-button v-b-popover.hover.top="'Install/Uninstall'" size="sm" :to="`/extension/home/?manageExtensionId=${extension.id}`"><i class="fa fa-redo-alt"></i> Manage</b-button>
-                                </b-col>
-
-                            </b-row>
-                            <b-row>
-                                <b-col>
-                                    <div class="ml-4">
-                                        <div class="small">
-                                            Id: {{extension.id}}
+                        <div v-if="workspace && workspace.extensions && workspace.extensions.length>0">
+                            <b-card v-for="(extension,key) in workspace.extensions" v-bind:key="key" class="mb-0 mt-2">
+                                <b-row>
+                                    <b-col>
+                                        <div>
+                                            <b-link @click="openExtension(extension)">
+                                                <h4><i class="fa fa-project-diagram"></i> {{extension.name}}</h4>
+                                            </b-link>
                                         </div>
-                                        <div class="small">
-                                            Path: {{extension.full_path}}
-                                        </div>
-                                    </div>
-                                </b-col>
-                            </b-row>
 
-                        </b-card>
+                                    </b-col>
+                                    <b-col class="text-center">
+                                        <span v-if="extension.status == 'AVAILABLE'">
+                                            Not Installed
+                                        </span>
+                                        <span v-else>
+                                            Installed
+                                        </span>
+
+                                    </b-col>
+                                    <b-col class="text-right">
+                                        <b-button v-b-popover.hover.top="'View in code editor (VS CODE) - NOTE: Only works when running piStar Lab local'" class="mr-2" v-if="ideFound" size="sm" @click="openWithIDE(extension.id)"><i class="fas fa-file-code"></i> Open in VS Code</b-button>
+                                        <b-button v-b-popover.hover.top="'Install/Uninstall'" size="sm" :to="`/extension/home/?manageExtensionId=${extension.id}`"><i class="fa fa-redo-alt"></i> Manage</b-button>
+                                    </b-col>
+
+                                </b-row>
+                                <b-row>
+                                    <b-col>
+                                        <div class="ml-4">
+                                            <div class="small">
+                                                Id: {{extension.id}}
+                                            </div>
+                                            <div class="small">
+                                                Path: {{extension.full_path}}
+                                            </div>
+                                        </div>
+                                    </b-col>
+                                </b-row>
+
+                            </b-card>
+                        </div>
+                        <div v-else>
+                            
+                            <i class="fa fa-info-circle mr-1"></i> No extensions found in your workspace.
+                        </div>
 
                     </div>
-                    <div class="ml-3 mt-2">
+                    <div v-else>
+                        loading...
+                    </div>
+                    <div class="ml-3 mt-4">
                         <b-link to="/extension/home">View All Extensions</b-link>
                     </div>
+                    
                 </b-col>
 
             </b-row>
@@ -160,6 +170,7 @@ export default {
             message: ".",
             overview: null,
             ideFound: false,
+            loading: true,
             appConfig
 
         };
@@ -210,13 +221,16 @@ export default {
                 });
         },
         loadWorkspace() {
+            this.loading = true
             axios
                 .get(`${appConfig.API_URL}/api/workspace/`)
                 .then((response) => {
                     this.workspace = response.data.data;
+                    this.loading = false
                 })
                 .catch((error) => {
                     this.message = error;
+                    this.loading = false
                 });
         },
         loadOverview() {

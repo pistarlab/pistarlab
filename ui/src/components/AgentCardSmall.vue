@@ -4,7 +4,7 @@
         <div class="h4 text-center">
         <b-link :to="`/agent/view/${agent.ident}`">
         <div class="">{{ agent.ident }}</div>
-        <b-img  style="max-height:100px;" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" class="rounded-0" ></b-img> 
+        <b-img  style="max-height:160px;" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" class="rounded-0 mt-3" ></b-img> 
             
         </b-link>
         </div>

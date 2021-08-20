@@ -4,7 +4,7 @@
         <h1><i class="fa fa-project-diagram"></i> Extensions</h1>
         <div class="mt-4"></div>
 
-        <b-modal id="modal-logviewer" title="Extension Manager Logs" size="lg">
+        <b-modal id="modal-logviewer" title="Extension Manager Logs" size="xl">
             <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/extension_manager`"> </LogViewer>
         </b-modal>
         <div v-if="!manageExtensionId">
@@ -13,8 +13,8 @@
                 Filter by Extension Status:
                 <b-button-toolbar>
                     <b-button-group size="sm">
-                        <b-button class="mr-0" :pressed="selectedStatus==''"  @click="updateStatusFilter('')">Any</b-button>
-                        <b-button class="mr-0" :pressed="selectedStatus=='installed'"  @click="updateStatusFilter('installed')">Installed</b-button>
+                        <b-button class="mr-0" :pressed="selectedStatus==''" @click="updateStatusFilter('')">Any</b-button>
+                        <b-button class="mr-0" :pressed="selectedStatus=='installed'" @click="updateStatusFilter('installed')">Installed</b-button>
                         <b-button class="mr-0" :pressed="selectedStatus=='avail'" @click="updateStatusFilter('avail')">Not Installed</b-button>
 
                     </b-button-group>
@@ -26,7 +26,7 @@
             <b-button class="mr-2" v-for="(btn, idx) in filterCategories" :key="idx" :pressed.sync="btn.state"  @click="updateList()" variant="info" pill>{{ btn.caption }} </b-button>
    
         </b-button-group> -->
-                <b-button class="ml-auto mr-2" v-b-modal:modal-logviewer size="sm" variant="info"><i class="fa fa-bug"></i> View Logs</b-button>
+                <b-button class="ml-auto mr-2" v-b-modal:modal-logviewer size="sm" variant="info"><i class="fa fa-bug"></i> Extension Logs</b-button>
 
             </b-navbar>
             <b-navbar toggleable="lg" type="light" variant="alert">
@@ -36,106 +36,108 @@
 
         </div>
         <div class="mt-4"></div>
+        <div v-if="!loading">
 
-        <div v-if="Object.keys(filteredExtensions).length >0">
-            <b-container fluid>
-                <div v-for="(item, idx) in filteredExtensions" :key="idx">
-                    <b-row>
-                        <b-col>
-                            <div v-b-toggle="'collapse_'+idx">
-                                <h4 class="hover"><i class="fa fa-project-diagram"> </i> {{item.name}}</h4>
-                                <p class="desc">{{item.description}}</p>
-                            </div>
-                        </b-col>
-                        <b-col class="text-center">
-                            <b-link to="/workspace/home">
-                                <b-badge v-if="item.source.name == 'Workspace'" pill variant="warning" class="mr-2"><i class="fa fa-code"></i> In your Workspace</b-badge>
-                            </b-link>
-                        </b-col>
-
-                        <b-col>
-                            <div class="text-right">
-                                <b-button v-if="item.status == 'AVAILABLE'" size="sm" variant="info" @click="installExtension(item.id,item.version);">Install</b-button>
-                                <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="" disabled>
-                                    <b-spinner small type="grow"></b-spinner>Installing...
-                                </b-button>
-                                <div v-else>
-                                    <b-button v-if="item.status == 'INSTALL_FAILED'" size="sm" variant="secondary" class="mr-2" @click="installExtension(item.id,item.version);">Retry Install</b-button>
-                                    <b-button v-if="item.status == 'INSTALLED'" size="sm" variant="secondary" class="mr-2" @click="installExtension(item.id,item.version);">Reinstall</b-button>
-
-                                    <b-button class="mr-2" size="sm" variant="" @click="removeExtension(item.id,item.version)">Uninstall</b-button>
-                                    <!-- <b-button v-if="['INSTALLED','PREPPED_RELOAD'].includes(item.status)" class="mr-2" size="sm" variant="secondary" @click="reloadExtension(item.id,item.version)">Reload</b-button> -->
+            <div v-if="Object.keys(filteredExtensions).length >0">
+                <b-container fluid>
+                    <div v-for="(item, idx) in filteredExtensions" :key="idx">
+                        <b-row>
+                            <b-col>
+                                <div v-b-toggle="'collapse_'+idx">
+                                    <span class="hover h4"><i class="fa fa-project-diagram"> </i> {{item.name}}</span>       <b-link v-b-popover.hover.top="'This extension is in your workspace.'" class="ml-2" to="/workspace/home">
+                                    <b-badge v-if="item.source.name == 'Workspace'" pill variant="warning" class="mr-2"><i class="fa fa-code"></i> Workspace</b-badge>
+                                </b-link>
+                                    <p class="desc">{{item.description}}</p>
                                 </div>
-                            </div>
-                        </b-col>
-                    </b-row>
+                            </b-col>
+                 
+                            <b-col>
+                                <div class="text-right">
+                                    <b-button v-if="item.status == 'AVAILABLE'" size="sm" variant="info" @click="installExtension(item.id,item.version);">Install</b-button>
+                                    <b-button v-else-if="item.status == 'INSTALLING'" size="sm" variant="" disabled>
+                                        <b-spinner small type="grow"></b-spinner>Installing...
+                                    </b-button>
+                                    <div v-else>
+                                        <b-button v-if="item.status == 'INSTALL_FAILED'" size="sm" variant="secondary" class="mr-2" @click="installExtension(item.id,item.version);">Retry Install</b-button>
+                                        <b-button v-if="item.status == 'INSTALLED'" size="sm" variant="secondary" class="mr-2" @click="installExtension(item.id,item.version);">Reinstall</b-button>
 
-                    <b-row class="small ">
-                        <b-col>
+                                        <b-button class="mr-2" size="sm" variant="" @click="removeExtension(item.id,item.version)">Uninstall</b-button>
+                                        <!-- <b-button v-if="['INSTALLED','PREPPED_RELOAD'].includes(item.status)" class="mr-2" size="sm" variant="secondary" @click="reloadExtension(item.id,item.version)">Reload</b-button> -->
+                                    </div>
+                                </div>
+                            </b-col>
+                        </b-row>
 
-                            <div>
-                                <span class="data_label mt-1">ID: </span><span>{{item.id}}</span>
-                            </div>
-                            <div>
-                                <span class="data_label mt-1">Version: </span><span>{{item.version}}</span>
-                            </div>
-                            <div>
-                                <span class="data_label mt-1">Categories: </span>
-                                <span>{{item.categories.join(",")}}</span>
-                            </div>
-                            <div>
-                                <span class="data_label mt-1">Original Author: </span>
-                                <span>{{item.original_author}}</span>
-                            </div>
-                            <div>
-                                <span class="data_label mt-1">Extension Author: </span>
-                                <span>{{item.extension_author}}</span>
-                            </div>
-                        </b-col>
-                        <b-col class="">
-                            <div>
-                                <span class="data_label mt-1">Source Name: </span>
-                                <span>{{item.source.name}} </span>
+                        <b-row class="small ">
+                            <b-col>
 
-                            </div>
-                            <div v-if="item.source.type">
-                                <span class="data_label mt-1">Source Type: </span>
+                                <div>
+                                    <span class="data_label mt-1">ID: </span><span>{{item.id}}</span>
+                                </div>
+                                <div>
+                                    <span class="data_label mt-1">Version: </span><span>{{item.version}}</span>
+                                </div>
+                                <div>
+                                    <span class="data_label mt-1">Categories: </span>
+                                    <span>{{item.categories.join(",")}}</span>
+                                </div>
+                                <div>
+                                    <span class="data_label mt-1">Original Author: </span>
+                                    <span>{{item.original_author}}</span>
+                                </div>
+                                <div>
+                                    <span class="data_label mt-1">Extension Author: </span>
+                                    <span>{{item.extension_author}}</span>
+                                </div>
+                            </b-col>
+                            <b-col class="">
+                                <div>
+                                    <span class="data_label mt-1">Source Name: </span>
+                                    <span>{{item.source.name}} </span>
 
-                                <span>{{item.source.type}}</span>
-                            </div>
-                            <div v-if="item.source.path">
-                                <span class="data_label mt-1">Source Path: </span>
+                                </div>
+                                <div v-if="item.source.type">
+                                    <span class="data_label mt-1">Source Type: </span>
 
-                                <span>{{item.source.path}}</span>
-                            </div>
-                            <div v-if="item.full_path">
-                                <span class="data_label mt-1">Full Path: </span>
+                                    <span>{{item.source.type}}</span>
+                                </div>
+                                <div v-if="item.source.path">
+                                    <span class="data_label mt-1">Source Path: </span>
 
-                                <span style="color:yellow">{{item.full_path}}</span>
-                            </div>
+                                    <span>{{item.source.path}}</span>
+                                </div>
+                                <div v-if="item.full_path">
+                                    <span class="data_label mt-1">Full Path: </span>
 
-                        </b-col>
-                        <b-col class="">
-                            <span class="data_label mt-1">State: </span>
-                            <span v-if="item.status == 'PREPPED_RELOAD'" style="color:yellow">**Restart piSTAR Lab to complete installation*</span>
-                            <span v-else>{{item.status}} </span>
-                            <span v-if="(item.status == 'INSTALL_FAILED' || item.status == 'UNINSTALL_FAILED') && item.status_msg">
-                                <pre>{{item.status_msg}}</pre>
-                            </span>
-                        </b-col>
-                    </b-row>
+                                    <span style="color:yellow">{{item.full_path}}</span>
+                                </div>
 
-                    <span v-if="idx != Object.keys(filteredExtensions).length - 1">
-                        <hr /> </span>
+                            </b-col>
+                            <b-col class="">
+                                <span class="data_label mt-1">State: </span>
+                                <span v-if="item.status == 'PREPPED_RELOAD'" style="color:yellow">**Restart piSTAR Lab to complete installation*</span>
+                                <span v-else>{{item.status}} </span>
+                                <span v-if="(item.status == 'INSTALL_FAILED' || item.status == 'UNINSTALL_FAILED') && item.status_msg">
+                                    <pre>{{item.status_msg}}</pre>
+                                </span>
+                            </b-col>
+                        </b-row>
 
-                </div>
-            </b-container>
+                        <span v-if="idx != Object.keys(filteredExtensions).length - 1">
+                            <hr /> </span>
+
+                    </div>
+                </b-container>
+            </div>
+
+            <div v-else>
+
+                No Extensions Found
+
+            </div>
         </div>
-
         <div v-else>
-
-            No Extensions Found
-
+            loading...
         </div>
     </div>
     <HelpInfo contentId="extensions"></HelpInfo>
@@ -201,6 +203,7 @@ export default {
             allExtensions: {},
             error: "",
             selected: [],
+            loading: true,
 
             selectedStatus: "",
             onlyWorkspaceExtensions: false,
@@ -343,6 +346,7 @@ export default {
                     this.errorMessage = error;
                 });
             this.loadData();
+
         },
         openLink(url) {
             console.log(url)
@@ -355,15 +359,18 @@ export default {
 
         },
         loadData() {
+            this.loading = true
 
             axios
                 .get(`${appConfig.API_URL}/api/extensions/list`)
                 .then((response) => {
                     this.allExtensions = response.data["items"]
+                    this.loading = false
 
                 })
                 .catch((e) => {
                     this.error = e;
+                    this.loading = false
                 });
         },
         updateStatusFilter(status) {

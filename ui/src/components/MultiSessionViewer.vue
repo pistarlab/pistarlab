@@ -12,7 +12,7 @@
     <b-button-toolbar>
         <b-button-group class="mr-auto">
             <b-button class="mr-2" title="title" variant="secondary" :to="`/task/new/agenttask/${task.ident}`" size="sm">
-                <i class="fa fa-copy"></i> Copy Session
+                <i class="fa fa-copy"></i> Copy Task
             </b-button>
             <b-button class="mr-2" title="Show Config" variant="secondary" v-b-modal="'def-modal'" size="sm"><i class="fa fa-info-circle"></i> View Configuration</b-button>
             <SessionRuntimeController :item="item"></SessionRuntimeController>
@@ -156,7 +156,7 @@
                                             <template v-slot:cell(agentId)="data">
                                                 <!-- `data.value` is the value after formatted by the Formatter -->
                                                 <span v-if="data.item.agent">
-                                                    <b-img  style="max-height:50px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 mr-2" ></b-img> 
+                                                    <b-img  style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 mr-4" ></b-img> 
                                                     <router-link :to="`/agent/view/${data.item.agent.ident}`">{{ data.item.agent.ident }}</router-link> ({{ data.item.agent.specId }})
                                                 </span>
                                             </template>

@@ -824,8 +824,8 @@ img .noscaleimg {
 }
 
 img{
-     -webkit-filter: drop-shadow(10px 10px 10px #000);
-        filter: drop-shadow(10px 10px 10px  #000);
+     -webkit-filter: drop-shadow(8px 8px 8px #000);
+        filter: drop-shadow(8px 8px 8px  #000);
 }
 
 .desc {
@@ -907,6 +907,11 @@ select option{
     background-color: #000;
     border-color: #000;
 }
+
+/* .agentfun:hover {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+} */
 
 
 </style>

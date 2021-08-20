@@ -43,8 +43,7 @@
                                 <b-link @click="focus='tasks'">Tasks</b-link>
                             </li>
                         </ul>
-                        <a target="_blank" :href="appConfig.API_URL+'/docs/'">Open Documentation</a>  
-
+                        <a target="_blank" :href="appConfig.API_URL+'/docs/'">Open Documentation</a>
 
                     </b-col>
                 </b-row>
@@ -58,7 +57,7 @@
             <b-container>
                 <b-row>
                     <b-col>
-                        
+
                         <b-alert show>
                             Note: Still in early development. Some functionality is limited or difficult to use.
                         </b-alert>
@@ -66,19 +65,18 @@
                         <h4>What can I do with piSTAR Lab?</h4>
                         <p>
                             piSTAR Lab is an experimentation platform designed to help you create and train your own Agents on a growing number of environments. Depending on your background and motivation, you can use piSTAR Lab in different ways.
-                            <br/>
+                            <br />
 
                             <ul>
-                            <li><b>- AI Enthusiests</b> that have limited or no coding experience, can use piSTAR Lab to train Agents with a few clicks in the UI. Like teaching a child, you can train your agent on simple related tasks first to prepare it for more difficult tasks. Competitions are coming.</li>
-                            <li><b>- AI Researchers and Engineers</b> can develop new or add their existing algorithms to piSTAR via "Extensions"</li>
-                            <li><b>- Game Developers</b> intersted in AI can develop create Extensions" which make there game playable by piSTAR Agents.</li>
+                                <li><b>- AI Enthusiests</b> that have limited or no coding experience, can use piSTAR Lab to train Agents with a few clicks in the UI. Like teaching a child, you can train your agent on simple related tasks first to prepare it for more difficult tasks. Competitions are coming.</li>
+                                <li><b>- AI Researchers and Engineers</b> can develop new or add their existing algorithms to piSTAR via "Extensions"</li>
+                                <li><b>- Game Developers</b> intersted in AI can create Extensions" which make there game playable by piSTAR Agents.</li>
                             </ul>
-                                                  
+
                         </p>
 
                         <br />
 
-                        
                     </b-col>
                 </b-row>
             </b-container>
@@ -133,7 +131,7 @@
                             Statistics gathered while an agent is running usually during the learning step.
                         </p>
                         <br />
-                          <b-link @click="focus='agentenv'">Agent /Environment Compatibility</b-link>
+                        <b-link @click="focus='agentenv'">Agent /Environment Compatibility</b-link>
                         <div class="text-center">
                             <img src="ai-play_5.png" width=200 />
                         </div>
@@ -154,7 +152,6 @@
                         <p>
                             Not all agents or agent specs are compatible with all environments. The observations an agent receives from an environment but be supported by that agent. Likewise, the the actions taken by the agent must be supported by the environment.
                         </p>
-                        
 
                     </b-col>
                 </b-row>
@@ -195,18 +192,18 @@
                         <br />
                         <h6>Environment Specs</h6>
                         <p>
-                            We currenlty support Single-Agent and Multi-Agent Reinforcement Learning environments. 
-                            <br/>
-                            <br/>
+                            We currenlty support Single-Agent and Multi-Agent Reinforcement Learning environments.
+                            <br />
+                            <br />
                             <b>Data Environments</b> are coming soon.
                         </p>
-                        
+
                         <br />
                         <h6>Rewards</h6>
                         <p>
-                            Rewards can be used provide guidence to the agent while interacting with an environment.
+                            Rewards are used to provide guidence to the agent while interacting with an environment.
                         </p>
-                        
+
                     </b-col>
                 </b-row>
             </b-container>
@@ -221,6 +218,11 @@
                         <p>
                             Your workspace is where you can create and develop your own custom extensions.
                             By default, your workspace directory is under you the pistarlab/workspace folder in your home directory.
+                        </p>
+                        <br />
+                        <h6>Backup and Version Control</h6>
+                        <p>
+                            You are responsible for backing up extensions you create in your workspace.
                         </p>
                     </b-col>
                 </b-row>

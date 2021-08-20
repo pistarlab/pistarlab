@@ -61,16 +61,5 @@
     "description": "Text Environments included with OpenAI Gym",
     "extension_author": "piSTAR Lab",
     "original_author": "OpenAI - openai.com"
-  },
-  {
-    "id": "pistarlab-envs-gym-minigrid",
-    "version": "0.0.1-dev",
-    "name": "MiniGrid",
-    "categories": [
-      "envs"
-    ],
-    "description": "Minimalistic Gridworld Environment: https://github.com/maximecb/gym-minigrid",
-    "extension_author": "piSTAR Lab",
-    "original_author": "Chevalier-Boisvert, Maxime et al. - https://github.com/maximecb/gym-minigrid"
   }
 ]

@@ -77,9 +77,7 @@ class Storage(FileStore):
         key = (SESSION_ENTITY, session_id)
         self.extend_multipart_dict(key, name=name, value=logs)
 
-    def get_session_logs(self, session_id, name):
-        key = (SESSION_ENTITY, session_id)
-        return self.get_multipart_dict(key=key, name=name)
+
 
     def save_episode_recording(self,
                                session_id: str,

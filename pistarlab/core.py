@@ -410,12 +410,13 @@ class SysContext:
     # Sessions
     def list_sessions(self, status_filter=None) -> List[str]:
         query = self.get_dbsession().query(SessionModel)
-        sessions =  [v.id for v in query.all() if v.archived is False]
+        sessions =  [v for v in query.all() if v.archived is False]
         if status_filter is not None:
-            filtered_sessions = [s for s in sessions if s['status'] in status_filter]
+            filtered_sessions = [s for s in sessions if s.status in status_filter]
             return filtered_sessions
         else:
             return sessions
+            
     def list_sessions_detailed(self, status_filter=None) -> List[str]:
         query = self.get_dbsession().query(SessionModel)
         sessions =  [{'id': v.id, 'env_spec_id': v.env_spec_id, 'task_id': v.task_id, 'agent_id': v.agent_id, 'status': v.status} for v in query.all()]

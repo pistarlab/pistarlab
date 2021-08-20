@@ -146,17 +146,22 @@ def api_workspace_data():
 def api_overview_data():
     # TODO: Cleanup/speedup by using COUNT query
     data = {}
-    data['total_agents'] = len(ctx.list_agents())
-    data['total_agent_specs'] = len(ctx.list_agent_specs())
-    data['total_env_specs'] = len(ctx.list_env_specs())
-    data['total_installed_extensions'] = len(
-        ctx.list_extensions(status_filter="INSTALLED"))
-    data['total_sessions'] = len(ctx.list_sessions())
-    data['active_sessions'] = len(
-        ctx.list_sessions(status_filter={STATE_RUNNING}))
-    response = make_response(data)
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    try:
+        data['total_agents'] = len(ctx.list_agents())
+        data['total_agent_specs'] = len(ctx.list_agent_spec_ids())
+        data['total_env_specs'] = len(ctx.list_env_spec_ids())
+        data['total_installed_extensions'] = len(
+            ctx.list_extensions(status_filter="INSTALLED"))
+        data['total_sessions'] = len(ctx.list_sessions())
+        data['active_sessions'] = len(
+            ctx.list_sessions(status_filter={STATE_RUNNING}))
+        response = make_response(data)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    except Exception as e:
+        logging.error(f"Error: {e} Traceback: {traceback.format_exc()}")
+        raise e
+             
 
 
 @app.route("/api/status/")

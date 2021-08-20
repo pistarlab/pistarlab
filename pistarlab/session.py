@@ -27,7 +27,7 @@ class Session(Entity):
 
     @staticmethod
     def get_logs_by_id(session_id, name):
-        return ctx.get_store().get_session_logs(session_id, name)
+        return ctx.get_store().get_session_data(session_id, name)
 
     @staticmethod
     def get_dbmodel_by_id(id) -> SessionModel:

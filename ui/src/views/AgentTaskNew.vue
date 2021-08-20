@@ -1,7 +1,7 @@
 <template>
 <div class="page">
     <div class="page-content">
-        <h1>New Agent Task</h1>
+        <h1>Assign New Task</h1>
 
         <b-modal id="modal-launch-task" title="Launching Task" size="lg" :hide-footer="true" :hide-header-close="true" :no-close-on-backdrop="true" :no-close-on-esc="true">
             <TaskLoad :uid="newTaskId"></TaskLoad>
@@ -29,7 +29,7 @@
                     <b-col>
                         <div>
 
-                            These are aguments passed directly to the environment. Changing these may impact behavior and incomparable and inconsistant results.
+                            These are aguments passed directly to the environment. Changing these may impact behavior and make results incomparable.
                             <br />
                             <br />
                             JSON format required.
@@ -79,7 +79,7 @@
 
             <template v-slot:modal-footer="{  }">
                 <b-button variant="primary" @click="updateAgentConfig();">Ok</b-button>
-                <b-button variant="danger" @click="removeAgent();">Remove Agent</b-button>
+                <b-button @click="removeAgent();"><i class="fa fa-trash"></i> Remove</b-button>
 
             </template>
         </b-modal>
@@ -117,7 +117,7 @@
         </b-modal>
         <div>
             <b-container fluid>
-                <b-row >
+                <b-row>
                     <b-col class="d-flex justify-content-center">
                         <h3><i class="fas fa-gamepad"></i> Environment</h3>
                         <div class="mt-4"></div>
@@ -137,14 +137,18 @@
                                         <b-col>
                                             <b-container>
                                                 <b-row>
-                                                    <b-col>
+                                                    <b-col cols=4>
 
                                                         <div class="mt-auto">
                                                             <div class="mb-4">
-                                                                <h3>{{envSpec.ident}}</h3>
+
+                                                                <router-link :to="`/env_spec/view/${envSpec.ident}`">
+                                                                    <h3>{{envSpec.displayedName}}</h3>
+                                                                </router-link>
                                                             </div>
 
                                                             <div class="data_label">Environment: {{ envSpec.environment.ident }}</div>
+
                                                             <div class="data_label">Type: {{ envSpec.envType }}</div>
 
                                                             <div class="data_label" v-if="envMeta.num_players">Num Agents:
@@ -154,10 +158,23 @@
                                                             <div class="data_label">
 
                                                                 <b-modal id="show-obvdetails" size="lg" scrollable>
+                                                                    <b-row class="h4">
+                                                                        <b-col cols=3>Agent Slot Name</b-col>
+                                                                        <b-col>
+                                                                            Observation Space
+                                                                        </b-col>
 
+                                                                    </b-row>
+                                                                    <hr />
                                                                     <span v-if="envMeta && envMeta.observation_spaces">
-                                                                        <pre> {{envMeta.observation_spaces}}</pre>
+                                                                        <b-row v-for="(space, name) in envMeta.observation_spaces" v-bind:key="name">
+                                                                            <b-col cols=3> {{name}}</b-col>
+                                                                            <b-col>
+                                                                                <SpaceInfo :space="space">
+                                                                                </SpaceInfo>
+                                                                            </b-col>
 
+                                                                        </b-row>
                                                                     </span>
 
                                                                     <span v-else>No observation spaces defined</span>
@@ -171,11 +188,26 @@
 
                                                                 <b-modal id="show-actdetails" size="lg" scrollable>
 
+                                                                    <b-row class="h4">
+                                                                        <b-col cols=3>Agent Slot Name</b-col>
+                                                                        <b-col>
+                                                                            Action Space
+                                                                        </b-col>
+
+                                                                    </b-row>
+                                                                    <hr />
                                                                     <span v-if="envMeta && envMeta.action_spaces">
-                                                                        <pre>
-                                                                        {{envMeta.action_spaces}}
-                                                                        </pre>
+                                                                        <b-row v-for="(space, name) in envMeta.action_spaces" v-bind:key="name">
+                                                                            <b-col cols=3> {{name}}</b-col>
+                                                                            <b-col>
+                                                                                <SpaceInfo :space="space">
+                                                                                </SpaceInfo>
+                                                                            </b-col>
+
+                                                                        </b-row>
+
                                                                     </span>
+
                                                                     <span v-else>No action spaces defined</span>
 
                                                                 </b-modal>
@@ -187,15 +219,39 @@
                                                     </b-col>
                                                     <b-col>
 
-                                                        <b-container class="border-left">
+                                                        <b-container fluid class="border-left">
 
                                                             <div>
                                                                 <div style="max-height:250px;" class="overflow-auto">
                                                                     <h3>Players</h3>
                                                                     <hr />
-                                                                    <b-row v-for="(slot,idx) in envPlayers" v-bind:key="idx" class="m-0 mb-2">
-                                                                        <b-col>{{slot.id}}</b-col>
+                                                                    <b-row class="m-0 mb-2" style="font-weight:600">
+                                                                        <b-col cols=2>Slot Id
+                                                                        </b-col>
                                                                         <b-col>
+                                                                            Observation Space
+                                                                        </b-col>
+                                                                        <b-col>
+                                                                            Action Space
+                                                                        </b-col>
+                                                                        <b-col cols=2>
+                                                                            Assignment
+                                                                        </b-col>
+                                                                        <b-col cols=1>
+                                                                        </b-col>
+                                                                    </b-row>
+                                                                    <b-row v-for="(slot,idx) in envPlayers" v-bind:key="idx" class="m-0">
+                                                                        <b-col cols=2>{{slot.id}}</b-col>
+                                                                        <b-col>
+                                                                            <SpaceInfo :space="envMeta.observation_spaces[slot.id]">
+                                                                            </SpaceInfo>
+                                                                        </b-col>
+
+                                                                        <b-col>
+                                                                            <SpaceInfo :space="envMeta.action_spaces[slot.id]">
+                                                                            </SpaceInfo>
+                                                                        </b-col>
+                                                                        <b-col cols=2>
                                                                             <span v-if="slot.agent != null">
                                                                                 {{agents[slot.agent].ident}}
                                                                             </span>
@@ -204,7 +260,7 @@
                                                                             </span>
                                                                         </b-col>
 
-                                                                        <b-col>
+                                                                        <b-col cols=1>
                                                                             <b-link size="sm" v-on:click="assignPlayerModal(idx)"><i class="fa fa-edit"></i></b-link>
                                                                         </b-col>
 
@@ -235,12 +291,12 @@
                                 </b-container>
                             </b-card>
                             <div class="d-flex mt-4 justify-content-center">
-                            <b-button size="sm" variant="info" v-b-modal.modal-select-envspec>Change Environment</b-button>
-                            <b-button size="sm" class="ml-2" variant="secondary" v-b-modal.modal-configure-envspec>Edit Arguments</b-button>
+                                <b-button size="sm" variant="info" v-b-modal.modal-select-envspec>Change Environment</b-button>
+                                <b-button size="sm" class="ml-2" variant="secondary" v-b-modal.modal-configure-envspec>Edit Arguments</b-button>
                             </div>
 
                         </div>
-                        <div v-else  class="d-flex justify-content-center">
+                        <div v-else class="d-flex justify-content-center">
                             <b-card body-text-variant="" v-b-modal.modal-select-envspec class="h-100 card-shadow card-flyer" style="width: 100px;background-color:#ccc;color:#000">
                                 <b-card-body class="text-center">
 
@@ -261,26 +317,33 @@
                 <div class="mt-4"></div>
                 <b-row>
                     <b-col class="d-flex justify-content-center">
-                <h3><i class="fas fa-robot"></i> Agents</h3>
-                    </b-col></b-row>
+                        <h3><i class="fas fa-robot"></i> Agents</h3>
+                    </b-col>
+                </b-row>
                 <div class="mt-4"></div>
 
                 <b-row>
                     <b-col class="d-flex flex-wrap justify-content-center mb-4">
                         <span v-for="(agent,idx) in agents" v-bind:key="idx" class="mr-3">
-                            <b-card no-body header-bg-variant="info" header-text-variant="white" type="button" class="h-100 card-shadow card-flyer stretched-link" style="width: 320px" v-on:click="agentConfigModal(idx)">
+                            <b-card no-body header-bg-variant="info" header-text-variant="white" class="h-100 card-shadow card-flyer " style="width: 320px">
                                 <template v-slot:header>
-                                    <div class="custom-card-header  mb-2">
-                                        {{agent.ident}}
-                                    </div>
+                                      <b-button-toolbar>
+                                    <span class="custom-card-header  mb-2">
+                            
+                                            {{agent.ident}}
+                                        </span>
 
+                                    
+                                        <b-link class="ml-auto mt-1"  v-on:click="agentConfigModal(idx)"><i style="color:white" class="fa fa-edit"></i></b-link>
+                            
+                                      </b-button-toolbar>
                                 </template>
 
                                 <b-container class="mt-2">
                                     <b-row>
                                         <b-col class="text-center">
 
-                                            <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="width:100px;">
+                                            <b-card-img class="rounded-0 mt-2" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="width:250px;">
                                             </b-card-img>
                                         </b-col>
 
@@ -295,7 +358,35 @@
 
                                             </div>
                                             <div class="data_label">
-                                                Players Assigned: {{getPlayersForAgent(idx).join(" ")}}
+                                                Players Assigned:
+                                            </div>
+
+                                            <div v-for="(player,pidx) in getPlayersDataForAgent(idx)" v-bind:key="pidx" class="ml-2">
+                                                <span>
+                                                    {{player.id}} :
+                                                </span>
+                                                <span v-if="agent.run_config.interfaces.run.auto_config_spaces">
+                                                    Space assignment at runtime
+                                                </span>
+                                                <span v-else>
+
+                                                    Obs Space:
+                                                    <span v-b-popover.hover.top="'Observation Check: Success'" v-if="checkSpaceMatch(agent.run_config.interfaces.run.observation_space,player.observation_space)">
+                                                        <i style="color:green" class="fa fa-check-square"></i>
+                                                    </span>
+                                                    <span v-else v-b-popover.hover.top="'Observation Check: Failed'">
+                                                        <i style="color:red" class="fa fa-times-circle"></i>
+                                                    </span>
+                                                    <span class="ml-2 mr-2">/</span>
+
+                                                    Action Space:
+                                                    <span v-b-popover.hover.top="'Action Check: Success'" v-if="checkSpaceMatch(agent.run_config.interfaces.run.action_space,player.action_space)">
+                                                        <i style="color:green" class="fa fa-check-square"></i>
+                                                    </span>
+                                                    <span v-b-popover.hover.top="'Action Check: Failed'" v-else>
+                                                        <i style="color:red" class="fa fa-times-circle"></i>
+                                                    </span>
+                                                </span>
                                             </div>
 
                                         </b-col>
@@ -317,7 +408,6 @@
 
                 <div class="mt-4"></div>
 
-
                 <div v-if="Object.keys(agents).length>1">
                     <hr />
 
@@ -328,8 +418,8 @@
                 </div>
                 <div class="mt-4"></div>
                 <hr />
-                <b-row  >
-                    <b-col  class="d-flex justify-content-center">
+                <b-row>
+                    <b-col class="d-flex justify-content-center">
 
                         <b-alert show variant="danger" v-if="errorMessage">
                             Submission Failed: {{ errorMessage }}
@@ -337,8 +427,8 @@
                                 <pre class="error">{{ traceback }}</pre>
                             </div>
                         </b-alert>
-                        <div >
-                            <b-button size="sm" v-if="!submitting" variant="primary" v-on:click="sendData">Submit</b-button>
+                        <div>
+                            <b-button :disabled="!readyForSubmit" size="sm" v-if="!submitting" variant="primary" v-on:click="sendData">Submit</b-button>
                             <b-button v-else variant="primary" disabled>
                                 <b-spinner small type="grow"></b-spinner>Processing...
                             </b-button>
@@ -349,6 +439,7 @@
                     </b-col>
                 </b-row>
             </b-container>
+
         </div>
     </div>
     <HelpInfo contentId="agentenv"></HelpInfo>
@@ -515,6 +606,8 @@ import AgentSelector from "../components/AgentSelector2.vue";
 import EnvSelector from "../components/EnvSelector.vue";
 import ParamEditor from "../components/ParamEditor.vue";
 
+import SpaceInfo from "../components/SpaceInfo.vue";
+
 import TaskLoad from "../components/TaskLoad.vue";
 
 export default {
@@ -523,7 +616,8 @@ export default {
         AgentSelector,
         EnvSelector,
         TaskLoad,
-        ParamEditor
+        ParamEditor,
+        SpaceInfo
     },
     apollo: {
         wrappers: GET_WRAPPERS,
@@ -580,6 +674,10 @@ export default {
         envSpecId: String,
     },
     computed: {
+        readyForSubmit() {
+            return Object.keys(this.agents).length > 0 && this.envSpec != null
+
+        },
         wrapperOptions() {
             return this.wrappers.map((el, i) => {
                 return {
@@ -589,20 +687,20 @@ export default {
             });
         },
 
-        checkSpaceMatch() {
-            if (this.envSpec == null || this.agent == null) {
-                return "NA";
-            } else {
-                const envObsSpace = JSON.parse(this.envSpec.meta).observation_space;
-                const agentObsSpace = JSON.parse(this.agent.config).observation_space;
+        // spacematch() {
+        //     if (this.envSpec == null || this.agent == null) {
+        //         return "NA";
+        //     } else {
+        //         const envObsSpace = JSON.parse(this.envSpec.meta).observation_space;
+        //         const agentObsSpace = JSON.parse(this.agent.config).observation_space;
 
-                if (JSON.stringify(envObsSpace) == JSON.stringify(agentObsSpace)) {
-                    return "Compatible";
-                } else {
-                    return "Incompatible";
-                }
-            }
-        },
+        //         if (JSON.stringify(envObsSpace) == JSON.stringify(agentObsSpace)) {
+        //             return "Compatible";
+        //         } else {
+        //             return "Incompatible";
+        //         }
+        //     }
+        // },
 
         selectedAgentParams() {
             if (!this.selectedAgent || !this.selectedAgent.spec) {
@@ -631,6 +729,13 @@ export default {
         }
     },
     methods: {
+        checkSpaceMatch(space1, space2) {
+            if (space1 == null || space2 == null) {
+                return null;
+            } else {
+                return JSON.stringify(space1) == JSON.stringify(space2)
+            }
+        },
 
         showFullConfig() {
             this.fullConfig = JSON.stringify(this.prepData(), null, 2)
@@ -708,6 +813,16 @@ export default {
             })
             if (results.length == 0)
                 results.push("None")
+            return results
+
+        },
+        getPlayersDataForAgent(agentIdx) {
+            let results = []
+            this.envPlayers.forEach((player) => {
+                if (player.agent == agentIdx) {
+                    results.push(player)
+                }
+            })
             return results
 
         },

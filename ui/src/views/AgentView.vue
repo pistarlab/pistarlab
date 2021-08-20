@@ -31,17 +31,15 @@
                 <hr />
                 <div class="mt-2"></div>
                 <b-card>
-                <h3>Current Snapshots</h3>
-                <div class="mt-2"></div>
-                <b-table :items="snapshots" :fields="pubfields">
-                </b-table>
+                    <h3>Current Snapshots</h3>
+                    <div class="mt-2"></div>
+                    <b-table :items="snapshots" :fields="pubfields">
+                    </b-table>
                 </b-card>
                 <template v-slot:modal-footer="{ ok }">
                     <b-button variant="primary" @click="ok();">Close</b-button>
                 </template>
             </b-modal>
-
-
 
             <b-modal id="modal-create-clone" title="Create Clone">
                 <p>
@@ -49,19 +47,16 @@
                 </p>
 
                 <b-button :disabled="submitting" @click="createClone()">Create Full Clone</b-button>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <div class="text-center">
-                 <b-button 
-                    class="ml-2" v-if="clonedAgentId" :key="$route.path" :to="`/agent/view/${clonedAgentId}`" 
-                    @click="clonedAgentId = null;graphList=[];$bvModal.hide('modal-create-clone')">
-                 Agent Clone Id: {{clonedAgentId}}
-                </b-button>
-                <span v-else>...</span>
+                    <b-button class="ml-2" v-if="clonedAgentId" :key="$route.path" :to="`/agent/view/${clonedAgentId}`" @click="clonedAgentId = null;graphList=[];$bvModal.hide('modal-create-clone')">
+                        Agent Clone Id: {{clonedAgentId}}
+                    </b-button>
+                    <span v-else>...</span>
                 </div>
 
             </b-modal>
-
 
             <div class="mt-4"></div>
 
@@ -70,15 +65,17 @@
             <!-- <b-button variant="secondary" v-b-modal="'def-modal'" class="ml-1" size="sm">Configuration</b-button> -->
             <b-button-toolbar>
                 <b-button-group>
-            <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`"  size="sm"><i class="fa fa-plus-square"></i> Assign</b-button>
+                    <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" size="sm"><i class="fa fa-plus-square"></i> Assign Task</b-button>
 
-            <b-button variant="secondary" v-b-modal="'edit-modal'"  size="sm"><i class="fa fa-edit"></i> Configure</b-button>
-            <b-button title="Create Snapshot" variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()"  size="sm"><i class="fa fa-camera-retro"></i> Snapshot</b-button>
-            <b-button title="Create Clone" variant="secondary" v-b-modal="'modal-create-clone'"  size="sm"><i class="fa fa-clone"></i> Clone</b-button>
-            <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
-            <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
-            <b-button variant="secondary"  v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
-            <b-button variant="secondary" v-b-modal="'meta-modal'"  size="sm"><i class="fa fa-info-circle"></i> Metadata</b-button>
+                    <b-button variant="secondary" v-b-modal="'edit-modal'" size="sm"><i class="fa fa-edit"></i> Configure</b-button>
+                    <b-button title="Create Snapshot" variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" size="sm"><i class="fa fa-camera-retro"></i> Snapshot</b-button>
+                    <b-button title="Create Clone" variant="secondary" v-b-modal="'modal-create-clone'" size="sm"><i class="fa fa-clone"></i> Clone</b-button>
+                    <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
+                    <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
+                    <b-button variant="secondary" v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
+                    <b-button variant="secondary" v-b-modal="'meta-modal'" size="sm"><i class="fa fa-info-circle"></i> Metadata</b-button>
+                    <b-button variant="info" title="Move to archive" v-if="item && !item.archived"  @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Move to Archive</b-button>
+                    <b-button title="restore from archive" v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore from Archive</b-button>
                 </b-button-group>
             </b-button-toolbar>
 
@@ -90,11 +87,11 @@
                 </b-alert>
             </b-modal>
             <AgentCard v-if="item" :agent="item" @update="refetch()"></AgentCard>
-            <hr/>
+            <hr />
             <div class="mt-4"></div>
 
             <h3>Session History</h3>
-                       <div class="mt-4 mb-4">
+            <div class="mt-4 mb-4">
                 Total Steps Experienced: {{lifeSteps}}
             </div>
             <div style="display: block; position: relative;height:280px;overflow: auto;">
@@ -153,7 +150,7 @@
 
             <hr />
             <h3>Statistics</h3>
- 
+
             <hr />
             <b-container fluid>
                 <b-row>
@@ -378,9 +375,9 @@ export default {
     },
     data() {
         return {
-            clonedAgentId:null,
-            cloneError:null,
-            submitting:false,
+            clonedAgentId: null,
+            cloneError: null,
+            submitting: false,
 
             taskDetailsList: [],
             fields,
@@ -511,6 +508,34 @@ export default {
 
     },
     methods: {
+        updateArchive(archive) {
+            // We save the user input in case of an error
+            // const newTag = this.newTag
+            // // We clear it early to give the UI a snappy feel
+            // this.newTag = ''
+            // Call to the graphql mutation
+            this.$apollo.mutate({
+                // Query
+                mutation: gql `mutation archiveMutation($id:String!,$archive:Boolean!) 
+                {
+                    agentSetArchive(id:$id, archive:$archive){
+                        success
+                        }
+                }`,
+                // Parameters
+                variables: {
+                    id: this.item.id,
+                    archive: archive
+                },
+
+            }).then((data) => {
+                this.refetch()
+            }).catch((error) => {
+                // Error
+                console.error(error)
+                // We restore the initial user input
+            })
+        },
         timepretty,
 
         refetch() {
@@ -700,16 +725,16 @@ export default {
             axios
                 .get(`${appConfig.API_URL}/api/agent/clone/${this.uid}`)
                 .then((response) => {
-                    console.log(JSON.stringify(response.data,null,2))
-                    if ("uid" in response.data){
+                    console.log(JSON.stringify(response.data, null, 2))
+                    if ("uid" in response.data) {
                         this.clonedAgentId = response.data.uid
-                        
+
                         // this.$router.push({
                         //         path: '/agent/view/' + ,
                         //         key:this.$route.path
                         //     })
-                    }else{
-                         this.cloneError = response.message
+                    } else {
+                        this.cloneError = response.message
                     }
                     this.submitting = false;
                 })

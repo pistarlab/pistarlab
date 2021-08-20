@@ -172,8 +172,9 @@ class ExtensionManager:
             "id": "main",
             "type": "remote",
             "name": "Main Repo",
-            "description": "",
+            "description": "Primary Remote Repo",
             "path": "https://raw.githubusercontent.com/pistarlab/pistarlab-repo/main/extensions/"
+            # "path":"https://github.com/pistarlab/pistarlab-repo/raw/main/extensions/"
         }
 
         extended_sources = open_json_file(os.path.join(self.data_path, SOURCE_FILE_NAME))
@@ -269,8 +270,9 @@ class ExtensionManager:
         elif extension["source"]["type"] == "path":
             full_path = "{}{}".format(extension['source']['path'],extension["id"])
             cmd = "pip install --user -e {}".format(full_path)
-        elif extension["source"]["type"]in ["url","test"]:
+        elif extension["source"]["type"] in ["url","test","remote"]:
             extension_path = extension.get("path")
+            self.logger.info(f"Extension Path  {extension_path}, type {extension.get('type')}")
             if extension_path is None:
                 raise Exception("No remote path defined in extension. Cannot install with out path.")
             if "rpath" in extension.get("type"):

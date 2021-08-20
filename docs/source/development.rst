@@ -87,6 +87,10 @@ Making changes to the UI
 
 The UI is build using Vuejs cli and requires npm to run.  Once setup, changes to the ui source code will be reflected immidiately in the browser.
 
+Option 1:
+# Start pistarlab with enable_dev_ui argument. Eg: ```pistarlab_launcher --enable_dev_ui```
+
+Option 2:
 #. Run the UI using ```npm run serve```
 #. By default, changes will be reflected at http://localhost:8080
 

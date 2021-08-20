@@ -4,10 +4,10 @@
     <b-container fluid>
         <b-row>
             <b-col>
-                <div class="text-center">
-                    <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="max-width:120px;"></b-card-img>
+                <div class="text-center mt-4">
+                    <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" style="max-width:320px; "></b-card-img>
                 </div>
-                <div class="ml-4 mt-2">
+                <div class="ml-4 mt-4">
 
                     <div>
                         <b-modal id="edit-tags" title="edit tags" :hide-footer="true">
@@ -38,10 +38,7 @@
                         Notes: <b-link variant="white" size="sm" v-b-modal:edit-notes @click="loadNotes()"><i class="fa fa-edit"></i></b-link>
                         <p>{{agent.notes}}</p>
                     </div>
-                    <div class="mt-2">
-                        <b-button title="archive" v-if="agent && !agent.archived" variant="secondary" pill @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
-                        <b-button title="restore from archive" v-if="agent && agent.archived" variant="secondary" pill @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
-                    </div>
+
                 </div>
             </b-col>
             <b-col>
@@ -81,21 +78,22 @@
                 <div class="mt-2">
                     <div v-for="(iface, id) in config.interfaces" v-bind:key="id">
                         <span>
-                            <b>{{id}}</b>
+                            <h6>{{id}}</h6>
                         </span>
                         <div class="ml-2">
-                            <span class="data_label mt-1">Type: </span>{{iface.interface_type}}
+                            <!-- <span class="data_label mt-1">Type: </span>{{iface.interface_type}} -->
                             <div class="data_label mt-1">Observation Space: </div>
                             <div class="ml-1" v-if="iface && iface.observation_space">
-                                {{iface.observation_space.class_name}} (args={{iface.observation_space.args}},{{iface.observation_space.kwargs}})
+                                <SpaceInfo :space="iface.observation_space"></SpaceInfo>
                             </div>
-                            <div v-else>Undefined</div>
+                            <div v-else>Unassigned</div>
 
                             <div class="data_label mt-1">Action Space: </div>
                             <div class="ml-1" v-if="iface && iface.action_space">
-                                {{iface.action_space.class_name}} (args={{iface.action_space.args}},{{iface.action_space.kargs}})
+                                <SpaceInfo :space="iface.action_space"></SpaceInfo>
+
                             </div>
-                            <div v-else>Undefined</div>
+                            <div v-else>Unassigned</div>
 
                         </div>
                     </div>
@@ -124,7 +122,13 @@ import {
     appConfig
 } from "../app.config";
 import gql from "graphql-tag";
+import SpaceInfo from "./SpaceInfo.vue";
+
 export default {
+    components:{
+        SpaceInfo
+
+    },
     props: {
         agent: Object
     },
@@ -152,34 +156,7 @@ export default {
     },
     methods: {
         //
-        updateArchive(archive) {
-            // We save the user input in case of an error
-            // const newTag = this.newTag
-            // // We clear it early to give the UI a snappy feel
-            // this.newTag = ''
-            // Call to the graphql mutation
-            this.$apollo.mutate({
-                // Query
-                mutation: gql `mutation archiveMutation($id:String!,$archive:Boolean!) 
-                {
-                    agentSetArchive(id:$id, archive:$archive){
-                        success
-                        }
-                }`,
-                // Parameters
-                variables: {
-                    id: this.agent.id,
-                    archive: archive
-                },
 
-            }).then((data) => {
-                this.$emit('update')
-            }).catch((error) => {
-                // Error
-                console.error(error)
-                // We restore the initial user input
-            })
-        },
         loadNotes() {
             this.notes = this.agent.notes
         },

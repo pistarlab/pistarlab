@@ -12,6 +12,7 @@ const GET_RECENT_AGENTS = gql`
       id
       ident
       displayedName
+      extensionId
 
     }
     lastCheckpoint
@@ -84,14 +85,18 @@ const GET_ALL_SESSIONS = gql `
           ident
           created
           envSpecId
- 
-          
+          envSpec{
+            displayedName
+          }          
           label
           comments
           status
           config
           sessionType
           agentId
+          agent{
+            specId
+          }
             task {
                 id
             ident

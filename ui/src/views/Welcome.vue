@@ -1,11 +1,15 @@
 <template>
 <div class="page h-100">
     <div class="page-content  ">
-        <h1 class="text-center">piSTAR Lab</h1>
+        <b-link target="_blank" href="http://pistarlab.org">
+        <h1 class="text-center"> <img height="100px" src="/pistar_edit_w.png" /> piSTAR Lab</h1>
+        </b-link>
         <b-container>
+
             <b-row>
 
                 <b-col class="d-flex justify-content-center align-self-center">
+
                     <div>
                         <img width=360px src="/ai-play_6.png" />
                     </div>
@@ -17,12 +21,14 @@
                 <b-col class="d-flex justify-content-center align-self-center">
 
                     <div style="width:400px" class="text-center">
-                        
+
                         <p>
-                            An <b>open source</b> experimentation platform built to make AI development accessible and fun.
+                            An <b>open source</b> platform built to make AI experimentation accessible and fun.
                         </p>
 
-                        <a target="_blank" href="http://pistarlab.org">Website</a>
+                        <div class="mt-4">
+                        </div>
+                        <a target="_blank" href="http://pistarlab.org">pistarlab.org</a>
                         <br />
                         <a target="_blank" href="http://github.com/pistarlab/pistarlab"> Github</a>
                         <br />
@@ -31,7 +37,7 @@
                     </div>
                 </b-col>
             </b-row>
-        <div class="mt-4"></div>
+            <div class="mt-4"></div>
             <b-row>
 
                 <b-col class="d-flex justify-content-center align-self-center">
@@ -43,6 +49,7 @@
             </b-row>
 
         </b-container>
+
     </div>
 
 </div>

@@ -39,130 +39,151 @@
             </div>
         </div>
     </b-modal>
-<div >
+    <div>
 
-    <b-container fluid >
+        <b-container fluid>
 
-        <b-row class="">
-              <b-col cols=2 class="text-center">
-                <h3>Overview</h3>
-                <div v-if="overview">
-                    <div class="mb-4">
-                        <div class="data_label">Sessions Active</div>
-                        <div class="stat_value"> {{overview['active_sessions']}}
+            <b-row class="">
+                <b-col cols=2 class="text-center">
+                    <h3>Overview</h3>
+                    <div v-if="overview">
+                        <div class="mb-4">
+                            <div class="data_label">Sessions Active</div>
+                            <div class="stat_value"> {{overview['active_sessions']}}
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="data_label">Agents</div>
+                            <div class="stat_value"> {{overview['total_agents']}}
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="data_label">Agent Specs</div>
+                            <div class="stat_value"> {{overview['total_agent_specs']}}
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="data_label">Environment Specs</div>
+                            <div class="stat_value"> {{overview['total_env_specs']}}
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="data_label">Installed Extensions</div>
+                            <div class="stat_value"> {{overview['total_installed_extensions']}}
+                            </div>
+                        </div>
+
+                    </div>
+                </b-col>
+
+                <b-col cols=6>
+                    <h3>Recent activity</h3>
+                    <hr />
+                    <div class="mt-3"></div>
+                    <h4 v-b-modal.sessions><i class="fa fa-cubes"></i> Sessions</h4>
+                    <div>
+                        <div v-if="$apollo.queries.sessions.loading">Loading..</div>
+                        <div v-else class="">
+                            <b-card class="p-0 m-1">
+                                <b-table v-if="recentSessions.length> 0" small :items="recentSessions" :fields="sessionFields">
+                                    <template v-slot:cell(state)="data" class="text-center">
+                                        <div class="text-center">
+                                            <span v-if="data.item.status =='RUNNING'">
+                                                <i class="fas fa-circle" style="color:green"></i>
+                                            </span>
+                                            <span v-else>
+                                                <i class="fas fa-circle"></i>
+                                            </span>
+                                        </div>
+                                    </template>
+                                    <template v-slot:cell(link)="data">
+
+                                        <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident }}</router-link>
+
+                                    </template>
+                                    <template v-slot:cell(envlink)="data">
+
+                                        <router-link :to="`/env_spec/view/${data.item.envSpecId}`">
+                                            <img :src="`${appConfig.API_URL}/api/env_preview_image/${data.item.envSpecId}`" alt="" style="max-height:40px;" />
+                                            <span class="ml-3">
+                                                {{ data.item.envSpec.displayedName }}
+                                            </span>
+
+                                        </router-link>
+
+                                    </template>
+                                    <template v-slot:cell(agentId)="data">
+
+                                        <b-link :to="`/agent/view/${data.item.agentId}`">
+                                            <b-img style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 agentfun"></b-img>
+                                            <span class="ml-4">{{data.item.agentId}}</span>
+
+                                        </b-link>
+
+                                    </template>
+
+                                    <template v-slot:cell(taskId)="data">
+                                        <router-link v-if="data.item.task" :to="`/task/view/${data.item.task.ident}`">{{data.item.task.ident }}</router-link>
+                                    </template>
+
+                                    <template v-slot:cell(created)="data">
+                                        {{ timedeltafordate(data.item.created) }} ago
+                                    </template>
+
+                                </b-table>
+                                <div v-else>
+                                    No Sessions found.
+                                </div>
+                            </b-card>
+                            <div class="ml-3 mt-2">
+                                <b-link v-b-modal.sessions>View All</b-link>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <div class="data_label">Agent Instances</div>
-                        <div class="stat_value"> {{overview['total_agents']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Agent Specs</div>
-                        <div class="stat_value"> {{overview['total_agent_specs']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Environment Specs</div>
-                        <div class="stat_value"> {{overview['total_env_specs']}}
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="data_label">Installed Extensions</div>
-                        <div class="stat_value"> {{overview['total_installed_extensions']}}
-                        </div>
-                    </div>
+                    <div class="mt-3"></div>
+                    <b-link to="/agent/home">
+                        <h4> <i class="fa fa-robot"></i> Agents </h4>
+                    </b-link>
+                    <div>
+                        <div v-if="$apollo.queries.recentAgents.loading">Loading..</div>
+                        <div v-else class="">
+                            <b-row v-if="recentAgentsFiltered.length>0">
+                                <b-col cols=6 v-for="item in recentAgentsFiltered" v-bind:key="item.ident">
+                                    <b-link :to="`/agent/view/${item.ident}`">
+                                        <b-card class="m-1">
 
-                </div>
-            </b-col>
+                                            <b-img style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`" alt="Image" class="agentfun rounded-0"></b-img>
+                                            <span class="ml-4"> {{item.ident}} : {{item.spec.displayedName}}</span>
 
-            <b-col cols=6 >
-                <h3>Recent activity</h3>
-                <hr />
-                <div class="mt-3"></div>
-                <h4 v-b-modal.sessions><i class="fa fa-cubes"></i> Sessions</h4>
-                <div>
-                    <div v-if="$apollo.queries.sessions.loading">Loading..</div>
-                    <div v-else class="">
-                        <b-card class="p-0 m-1">
-                            <b-table small :items="recentSessions" :fields="sessionFields">
-                                <template v-slot:cell(state)="data" class="text-center">
-                                    <div class="text-center">
-                                        <span v-if="data.item.status =='RUNNING'">
-                                            <i class="fas fa-circle" style="color:green"></i>
-                                        </span>
-                                        <span v-else>
-                                            <i class="fas fa-circle"></i>
-                                        </span>
-                                    </div>
-                                </template>
-                                <template v-slot:cell(link)="data">
-
-                                    <router-link :to="`/session/view/${data.item.ident}`">{{data.item.ident }} : {{ data.item.envSpecId }}</router-link>
-
-                                </template>
-
-                                <template v-slot:cell(agentId)="data">
-
-                                    <b-link :to="`/agent/view/${data.item.agentId}`"> {{data.item.agentId}}
-
+                                        </b-card>
                                     </b-link>
+                                </b-col>
+                            </b-row>
 
-                                </template>
+                            <b-row v-else>
+                                <b-col>
+                                    No Active Agents Found
+                                    <div class="mt-4">
+                                    </div>
+                                </b-col>
+                            </b-row>
 
-                                <template v-slot:cell(taskId)="data">
-                                    <router-link v-if="data.item.task" :to="`/task/view/${data.item.task.ident}`">{{data.item.task.ident }}</router-link>
-                                </template>
-
-                                <template v-slot:cell(created)="data">
-                                    {{ timedeltafordate(data.item.created) }} ago
-                                </template>
-
-                            </b-table>
-                        </b-card>
-                        <div class="ml-3 mt-2">
-                            <b-link v-b-modal.sessions>View All</b-link>
                         </div>
-
                     </div>
-                </div>
-                <div class="mt-3"></div>
-                <b-link to="/agent/home">
-                    <h4> <i class="fa fa-robot"></i> Agent Instances </h4>
-                </b-link>
-                <div>
-                    <div v-if="$apollo.queries.recentAgents.loading">Loading..</div>
-                    <div v-else class="">
-                        <b-row>
-                            <b-col cols=6 v-for="item in recentAgentsFiltered" v-bind:key="item.ident">
-                                <b-link :to="`/agent/view/${item.ident}`">
-                                    <b-card class="m-1">
-
-                                        <b-img style="max-height:40px;" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`" alt="Image" class="rounded-0"></b-img>
-                                        <span class="ml-2"> {{item.ident}} : {{item.spec.displayedName}}</span>
-
-                                    </b-card>
-                                </b-link>
-                            </b-col>
-                        </b-row>
-
+                    <div class="ml-3 mt-2">
+                        <b-link to="/agent/home">View All</b-link>
                     </div>
-                </div>
-                <div class="ml-3 mt-2">
-                    <b-link to="/agent/home">View All</b-link>
-                </div>
 
-            </b-col>
-            <b-col cols=4>
-            </b-col>
+                </b-col>
+                <b-col cols=4>
+                </b-col>
 
-          
+            </b-row>
 
-        </b-row>
+        </b-container>
 
-    </b-container>
-
-</div>
+    </div>
     <!-- <b-card title="Missions in Progress">
         <b-card-text>
             <ul>
@@ -207,6 +228,10 @@ const sessionFields = [{
     {
         key: "link",
         label: "Session"
+    },
+    {
+        key: "envlink",
+        label: "Environment"
     },
     {
         key: "agentId",

@@ -264,10 +264,11 @@ iwr -useb get.scoop.sh <span class="p">|</span> iex
 <div class="section" id="making-changes-to-the-ui">
 <h2>Making changes to the UI<a class="headerlink" href="#making-changes-to-the-ui" title="Permalink to this headline">¶</a></h2>
 <p>The UI is build using Vuejs cli and requires npm to run.  Once setup, changes to the ui source code will be reflected immidiately in the browser.</p>
-<ol class="arabic simple">
-<li><p>Run the UI using <code class="docutils literal notranslate"><span class="pre">`npm</span> <span class="pre">run</span> <span class="pre">serve`</span></code></p></li>
-<li><p>By default, changes will be reflected at <a class="reference external" href="http://localhost:8080">http://localhost:8080</a></p></li>
-</ol>
+<p>Option 1:
+# Start pistarlab with enable_dev_ui argument. Eg: <code class="docutils literal notranslate"><span class="pre">`pistarlab_launcher</span> <span class="pre">--enable_dev_ui`</span></code></p>
+<p>Option 2:
+#. Run the UI using <code class="docutils literal notranslate"><span class="pre">`npm</span> <span class="pre">run</span> <span class="pre">serve`</span></code>
+#. By default, changes will be reflected at <a class="reference external" href="http://localhost:8080">http://localhost:8080</a></p>
 </div>
 <div class="section" id="building-for-readonly-viewing">
 <h2>Building for Readonly Viewing<a class="headerlink" href="#building-for-readonly-viewing" title="Permalink to this headline">¶</a></h2>

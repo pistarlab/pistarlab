@@ -332,6 +332,8 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_check_for_ide">api_check_for_ide() (in module pistarlab.app_backend)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_clone_agent">api_clone_agent() (in module pistarlab.app_backend)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_config">api_config() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_download">api_download() (in module pistarlab.app_backend)</a>
@@ -487,6 +489,8 @@
       <li><a href="pistarlab.html#pistarlab.databuffer.DataBuffer.clear">clear() (pistarlab.databuffer.DataBuffer method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.remote_conn.ClientConn">ClientConn (class in pistarlab.remote_conn)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.clone_agent">clone_agent() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.agent.Agent.close">close() (pistarlab.agent.Agent method)</a>
 
@@ -1072,6 +1076,8 @@
       </ul></li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.timer.Timer.get_diff">get_diff() (pistarlab.utils.timer.Timer method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.core.get_display_info">get_display_info() (in module pistarlab.core)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_entity_logger">get_entity_logger() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_entity_status">get_entity_status() (pistarlab.core.SysContext method)</a>
@@ -1089,6 +1095,8 @@
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_env_spec">get_env_spec() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.env_helpers.get_env_spec_data">get_env_spec_data() (in module pistarlab.utils.env_helpers)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.get_env_spec_instance">get_env_spec_instance() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_environment">get_environment() (pistarlab.core.SysContext method)</a>
 </li>
@@ -1255,8 +1263,6 @@
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_session">get_session() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.storage.Storage.get_session_data">get_session_data() (pistarlab.storage.Storage method)</a>
-</li>
-      <li><a href="pistarlab.html#pistarlab.storage.Storage.get_session_logs">get_session_logs() (pistarlab.storage.Storage method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.task.AgentTask.get_session_summaries">get_session_summaries() (pistarlab.task.AgentTask method)</a>
 </li>
@@ -1550,15 +1556,23 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.filestore.FileStore.list">list() (pistarlab.filestore.FileStore method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.list_agent_spec_ids">list_agent_spec_ids() (pistarlab.core.SysContext method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_agent_specs">list_agent_specs() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_agents">list_agents() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.list_agents_detailed">list_agents_detailed() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.agent.Agent.list_checkpoints">list_checkpoints() (pistarlab.agent.Agent method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_component_specs">list_component_specs() (pistarlab.core.SysContext method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.list_env_spec_ids">list_env_spec_ids() (pistarlab.core.SysContext method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_env_specs">list_env_specs() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.list_environment_ids">list_environment_ids() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_environments">list_environments() (pistarlab.core.SysContext method)</a>
 </li>
@@ -1570,11 +1584,13 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.filestore.FileStore.list_objects_with_name">list_objects_with_name() (pistarlab.filestore.FileStore method)</a>
 </li>
-      <li><a href="pistarlab.html#pistarlab.filestore.FileStore.list_objects_with_name_stream">list_objects_with_name_stream() (pistarlab.filestore.FileStore method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pistarlab.html#pistarlab.filestore.FileStore.list_objects_with_name_stream">list_objects_with_name_stream() (pistarlab.filestore.FileStore method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_sessions">list_sessions() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.list_sessions_detailed">list_sessions_detailed() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_task_specs">list_task_specs() (pistarlab.core.SysContext method)</a>
 </li>
@@ -2542,6 +2558,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.filestore.FileStore.save">save() (pistarlab.filestore.FileStore method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.services.XVFB.save_display_info">save_display_info() (pistarlab.services.XVFB method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.storage.Storage.save_episode_recording">save_episode_recording() (pistarlab.storage.Storage method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.storage.Storage.save_episode_stats">save_episode_stats() (pistarlab.storage.Storage method)</a>
@@ -2712,6 +2730,12 @@
       </ul></li>
       <li><a href="pistarlab.html#pistarlab.services.ServiceContext.start_all">start_all() (pistarlab.services.ServiceContext method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.launcher.start_minimal_mode">start_minimal_mode() (in module pistarlab.launcher)</a>
+
+      <ul>
+        <li><a href="pistarlab.html#pistarlab.core.SysContext.start_minimal_mode">(pistarlab.core.SysContext method)</a>
+</li>
+      </ul></li>
       <li><a href="pistarlab.html#pistarlab.services.ServiceContext.start_service_monitor_thread">start_service_monitor_thread() (pistarlab.services.ServiceContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.AgentModel.stats">stats (pistarlab.dbmodels.AgentModel attribute)</a>
@@ -2782,6 +2806,12 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.execution_context.ExecutionContext.stop_actor_by_uid">stop_actor_by_uid() (pistarlab.execution_context.ExecutionContext method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.launcher.stop_minimal_mode">stop_minimal_mode() (in module pistarlab.launcher)</a>
+
+      <ul>
+        <li><a href="pistarlab.html#pistarlab.core.SysContext.stop_minimal_mode">(pistarlab.core.SysContext method)</a>
+</li>
+      </ul></li>
       <li><a href="pistarlab.html#pistarlab.storage.Storage">Storage (class in pistarlab.storage)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.entity.Entity.store_data">store_data() (pistarlab.entity.Entity method)</a>

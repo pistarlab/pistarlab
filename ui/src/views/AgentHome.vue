@@ -13,7 +13,7 @@
             <b-modal id="agentspecs" size="xl" :hide-header="true" :hide-footer="true">
                 <AgentSpecs @specSelected="newAgentModal($event)"></AgentSpecs>
             </b-modal>
-            <b-button variant="primary" size="sm" v-b-modal:agentspecs>New</b-button>
+            <b-button variant="primary" size="sm" v-b-modal:agentspecs>New Agent</b-button>
             <!-- <b-button class="ml-2" size="sm" v-b-toggle="`sess_group`">Toggle Session Details</b-button> -->
         </b-button-toolbar>
         <div class="mt-4"></div>
@@ -47,10 +47,10 @@
                                 <b-card no-body header-bg-variant="info" header-text-variant="white" class="h-100 card-shadow card-flyer" style="width: 260px">
                                     <template v-slot:header>
                                         <b-button-toolbar>
-                                        <span class="custom-card-header mb-2">
-                                            <b-link style="color: white" :to="`/agent/view/${item.ident}`">{{ item.ident }}</b-link>
-                                        </span>
-                                        <b-link v-b-popover.hover.top="'Assign Task'" class="ml-auto mt-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-link>
+                                            <span class="custom-card-header mb-2">
+                                                <b-link style="color: white" :to="`/agent/view/${item.ident}`">{{ item.ident }}</b-link>
+                                            </span>
+                                            <b-link v-b-popover.hover.top="'Assign Task'" class="ml-auto mt-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-link>
                                         </b-button-toolbar>
 
                                     </template>
@@ -59,7 +59,7 @@
                                             <b-row>
                                                 <b-col class="text-center">
                                                     <b-link :to="`/agent/view/${item.ident}`">
-                                                        <b-card-img style="width:80px" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`"></b-card-img>
+                                                        <b-card-img class="agentfun mt-4" style="width:180px" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`"></b-card-img>
                                                     </b-link>
                                                     <div class="mt-2">
                                                         <b-badge pill v-for="(tag,id) in item.tags.edges" v-bind:key="id" variant="tag" class="mr-1">{{tag.node.tagId}}</b-badge>
@@ -76,7 +76,7 @@
 
                                                         <span class="data_label mr-1 mt-0">Spec:</span>
                                                         <span class="">
-                                                            <b-link :to="`/agent_spec/${item.specId}`">{{ item.spec.displayedName }}</b-link>
+                                                            <b-link :to="`/agent_spec/${item.specId}`">{{ item.spec.displayedName }} / {{item.spec.extensionId}}</b-link>
                                                         </span>
                                                     </div>
 
@@ -94,21 +94,18 @@
                                                                 <!-- <span v-if="session.parentSessionId" class="mr-1">
                                                                 <b-link v-if="session.parentSessionId" class="" :to="`/session/view/${session.parentSessionId}`" title="parent session"> {{session.parentSessionId}}</b-link>
                                                             </span> -->
-                                                                <b-link class="mr-1" :to="`/session/view/${session.ident}`" 
-                                                                v-b-popover.hover.top="session.envSpecId">
-                                                                    <div style="color:lightgrey" >
-                                                                        
-                                                                        <span  v-if="session.sessionType != 'RL_SINGLEPLAYER_SESS'"><i class="fas fa-list" title="multiagent"></i> </span>
+                                                                <b-link class="mr-1" :to="`/session/view/${session.ident}`" v-b-popover.hover.top="session.envSpecId">
+                                                                    <div style="color:lightgrey">
+
+                                                                        <span v-if="session.sessionType != 'RL_SINGLEPLAYER_SESS'"><i class="fas fa-list" title="multiagent"></i> </span>
                                                                         <span v-else><i class="fas fa-cube" title="multiagent"></i> </span>
                                                                         {{session.ident}}
                                                                         <i v-if="session.status=='RUNNING'" class="fa fa-circle ml-1" style="color:lightgreen"></i>
                                                                     </div>
                                                                     <div class="mt-1">
 
-                                                                        <img width=60 
-                                                                        :src="`${appConfig.API_URL}/api/env_preview_image/${session.envSpec.ident}`" 
-                                                                        alt="" />
-                                                                        
+                                                                        <img width=60 :src="`${appConfig.API_URL}/api/env_preview_image/${session.envSpec.ident}`" alt="" />
+
                                                                     </div>
                                                                 </b-link>
 
@@ -139,7 +136,7 @@
 
                     <b-row>
                         <b-col>
-                            No Active Agents Available
+                            No Active Agents Found
                             <div class="mt-4">
                             </div>
                         </b-col>
@@ -179,12 +176,12 @@ import {
 import AgentSpecs from "../components/AgentSpecs.vue";
 import AgentNew from "../components/AgentNew.vue";
 
+
 export default {
     name: "Agents",
     components: {
         AgentSpecs,
         AgentNew
-
     },
     apollo: {
         recentAgents: {
@@ -257,5 +254,6 @@ export default {
     },
 };
 </script>
+
 <style>
 </style>

@@ -1156,6 +1156,11 @@
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pistarlab.app_backend.api_clone_agent">
+<span class="sig-prename descclassname"><span class="pre">pistarlab.app_backend.</span></span><span class="sig-name descname"><span class="pre">api_clone_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.app_backend.api_clone_agent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pistarlab.app_backend.api_config">
 <span class="sig-prename descclassname"><span class="pre">pistarlab.app_backend.</span></span><span class="sig-name descname"><span class="pre">api_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.app_backend.api_config" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1563,6 +1568,11 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.clone_agent">
+<span class="sig-name descname"><span class="pre">clone_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submitter_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.clone_agent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.close">
 <span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.close" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1648,6 +1658,11 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.get_env_spec_instance">
+<span class="sig-name descname"><span class="pre">get_env_spec_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.get_env_spec_instance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.get_environment">
 <span class="sig-name descname"><span class="pre">get_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pistarlab.dbmodels.EnvironmentModel" title="pistarlab.dbmodels.EnvironmentModel"><span class="pre">pistarlab.dbmodels.EnvironmentModel</span></a></span></span><a class="headerlink" href="#pistarlab.core.SysContext.get_environment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1724,7 +1739,7 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.initialize">
-<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_context_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.initialize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_context_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes pistarlab. Should only be on run by primary instance to avoid race</p>
 </dd></dl>
 
@@ -1739,13 +1754,23 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.list_agent_spec_ids">
+<span class="sig-name descname"><span class="pre">list_agent_spec_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_agent_spec_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.list_agent_specs">
 <span class="sig-name descname"><span class="pre">list_agent_specs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_agent_specs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.list_agents">
-<span class="sig-name descname"><span class="pre">list_agents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_agents" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_archive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_agents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.list_agents_detailed">
+<span class="sig-name descname"><span class="pre">list_agents_detailed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_agents_detailed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1754,8 +1779,18 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.list_env_spec_ids">
+<span class="sig-name descname"><span class="pre">list_env_spec_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_env_spec_ids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.list_env_specs">
 <span class="sig-name descname"><span class="pre">list_env_specs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_env_specs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.list_environment_ids">
+<span class="sig-name descname"><span class="pre">list_environment_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_environment_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1774,13 +1809,18 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.list_sessions_detailed">
+<span class="sig-name descname"><span class="pre">list_sessions_detailed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_sessions_detailed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.list_task_specs">
 <span class="sig-name descname"><span class="pre">list_task_specs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_task_specs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.list_tasks">
-<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_tasks" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">list_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pistarlab.core.SysContext.list_tasks" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1859,6 +1899,16 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.start_minimal_mode">
+<span class="sig-name descname"><span class="pre">start_minimal_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.start_minimal_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.core.SysContext.stop_minimal_mode">
+<span class="sig-name descname"><span class="pre">stop_minimal_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.stop_minimal_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.core.SysContext.tf_reset_graph">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">tf_reset_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.SysContext.tf_reset_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1874,6 +1924,11 @@ TODO: consider making other options available, eg: mean, mean + range, mean + va
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pistarlab.core.get_display_info">
+<span class="sig-prename descclassname"><span class="pre">pistarlab.core.</span></span><span class="sig-name descname"><span class="pre">get_display_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pistarlab.config.SysConfig" title="pistarlab.config.SysConfig"><span class="pre">pistarlab.config.SysConfig</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.core.get_display_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pistarlab.core.get_entry_point_from_class">
@@ -3294,6 +3349,16 @@ implement default like this:</p>
 <span class="sig-prename descclassname"><span class="pre">pistarlab.launcher.</span></span><span class="sig-name descname"><span class="pre">service_toggle_auto_restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.launcher.service_toggle_auto_restart" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="pistarlab.launcher.start_minimal_mode">
+<span class="sig-prename descclassname"><span class="pre">pistarlab.launcher.</span></span><span class="sig-name descname"><span class="pre">start_minimal_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">redis_port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7771'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5241590000000000'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ray_redis_password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_xvfb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_ray_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.launcher.start_minimal_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pistarlab.launcher.stop_minimal_mode">
+<span class="sig-prename descclassname"><span class="pre">pistarlab.launcher.</span></span><span class="sig-name descname"><span class="pre">stop_minimal_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.launcher.stop_minimal_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-pistarlab.meta">
 <span id="pistarlab-meta-module"></span><h2>pistarlab.meta module<a class="headerlink" href="#module-pistarlab.meta" title="Permalink to this headline">¶</a></h2>
@@ -3912,7 +3977,7 @@ from the args and kwargs arguments, respectively.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pistarlab.services.XVFB">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pistarlab.services.</span></span><span class="sig-name descname"><span class="pre">XVFB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.services.XVFB" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pistarlab.services.</span></span><span class="sig-name descname"><span class="pre">XVFB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.services.XVFB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pistarlab.services.SystemServiceBase" title="pistarlab.services.SystemServiceBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">pistarlab.services.SystemServiceBase</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.services.XVFB.close">
@@ -3942,6 +4007,11 @@ from the args and kwargs arguments, respectively.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.services.XVFB.restart">
 <span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.services.XVFB.restart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pistarlab.services.XVFB.save_display_info">
+<span class="sig-name descname"><span class="pre">save_display_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.services.XVFB.save_display_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4446,11 +4516,6 @@ implement default like this:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pistarlab.storage.Storage.get_session_data">
 <span class="sig-name descname"><span class="pre">get_session_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.storage.Storage.get_session_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pistarlab.storage.Storage.get_session_logs">
-<span class="sig-name descname"><span class="pre">get_session_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.storage.Storage.get_session_logs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
