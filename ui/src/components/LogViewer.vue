@@ -1,13 +1,13 @@
 <template>
 <div style="overflow-x: auto;">
-    <div v-if="nocard" >
+    <div v-if="nocard">
         <b-button title="refresh and move to latest output" pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
         <pre :style="'max-height:' + height +';overflow-y: scroll;'" @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
     </div>
     <div v-else>
         <b-card :title="title">
-            
-            <b-button title="refresh and move to latest output"  pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
+
+            <b-button title="refresh and move to latest output" pill class="mb-3" size="sm" @click="setupEventStream()"><i class="fas fa-sync"></i></b-button>
             <div :style="'max-height:' + height +';overflow-y: scroll;'">
                 <pre @onchange="updatescroll()" id="rootlogconsole" :class="logClass">{{logdataoutput}}</pre>
             </div>
@@ -36,8 +36,8 @@ export default {
         title: String,
         nocard: Boolean,
         height: {
-            type:String,
-            default:"300px"
+            type: String,
+            default: "300px"
         }
     },
     computed: {
@@ -118,25 +118,21 @@ export default {
     white-space: pre-wrap;
     background-color: #111;
     color: white;
-    
+
 }
 
 .logdefault {
     overflow-y: scroll;
     white-space: pre-wrap;
-    
+
     color: black;
 }
-pre{
+
+
+/* pre .log {
     font-size: 0.7em;
-     background-color: #111 !important;
-}
-pre {
-    white-space: pre-wrap;       /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-}
+    background-color: #111 !important;
+} */
+
 
 </style>

@@ -14,7 +14,8 @@ root = logging.getLogger()
 root.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 root.addHandler(handler)
 
@@ -86,7 +87,8 @@ function disabebuttons(){
 
 def get_page(service_info, auto_restart_info):
     page_list = []
-    page_list.append("<table><tr><th>Service</th><th>State</th><th>Actions</th><th>Logs</th><th>Links</th></tr>")
+    page_list.append(
+        "<table><tr><th>Service</th><th>State</th><th>Actions</th><th>Logs</th><th>Links</th></tr>")
     for name, info in service_info.items():
         state = info['state']
 
@@ -108,8 +110,10 @@ def get_page(service_info, auto_restart_info):
     page_list.append("</table>")
 
     page_list.append("<br/><br/><br/>")
-    page_list.append("<div>Auto Restart Enabled: {}</div>".format(auto_restart_info['enabled']))
-    page_list.append("<div>Auto Restart Services: {}</div>".format(", ".join(auto_restart_info['services'])))
+    page_list.append(
+        "<div>Auto Restart Enabled: {}</div>".format(auto_restart_info['enabled']))
+    page_list.append(
+        "<div>Auto Restart Services: {}</div>".format(", ".join(auto_restart_info['services'])))
 
     return page.replace("__HTML_CONTENT__", "".join(page_list))
 
@@ -154,6 +158,13 @@ def service_stop_all():
 def service_retart_all():
     service_ctx.restart_all()
     return redirect("/", code=302)
+
+@app.route('/api/service/restart_all')
+def api_service_retart_all():
+    service_ctx.restart_all()
+    response = make_response({"data": service_ctx.get_service_info()})
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 
 @app.route('/service/toggle_auto_restart')
@@ -208,19 +219,20 @@ def api_admin(cmd, name):
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 def start_minimal_mode(
-        redis_port="7771", 
-        redis_password=DEFAULT_REDIS_PASSWORD, 
-        ray_address="localhost", 
+        redis_port="7771",
+        redis_password=DEFAULT_REDIS_PASSWORD,
+        ray_address="localhost",
         ray_redis_password=None,
         disable_xvfb=False,
         skip_ray_start=False,
         verbose=False):
     import os
-    
+
     services_list = []
 
-    if not disable_xvfb or os.name=='nt':
+    if not disable_xvfb or os.name == 'nt':
         services_list.append('xvfb')
 
     if not skip_ray_start:
@@ -232,7 +244,7 @@ def start_minimal_mode(
         'redis_port': redis_port,
         'ray_address': ray_address,
         'ray_redis_password': ray_redis_password,
-        'redis_password':redis_password
+        'redis_password': redis_password
     })
     service_ctx.prep_services(services_list)
 
@@ -241,9 +253,10 @@ def start_minimal_mode(
     service_ctx.clean_up()
     service_ctx.start_all()
 
+
 def stop_minimal_mode():
     service_ctx.clean_up()
-    
+
 
 def main():
     import argparse
@@ -253,21 +266,30 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--debug", action="store_true", help="debug mode")
-    parser.add_argument("--launcher_host", default="0.0.0.0", help="Control panel UI, host, default is 0.0.0.0 which will make available from other computers on the network.")
+    parser.add_argument("--launcher_host", default="localhost",
+                        help="Control panel UI, host, 0.0.0.0 which will make available from other computers on the network.")
     parser.add_argument("--launcher_port", help="port", default="7776")
     parser.add_argument("--redis_port", help="redis port", default="7771")
     parser.add_argument("--streamer_port", help="redis port", default="7778")
     parser.add_argument("--nostart", action="store_true")
     parser.add_argument("--ray_only", action="store_true")
     parser.add_argument("--disable_auto_restart", action="store_true")
-    parser.add_argument("--ray_address", help="Ray head node address. Leave empty or set to localhost to start Local Instance ", default="localhost")
-    parser.add_argument("--redis_password", help="redis password", default=DEFAULT_REDIS_PASSWORD)
-    parser.add_argument("--ray_redis_password", help="Ray redis password", default=None)
-    parser.add_argument("--disable_xvfb", action="store_true", help="Disable Virtual Frame Buffer (XVFB does not work on Windows)")
-    parser.add_argument("--skip_ray_start", action="store_true", help="Skip 'ray start ...' ")
-    parser.add_argument("--verbose", action="store_true", help="Increase Output Verbosity")
-    parser.add_argument("--enable_dev_ui", action="store_true", help="Enables development UI. TODO: Link to Documentation")
-    parser.add_argument("--enable_ide", action="store_true", help="Enables Theia IDE (requires nodejs), TODO: Link to Documentation")
+    parser.add_argument(
+        "--ray_address", help="Ray head node address. Leave empty or set to localhost to start Local Instance ", default="localhost")
+    parser.add_argument("--redis_password",
+                        help="redis password", default=DEFAULT_REDIS_PASSWORD)
+    parser.add_argument("--ray_redis_password",
+                        help="Ray redis password", default=None)
+    parser.add_argument("--disable_xvfb", action="store_true",
+                        help="Disable Virtual Frame Buffer (XVFB does not work on Windows)")
+    parser.add_argument("--skip_ray_start",
+                        action="store_true", help="Skip 'ray start ...' ")
+    parser.add_argument("--verbose", action="store_true",
+                        help="Increase Output Verbosity")
+    parser.add_argument("--enable_dev_ui", action="store_true",
+                        help="Enables development UI. TODO: Link to Documentation")
+    parser.add_argument("--enable_ide", action="store_true",
+                        help="Enables Theia IDE (requires nodejs), TODO: Link to Documentation")
     args = parser.parse_args()
 
     def print_service_status(show_links=True):
@@ -277,20 +299,21 @@ def main():
             state = info['state']
             links = ", ".join(info['links'].values())
             if show_links:
-                print("{:<15} State: {:<12} Links: {:<35}".format(name, state, links))
+                print("{:<15} State: {:<12} Links: {:<35}".format(
+                    name, state, links))
             else:
                 print("{:<15} State: {:<12}".format(name, state))
         print("")
 
     services_list = []
 
-    if not args.disable_xvfb or os.name=='nt':
+    if not args.disable_xvfb or os.name == 'nt':
         services_list.append('xvfb')
 
     if not args.skip_ray_start:
         services_list.append('ray')
 
-    services_list = services_list + ['redis','backend', 'streamer']
+    services_list = services_list + ['redis', 'backend', 'streamer']
 
     if args.enable_ide:
         services_list.append('theia_ide')
@@ -301,15 +324,14 @@ def main():
     if args.ray_only:
         services_list = ['ray']
 
-
     service_ctx.set_commandline_args({
         'launcher_port': args.launcher_port,
         'redis_port': args.redis_port,
         'ray_address': args.ray_address,
         'ray_redis_password': args.ray_redis_password,
         'redis_password': args.redis_password,
-        'streamer_port':args.streamer_port,
-        
+        'streamer_port': args.streamer_port,
+
     })
     service_ctx.prep_services(services_list)
 
@@ -343,7 +365,8 @@ def main():
         print(f"{Fore.GREEN}============================================")
         print(f" piSTAR Lab Launcher")
         print("")
-        print(f"{Style.RESET_ALL} Control Panel:{Fore.GREEN}http://localhost:{args.launcher_port} ")
+        print(
+            f"{Style.RESET_ALL} Control Panel:{Fore.GREEN}http://localhost:{args.launcher_port} ")
         print_service_status()
         print("")
         if "backend" in services_list:
@@ -358,7 +381,13 @@ def main():
             print("")
             print("")
 
-        app.run(host=args.launcher_host, port=args.launcher_port, debug=args.debug, use_reloader=args.debug)
+        with open(os.path.join(service_ctx.config.root_path, ".launcher_runtime_settings.json"), 'w') as f:
+            json.dump({
+                'host': args.launcher_host,
+                'port': args.launcher_port}, f)
+
+        app.run(host=args.launcher_host, port=args.launcher_port,
+                debug=args.debug, use_reloader=args.debug)
     except (Exception, KeyboardInterrupt) as e:
         print(e)
         graceful_exit()

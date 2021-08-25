@@ -5,9 +5,10 @@ import os
 import shutil
 import tempfile
 import datetime
+import requests
 from unittest.case import skip
 import requests
-from typing import List
+from typing import List, Any
 import time
 import pkg_resources
 from redis import StrictRedis
@@ -28,9 +29,12 @@ from .util_funcs import *
 # from .utils.code_meta import code_src_and_meta_from_instance
 from .utils.logging import (new_entity_logger, new_scoped_logger,
                             setup_default_logging, setup_logging)
-from .utils.misc import gen_shortuid, generate_seed
+from .utils.misc import gen_shortuid, generate_seed, gen_uuid
 from .utils.snapshot_helpers import make_tarfile, extract_tarfile
-from .utils.env_helpers import  get_wrapped_env_instance
+from .utils.env_helpers import get_wrapped_env_instance
+
+
+from . import __version__
 
 
 def get_entry_point_from_class(cls):
@@ -54,20 +58,22 @@ def get_task_spec_from_class(cls):
     return spec
 
 
-def get_display_info(config:SysConfig):
+def get_display_info(config: SysConfig):
     try:
-        with open(os.path.join(config.root_path,"display_info.json"),"r") as f:
+        with open(os.path.join(config.root_path, "display_info.json"), "r") as f:
             display_info = json.load(f)
         display_id = display_info.get("id")
         if display_id is not None:
-            logging.info(f"Change Display :{os.environ.get('DISPLAY')} to :{display_id}")
-            os.environ['DISPLAY']=f":{display_id}"
+            logging.info(
+                f"Change Display :{os.environ.get('DISPLAY')} to :{display_id}")
+            os.environ['DISPLAY'] = f":{display_id}"
         else:
             logging.error("Display ID not found")
         return display_info
     except Exception as e:
         logging.error(f"ERROR loading display info {e}")
         return {}
+
 
 PISTARLAB_INIT_KEY = "pistarlab_init"
 
@@ -90,11 +96,10 @@ class SysContext:
 
         self.display_info = get_display_info(self.config)
 
-  
+        self.cloud_api_uri = "http://127.0.0.1:3000"
+
     def __del__(self):
         self.close()
-
-    
 
     def get_data_context(self) -> DataContext:
         if self._data_context is None:
@@ -158,14 +163,13 @@ class SysContext:
                 logger=self.get_scopped_logger("extension_manager"))
             self.extension_manager.load_extensions()
 
-
             # Set flag
             self._initialized = True
 
         else:
             logging.debug("Already initalized, not reinitializing.")
 
-    def initialize(self, force=False, execution_context_config=None,log_mode=logging.INFO):
+    def initialize(self, force=False, execution_context_config=None, log_mode=logging.INFO):
         """
         Initializes pistarlab. Should only be on run by primary instance to avoid race
         """
@@ -242,11 +246,15 @@ class SysContext:
     def create_new_extension(self, extension_id, extension_name, description=""):
         create_new_extension(
             workspace_path=self.config.workspace_path,
-            extension_id=extension_id,  
+            extension_id=extension_id,
             extension_name=extension_name,
             description=description,
             original_author=self.get_user_id(""),
             extension_author=self.get_user_id(""),)
+
+    def get_launcher_info(self) -> Dict[str, Any]:
+        with open(os.path.join(self.config.root_path, ".launcher_runtime_settings.json"), 'r') as f:
+            return json.load(f)
 
     def get_workspace_info(self):
         extensions = self.extension_manager.get_all_extensions()
@@ -257,7 +265,7 @@ class SysContext:
     def get_store(self) -> Storage:
         return self.get_data_context().get_store()
 
-    def get_user_id(self, token):
+    def get_user_id(self, token=None):
         return self.get_data_context().get_user_id(token)
 
     def get_next_id(self, entity_type):
@@ -353,10 +361,10 @@ class SysContext:
     # Agent specs
     def list_agent_specs(self) -> List[str]:
         query = self.get_dbsession().query(AgentSpecModel)
-        return [v for v in query.all() if v.disabled==False]
+        return [v for v in query.all() if v.disabled == False]
 
     def list_agent_spec_ids(self) -> List[str]:
-        return [v.id for v in self.list_agent_specs() if v.disabled==False]
+        return [v.id for v in self.list_agent_specs() if v.disabled == False]
 
     def get_agent_spec(self, id) -> AgentSpec:
         query = self.get_dbsession().query(AgentSpecModel)
@@ -394,7 +402,7 @@ class SysContext:
         return query.get(id)
 
     # Tasks
-    def list_tasks(self,status_filter=None) -> List[Any]:
+    def list_tasks(self, status_filter=None) -> List[Any]:
         query = self.get_dbsession().query(TaskModel)
         if status_filter is not None:
             tasks = [v for v in query.all() if v.status in status_filter]
@@ -410,18 +418,21 @@ class SysContext:
     # Sessions
     def list_sessions(self, status_filter=None) -> List[str]:
         query = self.get_dbsession().query(SessionModel)
-        sessions =  [v for v in query.all() if v.archived is False]
+        sessions = [v for v in query.all() if v.archived is False]
         if status_filter is not None:
-            filtered_sessions = [s for s in sessions if s.status in status_filter]
+            filtered_sessions = [
+                s for s in sessions if s.status in status_filter]
             return filtered_sessions
         else:
             return sessions
-            
+
     def list_sessions_detailed(self, status_filter=None) -> List[str]:
         query = self.get_dbsession().query(SessionModel)
-        sessions =  [{'id': v.id, 'env_spec_id': v.env_spec_id, 'task_id': v.task_id, 'agent_id': v.agent_id, 'status': v.status} for v in query.all()]
+        sessions = [{'id': v.id, 'env_spec_id': v.env_spec_id, 'task_id': v.task_id,
+                     'agent_id': v.agent_id, 'status': v.status} for v in query.all()]
         if status_filter is not None:
-            filtered_sessions = [s for s in sessions if s['status'] in status_filter]
+            filtered_sessions = [
+                s for s in sessions if s['status'] in status_filter]
             return filtered_sessions
         else:
             return sessions
@@ -442,7 +453,7 @@ class SysContext:
 
     def list_extensions(self, status_filter=None):
         extensions = [(p['id'], p['version']) for p in filter(lambda x: status_filter is None or x['status']
-                                                           == status_filter, self.extension_manager.get_all_extensions().values())]
+                                                              == status_filter, self.extension_manager.get_all_extensions().values())]
         return extensions
 
     def get_extension(self, id, version):
@@ -478,16 +489,17 @@ class SysContext:
     def get_env_spec(self, id) -> EnvSpec:
         query = self.get_dbsession().query(EnvSpecModel)
         return query.get(id)
-# 
-    def get_env_spec_instance(self,spec_id,env_kwargs={}):
+#
+
+    def get_env_spec_instance(self, spec_id, env_kwargs={}):
         spec = self.get_env_spec(spec_id)
         init_env_kwargs = spec.config['env_kwargs']
-        kwargs = merged_dict(init_env_kwargs,env_kwargs)
+        kwargs = merged_dict(init_env_kwargs, env_kwargs)
         default_wrappers = spec.config['default_wrappers']
         return get_wrapped_env_instance(
-            entry_point = spec.entry_point,
-            kwargs = kwargs,
-            wrappers =default_wrappers)
+            entry_point=spec.entry_point,
+            kwargs=kwargs,
+            wrappers=default_wrappers)
 
     def make_env(self, spec_id):
         from .utils import env_helpers
@@ -495,12 +507,13 @@ class SysContext:
         return env_helpers.get_env_instance(env.config.get('entry_point'), kwargs=env.config.get('env_kwargs', {}))
 
     def install_extension_from_manifest(
-            self, 
-            extension_id, 
-            extension_version, 
-            replace_images = True):
+            self,
+            extension_id,
+            extension_version,
+            replace_images=True):
         extension = self.get_extension(extension_id, extension_version)
-        module_name = extension.get('module_name', extension_id.replace("-", "_"))
+        module_name = extension.get(
+            'module_name', extension_id.replace("-", "_"))
         manifest_path = pkg_resources.resource_filename(
             module_name, "manifest.json")
         self.get_logger().info("Loading extension manifest files from {}".format(manifest_path))
@@ -510,15 +523,16 @@ class SysContext:
 
         manifest_files_path = pkg_resources.resource_filename(
             module_name, "manifest_files")
-        self.get_logger().info("Loading extension manifest files from {}".format(manifest_files_path))
+        self.get_logger().info(
+            "Loading extension manifest files from {}".format(manifest_files_path))
 
         try:
             for data in manifest_data.get('environments', []):
-  
+
                 self.register_environment(
                     extension_id=extension_id,
                     extension_version=extension_version,
-                    manifest_files_path = manifest_files_path,
+                    manifest_files_path=manifest_files_path,
                     **data)
 
             # image_save_path = self.get_store().get_path_from_key(
@@ -575,12 +589,12 @@ class SysContext:
         self.register_env_spec_and_environment(
             spec_id=spec_id, entry_point=entry_point, *args, **kwargs)
 
-    def copy_file(self,source,target,replace_files=True):
+    def copy_file(self, source, target, replace_files=True):
         if (not os.path.exists(target) or replace_files):
             import shutil
-            self.get_logger().info(f"Copying spec image from {source} to {target}")
+            self.get_logger().info(
+                f"Copying spec image from {source} to {target}")
             shutil.copy(source, target)
-
 
     def register_environment(
             self,
@@ -596,8 +610,8 @@ class SysContext:
             description=None,
             disabled=False,
             env_specs=None,
-            skip_commit = False,
-            manifest_files_path = None,
+            skip_commit=False,
+            manifest_files_path=None,
             replace_images=True):
         # NOTE: If updated also update, env_helpers.get_environment_data
         self.get_logger().info(f"importing environment_id {environment_id}")
@@ -622,14 +636,18 @@ class SysContext:
         if not skip_commit:
             session.commit()
 
-        image_save_path = self.get_store().get_path_from_key(key=(SYS_CONFIG_DIR, 'envs', 'images'))
+        image_save_path = self.get_store().get_path_from_key(
+            key=(SYS_CONFIG_DIR, 'envs', 'images'))
 
-        env_image_created= False
-        env_image_target_path = os.path.join(image_save_path, f"env_{environment_id}.jpg")
+        env_image_created = False
+        env_image_target_path = os.path.join(
+            image_save_path, f"env_{environment_id}.jpg")
         if manifest_files_path is None:
-            env_image_source_path = pkg_resources.resource_filename("pistarlab", "templates/env_default.jpg")
+            env_image_source_path = pkg_resources.resource_filename(
+                "pistarlab", "templates/env_default.jpg")
         else:
-            env_image_source_path = os.path.join(manifest_files_path, f"env_{environment_id}.jpg")
+            env_image_source_path = os.path.join(
+                manifest_files_path, f"env_{environment_id}.jpg")
 
         try:
             self.copy_file(
@@ -648,14 +666,16 @@ class SysContext:
                 self.get_logger().info(f"importing spec_id {spec_id}")
                 self.register_env_spec(
                     environment_id=environment_id,
-                    manifest_files_path = manifest_files_path,
-                    replace_images = replace_images,
+                    manifest_files_path=manifest_files_path,
+                    replace_images=replace_images,
                     **data)
                 # Use spec image for environment
                 if manifest_files_path is not None:
-                    image_source_path = os.path.join(manifest_files_path, f"{spec_id}.jpg")
+                    image_source_path = os.path.join(
+                        manifest_files_path, f"{spec_id}.jpg")
                     if not env_image_created and os.path.exists(image_source_path):
-                        self.get_logger().info(f"Environment image not found, using EnvSpec: {spec_id} image for Environment: {environment_id} image")
+                        self.get_logger().info(
+                            f"Environment image not found, using EnvSpec: {spec_id} image for Environment: {environment_id} image")
                         self.copy_file(
                             image_source_path,
                             env_image_target_path,
@@ -668,12 +688,11 @@ class SysContext:
         #         default_image_path,
         #         env_image_target_path,
         #         replace_files=replace_images)
-  
 
     def register_env_spec(
             self,
-            spec_id =None,
-            environment_id = None,
+            spec_id=None,
+            environment_id=None,
             entry_point=None,
             env_type=RL_SINGLEPLAYER_ENV,
             tags=[],
@@ -683,9 +702,9 @@ class SysContext:
             config=None,
             params={},
             metadata=None,
-            skip_commit = False,
-            manifest_files_path = None,
-            replace_images= True):
+            skip_commit=False,
+            manifest_files_path=None,
+            replace_images=True):
         # NOTE: If updated also update, env_helpers.get_env_spec_data
         environment_id = environment_id or spec_id
         spec_displayed_name = spec_displayed_name or displayed_name
@@ -695,13 +714,13 @@ class SysContext:
         if environment is None:
             msg = f"No Environment with name {environment_id} exists. Adding using provided values."
             raise Exception(msg)
-        
+
         spec = session.query(EnvSpecModel).get(spec_id)
         if spec is None:
             spec = EnvSpec(id=spec_id)
             session.add(spec)
 
-        spec.environment_id = environment_id # parent relationship
+        spec.environment_id = environment_id  # parent relationship
         spec.displayed_name = displayed_name or spec_id
         spec.spec_displayed_name = spec_displayed_name
         spec.description = description
@@ -713,18 +732,19 @@ class SysContext:
         spec.params = params
         if not skip_commit:
             session.commit()
-        image_save_path = self.get_store().get_path_from_key(key=(SYS_CONFIG_DIR, 'envs', 'images'))
+        image_save_path = self.get_store().get_path_from_key(
+            key=(SYS_CONFIG_DIR, 'envs', 'images'))
         image_target_path = os.path.join(image_save_path, f"{spec_id}.jpg")
         if manifest_files_path is None:
-            image_source_path = pkg_resources.resource_filename("pistarlab", "templates/env_default.jpg")
+            image_source_path = pkg_resources.resource_filename(
+                "pistarlab", "templates/env_default.jpg")
         else:
-            image_source_path = os.path.join(manifest_files_path, f"{spec_id}.jpg")
+            image_source_path = os.path.join(
+                manifest_files_path, f"{spec_id}.jpg")
         self.copy_file(
             image_source_path,
             image_target_path,
             replace_files=replace_images)
-  
-
 
     def register_env_spec_and_environment(
             self,
@@ -762,21 +782,21 @@ class SysContext:
             version=version,
             description=description,
             disabled=disabled,
-            skip_commit = True
+            skip_commit=True
         )
 
         self.register_env_spec(
             spec_id,
             environment_id=environment_id,
             displayed_name=displayed_name,
-            spec_displayed_name= spec_displayed_name,
-            description= description,
+            spec_displayed_name=spec_displayed_name,
+            description=description,
             entry_point=entry_point,
             metadata=metadata,
             env_type=env_type,
-            tags = tags,
-            config = config,
-            params = params,
+            tags=tags,
+            config=config,
+            params=params,
         )
 
         # environment = session.query(EnvironmentModel).get(environment_id)
@@ -950,20 +970,20 @@ class SysContext:
         if not force and os.path.exists(self.config.snapshot_index_path):
             return
 
-        # TODO: Use config
+        # TODO: This code is not being used       
+        # main_remote_url = "https://raw.githubusercontent.com/pistarlab/pistarlab-repo/main/snapshots/"
+        # try:
+        #     entries = self.load_remote_snapshot_index(main_remote_url)
+        # except Exception as e:
+        #     self.get_logger().error(
+        #         f"Unable to load remote snapshot index {main_remote_url} \n {e}")
+        #     entries = {}
 
-        main_remote_url = "https://raw.githubusercontent.com/pistarlab/pistarlab-repo/main/snapshots/"
-        try:
-            entries = self.load_remote_snapshot_index(main_remote_url)
-        except Exception as e:
-            self.get_logger().error(
-                f"Unable to load remote snapshot index {main_remote_url} \n {e}")
-            entries = {}
-
-        for entry in entries.values():
-            entry['src'] = 'main'
-        main_remote_url_repo = os.path.join(main_remote_url, "repo")
-
+        # entries = {}
+        # for entry in entries.values():
+        #     entry['src'] = 'main'
+        # main_remote_url_repo = os.path.join(main_remote_url, "repo")
+        entries = {}
         # load local snapshots
         local_entries = get_snapshots_from_file_repo(
             self.config.local_snapshot_path)
@@ -973,8 +993,8 @@ class SysContext:
         snapshot_index['entries'] = entries
         snapshot_index['creation_time'] = str(datetime.datetime.now())
         snapshot_index['sources'] = {
-            'local': self.config.local_snapshot_path,
-            'main': main_remote_url_repo
+            'local': self.config.local_snapshot_path
+            # 'main': main_remote_url_repo
         }
 
         with open(self.config.snapshot_index_path, 'w') as f:
@@ -987,41 +1007,106 @@ class SysContext:
 
     def clone_agent(
             self,
-            entity_id,
-            submitter_id="default"):
+            agent_id):
 
         snapshot_data = self.create_agent_snapshot(
-            entity_id=entity_id,
-            submitter_id=submitter_id,
-            snapshot_description="Agent Clone",
-            snapshot_version=f"PRECLONE_{time.time()}")
+            agent_id=agent_id,
+            snapshot_description=f"Agent Clone of {agent_id}",
+            snapshot_version=f"PRECLONE_{time.time()}",
+            note_addition=f"Agent Clone of {agent_id}")
         agent = self.create_agent_from_snapshot(snapshot_data['snapshot_id'])
         return agent
 
+    def publish_snapshot(self, snapshot_id, public=True):
+        snapshot_index = self.get_snapshot_index()
+        snapshot_data = snapshot_index['entries'].get(snapshot_id, None)
+        snapshot_archive_path = "{}.tar.gz".format(os.path.join(
+            self.config.local_snapshot_path, snapshot_data['path'], snapshot_data['file_prefix']))
+
+        spec_id = snapshot_data['spec_id']
+        agent_id = snapshot_data['id']
+        agent_name = snapshot_data['agent_name']
+        version = snapshot_data['snapshot_version']
+        description = snapshot_data['snapshot_description']
+
+        # Request upload URL
+        publish_data = {
+            'user_id': self.get_user_id(),
+            'snapshot_id': snapshot_id,
+            'seed': snapshot_data['seed'],
+            'agent_id': agent_id,
+            'agent_name': agent_name,
+            'spec_id': spec_id,
+            'version': version,
+            'public': public,
+            'description': description,
+            'lab_version': __version__,
+            'snapshot_data': snapshot_data
+        }
+
+        res = requests.post(url=f'{self.cloud_api_uri}/snapshot/publish_request',
+                            json=publish_data,
+                            headers={'Content-Type': 'application/json'})
+
+        result = res.json()
+        logging.info("Publish Results")
+        logging.info(result)
+
+        upload_params = result['upload_params']
+
+        print(f"Upload URL: {upload_params}")
+
+        with open(snapshot_archive_path, 'rb') as f:
+            files = {'file': ("snapshot.tar.gz",  f.read())}
+
+        res = requests.post(url=f"{upload_params['url']}",
+                            data=upload_params['fields'],
+                            files=files)
+
+        return res
+
+    def list_published_agent_snapshots(self, agent_id):
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
+                           params={'query_key': 'agent_id', "value": agent_id, "pe": "snapshot_id,session_data"})
+        return res.json().get('results')
+
+    def list_published_user_snapshots(self, user_id=None, pe="snapshot_id,session_data"):
+        if user_id is None:
+            user_id = self.get_user_id()
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
+                           params={'query_key': 'user_id', "value": user_id, "pe": pe})
+        return res.json().get('results')
+
+    def list_published_spec_snapshots(self, spec_id,pe="snapshot_id,session_data"):
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
+                           params={'query_key': 'spec_id', "value": spec_id, "pe": pe})
+        self.get_logger().info(res.json())
+        return res.json().get('results')
 
     def create_agent_snapshot(
             self,
-            entity_id,
-            submitter_id="default",
+            agent_id,
             snapshot_description="",
-            snapshot_version="0"):
+            snapshot_version="0",
+            note_addition=None):
 
         # Publish locally
         entity_type = 'agent'
-        src_entity_path = self.get_store().get_path_from_key((entity_type, entity_id))
-        dbmodel = self.get_agent_dbmodel(entity_id)
+        src_entity_path = self.get_store().get_path_from_key((entity_type, agent_id))
+        dbmodel = self.get_agent_dbmodel(agent_id)
 
         spec_id = dbmodel.spec_id
         meta = dbmodel.meta
         notes = dbmodel.notes
         seed = dbmodel.seed
+        agent_name = dbmodel.name
         config = dbmodel.config
         last_checkpoint = dbmodel.last_checkpoint
         current_timestamp = datetime.datetime.now()
 
         if last_checkpoint is None:
             raise Exception("Unable to create Snapshot: No checkpoints found.")
-            
+
         session_data = []
         for s in dbmodel.sessions:
             session_data.append({
@@ -1030,30 +1115,54 @@ class SysContext:
                 'env_spec_config': s.env_spec_config,
                 'summary': s.summary})
 
-        snapshot_id = "{}_{}_{}_{}_{}".format(
-            entity_type, 
-            spec_id, 
-            submitter_id, 
-            seed, 
+        snapshot_id = "{}_{}_{}_{}_{}_{}".format(
+            entity_type,
+            spec_id,
+            agent_id,
+            self.get_user_id(),
+            seed,
             snapshot_version)
 
+        if note_addition is not None:
+            notes = f"[{note_addition}]\n{notes}"
+
+
+        # Env Summary Stats
+        # TODO: do this somewhere else, should be updated for the agent
+        env_stats = {}
+        blank_stats = lambda : {'session_count':0,'step_count':0,'episode_count':0,'best_ep_reward_total':None,'best_ep_reward_mean_windowed':None}
+        for s in session_data:
+            stats = env_stats.get(s['env_spec_id'], blank_stats())
+            if  s['summary'] is not None and s['summary']['episode_count'] > 0:
+                stats['step_count'] += s['summary']['step_count']
+                stats['episode_count'] += s['summary']['episode_count']
+                stats['session_count'] += 1
+                stats['episode_count'] += s['summary']['episode_count']
+                if stats['best_ep_reward_total'] is None or stats['best_ep_reward_total'] < s['summary']['best_ep_reward_total']:
+                    stats['best_ep_reward_total'] = s['summary']['best_ep_reward_total']
+                if stats['best_ep_reward_mean_windowed'] is None or stats['best_ep_reward_mean_windowed'] < s['summary']['best_ep_reward_mean_windowed']:
+                    stats['best_ep_reward_mean_windowed'] = s['summary']['best_ep_reward_mean_windowed']
+                env_stats[s['env_spec_id']] = stats
+
+
         snapshot_data = {
-            'id': entity_id,
+            'id': agent_id,
             'seed': seed,
+            'agent_name': agent_name,
             'entity_type': entity_type,
             'spec_id': spec_id,
-            'submitter_id': submitter_id,
+            'submitter_id': self.get_user_id(),
             'creation_time': str(current_timestamp),
             'meta': meta,
-            'notes': f"Cloned from {entity_id}.  {notes}",
+            'notes': notes,
             'last_checkpoint': last_checkpoint,
             'snapshot_description': snapshot_description,
             'snapshot_version': snapshot_version,
             'session_data': session_data,
+            'env_stats': env_stats,
             'config': config,
-            'snapshot_id':snapshot_id}
+            'snapshot_id': snapshot_id}
 
-       
         temp_dir = tempfile.mkdtemp()
 
         # Add Config
@@ -1076,7 +1185,7 @@ class SysContext:
 
         # Save Data Separately as well
         snapshot_prefix = "{}__{}_v{}".format(
-            submitter_id, seed, snapshot_version)
+            agent_id, seed, snapshot_version)
         with open(os.path.join(snapshot_path, f"{snapshot_prefix}.json"), 'w') as f:
             json.dump(snapshot_data, f, indent=2)
 
@@ -1087,12 +1196,47 @@ class SysContext:
         self.update_snapshot_index(True)
         return snapshot_data
 
+
+    def download_snapshot(self,snapshot_id):
+        self.get_logger().info(f"Attempting to download {snapshot_id} from remote server.")
+        
+        def download_file(url, local_filepath):
+            local_filename = local_filepath
+            # NOTE the stream=True parameter below
+            with requests.get(url, stream=True) as r:
+                r.raise_for_status()
+                with open(local_filename, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=8192):
+                        # If you have chunk encoded response uncomment if
+                        # and set chunk_size parameter to None.
+                        # if chunk:
+                        f.write(chunk)
+            return local_filename
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/download_request/',
+                       params={'user_id': self.get_user_id(), "snapshot_id": snapshot_id})
+        print(res)
+        self.get_logger().info(f" Server status code: {res.status_code}")
+        result = res.json()
+        download_url = result.get('download_url')
+        snapshot_data = result.get("item").get("snapshot_data")
+        dirpath = tempfile.mkdtemp()
+        snapshot_archive_path = os.path.join(dirpath,"snapshot.tar.gz")
+
+        if download_url is not None:
+            download_file(download_url, snapshot_archive_path)
+
+        return snapshot_data, snapshot_archive_path
+
     def create_agent_from_snapshot(self, snapshot_id):
         from .agent import Agent
         snapshot_index = self.get_snapshot_index()
         snapshot_data = snapshot_index['entries'].get(snapshot_id, None)
-        snapshot_archive_path = "{}.tar.gz".format(os.path.join(
-            self.config.local_snapshot_path, snapshot_data['path'], snapshot_data['file_prefix']))
+        if snapshot_data is None:
+            self.get_logger().info("Snapshot not found localy.")
+            snapshot_data, snapshot_archive_path = self.download_snapshot(snapshot_id=snapshot_id)
+        else:
+            snapshot_archive_path = "{}.tar.gz".format(os.path.join(
+                self.config.local_snapshot_path, snapshot_data['path'], snapshot_data['file_prefix']))
         if not os.path.exists(snapshot_archive_path):
             src_name = snapshot_data['src']
             if src_name == "local":
@@ -1117,6 +1261,7 @@ class SysContext:
         extract_tarfile(snapshot_archive_path, temp_dir)
         data_source_path = os.path.join(temp_dir, 'data')
 
+        
         with open(os.path.join(data_source_path, "snapshot.json"), 'r') as f:
             snapshot_data = json.load(f)
 

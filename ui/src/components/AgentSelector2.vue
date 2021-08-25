@@ -73,7 +73,6 @@ const GET_AGENTS = gql `
         node {
           id
           ident
-          displayedName
           created
           specId
 

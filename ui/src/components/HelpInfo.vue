@@ -190,6 +190,11 @@
 
                         </p>
                         <br />
+                        <h6>New Environments</h6>
+                        <p>
+                            New environments can be installed with the <b-link to="/extension/home">Extension Manager</b-link>
+                        </p>
+                        <br />
                         <h6>Environment Specs</h6>
                         <p>
                             We currenlty support Single-Agent and Multi-Agent Reinforcement Learning environments.

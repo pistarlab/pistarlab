@@ -1,64 +1,132 @@
 <template lang="html">
 <div v-if="agentSpec">
+    <b-modal id="selectsnapshot" size="xl" scrollable :hide-header="true" :hide-footer="false">
+        <div class="text-center mt-4">
+            <div class="mt-4"></div>
+            <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}:
+                <pre style="background-color:inherit">{{ traceback }}</pre>
+            </b-alert>
 
-    <b-modal id="modal-selectsnapshot" size="lg" title="Select a Snapshot">
-        <div>
-            <SnapshotSelector :specId="agentSpec.ident" @click="selectSnapshot($event)"></SnapshotSelector>
+            <span v-if="snapshotId" class="h4 mt-4">
+                <i class="fa fa-camera"></i> Selected Snapshot: <b>{{snapshotId}}</b>
+            </span>
+            <span v-else class="h4 mt-4">
+                No snapshot selected. A new agent will be created using the default parameters.
+            </span>
         </div>
 
-        <template v-slot:modal-footer="{ ok }">
-            <b-button variant="primary" @click="
-            ok();
-          ">Ok</b-button>
-        </template>
+        <div class="mt-4 ml-4 mb-4">
+            <b-form-radio v-model="snapshotId" :value="null" name="xxx">None</b-form-radio>
+        </div>
+
+        <b-tabs>
+            <b-tab title="Local Snapshots" active>
+                <div class="mt-4 overflow-auto">
+                    <SnapshotSelector :specId="agentSpec.ident" v-model="snapshotId"></SnapshotSelector>
+                </div>
+            </b-tab>
+            <b-tab title="Online Snapshots">
+                <div class="mt-4 overflow-auto">
+
+                    <SnapshotSelector :specId="agentSpec.ident" v-model="snapshotId" :online="true"></SnapshotSelector>
+                </div>
+
+            </b-tab>
+        </b-tabs>
     </b-modal>
+
     <h3>New Agent Instance</h3>
     <div class="mt-4"></div>
     <b-container fluid v-if="!$apollo.queries.agentSpec.loading">
         <b-row>
-            <b-col>
-                <div>
-                    <div class=" data_label">Agent Spec</div>
-                    <span>{{ agentSpec.ident }}</span>
-                </div>
+            <b-col cols="4" class="text-center">
+                <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(agentSpec.ident)}.png`" alt="Image" style="max-width:200px;"></b-card-img>
+
+            </b-col>
+
+            <b-col cols=2 class="text-right">
+
+                <div>Agent Spec:</div>
+
+                <div>Extension ID:</div>
+
+                <div>Version:</div>
             </b-col>
             <b-col>
                 <div>
-                    <div class=" data_label">Extension ID</div>
+                    <span>
+                        <router-link :to="`/agent_spec/${agentSpec.ident}`">{{agentSpec.displayedName}}</router-link>
+                    </span>
+                </div>
+                <div>
                     <span>{{ agentSpec.extensionId }}</span>
                 </div>
-            </b-col>
-            <b-col>
                 <div>
-                    <div class=" data_label">Version</div>
                     <span>{{ agentSpec.version }}</span>
                 </div>
             </b-col>
         </b-row>
         <div class="mt-2"></div>
-
         <b-row>
-
+            <b-col cols="4" class="text-right">
+            </b-col>
             <b-col>
                 <div>
-                    <div class=" data_label">Description</div>
                     <span>{{ agentSpec.description }}</span>
                 </div>
             </b-col>
         </b-row>
         <div class="mt-4"></div>
-
         <b-row>
             <b-col>
-
                 <div>
                     <b-tabs content-class="mt-3" justified>
-                        <b-tab title="Create using defaults" active>
+                        <b-tab title="Create" active class="text-center">
+                            <p>Create an agent with default parameters or select one from an existing snapshot.</p>
+                            <b-row class="mt-4 ml-4 mb-4 ">
+                                <b-col>
 
-                            <div class="mt-4">
-                                Use default parameters.
+                                    <b-button variant="info" size="sm" v-b-modal:selectsnapshot class="mr-4">Select an Agent Snapshot</b-button>
+                                </b-col>
+                                <b-col>
+                                    <b-form-radio class="mt-2" v-model="snapshotId" :value="null" name="xxx">New Agent with default parameters.</b-form-radio>
+                                    <!-- <span v-if="snapshotId">
+                                         {{snapshotId}}
+                                </span>
+                                <span v-else>
+                                    None selected
+                                </span> -->
 
+                                </b-col>
+                            </b-row>
+
+                            <div class="text-center mt-4">
+                                <div class="mt-4"></div>
+                                <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}:
+                                    <pre style="background-color:inherit">{{ traceback }}</pre>
+                                </b-alert>
+
+                                <span v-if="snapshotId" class="h4 mt-4">
+                                    <i class="fa fa-camera"></i> Selected Snapshot<br /> <b>{{snapshotId}}</b>
+                                </span>
+                                <span v-else class="h4 mt-4">
+                                    No snapshot selected. A new agent will be created using the default parameters.
+                                </span>
                             </div>
+                            <!-- <b-tabs>
+                                <b-tab title="Local Snapshots" active>
+                                    <div class="mt-4 overflow-auto">
+                                        <SnapshotSelector :specId="agentSpec.ident" v-model="snapshotId"></SnapshotSelector>
+                                    </div>
+                                </b-tab>
+                                <b-tab title="Online Snapshots">
+                                    <div class="mt-4 overflow-auto">
+
+                                        <SnapshotSelector :specId="agentSpec.ident" v-model="snapshotId" :online="true"></SnapshotSelector>
+                                    </div>
+
+                                </b-tab>
+                            </b-tabs> -->
 
                         </b-tab>
                         <b-tab title="Create with Agent Builder">
@@ -70,27 +138,21 @@
                             <div v-else>
                                 Agent Builder not supported by this Agent Spec
                             </div>
-
-                        </b-tab>
-                        <b-tab title="Create from Snapshot">
-                            <div>
-                                <b-button v-b-modal.modal-selectsnapshot class="mb-2" size="sm" variant="secondary">Select</b-button>
-                                <span class="ml-3">
-                                    <span v-if="snapshotId">
-                                        {{snapshotId}}
-                                    </span>
-                                    <span v-else>
-                                        No snapshot selected
-                                    </span>
-                                </span>
-                            </div>
                             <div class="mt-4"></div>
+                            <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}:
+                                <pre style="background-color:inherit">{{ traceback }}</pre>
+                            </b-alert>
 
                         </b-tab>
+
                         <b-tab title="Created from raw config">
 
                             <editor v-if="config" v-model="config" @init="editorInit" lang="json" width="100%" theme="chrome" height="600"></editor>
                             <div class="mt-4"></div>
+                            <div class="mt-4"></div>
+                            <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}:
+                                <pre style="background-color:inherit">{{ traceback }}</pre>
+                            </b-alert>
 
                         </b-tab>
                     </b-tabs>
@@ -102,16 +164,12 @@
 
     </b-container>
     <div class="mt-4"></div>
-    <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}:
-        <pre style="background-color:inherit">{{ traceback }}</pre>
-    </b-alert>
     <b-button-toolbar>
         <b-button size="sm" class="ml-auto" v-if="!submitting" variant="primary" v-on:click="submit">Create Instance</b-button>
         <b-button size="sm" class="ml-auto" v-else variant="primary" disabled>
             <b-spinner small type="grow"></b-spinner>Processing...
         </b-button>
     </b-button-toolbar>
-
 </div>
 </template>
 
@@ -132,6 +190,7 @@ const GET_AGENT_SPEC = gql `
     agentSpec(ident: $ident) {
       id
       ident
+      displayedName
       description
       extensionId
       version
@@ -181,7 +240,7 @@ export default {
         params() {
             if (!this.agentSpec) return null
             return JSON.parse(this.agentSpec.params)
-            
+
         },
         initParamValues() {
             if (!this.agentSpec.config) return null

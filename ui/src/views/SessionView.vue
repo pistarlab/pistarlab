@@ -88,7 +88,6 @@ const GET_SESSION = gql `
           agent {
             id
             ident
-            displayedName
             specId
     
           }

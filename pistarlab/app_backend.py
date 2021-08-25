@@ -2,6 +2,7 @@ import json
 import logging
 import math
 import os
+from pistarlab.util_funcs import merged_dict
 import signal
 import subprocess
 import sys
@@ -118,6 +119,10 @@ def api_admin_data():
 
     data['pistar_config']['redis_password'] = "HIDDEN"
     data['pistar_config']['db_config']['db_password'] = "HIDDEN"
+    try:
+        data['pistar_config']['launcher_info'] = ctx.get_launcher_info()
+    except Exception as e:
+        logging.error(e)
 
     try:
         data['tensorflow_status'] = ctx.check_tensorflow_status()
@@ -133,6 +138,14 @@ def api_admin_data():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
+@app.route("/api/launcher_info")
+@not_in_readonly_mode
+def api_launcher_info():
+    data = ctx.get_launcher_info()
+    response = make_response(data)
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 @app.route("/api/workspace/")
 def api_workspace_data():
@@ -318,36 +331,88 @@ def api_extension_action(action_name, extension_id, extension_version):
 def api_snapshots_list(spec_id=None):
     if spec_id == "undefined":
         spec_id = None
+
+    published_snapshots = ctx.list_published_user_snapshots(pe="snapshot_id")
+    published_snapshot_ids = set()
+    for snap in published_snapshots:
+        published_snapshot_ids.add(snap['snapshot_id'])
+
+    snapshots = []
+    
+    for entry in ctx.get_snapshot_index()['entries'].values():
+         if spec_id is None or entry['spec_id'] == spec_id:
+            entry['published'] = entry['snapshot_id'] in published_snapshot_ids
+            snapshots.append(entry)    
+    
+    logging.info(published_snapshots)
+
+    published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
+    for snapshot in snapshots:
+        snapshot['published'] = snapshot['snapshot_id'] in published_snaps
+
+    response = make_response(
+        {
+            'items': snapshots})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route("/api/snapshots/public/list/<query_field>/<value>")
+def api_snapshots_public_list(query_field, value):
+    if query_field != "spec_id":
+        raise Exception("Only support spec_id query at this time")
+
+    published_snapshots = ctx.list_published_spec_snapshots(spec_id=value,pe="snapshot_id,snapshot_data")
+    snapshots = []
+    for snap in published_snapshots:
+        if "snapshot_data" in snap:
+            data = snap['snapshot_data']
+            data = merged_dict(snap,data)
+            data['online'] = True
+            snapshots.append(data)
+
+    response = make_response(
+        {
+            'items': snapshots})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route("/api/snapshots/agent/list/<id>")
+def api_snapshots_list_for_agent_id(id):
     snapshots = [entry for entry in ctx.get_snapshot_index(
-    )['entries'].values() if spec_id is None or entry['spec_id'] == spec_id]
+    )['entries'].values() if entry['id'] == id]
+    published_snapshots = ctx.list_published_agent_snapshots(id)
+    logging.info(published_snapshots)
+
+    published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
+    for snapshot in snapshots:
+        snapshot['published'] = snapshot['snapshot_id'] in published_snaps
+
     response = make_response({'items': snapshots})
     response.headers['Content-Type'] = 'application/json'
     return response
 
 
-@app.route("/api/snapshots/agent/list/<seed>")
-def api_snapshots_list_for_agent_id(seed):
-    snapshots = [entry for entry in ctx.get_snapshot_index(
-    )['entries'].values() if entry['seed'] == seed]
-    response = make_response({'items': snapshots})
-    response.headers['Content-Type'] = 'application/json'
-    return response
-
-
-@app.route("/api/snapshot/publish", methods=['POST'])
+@app.route("/api/snapshot/create", methods=['POST'])
 @not_in_readonly_mode
-def api_snapshot_publish():
+def api_snapshot_create():
     try:
         request_data = request.get_json()
         snapshot_version = request_data['snapshot_version']
         snapshot_description = request_data['snapshot_description']
         agent_id = request_data['agent_id']
+        publish = request_data['publish']
 
         snapshot_data = ctx.create_agent_snapshot(
-            entity_id=agent_id,
+            agent_id=agent_id,
             snapshot_description=snapshot_description,
             snapshot_version=snapshot_version)
         ctx.update_snapshot_index()
+
+        if publish:
+            ctx.publish_snapshot(snapshot_data['snapshot_id'])
+
         response = make_response({'item': {'snapshot_data': snapshot_data}})
     except Exception as e:
         response = make_response(
@@ -355,6 +420,17 @@ def api_snapshot_publish():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
+
+@app.route("/api/snapshot/link")
+@not_in_readonly_mode
+def api_snapshot_link():
+    import requests
+    output = requests.get("http://api.open-notify.org/astros.json")
+    
+    response = make_response(output.json())
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 def get_session_update(sid):
     return json.loads(ctx.get_redis_client().get(f"SESSION_STATUS_{sid}").decode())
@@ -940,7 +1016,7 @@ def api_agent_plots_json(uid):
 
         response = make_response(response_data)
     except Exception as e:
-        logging.error('msg: {}, traceback: {}'.format(
+        logging.debug('msg: {}, traceback: {}'.format(
             e, traceback.format_exc()))
         response = make_response(
             {'error': '{}'.format(e), 'traceback': traceback.format_exc()})

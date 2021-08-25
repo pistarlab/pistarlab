@@ -116,8 +116,8 @@
                  <b-tooltip target="idebutton" triggers="hover">
                     Launch IDE
                 </b-tooltip> -->
-                        <b-nav-item v-b-popover.hover.top="'Show system logs'" class="ml-auto" v-b-modal.syslogviewer>
-                <i  class="fa fa-terminal"></i> System Logs
+            <b-nav-item v-b-popover.hover.top="'Show system logs'" class="ml-auto" v-b-modal.syslogviewer>
+                <i class="fa fa-terminal"></i> System Logs
             </b-nav-item>
             <b-nav-text class="ml-auto appstatus-disconnected" title="Disconnected from Server" v-if="!connected">
                 <i class="fas fa-exclamation-triangle"></i> Disconnected
@@ -141,7 +141,7 @@ import axios from "axios";
 import TaskHome from "./views/TaskHome.vue";
 import DataBrowser from "./views/DataBrowser.vue";
 import Sessions from "./views/SessionHome.vue";
-import Settings from "./views/Preferences.vue";
+import Settings from "./views/Settings.vue";
 import TaskSpecs from "./views/TaskSpecs.vue";
 
 import {
@@ -531,6 +531,25 @@ pre {
     padding: 15px;
     line-height: 1.5;
     overflow: auto;
+    background: inherit;
+
+    font-size: 0.7em;
+    background: linear-gradient(rgba(0, 0, 0, 0.3),
+            rgba(0, 0, 0, 0.3));
+    color: #FFF;
+}
+
+pre {
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
 }
 
 pre.error {
@@ -745,6 +764,20 @@ button .default {
     /* 1e1e21 */
 }
 
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    background: linear-gradient(rgba(0, 0, 0, 0.0),
+            rgba(0, 0, 0, 0.1));
+    background-color: #3384db !important;
+    color: #fff !important;
+}
+
+
+.card-header{
+    background: linear-gradient(rgba(0, 0, 0, 0.0),
+            rgba(0, 0, 0, 0.1));
+    background-color: #3384db !important;
+}
 .bottombar {
     padding: 0px 0px !important;
     margin: 0px 0px !important;
@@ -823,9 +856,9 @@ img .noscaleimg {
 
 }
 
-img{
-     -webkit-filter: drop-shadow(8px 8px 8px #000);
-        filter: drop-shadow(8px 8px 8px  #000);
+img {
+    -webkit-filter: drop-shadow(8px 8px 8px #000);
+    filter: drop-shadow(8px 8px 8px #000);
 }
 
 .desc {
@@ -903,7 +936,7 @@ b {
     font-weight: 600;
 }
 
-select option{
+select option {
     background-color: #000;
     border-color: #000;
 }
@@ -912,6 +945,4 @@ select option{
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
 } */
-
-
 </style>

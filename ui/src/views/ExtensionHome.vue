@@ -4,6 +4,9 @@
         <h1><i class="fa fa-project-diagram"></i> Extensions</h1>
         <div class="mt-4"></div>
 
+        <b-modal id="modal-restart" title="Restart" size="lg">
+            <RestartDialog></RestartDialog>
+        </b-modal>
         <b-modal id="modal-logviewer" title="Extension Manager Logs" size="xl">
             <LogViewer :nocard="true" :logStreamUrl="`${appConfig.API_URL}/api/stream/scoped/extension_manager`"> </LogViewer>
         </b-modal>
@@ -115,7 +118,7 @@
                             </b-col>
                             <b-col class="">
                                 <span class="data_label mt-1">State: </span>
-                                <span v-if="item.status == 'PREPPED_RELOAD'" style="color:yellow">**Restart piSTAR Lab to complete installation*</span>
+                                <span v-if="item.status == 'PREPPED_RELOAD'" style="color:yellow">**Restart piSTAR Lab to complete installation* <b-button v-b-modal:modal-restart size="sm">Restart Now</b-button></span>
                                 <span v-else>{{item.status}} </span>
                                 <span v-if="(item.status == 'INSTALL_FAILED' || item.status == 'UNINSTALL_FAILED') && item.status_msg">
                                     <pre>{{item.status_msg}}</pre>
@@ -185,15 +188,20 @@ const fields = [{
     },
 ];
 import LogViewer from "../components/LogViewer.vue";
+import RestartDialog from "../components/RestartDialog.vue"
 
 export default {
     name: "ExtensionHome",
     components: {
-        LogViewer
+        LogViewer,RestartDialog
     },
     props: {
         showWorkspaceExtensions: Boolean,
-        manageExtensionId: String
+        manageExtensionId: String,
+        category:{
+            type:String,
+            default:null
+        }
     },
     data() {
         return {

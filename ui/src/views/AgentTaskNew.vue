@@ -329,7 +329,6 @@
                                 <template v-slot:header>
                                       <b-button-toolbar>
                                     <span class="custom-card-header  mb-2">
-                            
                                             {{agent.ident}}
                                         </span>
 

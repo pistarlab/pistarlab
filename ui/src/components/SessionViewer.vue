@@ -666,6 +666,7 @@ export default {
     },
     created() {
         console.log(this.uid);
+        this.liveAvailable = this.item && this.item.status == "RUNNING"
         this.loadData();
         this.loadGraphs();
         this.timer = setInterval(this.refreshData, 2000);

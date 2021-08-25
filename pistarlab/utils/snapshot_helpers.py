@@ -28,7 +28,7 @@ def get_snapshots_from_file_repo(data_root:str) -> Dict[str,Dict[str,Any]]:
 
                     # For backward compatibility
                     if "snapshot_id" not in data:
-                        data['snapshot_id'] = "{}_{}_{}_{}_{}".format(data['entity_type'], data['spec_id'], data['submitter_id'], data['seed'], data['snapshot_version'])
+                        data['snapshot_id'] = "{}_{}_{}_{}".format(data['entity_type'], data['spec_id'], data['seed'], data['snapshot_version'])
 
                     entry = {
                         "snapshot_id": data['snapshot_id'],
@@ -36,14 +36,17 @@ def get_snapshots_from_file_repo(data_root:str) -> Dict[str,Dict[str,Any]]:
                         'spec_id': data['spec_id'],
                         'id': data['id'],
                         'seed': data['seed'],
+                        'agent_name': data['agent_name'],
                         'meta': data['meta'],
                         'config': data['config'],
                         'submitter_id': data['submitter_id'],
                         'creation_time': data['creation_time'],
+                        'env_stats': data.get('env_stats',{}),
                         'snapshot_version': data['snapshot_version'],
                         'snapshot_description': data['snapshot_description'],
                         'path': dirpath.replace(data_root, "")[1:],
-                        'file_prefix': file.replace(".json", "")
+                        'file_prefix': file.replace(".json", ""),
+
                     }
                     items[entry['snapshot_id']] = entry
     return items

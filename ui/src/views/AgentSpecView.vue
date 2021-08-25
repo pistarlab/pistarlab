@@ -76,15 +76,7 @@
 </template>
 
 <script>
-//USING https://github.com/chairuosen/vue2-ace-editor
-import axios from "axios";
-import {
-    appConfig
-} from "../app.config";
-import {
-    timedelta,
-    timepretty
-} from "../funcs";
+
 import gql from "graphql-tag";
 import AgentNew from "../components/AgentNew.vue";
 
@@ -105,7 +97,7 @@ const GET_AGENT_SPEC = gql `
 `;
 
 export default {
-    name: "NewAgent",
+    name: "AgentSpecView",
     components: {
         AgentNew
     },

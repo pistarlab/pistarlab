@@ -2,21 +2,22 @@
 <div>
     <h3>Agent Specs</h3>
     <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;"></b-form-input>
+    <div class="mb-4">
+    </div>
 
     <b-container fluid>
         <div v-if="$apollo.queries.agentSpecs.loading">Loading..</div>
         <div v-else-if="agentSpecs && agentSpecs.length > 0">
             <div v-for="item in specs" :key="item.id">
-                <b-row class="pt-4" v-if="!item.disabled">
-                    <b-col cols="2" class="text-center mt-2">
-                        <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(item.ident)}.png`" alt="Image" style="max-width:160px;"></b-card-img>
+                <b-row  v-if="!item.disabled">
+                    <b-col cols="2" class="text-center">
+                        <b-card-img :src="`/img/agent_spec_icons/agent_${getImageId(item.ident)}.png`" alt="Image" style="max-width:100px;"></b-card-img>
 
                     </b-col>
 
                     <b-col class="">
-                        <h3>
-                            <router-link :to="`/agent_spec/${item.ident}`">{{item.displayedName}}</router-link>
-                        </h3>
+                        <router-link :to="`/agent_spec/${item.ident}`">{{item.displayedName}}</router-link>
+
                         <div class="">
                             <b-alert size="sm" v-if="item.disabled" show variant="warning">disabled</b-alert>
                         </div>
@@ -38,7 +39,7 @@
                         </div>
                     </b-col>
                     <b-col cols="4">
-                        <b-button class="float-right" size="sm" :disabled=item.disabled @click="select  (item.ident)" variant="outline-primary">
+                        <b-button class="float-right" size="sm" :disabled=item.disabled @click="select  (item.ident)" variant="info">
                             Select
                         </b-button>
                     </b-col>

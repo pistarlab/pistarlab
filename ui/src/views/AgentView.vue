@@ -18,26 +18,37 @@
                 <pre v-if="item && item.meta">{{ JSON.parse(item.meta) }}</pre>
             </b-modal>
 
-            <b-modal id="modal-publish-snapshot" title="Create Snapshot" size="lg">
-                <label for="snapshot_version">Version: (Must be unique, otherwise will overwrite snapshots with same version)</label>
-                <b-form-input id="snapshot_version" v-model="snapshot_version" placeholder="Enter the snapshot version." trim></b-form-input>
-                <div class="mt-1"></div>
+            <b-modal id="modal-create-snapshot" scrollable title="Create Snapshot" size="xl">
+                <b-form-group>
+                    <label for="snapshot_version">Version: (Must be unique, otherwise will overwrite snapshots with same version)</label>
+                    <b-form-input id="snapshot_version" v-model="snapshot_version" placeholder="Enter the snapshot version." trim></b-form-input>
+                    <div class="mt-1"></div>
 
-                <label for="snapshot_description">Description:</label>
-                <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
-
-                <b-button class="mt-2" variant="secondary" v-on:click="publish()" size="sm">Save</b-button>
+                    <label for="snapshot_description">Description:</label>
+                    <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
+                    <div class="mt-4"></div>
+                    <b-form-checkbox v-model="publish" name="checkbox-1" :value="true" :unchecked-value="false">
+                        Publish Online
+                    </b-form-checkbox>
+                    <div class="mt-4"></div>
+                    <b-button class="mt-2" variant="primary" v-on:click="createSnapshot()" size="sm">Create</b-button>
+                </b-form-group>
 
                 <hr />
                 <div class="mt-2"></div>
                 <b-card>
                     <h3>Current Snapshots</h3>
+                    <b-link class="small" @click="this.loadSnapshotList()">(refresh)</b-link>
                     <div class="mt-2"></div>
                     <b-table :items="snapshots" :fields="pubfields">
                     </b-table>
+                    <div v-if="snapshots == null || snapshots.length==0">
+                        No snapshots found for this agent.
+                    </div>
+
                 </b-card>
                 <template v-slot:modal-footer="{ ok }">
-                    <b-button variant="primary" @click="ok();">Close</b-button>
+                    <b-button variant="secondary" @click="ok();">Close</b-button>
                 </template>
             </b-modal>
 
@@ -68,15 +79,16 @@
                     <b-button variant="primary" :to="`/task/new/agenttask/?agentUid=${uid}`" size="sm"><i class="fa fa-plus-square"></i> Assign Task</b-button>
 
                     <b-button variant="secondary" v-b-modal="'edit-modal'" size="sm"><i class="fa fa-edit"></i> Configure</b-button>
-                    <b-button title="Create Snapshot" variant="secondary" v-b-modal="'modal-publish-snapshot'" @click="loadSnapshotList()" size="sm"><i class="fa fa-camera-retro"></i> Snapshot</b-button>
                     <b-button title="Create Clone" variant="secondary" v-b-modal="'modal-create-clone'" size="sm"><i class="fa fa-clone"></i> Clone</b-button>
                     <b-button variant="warning" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('SHUTDOWN')" size="sm">Shutdown</b-button>
                     <b-button variant="danger" v-if="item.job_data && item.job_data.state == 'RUNNING'" v-on:click="agentControl('KILL')" size="sm">Kill</b-button>
                     <b-button variant="secondary" v-b-modal.agent-browser size="sm"><i class="fa fa-file"></i> Files</b-button>
                     <b-button variant="secondary" v-b-modal="'meta-modal'" size="sm"><i class="fa fa-info-circle"></i> Metadata</b-button>
-                    <b-button variant="info" title="Move to archive" v-if="item && !item.archived"  @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Move to Archive</b-button>
-                    <b-button title="restore from archive" v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore from Archive</b-button>
+                    <b-button variant="warning" title="Move to archive" v-if="item && !item.archived" @click="updateArchive(true)" size="sm"><i class="fa fa-trash"></i> Archive</b-button>
+                    <b-button title="restore from archive" v-if="item && item.archived" variant="secondary" @click="updateArchive(false)" size="sm"><i class="fa fa-trash-restore"></i> Restore</b-button>
                 </b-button-group>
+
+                <b-button title="Create Snapshot" class="ml-3" variant="info" v-b-modal="'modal-create-snapshot'" @click="loadSnapshotList()" size="sm"><i class="fa fa-camera-retro"></i> Publish Snapshot</b-button>
             </b-button-toolbar>
 
             <div class="mt-4"></div>
@@ -272,14 +284,14 @@ const pubfields = [
     },
 
     {
-        key: "submitter_id",
-        label: "Submitter Id",
+        key: "snapshot_description",
+        label: "Description",
 
     },
 
     {
-        key: "snapshot_description",
-        label: "Description",
+        key: "published",
+        label: "Published Online",
 
     }
 
@@ -378,6 +390,7 @@ export default {
             clonedAgentId: null,
             cloneError: null,
             submitting: false,
+            refreshingSnapshots:false,
 
             taskDetailsList: [],
             fields,
@@ -391,6 +404,7 @@ export default {
             plotStepMax: 0,
             selected: [],
             traceback: null,
+            publish:false,
 
             componentFields: [{
                     key: "name",
@@ -612,9 +626,9 @@ export default {
                 });
         },
         loadSnapshotList() {
-            if (this.item && this.item.seed) {
+            if (this.item && this.item.ident) {
                 axios
-                    .get(`${appConfig.API_URL}/api/snapshots/agent/list/${this.item.seed}`)
+                    .get(`${appConfig.API_URL}/api/snapshots/agent/list/${this.item.ident}`)
                     .then((response) => {
                         this.snapshots = response.data["items"]
                     })
@@ -682,24 +696,24 @@ export default {
 
                 })
                 .catch((e) => {
-                    console.log(e);
                     this.error = e;
                     this.$bvModal.show("errorbox")
                 });
         },
 
-        publish() {
+        createSnapshot() {
             const outgoingData = {
                 snapshot_version: this.snapshot_version,
                 snapshot_description: this.snapshot_description,
-                agent_id: this.uid
+                agent_id: this.uid,
+                publish:this.publish
 
             }
             console.log(JSON.stringify(outgoingData, null, 2))
             this.error = null
             this.traceback = null
             axios
-                .post(`${appConfig.API_URL}/api/snapshot/publish`, outgoingData)
+                .post(`${appConfig.API_URL}/api/snapshot/create`, outgoingData)
                 .then((response) => {
                     const data = response.data["item"];
                     if ("snapshot_data" in data) {

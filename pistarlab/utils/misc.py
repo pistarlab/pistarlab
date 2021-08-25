@@ -1,5 +1,5 @@
 import time
-from uuid import uuid1
+from uuid import uuid4
 import platform
 import os
 import shortuuid
@@ -21,6 +21,8 @@ def gen_uid(prefix=""):
     val = "%s_%s_%s" % (prefix, time.strftime("%Y%m%d-%H%M%S"), str(uuid1()))
     return val
 
+def gen_uuid():
+    return str(uuid4())
 
 def gen_instance_id():
     current_time = time.time()

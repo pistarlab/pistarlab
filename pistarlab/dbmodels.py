@@ -143,7 +143,7 @@ class AgentModel(DbBase):
     name = db.Column(db.String)
     seed = db.Column(db.String, nullable=False)
 
-    displayed_name = db.Column(db.String)
+    # displayed_name = db.Column(db.String)
     notes = db.Column(db.String)
     created = db.Column(db.DateTime, server_default=db.func.now())
     archived = db.Column(db.Boolean, default=False)

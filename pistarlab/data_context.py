@@ -122,7 +122,7 @@ class DataContext:
             self.init_db()
 
     def get_user_id(self, token):
-        return "default"
+        return "pistarai"
 
     def close(self):
         if self.__db_scoped_session:

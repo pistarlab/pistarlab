@@ -108,7 +108,8 @@
             <div v-else>
                 <b-row>
                     <b-col>
-                        <b-form-input v-model="searchtext" placeholder="Search Environments" style="width:250px;" class='ml-auto'></b-form-input>
+                        <b-form-input class='ml-auto' v-model="searchtext" placeholder="Search Environments" style="width:250px;" ></b-form-input> 
+            
                     </b-col>
                 </b-row>
                 <div v-if="items.length > 0">

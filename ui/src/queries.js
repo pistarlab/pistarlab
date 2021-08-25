@@ -6,6 +6,7 @@ const GET_RECENT_AGENTS = gql`
   recentAgents {
     id
     ident
+    name
     created
     specId
     spec{

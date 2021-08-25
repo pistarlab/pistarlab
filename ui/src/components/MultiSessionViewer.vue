@@ -106,6 +106,8 @@
                                         <StreamView v-if="playingLive" :uid="uid" />
                                         <div v-if="playingLive" style="color:red;font-weight:900">Live</div>
 
+                                       
+
                                         <video v-else-if="playingEpisode" loop autoplay controls style="width:100%">
                                             <source :src="videoURL" type="video/mp4">
                                         </video>
@@ -626,6 +628,7 @@ export default {
     },
     created() {
         console.log(this.uid);
+        this.liveAvailable = this.item && this.item.status == "RUNNING"
         this.loadData();
         this.loadGraphs();
         this.timer = setInterval(this.refreshData, 2000);

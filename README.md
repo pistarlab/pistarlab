@@ -23,6 +23,11 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 * Uses Ray Project (https://ray.io/) under the hood for distributed processing
 * More to come
 
+## Known Issues/Limitations
+- Cluster mode is under development and not recommended at this time
+- Running remotely requires SSH tunneling. All services must be running on localhost
+- Windows and Mac not tested
+- extension installation requires restarting piSTAR Lab to complete
 
 ## UI Screenshots
 
@@ -35,8 +40,6 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 <br/> <img src="docs/source/images/pistarlab_session_stats.png" alt="agent home" width="600"/>  <br/>
 
 <br/> <img src="docs/source/images/pistarlab_agent_stats.png" alt="agent home" width="600"/>  <br/>
-
-
 
 # Quick Start 
 Detailed documentation is published at https://pistarlab.readthedocs.io

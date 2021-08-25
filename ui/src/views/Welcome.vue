@@ -10,9 +10,11 @@
 
                 <b-col class="d-flex justify-content-center align-self-center">
 
-                    <div>
-                        <img width=360px src="/ai-play_6.png" />
+                  
+                    <div class="m-4 rounded-0" >
+                        <img width=320px src="/ai-play_6.png" />
                     </div>
+                  
 
                 </b-col>
             </b-row>
@@ -42,8 +44,8 @@
 
                 <b-col class="d-flex justify-content-center align-self-center">
 
-                    <b-alert show variant="warning">
-                        <b>Warning:</b> piSTAR Lab is in early development. Compatibility with newer versions is not guarenteed.
+                    <b-alert show variant="info">
+                        <b>Caution:</b> piSTAR Lab is in early development. Compatibility with newer versions is not guarenteed.
                     </b-alert>
                 </b-col>
             </b-row>
