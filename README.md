@@ -63,9 +63,7 @@ git clone  --single-branch --depth=1 http://github.com/pistarlab/pistarlab/
 pip install -e ."[all]"
 ```
 
-
 ## Usage
-
 
 To launch piSTAR Lab UI, run:
 ```bash
