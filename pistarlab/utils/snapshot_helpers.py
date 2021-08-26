@@ -26,9 +26,9 @@ def get_snapshots_from_file_repo(data_root:str) -> Dict[str,Dict[str,Any]]:
                 with open(file_path, 'r') as f:
                     data = json.load(f)
 
-                    # For backward compatibility
-                    if "snapshot_id" not in data:
-                        data['snapshot_id'] = "{}_{}_{}_{}".format(data['entity_type'], data['spec_id'], data['seed'], data['snapshot_version'])
+                    # # For backward compatibility
+                    # if "snapshot_id" not in data:
+                    #     data['snapshot_id'] = "{}_{}_{}_{}".format(data['id'], data['spec_id'], data['seed'], data['snapshot_version'])
 
                     entry = {
                         "snapshot_id": data['snapshot_id'],

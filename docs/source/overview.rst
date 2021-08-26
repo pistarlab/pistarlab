@@ -1,39 +1,30 @@
 Overview
 ========
 
-piSTARLab is modular Agent Development Environment that can run on your PC or in the cloud.
+piSTAR Lab is modular Agent Development Environment that can run on your PC or in the cloud.
 
 * Manage your own library of Agents and Environments.  
 * Run experiments with a click of a button.  
 * Watch your agent learn in realtime.
 
 
-Home
+Screenshots
+============
 
-.. image:: images/pistarlab_home.png
+.. image:: images/recent_agents.png
     :width: 600px
 
-Agent Library
-
-.. image:: images/pistarlab_agent_home.png
+.. image:: images/envs.png
     :width: 600px
 
-Environment Library
-
-.. image:: images/pistarlab_envs.png
+.. image:: images/agent_training1.png
     :width: 600px
 
-Create a new Task for your Agent
-
-.. image:: images/pistarlab_newtask.png
+.. image:: images/assign_multi_agent_envs.png
     :width: 600px
 
-Monitor you the Task
-
-.. image:: images/pistarlab_session_stats.png
+.. image:: images/multi_agent_viewer.png
     :width: 600px
 
-Monitor Agent Learning
-
-.. image:: images/pistarlab_agent_stats.png
+.. image:: images/extension_man.png
     :width: 600px

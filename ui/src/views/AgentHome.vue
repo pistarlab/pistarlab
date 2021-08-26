@@ -48,7 +48,7 @@
                                     <template v-slot:header>
                                         <b-button-toolbar>
                                             <span class="custom-card-header mb-2">
-                                                <b-link style="color: white" :to="`/agent/view/${item.ident}`">{{ item.ident }}</b-link>
+                                                <b-link style="color: white" :to="`/agent/view/${item.ident}`">{{ item.ident }} <span v-if="item.name">({{item.name}})</span></b-link>
                                             </span>
                                             <b-link v-b-popover.hover.top="'Assign Task'" class="ml-auto mt-1" size="sm" :to="`/task/new/agenttask/?agentUid=${item.ident}`"><i class="fa fa-plus"></i></b-link>
                                         </b-button-toolbar>

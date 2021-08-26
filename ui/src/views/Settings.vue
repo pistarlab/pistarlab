@@ -1,5 +1,13 @@
 <template>
 <div>
+
+    <b>User ID:</b> <span v-if="data">{{data.user_id}}</span>
+    <br />
+    <b-alert  variant="info" show>
+        User ID is only using online features such as publishing snapshots. This can be changed by editing the USER_HOME/pistarlab/user_info.json file.
+    </b-alert>
+
+    <div class="mt-4"></div>
     <b-button-toolbar>
         <b-button-group size="sm">
             <b-button :disabled="!launcherURI" v-b-popover.hover.top="launcherURI ? 'Start/Shutdown piSTAR Lab Services': 'Problem Loading launcher info'" :href="launcherURI" target="_blank">piSTAR Launcher</b-button>
@@ -13,6 +21,9 @@
     <RestartDialog></RestartDialog>
     <hr />
     <div class="mt-4"></div>
+
+    <div class="mt-4"></div>
+
     <b-button size="sm" v-b-toggle.collapse-details variant="secondary">Configuration Details</b-button>
     <b-collapse id="collapse-details" class="mt-2">
 

@@ -182,13 +182,13 @@
 </div>
 <p>Open your browser to <a class="reference external" href="http://localhost:7777">http://localhost:7777</a></p>
 <p><strong>To launch the piSTAR Lab docker container, run:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -i -t -u <span class="sb">`</span>id -u<span class="sb">`</span> <span class="se">\</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir pistarlab_docker <span class="p">;</span> docker run --rm -i -t -u <span class="sb">`</span>id -u<span class="sb">`</span> <span class="se">\</span>
     --shm-size<span class="o">=</span>2g <span class="se">\</span>
     -p <span class="m">7776</span>:7776  <span class="se">\</span>
     -p <span class="m">7777</span>:7777  <span class="se">\</span>
     -p <span class="m">7778</span>:7778  <span class="se">\</span>
     -p <span class="m">8265</span>:8265 <span class="se">\</span>
-    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/pistarlab_docker:/home/ray/pistarlab pistarlab/pistarlab-dev:latest
+    -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/pistarlab_docker:/home/ray/pistarlab pistarlab/pistarlab:latest  --launcher_host<span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span>
 </pre></div>
 </div>
 <p>Open your browser to <a class="reference external" href="http://localhost:7777">http://localhost:7777</a></p>

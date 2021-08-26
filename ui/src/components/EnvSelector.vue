@@ -8,14 +8,14 @@
         <div v-for="(spec,idx) in envSpecList" v-bind:key="idx">
             <b-row>
                 <b-col cols=3 class="text-center">
-                    <div>
+                    <div class="mt-2">
                         <router-link :to="`/env_spec/view/${spec.ident}`"> {{ spec.displayedName }}</router-link>
                     </div>
-                    <b-card-img :src="`${appConfig.API_URL}/api/env_preview_image/${spec.ident}`" alt="" style="width:100px"></b-card-img>
+                    <b-card-img class="mt-1" :src="`${appConfig.API_URL}/api/env_preview_image/${spec.ident}`" alt="" style="width:100px"></b-card-img>
 
                 </b-col>
                 <b-col>
- <div class="mt-3"></div>
+                    <div class="mt-3"></div>
                     <div>
                         <span class="data_label mt-1">Environment: </span>
                         <span>{{spec.environment.ident}}</span>
@@ -28,7 +28,7 @@
                         <span class="data_label mt-1">Extension: </span>
                         <span>{{spec.environment.extensionId}}: {{spec.environment.extensionVersion}}</span>
                     </div>
-                                       <div>
+                    <div>
                         <span class="data_label mt-1">Type: </span>
                         <span>{{spec.envType}}</span>
                     </div>
@@ -42,7 +42,6 @@
                     <div>
                         <b-button size="sm" variant="primary" @click="select(spec.ident)">Select</b-button>
                     </div>
- 
 
                 </b-col>
             </b-row>

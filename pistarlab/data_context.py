@@ -12,11 +12,26 @@ from sqlalchemy import orm as db_orm
 from .config import SysConfig
 from .dbmodels import DbBase
 from .storage import JSONEncoderCustom, Storage
+from .utils.misc import gen_shortuid
 
 
 def json_data_serializer(d):
     return json.dumps(d, cls=JSONEncoderCustom)
 
+
+def get_user_info(config: SysConfig):
+    user_info_path = os.path.join(config.root_path, "user_info.json")
+    if not os.path.exists(user_info_path):
+        with open(user_info_path,'w') as f:
+            json.dump({'user_id':gen_shortuid()},f)
+
+    try:
+        with open(user_info_path, "r") as f:
+            return json.load(f)
+
+    except Exception as e:
+        logging.error(f"ERROR loading display info {e}")
+        return {}
 
 class DataContext:
 
@@ -28,6 +43,7 @@ class DataContext:
         self._dbsession = None
         self.__db_scoped_session = None
         self.redis_client: redis.Redis = None
+        self.user_info = None
 
         # File Storage
         self._store: Storage = None
@@ -121,8 +137,11 @@ class DataContext:
 
             self.init_db()
 
-    def get_user_id(self, token):
-        return "pistarai"
+    def get_user_id(self, token= None):
+        # TODO: need to replace this...
+        if self.user_info is None:
+            self.user_info = get_user_info(self.config)
+        return self.user_info.get("user_id") 
 
     def close(self):
         if self.__db_scoped_session:

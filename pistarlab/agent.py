@@ -37,7 +37,9 @@ class Agent(Entity):
             meta=dbmodel.meta)
 
     @staticmethod
-    def create(spec_id, config={}, custom_seed=None):
+    def create(spec_id, config={}, name=None, custom_seed=None):
+        if name is not None:
+            name=name.strip()
         spec_dbmodel: AgentSpecModel = Agent.get_spec_dbmodel_by_id(spec_id)
         if spec_dbmodel is None:
             raise Exception(
@@ -58,6 +60,7 @@ class Agent(Entity):
             spec_id=spec_id,
             config=config,
             meta=meta,
+            name=name,
             custom_seed=custom_seed)
 
     # def create_from_snapshot(snapshot_archive_path):
@@ -109,7 +112,7 @@ class Agent(Entity):
         query = ctx.get_dbsession().query(AgentSpecModel)
         return query.get(id)
 
-    def __init__(self, _calling_directly=True, spec_id=None, _id=None, config={}, meta={}, custom_seed=None):
+    def __init__(self, _calling_directly=True, spec_id=None, _id=None, config={}, meta={}, name=None, custom_seed=None):
         """
         Internal use only: don't use directly - use load or create
 
@@ -124,6 +127,7 @@ class Agent(Entity):
         self._config = config
         self._meta = meta
         self.custom_seed = custom_seed
+        self.name = name
 
         self._sync_data_model()
         self.stat_buffer: DataBuffer = None
@@ -170,6 +174,7 @@ class Agent(Entity):
                     config=self._config,
                     spec_id=self._spec_id,
                     seed=seed,
+                    name=self.name,
                     meta=self._meta)
                 ctx.get_dbsession().add(dbmodel)
                 ctx.get_dbsession().commit()
@@ -184,6 +189,21 @@ class Agent(Entity):
         for sess in dbmodel.sessions:
             ids.append(sess.id)
         return ids
+
+    # Naming Methods
+    def get_name(self):
+        return self.get_dbmodel().name
+
+    def update_name(self, name:str):
+        if name is None:
+            raise Exception("Invalid Name")
+        name=name.strip()
+        dbmodel = self.get_dbmodel()
+        dbmodel.name = name
+        self.name = name
+        ctx.get_dbsession().add(dbmodel)
+        ctx.get_dbsession().commit()
+        
 
     # Config Methods
     def get_config(self, run_config={}):

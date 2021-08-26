@@ -115,7 +115,7 @@
                                     <template v-slot:cell(agentId)="data">
 
                                         <b-link :to="`/agent/view/${data.item.agentId}`">
-                                            <b-img style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 agentfun"></b-img>
+                                            <b-img v-if="data.item.agent" style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 agentfun"></b-img>
                                             <span class="ml-4">{{data.item.agentId}}</span>
 
                                         </b-link>
@@ -154,7 +154,7 @@
                                         <b-card class="m-1">
 
                                             <b-img style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(item.specId)}.png`" alt="Image" class="agentfun rounded-0"></b-img>
-                                            <span class="ml-4"> {{item.ident}} : {{item.spec.displayedName}}</span>
+                                            <span class="ml-4"> {{item.ident}} <span v-if="item.name">({{item.name}})</span> : {{item.spec.displayedName}}</span>
 
                                         </b-card>
                                     </b-link>

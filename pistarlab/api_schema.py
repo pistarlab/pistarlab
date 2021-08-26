@@ -148,7 +148,7 @@ class AgentSetConfig(graphene.Mutation):
         agent: db.AgentModel = ctx.get_agent_dbmodel(ident[1])
         agent.config = json.loads(config)
         ctx.get_dbsession().commit()
-        return AgentSetArchive(success=True)
+        return AgentSetConfig(success=True)
 
 
 class AgentSetNotes(graphene.Mutation):
@@ -166,8 +166,25 @@ class AgentSetNotes(graphene.Mutation):
         agent: db.AgentModel = ctx.get_agent_dbmodel(ident[1])
         agent.notes = notes
         ctx.get_dbsession().commit()
-        return AgentSetArchive(success=True)
+        return AgentSetNotes(success=True)
 
+
+class AgentSetName(graphene.Mutation):
+
+    class Arguments:
+        id = graphene.String()
+        name = graphene.String()
+
+    success = graphene.Boolean()
+
+    @staticmethod
+    def mutate(root, info, id, name):
+        ident = from_global_id(id)
+        ctx = info.context.get('ctx')
+        agent: db.AgentModel = ctx.get_agent_dbmodel(ident[1])
+        agent.name = name
+        ctx.get_dbsession().commit()
+        return AgentSetName(success=True)
 
 class EnvWrapper(graphene.ObjectType):
     entry_point = graphene.String(name="entry_point")
@@ -299,6 +316,7 @@ class Mutations(graphene.ObjectType):
     agent_set_archive = AgentSetArchive.Field()
     agent_set_config = AgentSetConfig.Field()
     agent_set_notes = AgentSetNotes.Field()
+    agent_set_name = AgentSetName.Field()
     session_set_archive = SessionSetArchive.Field()
 
 

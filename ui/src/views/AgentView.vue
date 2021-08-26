@@ -5,7 +5,8 @@
             <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
             <div class="mb-5"></div>
         </b-modal>
-        <h1><i class="fas fa-robot"></i> Agent: <span v-if="item">{{item.ident}}</span></h1>
+
+        <h1><i class="fas fa-robot"></i> Agent: <span v-if="item">{{item.ident}}</span> <span v-if="item && item.name">({{item.name}})</span></h1>
         <div v-if="item && item.ident">
 
             <!-- <b-modal id="def-modal" size="lg">
@@ -31,7 +32,10 @@
                         Publish Online
                     </b-form-checkbox>
                     <div class="mt-4"></div>
-                    <b-button class="mt-2" variant="primary" v-on:click="createSnapshot()" size="sm">Create</b-button>
+                    <b-button :disabled="submitting" v-if="!submitting" class="mt-2" variant="primary" v-on:click="createSnapshot()" size="sm">Create</b-button>
+                    <b-button v-else variant="primary" disabled>
+                        <b-spinner small type="grow"></b-spinner>
+                    </b-button>
                 </b-form-group>
 
                 <hr />
@@ -57,7 +61,10 @@
                     Cloned agents will not include session history or statistics.
                 </p>
 
-                <b-button :disabled="submitting" @click="createClone()">Create Full Clone</b-button>
+                <b-button v-if="!submitting" :disabled="submitting" @click="createClone()">Create Full Clone</b-button>
+                <b-button v-else variant="primary" disabled>
+                    <b-spinner small type="grow"></b-spinner>
+                </b-button>
                 <br />
                 <br />
                 <div class="text-center">
@@ -302,6 +309,7 @@ const GET_AGENT = gql `
       id
       ident
       seed
+      name
       specId
       spec{
           id
@@ -390,7 +398,7 @@ export default {
             clonedAgentId: null,
             cloneError: null,
             submitting: false,
-            refreshingSnapshots:false,
+            refreshingSnapshots: false,
 
             taskDetailsList: [],
             fields,
@@ -404,7 +412,8 @@ export default {
             plotStepMax: 0,
             selected: [],
             traceback: null,
-            publish:false,
+            publish: false,
+            creatingSnapshot: false,
 
             componentFields: [{
                     key: "name",
@@ -702,35 +711,36 @@ export default {
         },
 
         createSnapshot() {
+
             const outgoingData = {
                 snapshot_version: this.snapshot_version,
                 snapshot_description: this.snapshot_description,
                 agent_id: this.uid,
-                publish:this.publish
+                publish: this.publish
 
             }
             console.log(JSON.stringify(outgoingData, null, 2))
             this.error = null
             this.traceback = null
+            this.submitting = true
             axios
                 .post(`${appConfig.API_URL}/api/snapshot/create`, outgoingData)
                 .then((response) => {
-                    const data = response.data["item"];
-                    if ("snapshot_data" in data) {
-                        console.log("Snapshot Result: " + JSON.stringify(data['snapshot_data']));
-                    } else {
-                        console.log("ERROR in response " + JSON.stringify(data));
-                        this.error = data['error'];
-                        this.$bvModal.show("errorbox")
-                    }
-                    this.traceback = data["traceback"];
-
+                    console.log("Snapshot Created: Success="+ response.data["success"])
+                    
                     this.submitting = false;
                     this.loadSnapshotList()
+                    if (response.data["success"] == false){
+                        this.error = "Failed to upload. " + response.data
+                        console.log(this.error)
+                    }
+
                 })
-                .catch(function (error) {
+                .catch( (error) =>{
+                    console.log("Received Error: " + error.message)
                     this.error = error;
                     this.submitting = false;
+                    this.loadSnapshotList()
                 });
         },
         createClone() {

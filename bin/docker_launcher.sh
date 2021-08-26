@@ -21,4 +21,4 @@ docker run --rm -i -t -u `id -u` \
     -p ${REDIS_PORT}:${REDIS_PORT}  \
     -p ${STREAM_PORT}:${STREAM_PORT}  \
     -p ${RAY_DASHBOARD_PORT}:${RAY_DASHBOARD_PORT} \
-    -v ${HOME}/pistarlab_docker:/home/ray/pistarlab pistarlab/pistarlab:latest $@
+    -v ${HOME}/pistarlab_docker:/home/ray/pistarlab pistarlab/pistarlab:latest --launcher_host="0.0.0.0" --$@

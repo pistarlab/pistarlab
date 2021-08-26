@@ -9,11 +9,11 @@
             <b-row>
                 <b-col >
                     <div>
-                        <router-link target="_blank" :to="`/agent/view/${agent.ident}`"> {{ agent.ident }}</router-link>
+                        <router-link target="_blank" :to="`/agent/view/${agent.ident}`"> {{ agent.ident }} <span v-if="agent.name">({{agent.name}})</span></router-link>
                     </div>
                 </b-col>
 
-                <b-col class="text-right">
+                <b-col  cols=2 >
                     <div>
                         <b-button size="sm" variant="primary" @click="select()">Select</b-button>
 

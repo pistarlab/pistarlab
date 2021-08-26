@@ -107,6 +107,7 @@ def api_task_admin(command, uid):
 def api_admin_data():
     ray = ctx.get_execution_context().ray
     data = {}
+    data['user_id'] = ctx.get_user_id()    
     data['available_resources'] = ray.available_resources()
     data['cluster_resources'] = ray.cluster_resources()
     data['available_resources'] = ray.available_resources()
@@ -119,6 +120,7 @@ def api_admin_data():
 
     data['pistar_config']['redis_password'] = "HIDDEN"
     data['pistar_config']['db_config']['db_password'] = "HIDDEN"
+    
     try:
         data['pistar_config']['launcher_info'] = ctx.get_launcher_info()
     except Exception as e:
@@ -382,10 +384,13 @@ def api_snapshots_public_list(query_field, value):
 def api_snapshots_list_for_agent_id(id):
     snapshots = [entry for entry in ctx.get_snapshot_index(
     )['entries'].values() if entry['id'] == id]
-    published_snapshots = ctx.list_published_agent_snapshots(id)
-    logging.info(published_snapshots)
+    try: 
+        published_snapshots = ctx.list_published_agent_snapshots(id)
+        published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
+    except Exception as e:
+        logging.error("Unable to download online snapshots")
+        published_snaps = set()
 
-    published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
     for snapshot in snapshots:
         snapshot['published'] = snapshot['snapshot_id'] in published_snaps
 
@@ -413,10 +418,13 @@ def api_snapshot_create():
         if publish:
             ctx.publish_snapshot(snapshot_data['snapshot_id'])
 
-        response = make_response({'item': {'snapshot_data': snapshot_data}})
+        response = make_response({'success': True})
     except Exception as e:
+        message = {'error': "{}".format(e), "traceback": traceback.format_exc()}
+        logging.error(f"Error creating snapshot: {message}")
         response = make_response(
-            {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
+            {'success':False, 'item': message})
+
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -638,14 +646,19 @@ def api_new_agent_submit():
         logging.info("Creating New Agent Instance")
         request_data = request.get_json()
         spec_id = request_data['specId']
+        name = request_data.get('name')
+        if len(name) ==0:
+            name = None
         config = request_data['config']
         snapshot_id = request_data.get('snapshotId')
         if snapshot_id is None or snapshot_id == "":
-            agent = Agent.create(spec_id=spec_id, config=config)
+            agent = Agent.create(spec_id=spec_id, config=config, name=name)
         else:
             logging.info(
                 f"Creating New Agent Instance from snapshot id {snapshot_id}")
             agent = ctx.create_agent_from_snapshot(snapshot_id)
+            if name!=None:
+                agent.update_name(name)
 
         response = make_response({'item': {'uid': agent.get_id()}})
     except Exception as e:

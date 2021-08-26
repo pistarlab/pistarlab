@@ -112,9 +112,13 @@
                                 <div v-if="item.full_path">
                                     <span class="data_label mt-1">Full Path: </span>
 
-                                    <span style="color:yellow">{{item.full_path}}</span>
+                                    <span style="color:red">{{item.full_path}}</span>
                                 </div>
+                                <div v-if="item.installation_instructions">
+                                    <span class="data_label mt-1">Additional Installation Instructions: </span>
 
+                                    <span style="color:red">{{item.installation_instructions}}</span>
+                                </div>
                             </b-col>
                             <b-col class="">
                                 <span class="data_label mt-1">State: </span>

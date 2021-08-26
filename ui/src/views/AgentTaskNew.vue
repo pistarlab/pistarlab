@@ -329,7 +329,7 @@
                                 <template v-slot:header>
                                       <b-button-toolbar>
                                     <span class="custom-card-header  mb-2">
-                                            {{agent.ident}}
+                                            {{agent.ident}}  <span v-if="agent.name">({{agent.name}})</span>
                                         </span>
 
                                     
@@ -590,6 +590,7 @@ const GET_AGENT = gql `
     agent(ident: $ident) {
         id
           ident
+          name
           created
           specId
           config

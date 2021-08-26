@@ -7,7 +7,7 @@
         <AgentSpecs @specSelected="newAgentModal($event)"></AgentSpecs>
     </b-modal>
     <b-button-toolbar>
-        <b-button target="_blank" variant="primary" size="sm" v-b-modal:agentspecs>New Agent Instance</b-button>
+        <b-button target="_blank" variant="info" size="sm" v-b-modal:agentspecs>New Agent Instance</b-button>
         <b-button variant="secondary" class="ml-auto" size="sm" @click="refreshAgents()">Refresh List </b-button>
         <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;" class='ml-auto'></b-form-input>
 
@@ -73,6 +73,7 @@ const GET_AGENTS = gql `
         node {
           id
           ident
+          name
           created
           specId
 
@@ -154,9 +155,9 @@ export default {
                         }
                         return keep
 
-                    }).sort((a,b) =>  b.created - a.created)
+                    }).sort((a,b) =>   new Date(b.created) - new Date(a.created))
                 } else {
-                    return agents.sort((a,b) =>  b.created - a.created)
+                    return agents.sort((a,b) =>  new Date(b.created) - new Date(a.created))
 
                 }
 

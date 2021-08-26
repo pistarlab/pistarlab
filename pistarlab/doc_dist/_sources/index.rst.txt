@@ -29,7 +29,7 @@ Who is piSTAR Lab for?
    * Have fun experimenting with state-of-the-art AI Agents. No coding required.
    * Gain a better intuition about reinforcement learning by creating your own agents.
 * Reinforcement Learning Researchers and Engineers: 
-   * Show case your algorithms by creating extensions for other users to enjoy. Feel free to bring your own framework.
+   * Show case your algorithms by creating extensions for other users to enjoy. No restrictive framework/library requirements.
    * Import your externally trained agents.
    * Use piSTAR Lab in your development workflow.
    * Try your algorithm on newly available environments with just a few clicks
@@ -41,24 +41,27 @@ Features
 --------
 * Intuitive UI
 * Extension System for adding new agents, environments or tasks types
-* Framework Independent
-* Realtime streaming of observations during training
+* No framework requirements. Use any framework available in python (other languages coming)
+* Real-time streaming of observations during training
 * Single and Multi player environment support
-* Easy Experiment tracking
+* Experiment tracking
 * Python API, anything you can do in the UI, you can do in Python as well
 * Uses Ray Project (https://ray.io/) under the hood for distributed processing
 
-Coming soon
+Coming soon (unordered)
 -----------
 * Simpler installation and better support for Windows and Mac
 * Easily share your trained agents with friends or publicly
 * Docker based agents and environments
 * Remote agents and environments
+* Data environments for agents with support for learning from offline data
+* API for Data Interfaces
 * Support for browser based games and environments so human can interact directly with their agents.
 * Support for other programming languages
 * Human control mode for testing environments via the UI
-* Better workspace integration
-
+* Better workspace integration with VSCode and Jupyter
+* Interactive Debugger
+* Testing and quality verification of extensions
 
 
 Contributing

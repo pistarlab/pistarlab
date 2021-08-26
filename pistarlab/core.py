@@ -96,7 +96,7 @@ class SysContext:
 
         self.display_info = get_display_info(self.config)
 
-        self.cloud_api_uri = "http://127.0.0.1:3000"
+        self.cloud_api_uri = "http://127.0.0.1:3000/v0.1"
 
     def __del__(self):
         self.close()
@@ -1049,35 +1049,43 @@ class SysContext:
                             headers={'Content-Type': 'application/json'})
 
         result = res.json()
-        logging.info("Publish Results")
-        logging.info(result)
 
         upload_params = result['upload_params']
 
-        print(f"Upload URL: {upload_params}")
+
+        logging.info(f"Upload URL: {upload_params}")
 
         with open(snapshot_archive_path, 'rb') as f:
             files = {'file': ("snapshot.tar.gz",  f.read())}
 
-        res = requests.post(url=f"{upload_params['url']}",
-                            data=upload_params['fields'],
-                            files=files)
+
+        try:
+            logging.info("Publish Start")
+            res = requests.post(url=f"{upload_params['url']}",
+                                data=upload_params['fields'],
+                                files=files)
+            logging.info("Publish Complete")
+
+        except Exception as e:
+            logging.error("Upload failed")
+            logging.error(e)
+            raise e
 
         return res
 
     def list_published_agent_snapshots(self, agent_id):
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
-                           params={'query_key': 'agent_id', "value": agent_id, "pe": "snapshot_id,session_data"})
+                           params={'query_key': 'agent_id', "value": agent_id, "pe": "snapshot_id,snapshot_data"})
         return res.json().get('results')
 
-    def list_published_user_snapshots(self, user_id=None, pe="snapshot_id,session_data"):
+    def list_published_user_snapshots(self, user_id=None, pe="snapshot_id,snapshot_data"):
         if user_id is None:
             user_id = self.get_user_id()
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
                            params={'query_key': 'user_id', "value": user_id, "pe": pe})
         return res.json().get('results')
 
-    def list_published_spec_snapshots(self, spec_id,pe="snapshot_id,session_data"):
+    def list_published_spec_snapshots(self, spec_id,pe="snapshot_id,snapshot_data"):
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
                            params={'query_key': 'spec_id', "value": spec_id, "pe": pe})
         self.get_logger().info(res.json())
@@ -1115,11 +1123,10 @@ class SysContext:
                 'env_spec_config': s.env_spec_config,
                 'summary': s.summary})
 
-        snapshot_id = "{}_{}_{}_{}_{}_{}".format(
-            entity_type,
+        snapshot_id = "{}_{}_{}_{}_{}".format(
+            self.get_user_id(),
             spec_id,
             agent_id,
-            self.get_user_id(),
             seed,
             snapshot_version)
 
@@ -1273,6 +1280,7 @@ class SysContext:
         config = snapshot_data['config']
         notes = snapshot_data['notes']
         seed = snapshot_data['seed']
+        agent_name = snapshot_data['agent_name']
 
         agent: Agent = Agent.create(spec_id=spec_id, config=config)
         target_path = self.get_store().get_path_from_key(('agent', agent.get_id()))
@@ -1280,6 +1288,7 @@ class SysContext:
         dbmodel.meta = meta
         dbmodel.notes = notes
         dbmodel.seed = seed
+        dbmodel.name = agent_name
         dbmodel.last_checkpoint = last_checkpoint
         import shutil
         shutil.copytree(checkpoints_src_path, os.path.join(

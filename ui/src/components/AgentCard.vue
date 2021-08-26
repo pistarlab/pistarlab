@@ -45,6 +45,17 @@
 
                 <div>
                     <h4>Agent Details</h4>
+                    <b-modal id="agentname" size="lg" title="Update Agent Name" @ok="updateName()">
+                        <p>
+                            Agent names should to be human readable and used to help organize your agents. Note they do not need to be unique.
+                        </p>
+                        <b-form-input v-model="name" placeholder="Enter an agent name" style="width:250px;"></b-form-input>
+
+                    </b-modal>
+                    <div class="data_label mt-2">Name: </div>
+                    <b-link variant="white" size="sm" v-b-modal:agentname @click="loadName()">
+                        <span v-if="agent.name">{{agent.name}}</span><span v-else>None</span>
+                    </b-link>
                     <div class="data_label mt-2">Spec Id: </div>
                     <b-link target="_blank" :to="`/agent_spec/${agent.specId}`">{{ agent.spec.displayedName }}</b-link>
                     <div class="data_label mt-2">Seed: </div>
@@ -125,7 +136,7 @@ import gql from "graphql-tag";
 import SpaceInfo from "./SpaceInfo.vue";
 
 export default {
-    components:{
+    components: {
         SpaceInfo
 
     },
@@ -147,7 +158,8 @@ export default {
                 }
             ],
             newTag: "",
-            notes: ""
+            notes: "",
+            name: null,
 
         };
     },
@@ -160,6 +172,34 @@ export default {
         loadNotes() {
             this.notes = this.agent.notes
         },
+        loadName() {
+            this.name = this.agent.name
+        },
+        updateName() {
+
+            this.$apollo.mutate({
+                // Query
+                mutation: gql `mutation nameMutation($id:String!,$name:String!) 
+                {
+                    agentSetName(id:$id, name:$name){
+                        success
+                        }
+                }`,
+                // Parameters
+                variables: {
+                    id: this.agent.id,
+                    name: this.name
+                },
+
+            }).then((data) => {
+
+                this.$emit('update')
+            }).catch((error) => {
+                // Error
+                console.error(error)
+            })
+        },
+
         updateNotes() {
 
             this.$apollo.mutate({

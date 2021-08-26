@@ -45,7 +45,7 @@
                 <b-col class="d-flex justify-content-center align-self-center">
 
                     <b-alert show variant="info">
-                        <b>Caution:</b> piSTAR Lab is in early development. Compatibility with newer versions is not guarenteed.
+                        piSTAR Lab is in early development. Compatibility with newer versions is not guarenteed.
                     </b-alert>
                 </b-col>
             </b-row>

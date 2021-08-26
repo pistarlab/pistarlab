@@ -4,7 +4,7 @@
            <b-row>
                 <b-col>
                     <div>
-                        <router-link :to="`/agent/view/${agent.ident}`"> {{ agent.ident }}</router-link>
+                        <router-link :to="`/agent/view/${agent.ident}`"> {{ agent.ident }}  <span v-if="agent.name">({{agent.name}})</span></router-link>
                     </div>
                 </b-col>
 

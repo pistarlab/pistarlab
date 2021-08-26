@@ -50,6 +50,7 @@ const GET_RECENT_AGENT_SMALL = gql`
 {
   recentAgents {
     ident
+    name
     created
     specId
     spec{

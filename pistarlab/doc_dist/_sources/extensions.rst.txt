@@ -14,7 +14,7 @@ Manfiest files are used to speed up the installation of Extensions. They are esp
 
 **Example of creating a manifest**
 
-   .. code-block:: bash
+.. code-block:: bash
    
     xvfb-run python pistarlab/extensions_tools.py --action=save_manifest --extension_path PATH_TO_EXTENSION/pistarlab-envs-gym-main
 

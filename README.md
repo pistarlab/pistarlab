@@ -10,7 +10,7 @@ WARNING: This is an <u>**early release**</u> and is not ready for public use.
 
 # Overview
 
-piSTAR Lab is a modular deep reinforcement learning platform built to make AI development accessible and fun.
+piSTAR Lab is a modular deep reinforcement learning platform built to make AI experimentation accessible and fun.
 
 **Documentation** https://pistarlab.readthedocs.io
 
@@ -31,15 +31,14 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI de
 
 ## UI Screenshots
 
-<br/> <img src="docs/source/images/pistarlab_agent_home.png" alt="agent home" width="600"/>  <br/>
+<br/> <img src="docs/source/images/envs.png" alt="agent home" width="600"/>  <br/>
 
-<br/> <img src="docs/source/images/pistarlab_envs.png" alt="agent home" width="600"/>  <br/>
 
-<br/> <img src="docs/source/images/pistarlab_newtask.png" alt="agent home" width="600"/>  <br/>
+<br/> <img src="docs/source/images/assign_multi_agent_envs.png" alt="agent home" width="600"/>  <br/>
 
-<br/> <img src="docs/source/images/pistarlab_session_stats.png" alt="agent home" width="600"/>  <br/>
+<br/> <img src="docs/source/images/agent_training1.png" alt="agent home" width="600"/>  <br/>
 
-<br/> <img src="docs/source/images/pistarlab_agent_stats.png" alt="agent home" width="600"/>  <br/>
+
 
 # Quick Start 
 Detailed documentation is published at https://pistarlab.readthedocs.io

@@ -163,10 +163,13 @@
         </b-row>
 
     </b-container>
+
     <div class="mt-4"></div>
     <b-button-toolbar>
-        <b-button size="sm" class="ml-auto" v-if="!submitting" variant="primary" v-on:click="submit">Create Instance</b-button>
-        <b-button size="sm" class="ml-auto" v-else variant="primary" disabled>
+        <b-form-input class="ml-auto mr-3" v-model="agentName" placeholder="(Optional) Enter an agent name" style="width:250px;" ></b-form-input> 
+
+        <b-button size="sm"  v-if="!submitting" variant="primary" v-on:click="submit">Create Instance</b-button>
+        <b-button size="sm"  v-else variant="primary" disabled>
             <b-spinner small type="grow"></b-spinner>Processing...
         </b-button>
     </b-button-toolbar>
@@ -230,7 +233,8 @@ export default {
             snapshotId: null,
             snapshot_version: "0",
             snapshot_description: "",
-            errorMessage: null
+            errorMessage: null,
+            agentName:null
         };
     },
     props: {
@@ -273,7 +277,8 @@ export default {
             const outgoingData = {
                 config: JSON.parse(this.config),
                 specId: this.specId,
-                snapshotId: this.snapshotId
+                snapshotId: this.snapshotId,
+                name:this.agentName
 
             }
             axios
