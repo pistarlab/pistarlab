@@ -7,7 +7,7 @@
             <TaskLoad :uid="newTaskId"></TaskLoad>
         </b-modal>
 
-        <b-modal id="modal-select-envspec" title="Select Environment" size="lg">
+        <b-modal id="modal-select-envspec" title="Select Environment" size="xl">
             <EnvSelector @click="selectEnvSpec($event)"></EnvSelector>
 
             <template v-slot:modal-footer="{ cancel }">
@@ -15,7 +15,7 @@
             </template>
         </b-modal>
 
-        <b-modal id="modal-select-agent" title="Select Agent" size="lg">
+        <b-modal id="modal-select-agent" title="Select Agent" size="xl">
             <AgentSelector @click="loadAgent($event)"></AgentSelector>
 
             <template v-slot:modal-footer="{ cancel }">
@@ -364,6 +364,7 @@
                                                 <span>
                                                     {{player.id}} :
                                                 </span>
+                                                <span v-if="agent.run_config.interfaces">
                                                 <span v-if="agent.run_config.interfaces.run.auto_config_spaces">
                                                     Space assignment at runtime
                                                 </span>
@@ -385,6 +386,7 @@
                                                     <span v-b-popover.hover.top="'Action Check: Failed'" v-else>
                                                         <i style="color:red" class="fa fa-times-circle"></i>
                                                     </span>
+                                                </span>
                                                 </span>
                                             </div>
 
@@ -912,7 +914,13 @@ export default {
                         const data = response.data["item"];
                         if ("uid" in data) {
                             this.newTaskId = data.uid
-                            this.$bvModal.show("modal-launch-task");
+
+                            if (this.newTaskId != null){
+                                this.$bvModal.show("modal-launch-task");
+                            }
+                            else{
+                                this.errorMessage = ":( Bee Boop (Oops!) Task creation seems to have failed, but may actually be running. Please check your task list."
+                            }
                             // this.$router.push({
                             //     path: `/task/load/${data.uid}`,
                             // });
@@ -925,7 +933,9 @@ export default {
                         this.submitting = false;
                     })
                     .catch(function (error) {
-                        this.errorMessage = error;
+                        const message = "Task creation seems to have failed: " + error
+                        console.log(message)
+                        this.errorMessage = message;
                         this.submitting = false;
                     });
             } catch (error) {

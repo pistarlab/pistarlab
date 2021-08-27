@@ -96,7 +96,12 @@ class SysContext:
 
         self.display_info = get_display_info(self.config)
 
-        self.cloud_api_uri = "http://127.0.0.1:3000/v0.1"
+        # self.cloud_api_uri = "http://127.0.0.1:3000/v0.1"
+        
+        self.cloud_api_uri = "https://rzmrht8gt8.execute-api.us-east-1.amazonaws.com/Prod/v0.1"
+
+
+
 
     def __del__(self):
         self.close()
@@ -1041,10 +1046,12 @@ class SysContext:
             'public': public,
             'description': description,
             'lab_version': __version__,
-            'snapshot_data': snapshot_data
+            'snapshot_data': json.dumps(snapshot_data)
         }
+        pub_url = f'{self.cloud_api_uri}/snapshot/publish_request'
+        logging.info(f"Requesting publish url from {pub_url}")
 
-        res = requests.post(url=f'{self.cloud_api_uri}/snapshot/publish_request',
+        res = requests.post(url=pub_url,
                             json=publish_data,
                             headers={'Content-Type': 'application/json'})
 
@@ -1076,20 +1083,31 @@ class SysContext:
     def list_published_agent_snapshots(self, agent_id):
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
                            params={'query_key': 'agent_id', "value": agent_id, "pe": "snapshot_id,snapshot_data"})
-        return res.json().get('results')
+        logging.info(res.content)
+
+        snapshots = res.json().get('results')
+        for s in snapshots:
+            s['snapshot_data'] = json.loads(s['snapshot_data'])
+        return snapshots
 
     def list_published_user_snapshots(self, user_id=None, pe="snapshot_id,snapshot_data"):
         if user_id is None:
             user_id = self.get_user_id()
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
                            params={'query_key': 'user_id', "value": user_id, "pe": pe})
-        return res.json().get('results')
+        snapshots = res.json().get('results')
+        for s in snapshots:
+            s['snapshot_data'] = json.loads(s['snapshot_data'])
+        return snapshots
 
     def list_published_spec_snapshots(self, spec_id,pe="snapshot_id,snapshot_data"):
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
                            params={'query_key': 'spec_id', "value": spec_id, "pe": pe})
         self.get_logger().info(res.json())
-        return res.json().get('results')
+        snapshots = res.json().get('results')
+        for s in snapshots:
+            s['snapshot_data'] = json.loads(s['snapshot_data'])
+        return snapshots
 
     def create_agent_snapshot(
             self,

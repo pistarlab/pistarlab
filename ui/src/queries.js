@@ -26,12 +26,14 @@ const GET_RECENT_AGENTS = gql`
         }
     }
     recentSessions {
+      id
       ident
       status
       envSpecId
       sessionType
       parentSessionId
       envSpec{
+        id
           ident
           environment {
               id
@@ -49,6 +51,7 @@ const GET_RECENT_AGENTS = gql`
 const GET_RECENT_AGENT_SMALL = gql`
 {
   recentAgents {
+    id
     ident
     name
     created
@@ -83,11 +86,12 @@ const GET_ALL_SESSIONS = gql `
       }
       edges {
         node {
-            id
+          id
           ident
           created
           envSpecId
           envSpec{
+            id
             displayedName
           }          
           label
@@ -97,11 +101,12 @@ const GET_ALL_SESSIONS = gql `
           sessionType
           agentId
           agent{
+            id
             specId
           }
             task {
                 id
-            ident
+              ident
         }
         
           summary 

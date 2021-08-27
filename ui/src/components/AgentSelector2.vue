@@ -76,8 +76,17 @@ const GET_AGENTS = gql `
           name
           created
           specId
-
+          notes
+            tags {
+            edges {
+                node {
+                id
+                tagId
+                }
+            }
+            }
           config
+          configParsed
           status
         }
       }
@@ -129,7 +138,6 @@ export default {
 
         },
 
-       
         refreshAgents() {
             this.$apollo.queries.allAgents.refetch();
 
@@ -155,9 +163,9 @@ export default {
                         }
                         return keep
 
-                    }).sort((a,b) =>   new Date(b.created) - new Date(a.created))
+                    }).sort((a, b) => new Date(b.created) - new Date(a.created))
                 } else {
-                    return agents.sort((a,b) =>  new Date(b.created) - new Date(a.created))
+                    return agents.sort((a, b) => new Date(b.created) - new Date(a.created))
 
                 }
 

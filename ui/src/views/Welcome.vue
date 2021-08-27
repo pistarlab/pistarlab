@@ -1,23 +1,22 @@
 <template>
-<div class="page h-100">
-    <div class="page-content  ">
+<div class="page  align-self-center">
+    <div class="page-content">
+        <div class="mt-5">
         <b-link target="_blank" href="http://pistarlab.org">
-        <h1 class="text-center"> <img height="100px" src="/pistar_edit_w.png" /> piSTAR Lab</h1>
+        <h1 class="text-center"> <img height="120px" src="/pistar_edit_w.png" /> piSTAR Lab</h1>
         </b-link>
-        <b-container>
+        <b-container class="mt-5">
 
-            <b-row>
+            <!-- <b-row>
 
-                <b-col class="d-flex justify-content-center align-self-center">
+                <b-col class="d-flex justify-content-center align-self-center ">
 
-                  
-                    <div class="m-4 rounded-0" >
+                    <div>
                         <img width=320px src="/ai-play_6.png" />
-                    </div>
-                  
-
+                    </div> 
+           
                 </b-col>
-            </b-row>
+            </b-row> -->
             <b-row>
 
                 <b-col class="d-flex justify-content-center align-self-center">
@@ -39,7 +38,7 @@
                     </div>
                 </b-col>
             </b-row>
-            <div class="mt-4"></div>
+            <div class="mt-5"></div>
             <b-row>
 
                 <b-col class="d-flex justify-content-center align-self-center">
@@ -51,7 +50,7 @@
             </b-row>
 
         </b-container>
-
+        </div>
     </div>
 
 </div>

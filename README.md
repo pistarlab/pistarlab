@@ -33,7 +33,6 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 
 <br/> <img src="docs/source/images/envs.png" alt="agent home" width="600"/>  <br/>
 
-
 <br/> <img src="docs/source/images/assign_multi_agent_envs.png" alt="agent home" width="600"/>  <br/>
 
 <br/> <img src="docs/source/images/agent_training1.png" alt="agent home" width="600"/>  <br/>

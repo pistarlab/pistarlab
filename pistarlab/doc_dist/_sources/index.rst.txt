@@ -25,11 +25,11 @@ piSTAR Lab Documentation
 
 Who is piSTAR Lab for?
 ------------------
-* AI Enthusiests and Students: 
+* AI Enthusiasts and Students: 
    * Have fun experimenting with state-of-the-art AI Agents. No coding required.
    * Gain a better intuition about reinforcement learning by creating your own agents.
 * Reinforcement Learning Researchers and Engineers: 
-   * Show case your algorithms by creating extensions for other users to enjoy. No restrictive framework/library requirements.
+   * Showcase your algorithms by creating extensions for other users to enjoy. No restrictive framework/library requirements.
    * Import your externally trained agents.
    * Use piSTAR Lab in your development workflow.
    * Try your algorithm on newly available environments with just a few clicks

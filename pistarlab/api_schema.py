@@ -94,6 +94,12 @@ class Agent(SQLAlchemyObjectType):
 
     recent_sessions = graphene.List(lambda: Session, limit=graphene.Int())
 
+    # NOTE: this pattern works beautifully to provide parsed JSON dat to client when no schema is defined
+    config = graphene.JSONString(source='config')
+    config_parsed = GenericScalar()
+    def resolve_config_parsed(self, info, **args):
+        return self.config
+
     def resolve_recent_sessions(self, info, limit=3):
         query = Session.get_query(info).filter(db.SessionModel.agent_id == self.id)
         return query.order_by(db.SessionModel.created.desc()).limit(limit).all()
@@ -103,6 +109,7 @@ class Agent(SQLAlchemyObjectType):
     class Meta:
         model = db.AgentModel
         interfaces = (relay.Node, )
+
 
 
 class AgentFilter(FilterSet):

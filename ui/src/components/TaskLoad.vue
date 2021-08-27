@@ -1,5 +1,6 @@
 <template>
 <div>
+    <div v-if="error"></div>
     <div>
         Task ID: <router-link :to="`/task/view/${uid}`">{{uid}}</router-link>
     </div>
@@ -60,7 +61,7 @@ export default {
     data() {
         return {
             task: {},
-            error: "",
+            error: null,
             appConfig,
             intervalTimer: null,
         };
@@ -70,9 +71,14 @@ export default {
         redirectToSession: Boolean
     },
     created() {
+
+        
         console.log(this.uid);
         this.intervalTimer = setInterval(() => {
             console.log("Checking")
+                    if (this.uid == null){
+            this.error =":( Bee Boop (Oops!) Task creation seems to have failed, but may actually be running. Please check your task list."
+        }
             if (!this.$apollo.queries.task.loading) {
                 if (this.task.status && this.task.status == "RUNNING") {
 

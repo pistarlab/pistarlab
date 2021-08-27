@@ -388,8 +388,9 @@ def api_snapshots_list_for_agent_id(id):
         published_snapshots = ctx.list_published_agent_snapshots(id)
         published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
     except Exception as e:
-        logging.error("Unable to download online snapshots")
+        logging.error(f"Unable to download online snapshots: {e}")
         published_snaps = set()
+
 
     for snapshot in snapshots:
         snapshot['published'] = snapshot['snapshot_id'] in published_snaps
@@ -647,7 +648,7 @@ def api_new_agent_submit():
         request_data = request.get_json()
         spec_id = request_data['specId']
         name = request_data.get('name')
-        if len(name) ==0:
+        if name is not None and len(name) ==0:
             name = None
         config = request_data['config']
         snapshot_id = request_data.get('snapshotId')

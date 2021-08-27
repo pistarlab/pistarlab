@@ -68,7 +68,7 @@
                             <br />
 
                             <ul>
-                                <li><b>- AI Enthusiests</b> that have limited or no coding experience, can use piSTAR Lab to train Agents with a few clicks in the UI. Like teaching a child, you can train your agent on simple related tasks first to prepare it for more difficult tasks. Competitions are coming.</li>
+                                <li><b>- AI Enthusiasts</b> that have limited or no coding experience, can use piSTAR Lab to train Agents with a few clicks in the UI. Like teaching a child, you can train your agent on simple related tasks first to prepare it for more difficult tasks. Competitions are coming.</li>
                                 <li><b>- AI Researchers and Engineers</b> can develop new or add their existing algorithms to piSTAR via "Extensions"</li>
                                 <li><b>- Game Developers</b> intersted in AI can create Extensions" which make there game playable by piSTAR Agents.</li>
                             </ul>

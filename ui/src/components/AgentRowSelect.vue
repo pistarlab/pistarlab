@@ -7,13 +7,13 @@
         </b-col>
         <b-col>
             <b-row>
-                <b-col >
+                <b-col>
                     <div>
                         <router-link target="_blank" :to="`/agent/view/${agent.ident}`"> {{ agent.ident }} <span v-if="agent.name">({{agent.name}})</span></router-link>
                     </div>
                 </b-col>
 
-                <b-col  cols=2 >
+                <b-col cols=2>
                     <div>
                         <b-button size="sm" variant="primary" @click="select()">Select</b-button>
 
@@ -32,9 +32,42 @@
                         <span class="data_label mt-1">created: </span>
                         <span>{{agent.created}}</span>
                     </div>
+                                <div>
+                        <span class="data_label mt-1">Tags: </span>
+                        <span>{{agent.tags.edges.map((n)=> n.node.tagId).join(", ")}}</span>
+                    </div>
+                    <div>
+                        <span class="data_label mt-1">Notes: </span>
+                        <span>{{agent.notes}}</span>
+                    </div>
                 </b-col>
-                
 
+                <b-col>
+                    <span v-if="agent.configParsed.interfaces.run.auto_config_spaces">
+                       <span class="data_label mt-1">Observation Space </span> assigned at runtime.
+                       <br/>
+                       <span class="data_label mt-1">Action Space: </span> assigned at runtime.
+                    </span>
+                    <div v-else>
+                        <div>
+                            <span class="data_label mt-1">Observation Space: </span>
+                            <span>
+
+                                <SpaceInfo :space="agent.configParsed.interfaces.run.observation_space">
+                                </SpaceInfo>
+
+                            </span>
+                        </div>
+                        <div>
+                            <span class="data_label mt-1">Action Space: </span>
+                            <span>
+                                <SpaceInfo :space="agent.configParsed.interfaces.run.action_space">
+                                </SpaceInfo>
+                            </span>
+                        </div>
+
+                    </div>
+                </b-col>
             </b-row>
             <!-- <b-row class="mt-2 small">
                 <b-col>
@@ -59,7 +92,12 @@
 </template>
 
 <script>
+
+import SpaceInfo from "./SpaceInfo.vue";
 export default {
+    components:{
+    SpaceInfo
+    },
     props: {
         agent: Object
     },

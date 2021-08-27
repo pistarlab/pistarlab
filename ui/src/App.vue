@@ -87,7 +87,7 @@
             </b-nav-item>
 
             <b-nav-item class="mr-1" v-b-modal.task-manager>
-                <i title="Task Manager" class="fa fa-tasks"></i> Tasks
+                <i title="Task Manager" class="fa fa-cogs"></i> Tasks
             </b-nav-item>
 
         </b-navbar-nav>
