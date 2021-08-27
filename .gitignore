@@ -22,7 +22,7 @@ docs/build/
 .env.local
 .env.*.local
 
-pistarlab/uidist/*
+#pistarlab/uidist/*
 
 # Log files
 npm-debug.log*
