@@ -552,7 +552,7 @@ class ServiceContext:
         return {name: data.get_info() for name, data in self.services.items()}
 
     def bootstrap_default_extensions(self):
-        logging.info(f"START bootstrap_default_extensions&&&&&&&&&&&&&&&&")
+        logging.info(f"START bootstrap_default_extensions")
         pkglogger = logging.getLogger("matplotlib")
         pkglogger.setLevel(logging.ERROR)
         from pistarlab.extension_manager import ExtensionManager
@@ -590,5 +590,5 @@ class ServiceContext:
         update_config(self.config.root_path,{'extension_config':{
             'install_success':install_success
         }})
-        logging.info(f"END bootstrap_default_extensions&&&&&&&&&&&&&&&&")
+        logging.info(f"END bootstrap_default_extensions")
                 

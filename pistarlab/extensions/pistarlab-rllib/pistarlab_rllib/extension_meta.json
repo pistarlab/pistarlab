@@ -1,0 +1,15 @@
+ 
+  {
+    "id": "pistarlab-rllib",
+    "version": "0.0.1.dev0",
+    "name": "RLLIB Agents",
+    "categories": [
+      "agents",
+      "components",
+      "tasks"
+    ],
+    "description": "Rllib :https://github.com/ray-project/ray/tree/master/rllib",
+    "extension_author": "piSTAR Lab",
+    "original_author": "Ray Project - https://docs.ray.io/",
+    "metafile": true
+  }

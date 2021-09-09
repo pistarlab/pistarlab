@@ -59,6 +59,8 @@ def get_env_instance(entry_point, kwargs):
 
 
 def get_wrapped_env_instance(entry_point, kwargs, wrappers):
+    # TODO: should be handled in configuration probably
+    #os.environ['SDL_VIDEODRIVER'] = 'dummy'# Used for pygame headless
     env = get_env_instance(entry_point, kwargs)
     for wrapper in wrappers:
         wrapper_entry_point = wrapper['entry_point']
@@ -223,7 +225,7 @@ def get_environment_data(
             displayed_name=None,
             categories=[],
             collection=None,
-            version="0.0.1-dev",
+            version="0.0.1.dev0",
             description=None,
             disabled=False,
             env_specs = []):

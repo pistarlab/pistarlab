@@ -6,7 +6,14 @@ import os
 import sys
 
 import setuptools
+import pkg_resources
 
+
+def load_extension_meta(mod_name):
+    filename = pkg_resources.resource_filename(mod_name, "extension_meta.json")
+    print(filename)
+    with open(filename,"r") as f:
+        return json.load(f)
 
 def get_extension_package_name_from_path(path):
     for pkg_name in setuptools.find_packages(where=path):
@@ -32,6 +39,7 @@ def process_env_specs(env_specs,manifest_files_path,replace_images=True,probe_ma
 
 def create_manifest_files(path,replace_images=True,max_env_count=0,probe_max_count=0):
     print("CREATING MANIFEST")
+    os.environ['SDL_VIDEODRIVER'] = 'dummy'
     sys.path.append(path)
     module_name = get_extension_package_name_from_path(path)
     sys.path.append(path)

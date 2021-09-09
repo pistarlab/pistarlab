@@ -1,8 +1,10 @@
 import logging
 from pistarlab import ctx
 
-EXTENSION_ID = "pistarlab-envs-gym-atari"
-EXTENSION_VERSION = "0.0.1-dev"
+from pistarlab.extension_tools import load_extension_meta
+EXT_META = load_extension_meta(__name__)
+EXTENSION_ID = EXT_META["id"]
+EXTENSION_VERSION =  EXT_META["version"]
 
 from pistarlab.utils.gym_importer import get_environments_from_gym_registry
 

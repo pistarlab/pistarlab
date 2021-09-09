@@ -1,16 +1,18 @@
 import logging
 from pistarlab import ctx
+from pistarlab.extension_tools import load_extension_meta
+EXT_META = load_extension_meta(__name__)
+EXTENSION_ID = EXT_META["id"]
+EXTENSION_VERSION =  EXT_META["version"]
 
-EXTENSION_ID="$id"
-EXTENSION_VERSION="$version"
 
 def manifest():
-    return {}
+    # use to create manifest
+    return {'environments': []}
 
 def install():
     # Uncomment if using manifest
-    # ctx.install_extension_from_manifest(EXTENSION_ID)
-
+    # ctx.install_extension_from_manifest(EXTENSION_ID,EXTENSION_VERSION)
     return True
 
 def load():

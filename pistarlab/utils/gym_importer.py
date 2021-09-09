@@ -37,7 +37,7 @@ def get_environments_from_gym_registry(
         additional_tags=[],
         additional_categories=[],
         collection = None,
-        version="0.0.1-dev",
+        version="0.0.1.dev0",
         force_environment_id=None,
         force_environment_displayed_name=None):
 

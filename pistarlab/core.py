@@ -95,8 +95,8 @@ class SysContext:
         self.default_logger = logging
 
         self.display_info = get_display_info(self.config)
-        self.test_mode = True
-
+        self.test_mode = os.environ.get("PISTARLAB_DEV_MODE",False)
+        
         self.auth_client_id = "q3qohs4ii6hl3t0sd4dts57k6"
         self.auth_client_secret = "119i0aajl2kv5trs4vipn83c6drpulp4len473tgnlakb0gg6fck"
         self.auth_grant_type = 'authorization_code'
@@ -108,6 +108,7 @@ class SysContext:
         self.logout_uri = f"https://pistarai.auth.us-east-1.amazoncognito.com/logout?client_id={self.auth_client_id}&logout_uri={self.auth_redirect_logout_uri}"
         
         if self.test_mode:
+            logging.info("RUNNING IN TEST MODE")
             self.cloud_api_uri = "http://127.0.0.1:3000"
         else:
             self.cloud_api_uri = "https://api.pistar.ai/Prod/v0.1"
@@ -736,8 +737,8 @@ class SysContext:
             categories=[],
             collection=None,
             extension_id=None,
-            extension_version="0.0.1-dev",
-            version="0.0.1-dev",
+            extension_version="0.0.1.dev0",
+            version="0.0.1.dev0",
             description=None,
             disabled=False,
             env_specs=None,
@@ -867,12 +868,12 @@ class SysContext:
         image_save_path = self.get_store().get_path_from_key(
             key=(SYS_CONFIG_DIR, 'envs', 'images'))
         image_target_path = os.path.join(image_save_path, f"{spec_id}.jpg")
-        if manifest_files_path is None:
+        image_source_path = os.path.join(
+                manifest_files_path, f"{spec_id}.jpg")
+        if manifest_files_path is None or not os.path.exists(image_source_path):
             image_source_path = pkg_resources.resource_filename(
                 "pistarlab", "templates/env_default.jpg")
-        else:
-            image_source_path = os.path.join(
-                manifest_files_path, f"{spec_id}.jpg")
+            
         self.copy_file(
             image_source_path,
             image_target_path,
@@ -889,8 +890,8 @@ class SysContext:
             spec_displayed_name=None,
             environment_displayed_name=None,
             extension_id=None,
-            extension_version="0.0.1-dev",
-            version="0.0.1-dev",
+            extension_version="0.0.1.dev0",
+            version="0.0.1.dev0",
             environment_id=None,
             collection = None,
             description=None,
@@ -957,8 +958,8 @@ class SysContext:
             algo_type_id = None,
             displayed_name=None,
             extension_id=None,
-            extension_version="0.0.1-dev",
-            version="0.0.1-dev",
+            extension_version="0.0.1.dev0",
+            version="0.0.1.dev0",
             description=None):
 
         session = self.get_dbsession()
@@ -989,8 +990,8 @@ class SysContext:
             params={},
             displayed_name=None,
             extension_id=None,
-            extension_version="0.0.1-dev",
-            version="0.0.1-dev",
+            extension_version="0.0.1.dev0",
+            version="0.0.1.dev0",
             category=None,
             disabled=False,
             description=None,
@@ -1030,8 +1031,8 @@ class SysContext:
             params={},
             displayed_name=None,
             extension_id=None,
-            extension_version="0.0.1-dev",
-            version="0.0.1-dev",
+            extension_version="0.0.1.dev0",
+            version="0.0.1.dev0",
             type_name=None,
             disabled=False,
             description=None,
@@ -1186,27 +1187,31 @@ class SysContext:
     def get_online_user_details(self, user_id=None):
         if user_id is None:
             user_id = self.get_user_id()
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/users/details',
                            params={'user_id':user_id})
         logging.info(res.content)
         return  res.json()
 
     def get_online_agent_details(self, user_id, agent_name):
-
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/agents/details',
                            params={'user_id':user_id,"agent_name":agent_name})
         logging.info(res.content)
         return  res.json()
 
     def get_online_agents_list(self,lookup=None):
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/agents/list',params={'lookup':lookup,"pe": 'user_id,agent_name,created,updated'})
         return  res.json().get('results',[])
 
     def get_online_users_list(self,lookup=None):
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/users/list',params={'lookup':lookup,"pe": 'user_id,created'})
         return  res.json().get('results',[])
 
     def list_published_agent_snapshots(self, agent_id,pe="snapshot_id,snapshot_data"):
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
                            params={'user_id':self.get_user_id(),'query_key': 'agent_id', "query_value": agent_id, "pe": pe})
         logging.info(res.content)
@@ -1218,6 +1223,7 @@ class SysContext:
         return snapshots
 
     def list_published_user_snapshots(self, user_id=None, pe="snapshot_id,snapshot_data"):
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         if user_id is None:
             user_id = self.get_user_id()
         res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
@@ -1229,6 +1235,7 @@ class SysContext:
         return snapshots
 
     def list_published_spec_snapshots(self, spec_id, pe="snapshot_id,snapshot_data"):
+        logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
                            params={'query_key': 'spec_id', "query_value": spec_id, "pe": pe})
         self.get_logger().info(res.json())

@@ -27,7 +27,7 @@ class MultiAgentRunner(TaskRunner):
     spec_id = 'multiagent'
     displayed_name = ""
     extension_id ="builtin"
-    version = "0.0.1-dev"
+    version = "0.0.1.dev0"
     config = {
         'agents': {},
         'env_spec_id': None,

@@ -3,9 +3,10 @@ from pistarlab.utils.agent_helpers import get_agent_spec_dict, get_agent_spec_in
 import logging
 from pistarlab import ctx
 
-EXTENSION_ID = "pistarlab-defaults"
-EXTENSION_VERSION = "0.0.1-dev"
-
+from pistarlab.extension_tools import load_extension_meta
+EXT_META = load_extension_meta(__name__)
+EXTENSION_ID = EXT_META["id"]
+EXTENSION_VERSION =  EXT_META["version"]
 
 def manifest():
     env_spec_list = []
@@ -33,7 +34,7 @@ def install():
             
             disabled=False,
             displayed_name="piSTARLab A2C",
-            version="0.0.1-dev",
+            version="0.0.1.dev0",
             description='')
     
     # ctx.install_extension_from_manifest(EXTENSION_ID,EXTENSION_VERSION)

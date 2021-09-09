@@ -27,7 +27,7 @@ def get_agent_spec_dict(
         algo_type_id = None,
         disabled=False,
         displayed_name=None,
-        version="0.0.1-dev",
+        version="0.0.1.dev0",
         description=None):
 
     spec_data = {}

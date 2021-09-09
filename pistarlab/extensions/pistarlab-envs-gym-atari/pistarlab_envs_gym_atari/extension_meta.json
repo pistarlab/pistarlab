@@ -1,0 +1,11 @@
+{
+  "id": "pistarlab-envs-gym-atari",
+  "version": "0.0.1.dev0",
+  "name": "Gym[ATARI]",
+  "categories": [
+    "envs"
+  ],
+  "description": "ATARI Environments included with OpenAI Gym",
+  "extension_author": "piSTAR Lab",
+  "original_author": "OpenAI - openai.com"
+}

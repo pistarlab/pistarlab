@@ -5,7 +5,7 @@
       "displayed_name": "Blackjack",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -97,7 +97,7 @@
       "displayed_name": "Kellycoinflip",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -190,7 +190,7 @@
       "displayed_name": "Kellycoinflipgeneralized",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -314,7 +314,7 @@
       "displayed_name": "Frozenlake",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -438,7 +438,7 @@
       "displayed_name": "Cliffwalking",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -508,7 +508,7 @@
       "displayed_name": "Nchain",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -575,7 +575,7 @@
       "displayed_name": "Roulette",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -642,7 +642,7 @@
       "displayed_name": "Taxi",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -712,7 +712,7 @@
       "displayed_name": "Guessinggame",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -786,7 +786,7 @@
       "displayed_name": "Hottercolder",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -860,7 +860,7 @@
       "displayed_name": "Cubecrash",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [
@@ -1074,7 +1074,7 @@
       "displayed_name": "Memorizedigits",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Test and Text",
       "categories": [

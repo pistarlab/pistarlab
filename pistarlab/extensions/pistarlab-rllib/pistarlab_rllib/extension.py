@@ -4,8 +4,10 @@ from .agent import AGENT_REG
 
 from pistarlab.utils.param_helpers import create_params_from_dict
 
-EXTENSION_ID = "pistarlab-rllib"
-EXTENSION_VERSION = "0.0.1-dev"
+from pistarlab.extension_tools import load_extension_meta
+EXT_META = load_extension_meta(__name__)
+EXTENSION_ID = EXT_META["id"]
+EXTENSION_VERSION =  EXT_META["version"]
 
 
 def get_task_specs():
@@ -16,7 +18,7 @@ def get_task_specs():
         'description': 'Custom task for running multi agent sessions in rllib ',
         'entry_point': 'pistarlab.task:Task',
         'runner_entry_point': 'pistarlab_rllib.rllib_multiagent_task:RLLibMultiAgentRunner',
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {
             'agent_data_map': [],
             'agent_assignments': {},
@@ -51,7 +53,7 @@ def get_agent_specs():
             algo_type_id=data.get("algo_type_id"),
             disabled=False,
             displayed_name="{} - RLlib".format(policy_name),
-            version="0.0.1-dev",
+            version="0.0.1.dev0",
             description='RLlib: https://docs.ray.io/en/master/rllib.html\n\n{}'.format("TODO..."))
 
         spec_list.append(agent_spec)
@@ -65,7 +67,7 @@ def get_component_specs():
         'entry_point': 'ray.rllib.models.torch.fcnet:FullyConnectedNetwork',
         'parent_class_entry_point': 'ray.rllib.models.modelv2:ModelV2',
         'description': "Torch Fully Connected",
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {'model_config': {}},
         'category': "model"})
 
@@ -74,7 +76,7 @@ def get_component_specs():
         'entry_point': 'ray.rllib.models.tf.fcnet:FullyConnectedNetwork',
         'parent_class_entry_point': 'ray.rllib.models.modelv2:ModelV2',
         'description': "Tensorflow Fully Connected",
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {'model_config': {}},
         'category': "model"})
 
@@ -83,7 +85,7 @@ def get_component_specs():
         'entry_point': 'ray.rllib.models.tf.fcnet:FullyConnectedNetwork',
         'parent_class_entry_point': 'ray.rllib.models.modelv2:ModelV2',
         'description': "Tensorflow Fully Connected",
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {'model_config': {}},
         'category': "model"})
 
@@ -92,7 +94,7 @@ def get_component_specs():
         'entry_point': 'ray.rllib.models.tf.visionnet:VisionNetwork',
         'parent_class_entry_point': 'ray.rllib.models.modelv2:ModelV2',
         'description': "Tensorflow Vision (via Convolutions) Model",
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {'model_config': {}},
         'category': "model"})
 
@@ -109,7 +111,7 @@ def get_component_specs():
         'entry_point': 'pistarlab_rllib.custom_vision_model:VisionModel',
         'parent_class_entry_point': 'ray.rllib.models.modelv2:ModelV2',
         'description': "Customized Torch Vision (via Convolutions) Model",
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {
             'model_config': {
                 'conv_filters': [[16, [4, 4], 2],
@@ -125,7 +127,7 @@ def get_component_specs():
         'entry_point': 'ray.rllib.models.torch.attention_net:GTrXLNet',
         'parent_class_entry_point': 'ray.rllib.models.modelv2:ModelV2',
         'description': "Torch Attention Model",
-        'version': "0.0.1-dev",
+        'version': "0.0.1.dev0",
         'config': {
             'model_config': {
                 "num_transformer_units": 1,

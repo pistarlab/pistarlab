@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pistarlab-envs-gym-atari",
-    version="0.0.1-dev",
+    version="0.0.1.dev0",
     author="piSTAR",
     author_email="pistar3.14@gmail.com",
     description="ATARI games from OpenAI's gym",

@@ -1,0 +1,11 @@
+{
+  "id": "pistarlab-envs-gym-main",
+  "version": "0.0.1.dev0",
+  "name": "Gym[MAIN]",
+  "categories": [
+    "envs"
+  ],
+  "description": "Default Environments included with OpenAI Gym",
+  "extension_author": "piSTAR Lab",
+  "original_author": "OpenAI - openai.com"
+}

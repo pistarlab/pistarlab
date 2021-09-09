@@ -1,0 +1,12 @@
+
+  {
+    "id": "pistarlab-envs-gym-text",
+    "version": "0.0.1.dev0",
+    "name": "Gym[Text]",
+    "categories": [
+      "envs"
+    ],
+    "description": "Text Environments included with OpenAI Gym",
+    "extension_author": "piSTAR Lab",
+    "original_author": "OpenAI - openai.com"
+  }

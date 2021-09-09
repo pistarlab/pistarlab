@@ -107,13 +107,13 @@ def load_sys_config_file(root_path):
         "extension_config": {
             "install_on_boot": [{
                 'id': 'pistarlab-envs-gym-main',
-                'version': "0.0.1-dev"},
+                'version': "0.0.1.dev0"},
                 {
                 'id': 'pistarlab-rllib',
-                'version': "0.0.1-dev"},
+                'version': "0.0.1.dev0"},
                 {
                 'id': 'pistarlab-landia',
-                'version': "0.0.1-dev"}
+                'version': "0.0.1.dev0"}
             ]
         }
     }

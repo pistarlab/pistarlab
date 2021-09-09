@@ -68,7 +68,7 @@ def load_extensions_from_path(path):
         for pkg_name in setuptools.find_packages(where=full_proj_dir):
             try:
                 extensionmod = importlib.import_module(name="{}.extension".format(pkg_name))
-                extension_info_path = pkg_resources.resource_filename(pkg_name, "pistarlab_extension.json")
+                extension_info_path = pkg_resources.resource_filename(pkg_name, "extension_meta.json")
                 with open(extension_info_path, 'r') as f:
                     extension_info = json.load(f)
                 extensions.append(extension_info)
@@ -92,7 +92,7 @@ def create_new_extension(
         original_author="", 
         extension_author="", 
         description="", 
-        version="0.0.1-dev"):
+        version="0.0.1.dev0"):
 
     extension_id = extension_id.replace(" ", "-").replace("_", "-").lower()
     module_name = extension_id.replace(" ", "_").replace("-", "_").lower()
@@ -113,7 +113,7 @@ def create_new_extension(
     template_vars.update(extension_info)
     template_vars['module_name'] = module_name
 
-    with open(os.path.join(module_path, "pistarlab_extension.json"), "w") as f:
+    with open(os.path.join(module_path, "extension_meta.json"), "w") as f:
         json.dump(extension_info, f, indent=2)
 
     Path(os.path.join(module_path, "__init__.py")).touch()
@@ -156,7 +156,7 @@ class ExtensionManager:
         sources = {}
         sources["builtin"] = {
             "id": "builtin",
-            "type": "file",
+            "type": "path",
             "name": "Built-in",
             "description": "",
             "path": self.get_builtin_extension_src_path(),
@@ -253,9 +253,7 @@ class ExtensionManager:
         return extensions
 
     def get_builtin_extension_src_path(self):
-        return pkg_resources.resource_filename(__name__, "extensions")
-
-    
+        return pkg_resources.resource_filename(__name__, "extensions/")
 
     def _run_module_function(self, module_name, function_name=None, kwargs={}):
         extensionmod = importlib.import_module(name="{}.extension".format(module_name))
@@ -264,7 +262,7 @@ class ExtensionManager:
     def _run_extension_package_install(self, extension):
         cmd = None
         if extension["source"]["type"] == "file":
-            full_path = os.path.join(self.get_builtin_extension_src_path(), extension["id"])
+            full_path = os.path.join(extension["source"]["path"], extension["id"])
             cmd = "pip install --user -e {}".format(full_path)
         elif extension["source"]["type"] == "workspace":
             full_path = os.path.join(self.workspace_path, extension["id"])

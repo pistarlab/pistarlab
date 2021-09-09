@@ -12,7 +12,7 @@ setup(
     url="",
     license='',
     install_requires=[],
-    package_data={'$module_name': ['README.md',"*.json","*.jpg", "manifest_files", "manifest.json","pistarlab_extension.json"] + manifest_files},
+    package_data={'$module_name': ['README.md',"*.json","*.jpg", "manifest_files", "manifest.json","extension_meta.json"] + manifest_files},
     packages=find_packages(),
     classifiers=[
         'Programming Language :: Python :: 3',

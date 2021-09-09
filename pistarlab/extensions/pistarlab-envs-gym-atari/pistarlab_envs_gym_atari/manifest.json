@@ -5,7 +5,7 @@
       "displayed_name": "Adventure",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -765,7 +765,7 @@
       "displayed_name": "Airraid",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -1525,7 +1525,7 @@
       "displayed_name": "Alien",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -2285,7 +2285,7 @@
       "displayed_name": "Amidar",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -3045,7 +3045,7 @@
       "displayed_name": "Assault",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -3805,7 +3805,7 @@
       "displayed_name": "Asterix",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -4565,7 +4565,7 @@
       "displayed_name": "Asteroids",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -5325,7 +5325,7 @@
       "displayed_name": "Atlantis",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -6085,7 +6085,7 @@
       "displayed_name": "Bankheist",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -6845,7 +6845,7 @@
       "displayed_name": "Battlezone",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -7605,7 +7605,7 @@
       "displayed_name": "Beamrider",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -8365,7 +8365,7 @@
       "displayed_name": "Berzerk",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -9125,7 +9125,7 @@
       "displayed_name": "Bowling",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -9885,7 +9885,7 @@
       "displayed_name": "Boxing",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -10645,7 +10645,7 @@
       "displayed_name": "Breakout",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -11405,7 +11405,7 @@
       "displayed_name": "Carnival",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -12165,7 +12165,7 @@
       "displayed_name": "Centipede",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -12925,7 +12925,7 @@
       "displayed_name": "Choppercommand",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -13685,7 +13685,7 @@
       "displayed_name": "Crazyclimber",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -14445,7 +14445,7 @@
       "displayed_name": "Demonattack",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -15205,7 +15205,7 @@
       "displayed_name": "Doubledunk",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -15965,7 +15965,7 @@
       "displayed_name": "Elevatoraction",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -16725,7 +16725,7 @@
       "displayed_name": "Enduro",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -17485,7 +17485,7 @@
       "displayed_name": "Fishingderby",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -18245,7 +18245,7 @@
       "displayed_name": "Freeway",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -19005,7 +19005,7 @@
       "displayed_name": "Frostbite",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -19765,7 +19765,7 @@
       "displayed_name": "Gopher",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -20525,7 +20525,7 @@
       "displayed_name": "Gravitar",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -21285,7 +21285,7 @@
       "displayed_name": "Hero",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -22045,7 +22045,7 @@
       "displayed_name": "Icehockey",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -22805,7 +22805,7 @@
       "displayed_name": "Jamesbond",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -23565,7 +23565,7 @@
       "displayed_name": "Journeyescape",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -24325,7 +24325,7 @@
       "displayed_name": "Kangaroo",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -25085,7 +25085,7 @@
       "displayed_name": "Krull",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -25845,7 +25845,7 @@
       "displayed_name": "Kungfumaster",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -26605,7 +26605,7 @@
       "displayed_name": "Montezumarevenge",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -27365,7 +27365,7 @@
       "displayed_name": "Mspacman",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -28125,7 +28125,7 @@
       "displayed_name": "Namethisgame",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -28885,7 +28885,7 @@
       "displayed_name": "Phoenix",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -29645,7 +29645,7 @@
       "displayed_name": "Pitfall",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -30405,7 +30405,7 @@
       "displayed_name": "Pong",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -31165,7 +31165,7 @@
       "displayed_name": "Pooyan",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -31925,7 +31925,7 @@
       "displayed_name": "Privateeye",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -32685,7 +32685,7 @@
       "displayed_name": "Qbert",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -33445,7 +33445,7 @@
       "displayed_name": "Riverraid",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -34205,7 +34205,7 @@
       "displayed_name": "Roadrunner",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -34965,7 +34965,7 @@
       "displayed_name": "Robotank",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -35725,7 +35725,7 @@
       "displayed_name": "Seaquest",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -36485,7 +36485,7 @@
       "displayed_name": "Skiing",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [
@@ -37245,7 +37245,7 @@
       "displayed_name": "Solaris",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Atari",
       "categories": [

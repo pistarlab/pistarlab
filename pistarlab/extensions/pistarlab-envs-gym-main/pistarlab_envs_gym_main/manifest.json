@@ -5,7 +5,7 @@
       "displayed_name": "Cartpole",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Classic Control",
       "categories": [
@@ -145,7 +145,7 @@
       "displayed_name": "Mountaincar",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Classic Control",
       "categories": [
@@ -292,7 +292,7 @@
       "displayed_name": "Pendulum",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Classic Control",
       "categories": [
@@ -377,7 +377,7 @@
       "displayed_name": "Acrobot",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Classic Control",
       "categories": [
@@ -455,7 +455,7 @@
       "displayed_name": "Lunarlander",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Box2d",
       "categories": [
@@ -602,7 +602,7 @@
       "displayed_name": "Bipedalwalker",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Box2d",
       "categories": [
@@ -756,7 +756,7 @@
       "displayed_name": "Carracing",
       "description": null,
       "default_entry_point": null,
-      "version": "0.0.1-dev",
+      "version": "0.0.1.dev0",
       "disabled": false,
       "collection": "Gym Box2d",
       "categories": [
