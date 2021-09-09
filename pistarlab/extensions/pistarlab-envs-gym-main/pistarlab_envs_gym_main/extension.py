@@ -8,14 +8,20 @@ from pistarlab.utils.gym_importer import get_environments_from_gym_registry
 
 def manifest():
     envs_all = []
-    for collection in ['classic_control','box2d']:
-        envs = get_environments_from_gym_registry(
-            entry_point_prefix=f"gym.envs.{collection}",
-            additional_categories=[collection],
-            force_environment_id="gym_classic_and_box2d",
-            force_environment_displayed_name="Gym Classic Control and Box2d"
-        )
-        envs_all.extend(envs)
+    classic_control_envs = get_environments_from_gym_registry(
+        entry_point_prefix=f"gym.envs.classic_control",
+        additional_categories=['classic_control'],
+        collection="Gym Classic Control"
+    )
+    envs_all.extend(classic_control_envs)
+
+    box2d_envs = get_environments_from_gym_registry(
+        entry_point_prefix=f"gym.envs.box2d",
+        additional_categories=['box2d'],
+        collection="Gym Box2d"
+    )
+
+    envs_all.extend(box2d_envs)
 
     return {'environments': envs_all}
 

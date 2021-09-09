@@ -7,7 +7,7 @@ from .tasks.matask import MultiAgentRunner
 from .utils import env_helpers
 from .utils.agent_helpers import get_agent_spec_interface_dict
 
-BUILTIN_EXTENSION_ID = "built-in"
+BUILTIN_EXTENSION_ID = "builtin"
 
 
 def add_wrapper_components(sess: db_orm.Session):
@@ -84,15 +84,8 @@ def load_default_data():
         config={
                 'interfaces': {'run': get_agent_spec_interface_dict()}
         },
-        extension_id="builtin")
-
-    # ctx.register_agent_spec_from_classes(
-    #     runner_cls=A2CTaskRunner,
-    #     spec_id="A2C",
-    #     config={
-    #             'interfaces': {'run': get_agent_spec_interface_dict()}
-    #     },
-    #     extension_id="builtin")
+        extension_id=BUILTIN_EXTENSION_ID,
+        algo_type_id="RANDOM")
 
 
     # MULTI AGENT RUNNER (OVER NETWORK)
@@ -110,8 +103,10 @@ def load_default_data():
 
     env_data = env_helpers.get_environment_data(
         environment_id="pistarlab_tests",
-        displayed_name="piSTAR Lab Tests",
+        displayed_name="Builtin Tests",
+        collection="piSTAR Lab",
         env_specs=[spec_data])
+
     ctx.register_environment(
-        extension_id="builtin",
+        extension_id=BUILTIN_EXTENSION_ID,
         **env_data)

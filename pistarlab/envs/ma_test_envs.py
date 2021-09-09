@@ -1,5 +1,10 @@
 from gym.spaces import Box, Discrete
 import numpy as np
+
+# TODO: need standard interface defined
+
+
+
 class MultiAgentTestParallelEnv:
     
     def __init__(self,num_players=2):
@@ -95,6 +100,5 @@ class MultiAgentTestAlternatingSlotEnv:
         infos = {self.get_player_id(): info}
         return obs,rews,dones,infos
  
-
     def close(self):
         pass

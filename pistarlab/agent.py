@@ -16,6 +16,7 @@ from .entity import Entity
 from .meta import *
 from .util_funcs import *
 from .utils.misc import get_timestamp_with_proc_info
+from .utils.serialize import space_to_pyson
 
 
 class Agent(Entity):
@@ -62,45 +63,6 @@ class Agent(Entity):
             meta=meta,
             name=name,
             custom_seed=custom_seed)
-
-    # def create_from_snapshot(snapshot_archive_path):
-
-    #     # TODO: load from web/external source
-    #     logging.info("Loading snapshot from {}".format(snapshot_archive_path))
-    #     if not os.path.exists(snapshot_archive_path):
-    #         raise FileNotFoundError(
-    #             "Error: Snapshot Archive not found {}".format(snapshot_archive_path))
-
-    #     temp_dir = tempfile.mkdtemp()
-    #     tar = tarfile.open(snapshot_archive_path)
-    #     tar.extractall(temp_dir)
-    #     tar.close()
-    #     data_source_path = os.path.join(temp_dir, 'data')
-
-    #     with open(os.path.join(data_source_path, "snapshot.json"), 'r') as f:
-    #         snapshot_data = json.load(f)
-
-    #     checkpoints_src_path = os.path.join(data_source_path, "checkpoints")
-    #     spec_id = snapshot_data['spec_id']
-    #     meta = snapshot_data['meta']
-    #     last_checkpoint = snapshot_data['last_checkpoint']
-    #     meta['source_snapshot'] = copy.deepcopy(snapshot_data)
-    #     config = snapshot_data['config']
-    #     notes = snapshot_data['notes']
-    #     seed = snapshot_data['seed']
-
-    #     agent: Agent = Agent.create(spec_id=spec_id, config=config)
-    #     target_path = ctx.get_store().get_path_from_key(('agent', agent.get_id()))
-    #     dbmodel = agent.get_dbmodel()
-    #     dbmodel.meta = meta
-    #     dbmodel.notes = notes
-    #     dbmodel.seed = seed
-    #     dbmodel.last_checkpoint = last_checkpoint
-    #     import shutil
-    #     shutil.copytree(checkpoints_src_path, os.path.join(
-    #         target_path, "checkpoints"))
-    #     ctx.get_dbsession().commit()
-    #     return agent
 
     @staticmethod
     def get_dbmodel_by_id(id) -> AgentModel:
@@ -174,7 +136,7 @@ class Agent(Entity):
                     config=self._config,
                     spec_id=self._spec_id,
                     seed=seed,
-                    name=self.name,
+                    name=self.name or self._id,
                     meta=self._meta)
                 ctx.get_dbsession().add(dbmodel)
                 ctx.get_dbsession().commit()
@@ -278,6 +240,24 @@ class Agent(Entity):
             name="stats",
             value=self.stat_buffer.get_dict())
         self.stat_buffer.clear()
+
+    def update_interface(self,interface_id,observation_space, action_space):
+        interfaces = self.get_config_key("interfaces")
+        interface = interfaces.get(interface_id, {})
+
+        if interface.get('auto_config_spaces', False):
+
+            interface['observation_space'] = space_to_pyson(observation_space)
+            interface['action_space'] = space_to_pyson(action_space)
+            interface['auto_config_spaces'] = False
+            interfaces[interface_id] = interface
+
+            self.update_config_key('interfaces', interfaces)
+
+    def is_interface_auto_config(self,interface_id):
+        return self.get_config_key("interfaces")\
+            .get(interface_id, {})\
+            .get('auto_config_spaces', False)
 
     def log_stat_dict(self, task_id, data):
         if self.stat_buffer is None:

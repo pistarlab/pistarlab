@@ -12,7 +12,7 @@ from typing import Dict
 import json
 import psutil
 
-from .config import get_sys_config
+from .config import get_sys_config, update_config
 
 
 def get_home():
@@ -550,3 +550,45 @@ class ServiceContext:
 
     def get_service_info(self):
         return {name: data.get_info() for name, data in self.services.items()}
+
+    def bootstrap_default_extensions(self):
+        logging.info(f"START bootstrap_default_extensions&&&&&&&&&&&&&&&&")
+        pkglogger = logging.getLogger("matplotlib")
+        pkglogger.setLevel(logging.ERROR)
+        from pistarlab.extension_manager import ExtensionManager
+        extension_manager = ExtensionManager(
+                'pistarlab',
+                workspace_path=self.config.workspace_path,
+                data_path=self.config.data_path,
+                logger=logging)
+
+        extensions = self.config.extension_config.get("install_on_boot")
+        install_success = self.config.extension_config.get("install_success",{})
+
+        installed = extension_manager.get_installed_extensions()
+        extension_manager.get_all_extensions()
+        for info in extensions:
+            eid = info['id']
+            eversion = info.get('version')
+            if eid not in installed and eid not in install_success:
+                extension = extension_manager.get_extension(eid,eversion)
+                if extension is None:
+                    logging.error(f"No such extension exists {eid} {eversion}")
+                    install_success[eid] = "Error: No such extension exists"
+                    continue
+                logging.info(f"Installing {eid}")
+                success = extension_manager.install_extension(
+                    eid,extension_version=eversion,
+                    package_only=True)
+                if success:
+                    install_success[eid] = "Success"
+                else:
+                    install_success[eid] = "Error: Failed for during install"
+            else:
+                logging.info(f"Skipping extension {eid}")
+
+        update_config(self.config.root_path,{'extension_config':{
+            'install_success':install_success
+        }})
+        logging.info(f"END bootstrap_default_extensions&&&&&&&&&&&&&&&&")
+                

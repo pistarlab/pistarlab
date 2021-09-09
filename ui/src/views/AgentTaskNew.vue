@@ -327,15 +327,15 @@
                         <span v-for="(agent,idx) in agents" v-bind:key="idx" class="mr-3">
                             <b-card no-body header-bg-variant="info" header-text-variant="white" class="h-100 card-shadow card-flyer " style="width: 320px">
                                 <template v-slot:header>
-                                      <b-button-toolbar>
-                                    <span class="custom-card-header  mb-2">
-                                            {{agent.ident}}  <span v-if="agent.name">({{agent.name}})</span>
-                                        </span>
 
-                                    
-                                        <b-link class="ml-auto mt-1"  v-on:click="agentConfigModal(idx)"><i style="color:white" class="fa fa-edit"></i></b-link>
-                            
-                                      </b-button-toolbar>
+                                    <span class="custom-card-header">
+                                        <b-link style="color:white"  v-on:click="agentConfigModal(idx)">
+                                            <div class="mb-2">
+                                            {{agent.ident}} <span v-if="agent.name">({{agent.name}})</span>
+                                            </div>
+                                        </b-link>
+                                    </span>
+
                                 </template>
 
                                 <b-container class="mt-2">
@@ -365,28 +365,28 @@
                                                     {{player.id}} :
                                                 </span>
                                                 <span v-if="agent.run_config.interfaces">
-                                                <span v-if="agent.run_config.interfaces.run.auto_config_spaces">
-                                                    Space assignment at runtime
-                                                </span>
-                                                <span v-else>
+                                                    <span v-if="agent.run_config.interfaces.run.auto_config_spaces">
+                                                        Space assignment at runtime
+                                                    </span>
+                                                    <span v-else>
 
-                                                    Obs Space:
-                                                    <span v-b-popover.hover.top="'Observation Check: Success'" v-if="checkSpaceMatch(agent.run_config.interfaces.run.observation_space,player.observation_space)">
-                                                        <i style="color:green" class="fa fa-check-square"></i>
-                                                    </span>
-                                                    <span v-else v-b-popover.hover.top="'Observation Check: Failed'">
-                                                        <i style="color:red" class="fa fa-times-circle"></i>
-                                                    </span>
-                                                    <span class="ml-2 mr-2">/</span>
+                                                        Obs Space:
+                                                        <span v-b-popover.hover.top="'Observation Check: Success'" v-if="checkSpaceMatch(agent.run_config.interfaces.run.observation_space,player.observation_space)">
+                                                            <i style="color:green" class="fa fa-check-square"></i>
+                                                        </span>
+                                                        <span v-else v-b-popover.hover.top="'Observation Check: Failed'">
+                                                            <i style="color:red" class="fa fa-times-circle"></i>
+                                                        </span>
+                                                        <span class="ml-2 mr-2">/</span>
 
-                                                    Action Space:
-                                                    <span v-b-popover.hover.top="'Action Check: Success'" v-if="checkSpaceMatch(agent.run_config.interfaces.run.action_space,player.action_space)">
-                                                        <i style="color:green" class="fa fa-check-square"></i>
+                                                        Action Space:
+                                                        <span v-b-popover.hover.top="'Action Check: Success'" v-if="checkSpaceMatch(agent.run_config.interfaces.run.action_space,player.action_space)">
+                                                            <i style="color:green" class="fa fa-check-square"></i>
+                                                        </span>
+                                                        <span v-b-popover.hover.top="'Action Check: Failed'" v-else>
+                                                            <i style="color:red" class="fa fa-times-circle"></i>
+                                                        </span>
                                                     </span>
-                                                    <span v-b-popover.hover.top="'Action Check: Failed'" v-else>
-                                                        <i style="color:red" class="fa fa-times-circle"></i>
-                                                    </span>
-                                                </span>
                                                 </span>
                                             </div>
 
@@ -517,11 +517,19 @@ const rlSessionConfigFields = [{
         defaultValue: true,
         type: "boolean",
     },
+
     {
         key: "frame_stream_enabled",
         label: "Enable Live Frame Stream",
         description: "Enable Live Frame Stream (preview rendering must also be enabled)",
         defaultValue: true,
+        type: "boolean",
+    },
+    {
+        key: "inference_only",
+        label: "Inference Only",
+        description: "Inference Only (Disables training if possible)",
+        defaultValue: false,
         type: "boolean",
     },
 ];
@@ -671,7 +679,7 @@ export default {
         };
     },
     props: {
-        uid: String,
+        taskId: String,
         agentUid: String,
         envSpecId: String,
     },
@@ -688,34 +696,13 @@ export default {
                 };
             });
         },
-
-        // spacematch() {
-        //     if (this.envSpec == null || this.agent == null) {
-        //         return "NA";
-        //     } else {
-        //         const envObsSpace = JSON.parse(this.envSpec.meta).observation_space;
-        //         const agentObsSpace = JSON.parse(this.agent.config).observation_space;
-
-        //         if (JSON.stringify(envObsSpace) == JSON.stringify(agentObsSpace)) {
-        //             return "Compatible";
-        //         } else {
-        //             return "Incompatible";
-        //         }
-        //     }
-        // },
-
         selectedAgentParams() {
             if (!this.selectedAgent || !this.selectedAgent.spec) {
                 return null
             } else {
                 return JSON.parse(this.selectedAgent.spec.params)
             }
-        },
-        // initParamValues() {
-        //     if (!this.selectedAgent || !this.selectedAgent.config || this.selectedAgent.config == '') return {}
-
-        //     return JSON.parse(this.selectedAgent.config)
-        // }
+        }
     },
     watch: {
         wrappers: function (val) {
@@ -725,7 +712,8 @@ export default {
             this.envSpec = val
             if (this.envSpec) {
                 this.envMeta = JSON.parse(this.envSpec.meta)
-                this.envSpecKwargOverrides = JSON.stringify(JSON.parse(this.envSpec.config).env_kwargs, null, 2)
+                if (this.taskId == null)
+                    this.envSpecKwargOverrides = JSON.stringify(JSON.parse(this.envSpec.config).env_kwargs, null, 2)
                 this.resetPlayers();
             }
         }
@@ -747,7 +735,6 @@ export default {
         agentConfigModal(idx) {
             this.currentAgentIdx = idx
             let agent = this.agents[this.currentAgentIdx]
-            console.log(JSON.stringify(agent, null, 2))
             this.selectedAgent = agent
 
             this.agentSessionConfigFields = agent['session_config_fields']
@@ -915,10 +902,9 @@ export default {
                         if ("uid" in data) {
                             this.newTaskId = data.uid
 
-                            if (this.newTaskId != null){
+                            if (this.newTaskId != null) {
                                 this.$bvModal.show("modal-launch-task");
-                            }
-                            else{
+                            } else {
                                 this.errorMessage = ":( Bee Boop (Oops!) Task creation seems to have failed, but may actually be running. Please check your task list."
                             }
                             // this.$router.push({
@@ -945,7 +931,7 @@ export default {
             }
         },
         loadTaskInfo() {
-            if (this.uid == null) {
+            if (this.taskId == null) {
                 return;
             }
             console.log("TODO");
@@ -976,7 +962,6 @@ export default {
                 }
             }).then((response) => {
                 const taskConfig = JSON.parse(response.data.task.config)
-                console.log(JSON.stringify(taskConfig, null, 2))
                 if (taskConfig.agents)
                     taskConfig.agents.forEach((agentData) => this.loadAgent(agentData.ident))
                 else this.loadAgent(taskConfig.agent_id)
@@ -984,7 +969,7 @@ export default {
                 this.selectEnvSpec(taskConfig.env_spec_id)
                 this.sessionConfig = taskConfig['session_config']
 
-                this.envSpecKwargOverrides = JSON.stringify(taskConfig['env_kwargs'])
+                this.envSpecKwargOverrides = JSON.stringify(taskConfig['env_kwargs'], null, 2)
             }).catch((response) => {
 
                 this.error = "ERROR GETTING TASK with id " + taskId;
@@ -1029,10 +1014,10 @@ export default {
 
         console.log("Env Spec Id " + this.envSpecId);
         console.log("Agent UID: " + this.agentUid);
-        console.log("Task UID: " + this.uid);
+        console.log("Task UID: " + this.taskId);
 
-        if (this.uid) {
-            this.duplicateTask(this.uid)
+        if (this.taskId) {
+            this.duplicateTask(this.taskId)
         }
 
         if (this.envSpecId) {

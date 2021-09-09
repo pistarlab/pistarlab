@@ -56,6 +56,9 @@
                     <b-link variant="white" size="sm" v-b-modal:agentname @click="loadName()">
                         <span v-if="agent.name">{{agent.name}}</span><span v-else>None</span>
                     </b-link>
+
+                    <div class="data_label mt-2">Id: </div>{{ agent.ident }}
+
                     <div class="data_label mt-2">Spec Id: </div>
                     <b-link target="_blank" :to="`/agent_spec/${agent.specId}`">{{ agent.spec.displayedName }}</b-link>
                     <div class="data_label mt-2">Seed: </div>

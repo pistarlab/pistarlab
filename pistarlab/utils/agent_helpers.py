@@ -24,6 +24,7 @@ def get_agent_spec_dict(
         components={},
         interfaces=None,
         params={},
+        algo_type_id = None,
         disabled=False,
         displayed_name=None,
         version="0.0.1-dev",
@@ -41,78 +42,6 @@ def get_agent_spec_dict(
     spec_data['config']['interfaces'] = interfaces or {'run': get_agent_spec_interface_dict()}
     spec_data['config']['components'] = components
     spec_data['params'] = params
+    spec_data['algo_type_id'] = algo_type_id
 
     return spec_data
-
-# default_agent_spec_list = []
-# default_agent_spec_list.append({
-#     'id':'reinforcev1',
-#     'displayed_name': "REINFORCE Basic",
-#     'class_name': 'ReinforceAgent',
-#     'module': 'pistarlab.agents.reinforce_agent',
-#     'description': 'Description HERE',
-#     'categories': ['policy_gradient'],
-#     'kwarg_spec': {},
-#     'kwarg_defaults': {},
-#     'displayed_order': 0,
-
-# })
-
-# default_agent_spec_list.append({
-#     'id':'reinfocev2',
-#     'displayed_name': "REINFORCE V2",
-#     'class_name': 'ReinforceV2Agent',
-#     'module': 'pistarlab.agents.reinforce_agent_v2',
-#     'description': 'TODO',
-#     'categories': ['policy_gradient'],
-#     'kwarg_spec': {},
-#     'kwarg_defaults': {},
-#     'displayed_order': 1,
-# })
-
-# default_agent_spec_list.append({
-#     'id':'crossentropy',
-#     'displayed_name': "Cross Entropy",
-#     'class_name': 'CrossEntropyAgent',
-#     'module': 'pistarlab.agents.cross_entropy_v1',
-#     'description': 'TODO',
-#     'categories': [],
-#     'kwarg_spec': {},
-#     'kwarg_defaults': {},
-#     'displayed_order': 2,
-# })
-
-# default_agent_spec_list.append({
-#     'id':'random',
-#     'displayed_name': "Random",
-#     'class_name': 'RandomAgent',
-#     'module': 'pistarlab.agents.random',
-#     'description': 'Description HERE',
-#     'categories': [],
-#     'kwarg_spec': {},
-#     'kwarg_defaults': {},
-#     'displayed_order': 3
-# })
-
-# default_agent_spec_list.append({
-#     'id':'webhuman1',
-#     'displayed_name': "Human Over Browser",
-#     'class_name': 'HumanWeb',
-#     'module': 'pistarlab.agents.humanweb',
-#     'description': 'NOT IMPLMENTED YET - Browser Interface for human environment interaction',
-#     # 'disabled': True,
-#     'categories': [],
-#     'kwarg_spec': {},
-#     'kwarg_defaults': {},
-#     'displayed_order': 4
-# })
-
-# variables_from_env_def = {
-#     "action_space": {
-#         "__type": "var",
-#         "name": "env.action_space"
-#     },
-#     "observation_space": {
-#         "__type": "var",
-#         "name": "env.observation_space"
-#     }}

@@ -1,12 +1,13 @@
 {
   "environments": [
     {
-      "environment_id": "gym_test_and_text",
-      "displayed_name": "Gym Test and Text",
+      "environment_id": "Blackjack",
+      "displayed_name": "Blackjack",
       "description": null,
       "default_entry_point": null,
       "version": "0.0.1-dev",
       "disabled": false,
+      "collection": "Gym Test and Text",
       "categories": [
         "toy_text"
       ],
@@ -88,7 +89,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "KellyCoinflip",
+      "displayed_name": "Kellycoinflip",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "KellyCoinflip-v0",
           "displayed_name": "KellyCoinflip-v0",
@@ -165,7 +182,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "KellyCoinflipGeneralized",
+      "displayed_name": "Kellycoinflipgeneralized",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "KellyCoinflipGeneralized-v0",
           "displayed_name": "KellyCoinflipGeneralized-v0",
@@ -199,7 +232,7 @@
                           ]
                         },
                         "low": 0.0,
-                        "high": 1768470.0
+                        "high": 201.0
                       },
                       "args": []
                     },
@@ -208,7 +241,7 @@
                       "module": "gym.spaces.discrete",
                       "kwargs": {},
                       "args": [
-                        311
+                        292
                       ]
                     },
                     {
@@ -216,7 +249,7 @@
                       "module": "gym.spaces.discrete",
                       "kwargs": {},
                       "args": [
-                        311
+                        292
                       ]
                     },
                     {
@@ -224,7 +257,7 @@
                       "module": "gym.spaces.discrete",
                       "kwargs": {},
                       "args": [
-                        311
+                        292
                       ]
                     },
                     {
@@ -238,7 +271,7 @@
                           ]
                         },
                         "low": 0.0,
-                        "high": 1768470.0
+                        "high": 201.0
                       },
                       "args": []
                     }
@@ -253,7 +286,7 @@
                 "module": "gym.spaces.discrete",
                 "kwargs": {},
                 "args": [
-                  176847000
+                  20100
                 ]
               }
             },
@@ -273,7 +306,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "FrozenLake",
+      "displayed_name": "Frozenlake",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "FrozenLake-v0",
           "displayed_name": "FrozenLake-v0",
@@ -285,8 +334,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "ansi",
-              "human"
+              "human",
+              "ansi"
             ],
             "render.fps": 30,
             "render_mode": "ansi",
@@ -339,8 +388,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "ansi",
-              "human"
+              "human",
+              "ansi"
             ],
             "render.fps": 30,
             "render_mode": "ansi",
@@ -381,7 +430,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "CliffWalking",
+      "displayed_name": "Cliffwalking",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "CliffWalking-v0",
           "displayed_name": "CliffWalking-v0",
@@ -393,8 +458,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "ansi",
-              "human"
+              "human",
+              "ansi"
             ],
             "render.fps": 30,
             "render_mode": "ansi",
@@ -435,7 +500,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "NChain",
+      "displayed_name": "Nchain",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "NChain-v0",
           "displayed_name": "NChain-v0",
@@ -486,7 +567,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "Roulette",
+      "displayed_name": "Roulette",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "Roulette-v0",
           "displayed_name": "Roulette-v0",
@@ -537,7 +634,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "Taxi",
+      "displayed_name": "Taxi",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "Taxi-v3",
           "displayed_name": "Taxi-v3",
@@ -549,8 +662,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "ansi",
-              "human"
+              "human",
+              "ansi"
             ],
             "render.fps": 30,
             "render_mode": "ansi",
@@ -591,7 +704,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "GuessingGame",
+      "displayed_name": "Guessinggame",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "GuessingGame-v0",
           "displayed_name": "GuessingGame-v0",
@@ -649,7 +778,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "HotterColder",
+      "displayed_name": "Hottercolder",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "toy_text"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "HotterColder-v0",
           "displayed_name": "HotterColder-v0",
@@ -711,12 +856,13 @@
       ]
     },
     {
-      "environment_id": "gym_test_and_text",
-      "displayed_name": "Gym Test and Text",
+      "environment_id": "CubeCrash",
+      "displayed_name": "Cubecrash",
       "description": null,
       "default_entry_point": null,
       "version": "0.0.1-dev",
       "disabled": false,
+      "collection": "Gym Test and Text",
       "categories": [
         "unittest"
       ],
@@ -734,8 +880,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "rgb_array",
-              "human"
+              "human",
+              "rgb_array"
             ],
             "render.fps": 30,
             "render_mode": "rgb_array",
@@ -800,8 +946,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "rgb_array",
-              "human"
+              "human",
+              "rgb_array"
             ],
             "render.fps": 30,
             "render_mode": "rgb_array",
@@ -866,8 +1012,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "rgb_array",
-              "human"
+              "human",
+              "rgb_array"
             ],
             "render.fps": 30,
             "render_mode": "rgb_array",
@@ -920,7 +1066,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "MemorizeDigits",
+      "displayed_name": "Memorizedigits",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Test and Text",
+      "categories": [
+        "unittest"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "MemorizeDigits-v0",
           "displayed_name": "MemorizeDigits-v0",
@@ -932,8 +1094,8 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
-              "rgb_array",
-              "human"
+              "human",
+              "rgb_array"
             ],
             "render.fps": 30,
             "render_mode": "rgb_array",

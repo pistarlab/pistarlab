@@ -25,7 +25,7 @@
                     <SnapshotSelector :specId="agentSpec.ident" v-model="snapshotId"></SnapshotSelector>
                 </div>
             </b-tab>
-            <b-tab title="Online Snapshots">
+            <b-tab title="Community Hub Snapshots">
                 <div class="mt-4 overflow-auto">
 
                     <SnapshotSelector :specId="agentSpec.ident" v-model="snapshotId" :online="true"></SnapshotSelector>
@@ -102,8 +102,8 @@
 
                             <div class="text-center mt-4">
                                 <div class="mt-4"></div>
-                                <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}:
-                                    <pre style="background-color:inherit">{{ traceback }}</pre>
+                                <b-alert v-if="errorMessage" show variant="danger">{{ errorMessage }}
+                                    <pre style="background-color:inherit" v-if="traceback">{{ traceback }}</pre>
                                 </b-alert>
 
                                 <span v-if="snapshotId" class="h4 mt-4">
@@ -166,7 +166,7 @@
 
     <div class="mt-4"></div>
     <b-button-toolbar>
-        <b-form-input class="ml-auto mr-3" v-model="agentName" placeholder="(Optional) Enter an agent name" style="width:250px;" ></b-form-input> 
+        <div class="ml-auto mr-3 my-auto"> Agent Name: </div><b-form-input class="mr-3" v-model="agentName" placeholder="Enter name or one will be assigned" style="width:300px;" ></b-form-input> 
 
         <b-button size="sm"  v-if="!submitting" variant="primary" v-on:click="submit">Create Instance</b-button>
         <b-button size="sm"  v-else variant="primary" disabled>
@@ -273,7 +273,11 @@ export default {
             this.$bvModal.hide("modal-selectsnapshot");
             this.snapshotId = snapshotId;
         },
+
         submit() {
+            if (this.agentName != null && this.agentName.trim() == ""){
+                this.agentName = null
+            }
             const outgoingData = {
                 config: JSON.parse(this.config),
                 specId: this.specId,

@@ -81,6 +81,26 @@
                 </b-row>
             </b-container>
         </div>
+        <div v-if="focus =='community'">
+            <div class="ml-3">
+                <h4>Community Hub</h4>
+            </div>
+
+            <b-container>
+                <b-row>
+                    <b-col>
+
+                        <p>
+                            Published agents are shared with other piSTAR.ai users.
+
+                        </p>
+
+                        <br />
+
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
         <div v-if="focus =='agents'">
             <div class="ml-3">
                 <h4>Agents</h4>

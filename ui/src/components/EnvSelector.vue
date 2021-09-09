@@ -4,8 +4,10 @@
     <b-form-input v-model="searchtext" placeholder="Search" style="width:250px;" class='ml-auto'></b-form-input>
     <div class="mt-1"></div>
 
+    <b-pagination v-model="currentPage" :total-rows="totalCount" :per-page="pageSize"></b-pagination>
+
     <b-container fluid>
-        <div v-for="(spec,idx) in envSpecList" v-bind:key="idx">
+        <div v-for="(spec,idx) in envSpecListPage" v-bind:key="idx">
             <b-row>
                 <b-col cols=3 class="text-center">
                     <div class="mt-2">
@@ -49,6 +51,7 @@
             <hr />
         </div>
     </b-container>
+    <b-pagination v-model="currentPage" :total-rows="totalCount" :per-page="pageSize"></b-pagination>
     <div class="mt-2"></div>
 </div>
 </template>
@@ -99,7 +102,9 @@ export default {
         return {
             envSpecs: [],
             selectedExistingAgent: null,
-            searchtext: ""
+            searchtext: "",
+            pageSize: 12,
+            currentPage: 1
 
         };
     },
@@ -114,6 +119,7 @@ export default {
 
     },
     computed: {
+
         envSpecList() {
             if (this.envSpecs.length == 0) return [];
             else {
@@ -126,7 +132,14 @@ export default {
 
                 }
             }
-        }
+        },
+        totalCount() {
+            return this.envSpecList.length
+        },
+        envSpecListPage() {
+            return this.envSpecList.slice(parseInt((this.currentPage -1) * this.pageSize), parseInt(this.currentPage  * this.pageSize))
+
+        },
 
     },
     // Fetches posts when the component is created.

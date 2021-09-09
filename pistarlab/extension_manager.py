@@ -255,6 +255,8 @@ class ExtensionManager:
     def get_builtin_extension_src_path(self):
         return pkg_resources.resource_filename(__name__, "extensions")
 
+    
+
     def _run_module_function(self, module_name, function_name=None, kwargs={}):
         extensionmod = importlib.import_module(name="{}.extension".format(module_name))
         return getattr(extensionmod, function_name)()
@@ -365,7 +367,7 @@ class ExtensionManager:
         extension_key = get_extension_key(extension_id, extension_version)
         return self.get_all_extensions().get(extension_key)
 
-    def install_extension(self, extension_id, extension_version):
+    def install_extension(self, extension_id, extension_version, package_only=False):
 
         extension_key = get_extension_key(extension_id, extension_version)
 
@@ -406,6 +408,10 @@ class ExtensionManager:
             self.update_extension_status(extension, "INSTALL_FAILED", msg=msg)
             return False
 
+        if package_only:
+            self.update_extension_status(extension, "PREPPED_RELOAD", msg="Boostrap Install")
+            return True
+
         # try to import, if failed, set state to RELOAD_REQUIRED
         try:
             importlib.invalidate_caches()
@@ -415,6 +421,7 @@ class ExtensionManager:
             self.logger.error(msg)
             self.update_extension_status(extension, "PREPPED_RELOAD", msg=msg)
             return True
+
 
         # Run extension install
         try:

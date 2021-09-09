@@ -18,7 +18,6 @@ from .utils.misc import gen_shortuid
 def json_data_serializer(d):
     return json.dumps(d, cls=JSONEncoderCustom)
 
-
 def get_user_info(config: SysConfig):
     user_info_path = os.path.join(config.root_path, "user_info.json")
     if not os.path.exists(user_info_path):
@@ -33,6 +32,10 @@ def get_user_info(config: SysConfig):
         logging.error(f"ERROR loading display info {e}")
         return {}
 
+def save_user_info(info,config: SysConfig):
+    user_info_path = os.path.join(config.root_path, "user_info.json")
+    with open(user_info_path,'w') as f:
+        json.dump(info,f)
 class DataContext:
 
     def __init__(self, config: SysConfig):
@@ -137,11 +140,17 @@ class DataContext:
 
             self.init_db()
 
-    def get_user_id(self, token= None):
-        # TODO: need to replace this...
+    def update_user_info(self,user_info):
+        save_user_info(user_info,self.config)
+        self.user_info = get_user_info(self.config)
+
+    def get_user_info(self):
         if self.user_info is None:
             self.user_info = get_user_info(self.config)
-        return self.user_info.get("user_id") 
+        return self.user_info
+
+    def get_user_id(self):
+        return self.get_user_info().get("user_id")
 
     def close(self):
         if self.__db_scoped_session:

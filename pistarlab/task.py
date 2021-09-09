@@ -224,6 +224,10 @@ class Task(Entity):
 
 
 class AgentTask(Task):
+    """
+    Runs an agent tasks using function with same name as interface_id
+    """
+    
 
     @staticmethod
     def create(
@@ -243,7 +247,8 @@ class AgentTask(Task):
         config = {}
         if not type(session_config) is dict:
             session_config = session_config.get_dict()
-
+            
+        config['interface_id'] = interface_id
         config['session_config'] = session_config
         config['env_spec_id'] = env_spec_id
         config['env_kwargs'] = env_kwargs
@@ -252,7 +257,6 @@ class AgentTask(Task):
         config['batch_size'] = batch_size
         config['checkpoint_freq'] = checkpoint_freq
         config['status_check_freq_secs'] = status_check_freq_secs
-        config['interface_id'] = interface_id
         config.update(kwargs)
 
         return AgentTask(
@@ -263,9 +267,6 @@ class AgentTask(Task):
 
     def update_summary(self, summary):
         super().update_summary(summary)
-        # ctx.get_redis_client().publish(
-        #     "TASK_SUMMARY_STATS_{}".format(self.get_id()),
-        #     json.dumps(self.get_session_summary_stats()))
 
     def get_agent_dbmodel(self):
         return ctx.get_agent_dbmodel(self.get_dbmodel().config['agent_id'])
@@ -319,31 +320,3 @@ class AgentTask(Task):
 
     def get_session_summary_stats(self):
         return get_stats_flat(transpose_dict_list(self.get_session_summaries()), suffix='task')
-
-    #TODO: Not sure if we want to keep this
-    # def session_env_instance(self):
-    #     task_id = self.get_id()
-    #     task_config = self.get_config()
-
-    #     agent = self.get_agent()
-
-    #     env_spec_id = task_config['env_spec_id']
-    #     env_kwargs = task_config['env_kwargs']
-
-    #     session_config = task_config['session_config']
-    #     agent_run_config = agent.get_config(task_config['agent_run_config'])
-
-    #     batch_size = task_config.get('batch_size',1)
-    #     use_remote_client = task_config.get('use_remote_client',False)
-
-    #     from .session_env import RLMultiSessionEnv
-    #     from .session_config import RLSessionConfig
-    #     return RLMultiSessionEnv(
-    #             env_spec_id=env_spec_id,
-    #             env_kwargs=env_kwargs,
-    #             config=RLSessionConfig(**session_config),
-    #             agent_id=agent.get_id(),
-    #             agent_run_config=agent_run_config,
-    #             batch_size = batch_size,
-    #             task_id=task_id,
-    #             use_remote_client=use_remote_client)

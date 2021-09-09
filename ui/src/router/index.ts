@@ -4,6 +4,11 @@ import Home from '../views/Home.vue'
 import Workspace from '../views/Workspace.vue'
 import Welcome from '../views/Welcome.vue'
 import Help from '../views/Help.vue'
+import CommunityHome from '../views/CommunityHome.vue'
+import CommunityAgents from '../components/CommunityAgents.vue'
+import CommunityUsers from '../components/CommunityUsers.vue'
+import CommunityAgent from '../components/CommunityAgent.vue'
+import UserProfile from '../components/UserProfile.vue'
 import TaskHome from "../views/TaskHome.vue"
 import NProgress from "nprogress"
 Vue.use(VueRouter)
@@ -23,6 +28,44 @@ const routes: Array<RouteConfig> = [
         name: 'Welcome',
         component: Welcome
     },
+    {
+        path: '/community/',
+        name: 'CommunityHome',
+        component: CommunityHome,
+        children :[
+            {
+              // UserProfile will be rendered inside User's <router-view>
+              // when /user/:id/profile is matched
+              path: 'profile',
+              component: UserProfile
+            },
+            {
+              // UserPosts will be rendered inside User's <router-view>
+              // when /user/:id/posts is matched
+              path: 'agents',
+              component: CommunityAgents
+            }
+            ,
+            {
+              // UserPosts will be rendered inside User's <router-view>
+              // when /user/:id/posts is matched
+              path: 'users',
+              component: CommunityUsers
+            }
+       
+       
+          ]
+    },
+    {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: '/community/agent',
+        component: CommunityAgent,
+        props: (route) => ({
+          userId: route.query.userId,
+          agentName: route.query.agentName
+      })
+      },
     // {
     //     path: '/dash',
     //     name: 'Dash',
@@ -123,11 +166,11 @@ const routes: Array<RouteConfig> = [
     }
     ,
     {
-        path: '/task/new/agenttask/:uid?',
+        path: '/task/new/agenttask/:taskId?',
         name: 'AgentTaskNew',
         component: () => import('../views/AgentTaskNew.vue'),
         props: (route) => ({
-            uid: route.params.uid,
+            taskId: route.params.taskId,
             agentUid: route.query.agentUid,
 
             envSpecId: route.query.envSpecId

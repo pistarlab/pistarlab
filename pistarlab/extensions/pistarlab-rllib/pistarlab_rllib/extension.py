@@ -48,6 +48,7 @@ def get_agent_specs():
             components=data.get('components'),
             interfaces={'run':get_agent_spec_interface_dict()},
             params=data.get("params"),
+            algo_type_id=data.get("algo_type_id"),
             disabled=False,
             displayed_name="{} - RLlib".format(policy_name),
             version="0.0.1-dev",

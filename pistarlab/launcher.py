@@ -286,6 +286,8 @@ def main():
                         action="store_true", help="Skip 'ray start ...' ")
     parser.add_argument("--verbose", action="store_true",
                         help="Increase Output Verbosity")
+    parser.add_argument("--skip_extension_bootstrap", action="store_true",
+                        help="Skip installing extension packages at start")
     parser.add_argument("--enable_dev_ui", action="store_true",
                         help="Enables development UI. TODO: Link to Documentation")
     parser.add_argument("--enable_ide", action="store_true",
@@ -305,7 +307,10 @@ def main():
                 print("{:<15} State: {:<12}".format(name, state))
         print("")
 
+    if not args.skip_extension_bootstrap:
+        service_ctx.bootstrap_default_extensions()
     services_list = []
+
 
     if not args.disable_xvfb or os.name == 'nt':
         services_list.append('xvfb')

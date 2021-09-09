@@ -45,6 +45,7 @@ class RLSessionConfig(SessionConfig):
         wrappers=[],
         meta={},
         tmp_session=False,
+        inference_only = False
     ):
         super().__init__(tmp_session=tmp_session)
         self.max_episodes = max_episodes
@@ -58,3 +59,4 @@ class RLSessionConfig(SessionConfig):
         self.frame_stream_enabled = frame_stream_enabled
         self.meta = meta
         self.wrappers = wrappers
+        self.inference_only = inference_only

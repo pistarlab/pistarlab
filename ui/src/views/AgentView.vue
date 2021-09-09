@@ -5,8 +5,8 @@
             <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
             <div class="mb-5"></div>
         </b-modal>
-
-        <h1><i class="fas fa-robot"></i> Agent: <span v-if="item">{{item.ident}}</span> <span v-if="item && item.name">({{item.name}})</span></h1>
+        
+        <h1><i class="fas fa-robot"></i> Agent:  <span v-if="item && item.name">{{item.name}}</span><span v-else>{{item.ident}}</span></h1>
         <div v-if="item && item.ident">
 
             <!-- <b-modal id="def-modal" size="lg">
@@ -29,13 +29,14 @@
                     <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
                     <div class="mt-4"></div>
                     <b-form-checkbox v-model="publish" name="checkbox-1" :value="true" :unchecked-value="false">
-                        Publish Online
+                        Publish to Community Hub
                     </b-form-checkbox>
                     <div class="mt-4"></div>
                     <b-button :disabled="submitting" v-if="!submitting" class="mt-2" variant="primary" v-on:click="createSnapshot()" size="sm">Create</b-button>
                     <b-button v-else variant="primary" disabled>
                         <b-spinner small type="grow"></b-spinner>
                     </b-button>
+                    <b-alert show v-if="publishError">{{publishError}}</b-alert>
                 </b-form-group>
 
                 <hr />
@@ -298,7 +299,7 @@ const pubfields = [
 
     {
         key: "published",
-        label: "Published Online",
+        label: "Shared",
 
     }
 
@@ -414,6 +415,7 @@ export default {
             traceback: null,
             publish: false,
             creatingSnapshot: false,
+            publishError:null,
 
             componentFields: [{
                     key: "name",
@@ -642,7 +644,7 @@ export default {
                         this.snapshots = response.data["items"]
                     })
                     .catch((e) => {
-                        this.error = e;
+                        this.publishError = e;
                         console.log(e)
                     });
             }
@@ -720,7 +722,7 @@ export default {
 
             }
             console.log(JSON.stringify(outgoingData, null, 2))
-            this.error = null
+            this.publishError = null
             this.traceback = null
             this.submitting = true
             axios
@@ -731,14 +733,14 @@ export default {
                     this.submitting = false;
                     this.loadSnapshotList()
                     if (response.data["success"] == false){
-                        this.error = "Failed to upload. " + response.data
-                        console.log(this.error)
+                        this.publishError = response.data.item.error
+                        console.log(this.publishError)
                     }
 
                 })
                 .catch( (error) =>{
                     console.log("Received Error: " + error.message)
-                    this.error = error;
+                    this.publishError = error;
                     this.submitting = false;
                     this.loadSnapshotList()
                 });

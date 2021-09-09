@@ -30,6 +30,7 @@ def install():
             components=[],
             interfaces={'run': get_agent_spec_interface_dict()}, # Not required, this is default if none
             params={},
+            
             disabled=False,
             displayed_name="piSTARLab A2C",
             version="0.0.1-dev",

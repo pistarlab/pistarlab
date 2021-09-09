@@ -205,6 +205,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.remote_conn.AbortRequestedException">AbortRequestedException</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.action_spaces">action_spaces (pistarlab.env_base.MARLEnvironment property)</a>
+</li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.remote_pdb.RemotePdb.active_instance">active_instance (pistarlab.utils.remote_pdb.RemotePdb attribute)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.TaskModel.actor_uid">actor_uid (pistarlab.dbmodels.TaskModel attribute)</a>
@@ -313,6 +315,8 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.AlchemyEncoder">AlchemyEncoder (class in pistarlab.dbmodels)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.dbmodels.AgentSpecModel.algo_type_id">algo_type_id (pistarlab.dbmodels.AgentSpecModel attribute)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.all_agent_tags">all_agent_tags (pistarlab.api_schema.Query attribute)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.all_agents">all_agents (pistarlab.api_schema.Query attribute)</a>
@@ -321,12 +325,12 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.all_environments">all_environments (pistarlab.api_schema.Query attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.all_sessions">all_sessions (pistarlab.api_schema.Query attribute)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.all_task">all_task (pistarlab.api_schema.Query attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.launcher.api_admin">api_admin() (in module pistarlab.launcher)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_admin_data">api_admin_data() (in module pistarlab.app_backend)</a>
@@ -334,6 +338,8 @@
       <li><a href="pistarlab.html#pistarlab.app_backend.api_agent_modify_tag">api_agent_modify_tag() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_agent_plots_json">api_agent_plots_json() (in module pistarlab.app_backend)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_auth">api_auth() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_browser">api_browser() (in module pistarlab.app_backend)</a>
 </li>
@@ -357,13 +363,25 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_launcher_info">api_launcher_info() (in module pistarlab.app_backend)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_logout">api_logout() (in module pistarlab.app_backend)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_new_agent_submit">api_new_agent_submit() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_new_task_submit">api_new_task_submit() (in module pistarlab.app_backend)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_online_agent_details">api_online_agent_details() (in module pistarlab.app_backend)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_online_agents">api_online_agents() (in module pistarlab.app_backend)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_online_user_details">api_online_user_details() (in module pistarlab.app_backend)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_online_users">api_online_users() (in module pistarlab.app_backend)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_overview_data">api_overview_data() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_prep_notebook">api_prep_notebook() (in module pistarlab.app_backend)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.app_backend.api_profile_data">api_profile_data() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_reload_default_data">api_reload_default_data() (in module pistarlab.app_backend)</a>
 </li>
@@ -384,8 +402,6 @@
       <li><a href="pistarlab.html#pistarlab.app_backend.api_session_runtime_status">api_session_runtime_status() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_snapshot_create">api_snapshot_create() (in module pistarlab.app_backend)</a>
-</li>
-      <li><a href="pistarlab.html#pistarlab.app_backend.api_snapshot_link">api_snapshot_link() (in module pistarlab.app_backend)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.api_snapshots_list">api_snapshots_list() (in module pistarlab.app_backend)</a>
 </li>
@@ -445,13 +461,15 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.session.RLSession.before_reset">before_reset() (pistarlab.session.RLSession method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.session.RLSession.before_step">before_step() (pistarlab.session.RLSession method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.best_sessions_for_env_spec">best_sessions_for_env_spec (pistarlab.api_schema.Query attribute)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.bin_data">bin_data() (in module pistarlab.app_backend)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.services.ServiceContext.bootstrap_default_extensions">bootstrap_default_extensions() (pistarlab.services.ServiceContext method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -516,6 +534,8 @@
 </li>
         <li><a href="pistarlab.html#pistarlab.env_base.DataEnvironment.close">(pistarlab.env_base.DataEnvironment method)</a>
 </li>
+        <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.close">(pistarlab.env_base.MARLEnvironment method)</a>
+</li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestAlternatingSlotEnv.close">(pistarlab.envs.ma_test_envs.MultiAgentTestAlternatingSlotEnv method)</a>
 </li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv.close">(pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv method)</a>
@@ -557,6 +577,8 @@
       </ul></li>
       <li><a href="pistarlab.html#pistarlab.util_funcs.cls_as_entry_point">cls_as_entry_point() (in module pistarlab.util_funcs)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.dbmodels.EnvironmentModel.collection">collection (pistarlab.dbmodels.EnvironmentModel attribute)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.SessionModel.comments">comments (pistarlab.dbmodels.SessionModel attribute)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Component">Component (class in pistarlab.api_schema)</a>
@@ -581,9 +603,11 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.ComponentSpecModel">ComponentSpecModel (class in pistarlab.dbmodels)</a>
 </li>
-      <li><a href="pistarlab.html#pistarlab.api_schema.AgentSetConfig.Arguments.config">config (pistarlab.api_schema.AgentSetConfig.Arguments attribute)</a>
+      <li><a href="pistarlab.html#pistarlab.api_schema.Agent.config">config (pistarlab.api_schema.Agent attribute)</a>
 
       <ul>
+        <li><a href="pistarlab.html#pistarlab.api_schema.AgentSetConfig.Arguments.config">(pistarlab.api_schema.AgentSetConfig.Arguments attribute)</a>
+</li>
         <li><a href="pistarlab.html#pistarlab.dbmodels.AgentModel.config">(pistarlab.dbmodels.AgentModel attribute)</a>
 </li>
         <li><a href="pistarlab.html#pistarlab.dbmodels.AgentSpecModel.config">(pistarlab.dbmodels.AgentSpecModel attribute)</a>
@@ -605,6 +629,8 @@
         <li><a href="pistarlab.tasks.html#pistarlab.tasks.matask.MultiAgentRunner.config">(pistarlab.tasks.matask.MultiAgentRunner attribute)</a>
 </li>
       </ul></li>
+      <li><a href="pistarlab.html#pistarlab.api_schema.Agent.config_parsed">config_parsed (pistarlab.api_schema.Agent attribute)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.connect">connect() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Agent.connection">connection (pistarlab.api_schema.Agent attribute)</a>
@@ -987,6 +1013,8 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.extension_manager.ExtensionManager.get_all_extensions">get_all_extensions() (pistarlab.extension_manager.ExtensionManager method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.get_auth_token">get_auth_token() (pistarlab.core.SysContext method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.services.ServiceContext.get_auto_restart_info">get_auto_restart_info() (pistarlab.services.ServiceContext method)</a>
 </li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.timer.Timer.get_avg">get_avg() (pistarlab.utils.timer.Timer method)</a>
@@ -1165,8 +1193,6 @@
         <li><a href="pistarlab.html#pistarlab.entity.Entity.get_id">(pistarlab.entity.Entity method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.services.ForegroundService.get_info">get_info() (pistarlab.services.ForegroundService method)</a>
 
       <ul>
@@ -1177,6 +1203,8 @@
         <li><a href="pistarlab.html#pistarlab.services.XVFB.get_info">(pistarlab.services.XVFB method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.extension_manager.ExtensionManager.get_installed_extensions">get_installed_extensions() (pistarlab.extension_manager.ExtensionManager method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.config.get_ip">get_ip() (in module pistarlab.config)</a>
@@ -1236,6 +1264,14 @@
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_next_id">get_next_id() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_next_seed">get_next_seed() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.get_online_agent_details">get_online_agent_details() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.get_online_agents_list">get_online_agents_list() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.get_online_user_details">get_online_user_details() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.get_online_users_list">get_online_users_list() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.launcher.get_page">get_page() (in module pistarlab.launcher)</a>
 </li>
@@ -1408,7 +1444,13 @@
 </li>
       </ul></li>
       <li><a href="pistarlab.html#pistarlab.data_context.get_user_info">get_user_info() (in module pistarlab.data_context)</a>
+
+      <ul>
+        <li><a href="pistarlab.html#pistarlab.core.SysContext.get_user_info">(pistarlab.core.SysContext method)</a>
 </li>
+        <li><a href="pistarlab.html#pistarlab.data_context.DataContext.get_user_info">(pistarlab.data_context.DataContext method)</a>
+</li>
+      </ul></li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.get_workspace_info">get_workspace_info() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.env_helpers.get_wrapped_env_instance">get_wrapped_env_instance() (in module pistarlab.utils.env_helpers)</a>
@@ -1521,6 +1563,10 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.databuffer.DataBuffer.is_full">is_full() (pistarlab.databuffer.DataBuffer method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.agent.Agent.is_interface_auto_config">is_interface_auto_config() (pistarlab.agent.Agent method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.is_logged_in">is_logged_in() (pistarlab.core.SysContext method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.services.ForegroundService.is_running">is_running() (pistarlab.services.ForegroundService method)</a>
 
       <ul>
@@ -1613,10 +1659,10 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.filestore.FileStore.list_objects_with_name_stream">list_objects_with_name_stream() (pistarlab.filestore.FileStore method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_published_agent_snapshots">list_published_agent_snapshots() (pistarlab.core.SysContext method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_published_spec_snapshots">list_published_spec_snapshots() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.list_published_user_snapshots">list_published_user_snapshots() (pistarlab.core.SysContext method)</a>
@@ -1647,6 +1693,8 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.agent.Agent.load_stats">load_stats() (pistarlab.agent.Agent method)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.config.load_sys_config_file">load_sys_config_file() (in module pistarlab.config)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.session.DataSession.log_data_metrics">log_data_metrics() (pistarlab.session.DataSession method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.session.DataSession.log_evaluation_metrics">log_evaluation_metrics() (pistarlab.session.DataSession method)</a>
@@ -1660,6 +1708,8 @@
       <li><a href="pistarlab.html#pistarlab.session.DataSession.log_predictions">log_predictions() (pistarlab.session.DataSession method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.agent.Agent.log_stat_dict">log_stat_dict() (pistarlab.agent.Agent method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.logout">logout() (pistarlab.core.SysContext method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1680,6 +1730,10 @@
       <li><a href="pistarlab.html#pistarlab.core.SysContext.make_env">make_env() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.snapshot_helpers.make_tarfile">make_tarfile() (in module pistarlab.utils.snapshot_helpers)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment">MARLEnvironment (class in pistarlab.env_base)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.max_players">max_players (pistarlab.env_base.MARLEnvironment property)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.databuffer.DataBuffer.mean">mean() (pistarlab.databuffer.DataBuffer method)</a>
 </li>
@@ -1703,6 +1757,8 @@
         <li><a href="pistarlab.html#pistarlab.dbmodels.TaskSpecModel.meta">(pistarlab.dbmodels.TaskSpecModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.min_players">min_players (pistarlab.env_base.MARLEnvironment property)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.api_schema.AgentFilter.model">model (pistarlab.api_schema.AgentFilter attribute)</a>
 
       <ul>
@@ -1872,10 +1928,10 @@
 </li>
       <li><a href="pistarlab.utils.html#pistarlab.utils.logging.new_entity_logger">new_entity_logger() (in module pistarlab.utils.logging)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.utils.html#pistarlab.utils.logging.new_scoped_logger">new_scoped_logger() (in module pistarlab.utils.logging)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pistarlab.html#pistarlab.streamer.RedisVideoStreamTrack.next_timestamp">next_timestamp() (pistarlab.streamer.RedisVideoStreamTrack method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.node">node (pistarlab.api_schema.Query attribute)</a>
@@ -1890,6 +1946,8 @@
         <li><a href="pistarlab.html#pistarlab.dbmodels.TaskModel.notes">(pistarlab.dbmodels.TaskModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.num_players">num_players (pistarlab.env_base.MARLEnvironment property)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1900,10 +1958,12 @@
 </li>
       <li><a href="pistarlab.wrappers.html#pistarlab.wrappers.default.ResizeImageObWrapper.observation">observation() (pistarlab.wrappers.default.ResizeImageObWrapper method)</a>
 </li>
-      <li><a href="pistarlab.html#pistarlab.streamer.offer">offer() (in module pistarlab.streamer)</a>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.observation_spaces">observation_spaces (pistarlab.env_base.MARLEnvironment property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pistarlab.html#pistarlab.streamer.offer">offer() (in module pistarlab.streamer)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.streamer.on_shutdown">on_shutdown() (in module pistarlab.streamer)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.app_backend.open_extension_with_ide">open_extension_with_ide() (in module pistarlab.app_backend)</a>
@@ -2142,8 +2202,6 @@
         <li><a href="pistarlab.html#module-pistarlab.remote_env">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pistarlab.services
 
@@ -2151,6 +2209,8 @@
         <li><a href="pistarlab.html#module-pistarlab.services">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pistarlab.session
 
@@ -2347,6 +2407,10 @@
         <li><a href="pistarlab.wrappers.html#module-pistarlab.wrappers.default">module</a>
 </li>
       </ul></li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.players">players (pistarlab.env_base.MARLEnvironment property)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.possible_players">possible_players (pistarlab.env_base.MARLEnvironment property)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.services.ServiceContext.prep_services">prep_services() (pistarlab.services.ServiceContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.filestore.FileStore.prepvalue">prepvalue() (pistarlab.filestore.FileStore method)</a>
@@ -2403,6 +2467,8 @@
 </li>
       <li><a href="pistarlab.html#pistarlab.streamer.RedisVideoStreamTrack">RedisVideoStreamTrack (class in pistarlab.streamer)</a>
 </li>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.refresh_auth">refresh_auth() (pistarlab.core.SysContext method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.register_agent_spec">register_agent_spec() (pistarlab.core.SysContext method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.core.SysContext.register_agent_spec_from_classes">register_agent_spec_from_classes() (pistarlab.core.SysContext method)</a>
@@ -2440,6 +2506,8 @@
       <li><a href="pistarlab.html#pistarlab.common.MAEnv.render">render() (pistarlab.common.MAEnv method)</a>
 
       <ul>
+        <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.render">(pistarlab.env_base.MARLEnvironment method)</a>
+</li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv.render">(pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv method)</a>
 </li>
         <li><a href="pistarlab.html#pistarlab.remote_env.RemoteMultiAgentEnvClient.render">(pistarlab.remote_env.RemoteMultiAgentEnvClient method)</a>
@@ -2464,6 +2532,8 @@
       <li><a href="pistarlab.html#pistarlab.common.MAEnv.reset">reset() (pistarlab.common.MAEnv method)</a>
 
       <ul>
+        <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.reset">(pistarlab.env_base.MARLEnvironment method)</a>
+</li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestAlternatingSlotEnv.reset">(pistarlab.envs.ma_test_envs.MultiAgentTestAlternatingSlotEnv method)</a>
 </li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv.reset">(pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv method)</a>
@@ -2504,6 +2574,8 @@
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.resolve_best_sessions_for_env_spec">resolve_best_sessions_for_env_spec() (pistarlab.api_schema.Query static method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Query.resolve_component_spec">resolve_component_spec() (pistarlab.api_schema.Query static method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.api_schema.Agent.resolve_config_parsed">resolve_config_parsed() (pistarlab.api_schema.Agent method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.api_schema.Session.resolve_created_timestamp">resolve_created_timestamp() (pistarlab.api_schema.Session method)</a>
 </li>
@@ -2624,6 +2696,8 @@
       <li><a href="pistarlab.html#pistarlab.session.Session.save_summary">save_summary() (pistarlab.session.Session method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.extension_manager.save_to_json_file">save_to_json_file() (in module pistarlab.extension_manager)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.data_context.save_user_info">save_user_info() (in module pistarlab.data_context)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.AgentModel.seed">seed (pistarlab.dbmodels.AgentModel attribute)</a>
 </li>
@@ -2808,6 +2882,8 @@
       <li><a href="pistarlab.html#pistarlab.common.MAEnv.step">step() (pistarlab.common.MAEnv method)</a>
 
       <ul>
+        <li><a href="pistarlab.html#pistarlab.env_base.MARLEnvironment.step">(pistarlab.env_base.MARLEnvironment method)</a>
+</li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestAlternatingSlotEnv.step">(pistarlab.envs.ma_test_envs.MultiAgentTestAlternatingSlotEnv method)</a>
 </li>
         <li><a href="pistarlab.envs.html#pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv.step">(pistarlab.envs.ma_test_envs.MultiAgentTestParallelEnv method)</a>
@@ -2987,9 +3063,13 @@
         <li><a href="pistarlab.html#pistarlab.extension_manager.ExtensionManager.uninstall_extension">(pistarlab.extension_manager.ExtensionManager method)</a>
 </li>
       </ul></li>
-      <li><a href="pistarlab.html#pistarlab.agent.Agent.update_config">update_config() (pistarlab.agent.Agent method)</a>
+      <li><a href="pistarlab.html#pistarlab.core.SysContext.update_auth">update_auth() (pistarlab.core.SysContext method)</a>
+</li>
+      <li><a href="pistarlab.html#pistarlab.config.update_config">update_config() (in module pistarlab.config)</a>
 
       <ul>
+        <li><a href="pistarlab.html#pistarlab.agent.Agent.update_config">(pistarlab.agent.Agent method)</a>
+</li>
         <li><a href="pistarlab.html#pistarlab.task.Task.update_config">(pistarlab.task.Task method)</a>
 </li>
       </ul></li>
@@ -3001,6 +3081,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pistarlab.html#pistarlab.agent.Agent.update_interface">update_interface() (pistarlab.agent.Agent method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.agent.Agent.update_last_checkpoint">update_last_checkpoint() (pistarlab.agent.Agent method)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.agent.Agent.update_name">update_name() (pistarlab.agent.Agent method)</a>
@@ -3013,6 +3095,8 @@
         <li><a href="pistarlab.html#pistarlab.task.Task.update_summary">(pistarlab.task.Task method)</a>
 </li>
       </ul></li>
+      <li><a href="pistarlab.html#pistarlab.data_context.DataContext.update_user_info">update_user_info() (pistarlab.data_context.DataContext method)</a>
+</li>
       <li><a href="pistarlab.html#pistarlab.api_schema.updateRLSummaryWithDetails">updateRLSummaryWithDetails() (in module pistarlab.api_schema)</a>
 </li>
       <li><a href="pistarlab.html#pistarlab.dbmodels.EnvSpecModel.user_defined">user_defined (pistarlab.dbmodels.EnvSpecModel attribute)</a>

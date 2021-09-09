@@ -2,6 +2,7 @@ import json
 import logging
 import math
 import os
+from pistarlab import agent
 from pistarlab.util_funcs import merged_dict
 import signal
 import subprocess
@@ -107,7 +108,7 @@ def api_task_admin(command, uid):
 def api_admin_data():
     ray = ctx.get_execution_context().ray
     data = {}
-    data['user_id'] = ctx.get_user_id()    
+    data['user_id'] = ctx.get_user_id()
     data['available_resources'] = ray.available_resources()
     data['cluster_resources'] = ray.cluster_resources()
     data['available_resources'] = ray.available_resources()
@@ -120,7 +121,7 @@ def api_admin_data():
 
     data['pistar_config']['redis_password'] = "HIDDEN"
     data['pistar_config']['db_config']['db_password'] = "HIDDEN"
-    
+
     try:
         data['pistar_config']['launcher_info'] = ctx.get_launcher_info()
     except Exception as e:
@@ -149,6 +150,7 @@ def api_launcher_info():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 @app.route("/api/workspace/")
 def api_workspace_data():
     workspace = ctx.get_workspace_info()
@@ -176,13 +178,15 @@ def api_overview_data():
     except Exception as e:
         logging.error(f"Error: {e} Traceback: {traceback.format_exc()}")
         raise e
-             
 
 
 @app.route("/api/status/")
 def api_status_data():
-    data = {}
-    response = make_response(data)
+    # logging.info(ctx.get_user_info())
+    user_id = ctx.get_user_id()
+    logged_in = ctx.is_logged_in()
+
+    response = make_response({'user_id': user_id, 'logged_in': logged_in})
     response.headers['Content-Type'] = 'application/json'
     return response
 
@@ -269,14 +273,60 @@ def api_workspace_info():
     return response
 
 
+@app.route("/api/auth")
+def api_auth():
+    logging.info(f"request.args {request.args}")
+    try:
+        ctx.update_auth(request.args['code'])
+        success = True
+    except Exception as e:
+        logging.error("Failed to authenticate.", e)
+        success = False
+    if success:
+        return redirect("/")
+    else:
+        return redirect("/?login_failed=true")
+
+
+@app.route("/api/logout")
+def api_logout():
+    logging.info(f"request.args {request.args}")
+    try:
+        ctx.logout()
+        success = True
+    except Exception as e:
+        logging.error("Failed to authenticate.", e)
+        success = False
+    if success:
+        return redirect("/")
+    else:
+        return redirect("/?logout_failed=true")
+
+
+@app.route("/api/profile_data")
+def api_profile_data():
+    response = make_response({
+        'login_uri': ctx.login_uri,
+        'logout_uri': ctx.logout_uri,
+        'logged_in':ctx.is_logged_in(),
+        'user_info': ctx.get_user_info()})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
 @app.route("/api/extension/create", methods=['POST'])
 @not_in_readonly_mode
 def api_extension_create():
     try:
         logging.info("Create Extension")
         data = request.get_json()
+        extension_id = data['extension_id']
+        extension_name = data['extension_name']
+        
+        if extension_name is None or extension_name.replace("pistarlab_","").strip() == "":
+            extension_name = extension_id.title()
         ctx.create_new_extension(
-            data['extension_id'], data['extension_name'], data['description'])
+            extension_id, extension_name, data['description'])
         response = make_response({'successful': True})
     except Exception as e:
         logging.error(e)
@@ -326,6 +376,46 @@ def api_extension_action(action_name, extension_id, extension_version):
 
     return response
 
+
+
+# -----------------------------------------
+#              Online
+# -----------------------------------------
+@app.route("/api/online/user_details")
+def api_online_user_details():
+    user_id = request.args.get('user_id', None)
+    user_info = ctx.get_online_user_details(user_id)
+    response = make_response(user_info)
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+@app.route("/api/online/agents")
+def api_online_agents():
+    lookup = request.args.get('lookup', None)
+    agents = ctx.get_online_agents_list(lookup)
+    response = make_response({'items':agents})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route("/api/online/agent_details")
+def api_online_agent_details():
+    user_id = request.args.get('user_id', None)
+    agent_name = request.args.get('agent_name', None)
+    agents = ctx.get_online_agent_details(user_id=user_id,agent_name=agent_name)
+    response = make_response({'items':agents})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+@app.route("/api/online/users")
+def api_online_users():
+    lookup = request.args.get('lookup', None)
+    users = ctx.get_online_users_list(lookup)
+    response = make_response({'items':users})
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
 # -----------------------------------------
 #              Snapshots
 # -----------------------------------------
@@ -340,15 +430,16 @@ def api_snapshots_list(spec_id=None):
         published_snapshot_ids.add(snap['snapshot_id'])
 
     snapshots = []
-    
+
     for entry in ctx.get_snapshot_index()['entries'].values():
-         if spec_id is None or entry['spec_id'] == spec_id:
+        if spec_id is None or entry['spec_id'] == spec_id:
             entry['published'] = entry['snapshot_id'] in published_snapshot_ids
-            snapshots.append(entry)    
-    
+            snapshots.append(entry)
+
     logging.info(published_snapshots)
 
-    published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
+    published_snaps = set([snap['snapshot_id']
+                           for snap in published_snapshots])
     for snapshot in snapshots:
         snapshot['published'] = snapshot['snapshot_id'] in published_snaps
 
@@ -364,12 +455,13 @@ def api_snapshots_public_list(query_field, value):
     if query_field != "spec_id":
         raise Exception("Only support spec_id query at this time")
 
-    published_snapshots = ctx.list_published_spec_snapshots(spec_id=value,pe="snapshot_id,snapshot_data")
+    published_snapshots = ctx.list_published_spec_snapshots(
+        spec_id=value, pe="snapshot_id,snapshot_data")
     snapshots = []
     for snap in published_snapshots:
         if "snapshot_data" in snap:
             data = snap['snapshot_data']
-            data = merged_dict(snap,data)
+            data = merged_dict(snap, data)
             data['online'] = True
             snapshots.append(data)
 
@@ -384,13 +476,13 @@ def api_snapshots_public_list(query_field, value):
 def api_snapshots_list_for_agent_id(id):
     snapshots = [entry for entry in ctx.get_snapshot_index(
     )['entries'].values() if entry['id'] == id]
-    try: 
+    try:
         published_snapshots = ctx.list_published_agent_snapshots(id)
-        published_snaps = set([snap['snapshot_id'] for snap in published_snapshots])
+        published_snaps = set([snap['snapshot_id']
+                               for snap in published_snapshots])
     except Exception as e:
         logging.error(f"Unable to download online snapshots: {e}")
         published_snaps = set()
-
 
     for snapshot in snapshots:
         snapshot['published'] = snapshot['snapshot_id'] in published_snaps
@@ -421,29 +513,29 @@ def api_snapshot_create():
 
         response = make_response({'success': True})
     except Exception as e:
-        message = {'error': "{}".format(e), "traceback": traceback.format_exc()}
+        message = {'error': "{}".format(
+            e), "traceback": traceback.format_exc()}
         logging.error(f"Error creating snapshot: {message}")
         response = make_response(
-            {'success':False, 'item': message})
+            {'success': False, 'item': message})
 
     response.headers['Content-Type'] = 'application/json'
     return response
 
 
+# @app.route("/api/snapshot/link")
+# @not_in_readonly_mode
+# def api_snapshot_link():
+#     import requests
+#     output = requests.get("http://api.open-notify.org/astros.json")
 
-@app.route("/api/snapshot/link")
-@not_in_readonly_mode
-def api_snapshot_link():
-    import requests
-    output = requests.get("http://api.open-notify.org/astros.json")
-    
-    response = make_response(output.json())
-    response.headers['Content-Type'] = 'application/json'
-    return response
+#     response = make_response(output.json())
+#     response.headers['Content-Type'] = 'application/json'
+#     return response
 
 def get_session_update(sid):
     return json.loads(ctx.get_redis_client().get(f"SESSION_STATUS_{sid}").decode())
-    
+
 
 @app.route("/api/session_command/<sid>/<command>", methods=['POST'])
 @not_in_readonly_mode
@@ -459,12 +551,12 @@ def api_session_command(sid, command):
                 'params': params
             }))
         data = {}
-        for i in range(0,10):
+        for i in range(0, 10):
             time.sleep(0.5)
             data = get_session_update(sid)
             if data['last_update'] > before_update:
                 break
-            
+
         response = make_response(data)
 
     except Exception as e:
@@ -648,7 +740,7 @@ def api_new_agent_submit():
         request_data = request.get_json()
         spec_id = request_data['specId']
         name = request_data.get('name')
-        if name is not None and len(name) ==0:
+        if name is not None and len(name) == 0:
             name = None
         config = request_data['config']
         snapshot_id = request_data.get('snapshotId')
@@ -658,7 +750,7 @@ def api_new_agent_submit():
             logging.info(
                 f"Creating New Agent Instance from snapshot id {snapshot_id}")
             agent = ctx.create_agent_from_snapshot(snapshot_id)
-            if name!=None:
+            if name != None:
                 agent.update_name(name)
 
         response = make_response({'item': {'uid': agent.get_id()}})
@@ -667,6 +759,7 @@ def api_new_agent_submit():
             {'item': {'error': "{}".format(e), "traceback": traceback.format_exc()}})
     response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @app.route("/api/agent/clone/<agent_id>")
 def api_clone_agent(agent_id):
@@ -682,11 +775,10 @@ def api_clone_agent(agent_id):
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 @app.route("/api/agent/<action>/tag/<agent_id>/<tag>")
 def api_agent_modify_tag(action, agent_id, tag):
     try:
-        logging.info("Update Tags")
-        logging.info("{}:{} for {}".format(action, tag, agent_id))
         if action == "add":
             ctx.add_agent_tag(agent_id, tag)
         elif action == "remove":
@@ -920,7 +1012,7 @@ def api_session_plots_json(sid, data_group, data_name, step_field):
     except Exception as e:
         response = make_response(
             {'error': '{}'.format(e), 'traceback': traceback.format_exc()})
-        logging.error(f"Error: {e} 'traceback': {traceback.format_exc()}" )
+        logging.error(f"Error: {e} 'traceback': {traceback.format_exc()}")
 
     response.headers['Content-Type'] = 'application/json'
     return response
@@ -1262,18 +1354,20 @@ def api_config():
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
 @app.route('/docs/')
 def docs():
     return send_file(os.path.join('doc_dist', 'index.html'))
+
 
 @app.route('/docs/<path:path>')
 def docs_servce_static(path):
     return send_from_directory('doc_dist', path)
 
+
 @app.route('/')
 def index():
     return send_file(os.path.join('uidist', 'index.html'))
-
 
 
 @app.route('/<path:path>')

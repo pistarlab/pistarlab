@@ -6,6 +6,7 @@ import shutil
 import tempfile
 import datetime
 import requests
+import base64
 from unittest.case import skip
 import requests
 from typing import List, Any
@@ -71,12 +72,11 @@ def get_display_info(config: SysConfig):
             logging.error("Display ID not found")
         return display_info
     except Exception as e:
-        logging.error(f"ERROR loading display info {e}")
+        logging.debug(f"ERROR loading display info {e}")
         return {}
 
 
 PISTARLAB_INIT_KEY = "pistarlab_init"
-
 
 class SysContext:
 
@@ -95,13 +95,22 @@ class SysContext:
         self.default_logger = logging
 
         self.display_info = get_display_info(self.config)
+        self.test_mode = True
 
-        # self.cloud_api_uri = "http://127.0.0.1:3000/v0.1"
+        self.auth_client_id = "q3qohs4ii6hl3t0sd4dts57k6"
+        self.auth_client_secret = "119i0aajl2kv5trs4vipn83c6drpulp4len473tgnlakb0gg6fck"
+        self.auth_grant_type = 'authorization_code'
+        self.auth_user_info_uri = "https://pistarai.auth.us-east-1.amazoncognito.com/oauth2/userInfo"
+        self.auth_redirect_uri = "http://localhost:7777/api/auth"
+        self.auth_redirect_logout_uri = "http://localhost:7777/api/logout"
+        self.auth_token_uri = "https://pistarai.auth.us-east-1.amazoncognito.com/oauth2/token"
+        self.login_uri = f"https://pistarai.auth.us-east-1.amazoncognito.com/login?client_id={self.auth_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri={self.auth_redirect_uri}"
+        self.logout_uri = f"https://pistarai.auth.us-east-1.amazoncognito.com/logout?client_id={self.auth_client_id}&logout_uri={self.auth_redirect_logout_uri}"
         
-        self.cloud_api_uri = "https://rzmrht8gt8.execute-api.us-east-1.amazonaws.com/Prod/v0.1"
-
-
-
+        if self.test_mode:
+            self.cloud_api_uri = "http://127.0.0.1:3000"
+        else:
+            self.cloud_api_uri = "https://api.pistar.ai/Prod/v0.1"
 
     def __del__(self):
         self.close()
@@ -254,8 +263,8 @@ class SysContext:
             extension_id=extension_id,
             extension_name=extension_name,
             description=description,
-            original_author=self.get_user_id(""),
-            extension_author=self.get_user_id(""),)
+            original_author=self.get_user_id(),
+            extension_author=self.get_user_id(),)
 
     def get_launcher_info(self) -> Dict[str, Any]:
         with open(os.path.join(self.config.root_path, ".launcher_runtime_settings.json"), 'r') as f:
@@ -270,8 +279,14 @@ class SysContext:
     def get_store(self) -> Storage:
         return self.get_data_context().get_store()
 
-    def get_user_id(self, token=None):
-        return self.get_data_context().get_user_id(token)
+    def get_user_id(self):
+        if self.test_mode:
+            return "testuser"
+        else:
+            return self.get_data_context().get_user_id()
+
+    def get_user_info(self):
+        return self.get_data_context().get_user_info()
 
     def get_next_id(self, entity_type):
         self.get_dbsession().expire_all()
@@ -284,7 +299,7 @@ class SysContext:
         return "{}-{}".format(prefix, value)
 
     def get_next_seed(self):
-        return generate_seed(self.get_data_context().get_user_id(""))
+        return generate_seed(self.get_data_context().get_user_id())
 
     def get_best_sessions_in_for_env_spec(self, env_spec_id, summary_stat_name):
         from sqlalchemy.types import FLOAT
@@ -315,6 +330,114 @@ class SysContext:
         if self._data_context is not None:
             self._data_context.close()
 
+    #########################################
+    # AUTHENTICATION FUNCTIONS
+    #########################################
+
+    def _get_token_data(self, code):
+
+        message = bytes(
+            f"{self.auth_client_id}:{self.auth_client_secret}", 'utf-8')
+        secret_hash = base64.b64encode(message).decode()
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": f"Basic {secret_hash}"}
+        payload = f"""grant_type={self.auth_grant_type}&client_id={self.auth_client_id}&code={code}&redirect_uri={self.auth_redirect_uri}"""
+
+        resp = requests.post(self.auth_token_uri,
+                             headers=headers, data=payload)
+        return resp.json()
+
+    def logout(self, response_data={}, auth_state="logout"):
+        user_info = self.get_user_info()
+        user_info["last_auth_state"] = auth_state
+        user_info['last_update'] = time.time()
+        user_info['response_data'] = response_data
+        user_info['token_data'] = None
+        self.get_data_context().update_user_info(user_info)
+
+    def _save_auth_state(self, token_data):
+        """
+        Persists authentication and user info
+        """
+        access_token = token_data['access_token']
+        authorization = f"Bearer {access_token}"
+        try:
+            r = requests.get(self.auth_user_info_uri, headers={
+                             'Authorization': authorization})
+            result = r.json()
+        except Exception as e:
+            result = {'error': 'exception', 'error_description': str(e)}
+
+        if "error" in result:
+            logging.info("Login failed: Updating user info")
+            self.logout(result, auth_state="failed")
+            raise Exception(f"Failed to retrieve user info:{result}")
+
+        else:
+            logging.info("Login successful: Updating user info")
+            user_info = self.get_user_info()
+            user_info['user_id'] = result['username']
+            user_info["last_auth_state"] = "success"
+            user_info["last_update"] = time.time()
+            user_info['response_data'] = result
+            user_info['token_data'] = token_data
+            self.get_data_context().update_user_info(user_info)
+            return user_info
+
+    def refresh_auth(self):
+
+        user_info = self.get_user_info()
+        token_data = user_info.get('token_data')
+        if token_data is None or "refresh_token" not in token_data:
+            raise Exception(f"No refresh token available.")
+
+        message = bytes(
+            f"{self.auth_client_id}:{self.auth_client_secret}", 'utf-8')
+        secret_hash = base64.b64encode(message).decode()
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": f"Basic {secret_hash}"}
+        payload = f"""grant_type=refresh_token&client_id={self.auth_client_id}&refresh_token={token_data.get('refresh_token')}"""
+
+        resp = requests.post(self.auth_token_uri,
+                             headers=headers, data=payload)
+        result = resp.json()
+
+        if "error" in result:
+            self.logout(result, auth_state="failed")
+            raise Exception(f"Unable to refresh access token: {result}")
+        return self._save_auth_state(result)
+
+    def update_auth(self, code):
+        result = self._get_token_data(code)
+        if "error" in result:
+            raise Exception(f"Unable to retrieve access token: {result}")
+        else:
+            return self._save_auth_state(result)
+
+    def is_logged_in(self):
+        try:
+            self.get_auth_token()
+            return True
+        except Exception as e:
+            return False
+
+    def get_auth_token(self,token_name='access_token'):
+        user_info = self.get_user_info()
+        token_data = user_info.get('token_data')
+        if token_data is None:
+            raise Exception("Not logged in. No token data found")
+
+        if (time.time() - user_info.get('last_update', 0)) >= token_data.get('expires_in', 0):
+            user_info = self.refresh_auth()
+            token_data = user_info.get('token_data')
+
+        return token_data[token_name]
+
+    #########################################
+    # STATUS FUNCTIONS
+    #########################################
     def get_entity_status(self, model_class, id):
         try:
             dbmodel = self.get_dbsession().query(model_class).get(id)
@@ -336,6 +459,9 @@ class SysContext:
             raise e
         return True
 
+    #########################################
+    # AGENT FUNCTIONS
+    #########################################
     def add_agent_tag(self, agent_id, tag_id):
         tag_id = tag_id.lower().replace(" ", "")
         try:
@@ -494,7 +620,6 @@ class SysContext:
     def get_env_spec(self, id) -> EnvSpec:
         query = self.get_dbsession().query(EnvSpecModel)
         return query.get(id)
-#
 
     def get_env_spec_instance(self, spec_id, env_kwargs={}):
         spec = self.get_env_spec(spec_id)
@@ -609,6 +734,7 @@ class SysContext:
             default_meta=None,
             displayed_name=None,
             categories=[],
+            collection=None,
             extension_id=None,
             extension_version="0.0.1-dev",
             version="0.0.1-dev",
@@ -633,6 +759,7 @@ class SysContext:
         environment.extension_version = extension_version
         environment.default_entry_point = default_entry_point
         environment.version = version
+        environment.collection = collection
         environment.disabled = disabled
         environment.categories = ",".join(
             [v.lower().replace(" ", "") for v in categories])
@@ -765,6 +892,7 @@ class SysContext:
             extension_version="0.0.1-dev",
             version="0.0.1-dev",
             environment_id=None,
+            collection = None,
             description=None,
             config=None,
             params={},
@@ -780,6 +908,7 @@ class SysContext:
             default_entry_point=entry_point,
             default_config=config,
             default_meta=metadata,
+            collection=collection,
             displayed_name=environment_displayed_name,
             categories=categories,
             extension_id=extension_id,
@@ -804,40 +933,6 @@ class SysContext:
             params=params,
         )
 
-        # environment = session.query(EnvironmentModel).get(environment_id)
-        # if environment is None:
-        #     logging.info("No Environment with name {} exists. Adding using provided values.".format(
-        #         environment_id))
-        #     environment = EnvironmentModel(id=environment_id)
-        #     session.add(environment)
-        # environment.displayed_name = environment_displayed_name
-        # environment.description = description
-        # environment.categories = ",".join(
-        #     [v.lower().replace(" ", "") for v in categories])
-        # environment.extension_id = extension_id
-        # environment.extension_version = extension_version
-        # environment.default_entry_point = entry_point
-        # environment.version = version
-        # environment.disabled = disabled
-        # environment.default_meta = metadata
-        # environment.default_config = config
-
-        # spec = session.query(EnvSpecModel).get(spec_id)
-        # if spec is None:
-        #     spec = EnvSpec(id=spec_id)
-        #     session.add(spec)
-
-        # spec.displayed_name = displayed_name or spec_id
-        # spec.spec_displayed_name = spec_displayed_name
-        # spec.description = description
-        # spec.entry_point = entry_point
-        # spec.meta = metadata
-        # spec.env_type = env_type
-        # spec.tags = ",".join([v.lower().replace(" ", "") for v in tags])
-        # spec.environment_id = environment_id
-        # spec.config = config
-        # spec.params = params
-        # session.commit()
 
     def register_agent_spec_from_classes(self, runner_cls, cls=None, *args, **kwargs):
         # TODO: merge with register_agent_spec
@@ -859,6 +954,7 @@ class SysContext:
             config={},
             params={},
             disabled=False,
+            algo_type_id = None,
             displayed_name=None,
             extension_id=None,
             extension_version="0.0.1-dev",
@@ -878,6 +974,7 @@ class SysContext:
         spec.entry_point = entry_point
         spec.runner_entry_point = runner_entry_point
         spec.version = version
+        spec.algo_type_id = algo_type_id
         spec.disabled = disabled
         spec.config = config
         spec.params = params
@@ -975,7 +1072,7 @@ class SysContext:
         if not force and os.path.exists(self.config.snapshot_index_path):
             return
 
-        # TODO: This code is not being used       
+        # TODO: This code is not being used
         # main_remote_url = "https://raw.githubusercontent.com/pistarlab/pistarlab-repo/main/snapshots/"
         # try:
         #     entries = self.load_remote_snapshot_index(main_remote_url)
@@ -1034,9 +1131,15 @@ class SysContext:
         version = snapshot_data['snapshot_version']
         description = snapshot_data['snapshot_description']
 
+        if agent_name is None:
+            from pistarlab.agent import Agent
+            agent = Agent.load(agent_id)
+            agent.update_name(agent_id)
+            agent_name = agent_id
+
         # Request upload URL
         publish_data = {
-            'user_id': self.get_user_id(),
+            # 'user_id': self.get_user_id(),
             'snapshot_id': snapshot_id,
             'seed': snapshot_data['seed'],
             'agent_id': agent_id,
@@ -1046,9 +1149,11 @@ class SysContext:
             'public': public,
             'description': description,
             'lab_version': __version__,
-            'snapshot_data': json.dumps(snapshot_data)
+            'snapshot_data': snapshot_data
         }
-        pub_url = f'{self.cloud_api_uri}/snapshot/publish_request'
+        logging.info(f"Snapshot Data {snapshot_data}")
+        logging.info(f"Publish Data {publish_data}")
+        pub_url = f'{self.cloud_api_uri}/snapshots/publish_request'
         logging.info(f"Requesting publish url from {pub_url}")
 
         res = requests.post(url=pub_url,
@@ -1059,12 +1164,10 @@ class SysContext:
 
         upload_params = result['upload_params']
 
-
         logging.info(f"Upload URL: {upload_params}")
 
         with open(snapshot_archive_path, 'rb') as f:
             files = {'file': ("snapshot.tar.gz",  f.read())}
-
 
         try:
             logging.info("Publish Start")
@@ -1080,33 +1183,59 @@ class SysContext:
 
         return res
 
-    def list_published_agent_snapshots(self, agent_id):
-        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
-                           params={'query_key': 'agent_id', "value": agent_id, "pe": "snapshot_id,snapshot_data"})
+    def get_online_user_details(self, user_id=None):
+        if user_id is None:
+            user_id = self.get_user_id()
+        res = requests.get(url=f'{self.cloud_api_uri}/users/details',
+                           params={'user_id':user_id})
+        logging.info(res.content)
+        return  res.json()
+
+    def get_online_agent_details(self, user_id, agent_name):
+
+        res = requests.get(url=f'{self.cloud_api_uri}/agents/details',
+                           params={'user_id':user_id,"agent_name":agent_name})
+        logging.info(res.content)
+        return  res.json()
+
+    def get_online_agents_list(self,lookup=None):
+        res = requests.get(url=f'{self.cloud_api_uri}/agents/list',params={'lookup':lookup,"pe": 'user_id,agent_name,created,updated'})
+        return  res.json().get('results',[])
+
+    def get_online_users_list(self,lookup=None):
+        res = requests.get(url=f'{self.cloud_api_uri}/users/list',params={'lookup':lookup,"pe": 'user_id,created'})
+        return  res.json().get('results',[])
+
+    def list_published_agent_snapshots(self, agent_id,pe="snapshot_id,snapshot_data"):
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
+                           params={'user_id':self.get_user_id(),'query_key': 'agent_id', "query_value": agent_id, "pe": pe})
         logging.info(res.content)
 
         snapshots = res.json().get('results')
-        for s in snapshots:
-            s['snapshot_data'] = json.loads(s['snapshot_data'])
+        if "snapshot_data" in pe:
+            for s in snapshots:
+                s['snapshot_data'] = json.loads(s['snapshot_data'])
         return snapshots
 
     def list_published_user_snapshots(self, user_id=None, pe="snapshot_id,snapshot_data"):
         if user_id is None:
             user_id = self.get_user_id()
-        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
-                           params={'query_key': 'user_id', "value": user_id, "pe": pe})
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
+                           params={'query_key': 'user_id', "query_value": user_id, "pe": pe})
         snapshots = res.json().get('results')
-        for s in snapshots:
-            s['snapshot_data'] = json.loads(s['snapshot_data'])
+        if "snapshot_data" in pe:
+            for s in snapshots:
+                s['snapshot_data'] = json.loads(s['snapshot_data'])
         return snapshots
 
-    def list_published_spec_snapshots(self, spec_id,pe="snapshot_id,snapshot_data"):
-        res = requests.get(url=f'{self.cloud_api_uri}/snapshot/list/',
-                           params={'query_key': 'spec_id', "value": spec_id, "pe": pe})
+    def list_published_spec_snapshots(self, spec_id, pe="snapshot_id,snapshot_data"):
+        res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
+                           params={'query_key': 'spec_id', "query_value": spec_id, "pe": pe})
         self.get_logger().info(res.json())
         snapshots = res.json().get('results')
-        for s in snapshots:
-            s['snapshot_data'] = json.loads(s['snapshot_data'])
+        if "snapshot_data" in pe:
+            for s in snapshots:
+                s['snapshot_data'] = json.loads(s['snapshot_data'])
         return snapshots
 
     def create_agent_snapshot(
@@ -1141,24 +1270,22 @@ class SysContext:
                 'env_spec_config': s.env_spec_config,
                 'summary': s.summary})
 
-        snapshot_id = "{}_{}_{}_{}_{}".format(
-            self.get_user_id(),
-            spec_id,
-            agent_id,
-            seed,
-            snapshot_version)
-
         if note_addition is not None:
             notes = f"[{note_addition}]\n{notes}"
-
 
         # Env Summary Stats
         # TODO: do this somewhere else, should be updated for the agent
         env_stats = {}
-        blank_stats = lambda : {'session_count':0,'step_count':0,'episode_count':0,'best_ep_reward_total':None,'best_ep_reward_mean_windowed':None}
+        def blank_stats(): return {'session_count': 0, 'step_count': 0, 'episode_count': 0,
+                                   'best_ep_reward_total': None, 'best_ep_reward_mean_windowed': None}
         for s in session_data:
             stats = env_stats.get(s['env_spec_id'], blank_stats())
-            if  s['summary'] is not None and s['summary']['episode_count'] > 0:
+            # TODO: Would be better to have stats for each version and hashs for configs
+            versions = stats.get('env_spec_versions',[])
+            versions.append(s['env_spec_version'])
+            stats['env_spec_versions'] = list(set(versions))
+
+            if s['summary'] is not None and s['summary']['episode_count'] > 0:
                 stats['step_count'] += s['summary']['step_count']
                 stats['episode_count'] += s['summary']['episode_count']
                 stats['session_count'] += 1
@@ -1169,7 +1296,10 @@ class SysContext:
                     stats['best_ep_reward_mean_windowed'] = s['summary']['best_ep_reward_mean_windowed']
                 env_stats[s['env_spec_id']] = stats
 
-
+        snapshot_id = "{}_{}_{}_{}".format(spec_id,
+                                            agent_id,
+                                            seed,
+                                            snapshot_version)
         snapshot_data = {
             'id': agent_id,
             'seed': seed,
@@ -1221,10 +1351,10 @@ class SysContext:
         self.update_snapshot_index(True)
         return snapshot_data
 
+    def download_snapshot(self, snapshot_id):
+        self.get_logger().info(
+            f"Attempting to download {snapshot_id} from remote server.")
 
-    def download_snapshot(self,snapshot_id):
-        self.get_logger().info(f"Attempting to download {snapshot_id} from remote server.")
-        
         def download_file(url, local_filepath):
             local_filename = local_filepath
             # NOTE the stream=True parameter below
@@ -1238,14 +1368,14 @@ class SysContext:
                         f.write(chunk)
             return local_filename
         res = requests.get(url=f'{self.cloud_api_uri}/snapshot/download_request/',
-                       params={'user_id': self.get_user_id(), "snapshot_id": snapshot_id})
+                           params={'user_id': self.get_user_id(), "snapshot_id": snapshot_id})
         print(res)
         self.get_logger().info(f" Server status code: {res.status_code}")
         result = res.json()
         download_url = result.get('download_url')
         snapshot_data = result.get("item").get("snapshot_data")
         dirpath = tempfile.mkdtemp()
-        snapshot_archive_path = os.path.join(dirpath,"snapshot.tar.gz")
+        snapshot_archive_path = os.path.join(dirpath, "snapshot.tar.gz")
 
         if download_url is not None:
             download_file(download_url, snapshot_archive_path)
@@ -1258,7 +1388,8 @@ class SysContext:
         snapshot_data = snapshot_index['entries'].get(snapshot_id, None)
         if snapshot_data is None:
             self.get_logger().info("Snapshot not found localy.")
-            snapshot_data, snapshot_archive_path = self.download_snapshot(snapshot_id=snapshot_id)
+            snapshot_data, snapshot_archive_path = self.download_snapshot(
+                snapshot_id=snapshot_id)
         else:
             snapshot_archive_path = "{}.tar.gz".format(os.path.join(
                 self.config.local_snapshot_path, snapshot_data['path'], snapshot_data['file_prefix']))
@@ -1286,7 +1417,6 @@ class SysContext:
         extract_tarfile(snapshot_archive_path, temp_dir)
         data_source_path = os.path.join(temp_dir, 'data')
 
-        
         with open(os.path.join(data_source_path, "snapshot.json"), 'r') as f:
             snapshot_data = json.load(f)
 
@@ -1298,7 +1428,7 @@ class SysContext:
         config = snapshot_data['config']
         notes = snapshot_data['notes']
         seed = snapshot_data['seed']
-        agent_name = snapshot_data['agent_name']
+        agent_name = "Clone of {}".format(snapshot_data['agent_name'] or snapshot_data['id'])
 
         agent: Agent = Agent.create(spec_id=spec_id, config=config)
         target_path = self.get_store().get_path_from_key(('agent', agent.get_id()))

@@ -8,12 +8,11 @@ from pistarlab.utils.gym_importer import get_environments_from_gym_registry
 
 def manifest():
     envs_all = []
-    for collection in ['toy_text','unittest']:
+    for category in ['toy_text','unittest']:
         envs = get_environments_from_gym_registry(
-            entry_point_prefix=f"gym.envs.{collection}",
-            additional_categories=[collection],
-            force_environment_id="gym_test_and_text",
-            force_environment_displayed_name="Gym Test and Text")
+            entry_point_prefix=f"gym.envs.{category}",
+            additional_categories=[category],
+            collection="Gym Test and Text")
         envs_all.extend(envs)
     return {'environments': envs_all}
 

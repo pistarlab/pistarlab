@@ -29,6 +29,11 @@
         <div class="mb-5"></div>
     </b-modal>
 
+    <b-modal id="profile" title="User" scrollable :hide-footer="true">
+        <Profile> </Profile>
+        <div class="mb-5"></div>
+    </b-modal>
+
     <div>
         <div class="main">
             <div class="widget">
@@ -125,6 +130,12 @@
             <b-nav-text class="ml-auto appstatus" title="Connected" v-else>
                 <i class="fa fa-plug"></i> Connected
             </b-nav-text>
+            <b-nav-item title="Not signed in" v-if="!logged_in" v-b-modal.profile>
+                <i class="fas fa-user-slash"></i> {{userId}}
+            </b-nav-item>
+            <b-nav-item title="Signed in" v-else v-b-modal.profile>
+                <i class="fa fa-user"></i> {{userId}}
+            </b-nav-item>
             <b-nav-item v-b-popover.hover.top="'Settings'" class="ml-auto" v-b-modal.settings>
                 <i class="fa fa-cog"></i>
             </b-nav-item>
@@ -143,6 +154,7 @@ import DataBrowser from "./views/DataBrowser.vue";
 import Sessions from "./views/SessionHome.vue";
 import Settings from "./views/Settings.vue";
 import TaskSpecs from "./views/TaskSpecs.vue";
+import Profile from "./components/Profile.vue";
 
 import {
     appConfig,
@@ -156,7 +168,8 @@ export default {
         DataBrowser,
         Sessions,
         Settings,
-        TaskSpecs
+        TaskSpecs,
+        Profile
 
     },
     // https://www.w3schools.com/icons/fontawesome5_icons_science.asp
@@ -224,19 +237,18 @@ export default {
                 {
                     href: "/extension/home",
                     title: "Extension Manager",
-                    icon: "fas fa-project-diagram",
+                    icon: "fas fa-puzzle-piece",
                 },
                 {
                     href: "/workspace/home",
                     title: "Workspace",
                     icon: "fas fa-code",
+                },
+                {
+                    href: "/community/profile",
+                    title: "Community Hub",
+                    icon: "fa fa-users"
                 }
-                // ,
-                //                 {
-                //     href: "",
-                //     title: "Leaderboard(TODO)",
-                //     icon: "fa fa-trophy"}
-
                 // },
                 // {
                 //     href: "/session/home",
@@ -292,7 +304,10 @@ export default {
             ideWindow: null,
             readOnlyMode: false,
 
-            connected: false
+            connected: false,
+            logged_in: false,
+            userId: null
+
         };
     },
     mounted() {
@@ -342,8 +357,13 @@ export default {
                 .get(`${appConfig.API_URL}/api/status/`)
                 .then((response) => {
                     this.connected = true;
+                    this.userId = response.data.user_id
+                    this.logged_in = response.data.logged_in
+
                 })
                 .catch((error) => {
+                    console.log(error)
+                    this.userId = null
                     this.connected = false;
                 });
         }
@@ -772,12 +792,12 @@ button .default {
     color: #fff !important;
 }
 
-
-.card-header{
+.card-header {
     background: linear-gradient(rgba(0, 0, 0, 0.0),
             rgba(0, 0, 0, 0.1));
     background-color: #3384db !important;
 }
+
 .bottombar {
     padding: 0px 0px !important;
     margin: 0px 0px !important;
@@ -792,11 +812,6 @@ button .default {
     box-shadow: 2px 0px 6px #000;
 }
 
-.nav-link:hover {
-    padding: 5px 10px !important;
-    margin: 0px 0px !important;
-    /* color: rgba(255, 255, 255, 1.0) */
-}
 
 .bottombar a {
     margin: 0px 0px !important;

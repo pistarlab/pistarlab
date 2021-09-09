@@ -159,7 +159,7 @@
                                                 <!-- `data.value` is the value after formatted by the Formatter -->
                                                 <span v-if="data.item.agent">
                                                     <b-img  style="max-height:30px;" :src="`/img/agent_spec_icons/agent_${getImageId(data.item.agent.specId)}.png`" alt="Image" class="rounded-0 mr-4" ></b-img> 
-                                                    <router-link :to="`/agent/view/${data.item.agent.ident}`">{{ data.item.agent.ident }}</router-link> ({{ data.item.agent.specId }})
+                                                    <router-link :to="`/agent/view/${data.item.agent.ident}`"><span v-if="data.item.agent && data.item.agent.name">{{data.item.agent.name}}</span><span v-else>{{data.item.agent.ident}}</span></router-link> ({{ data.item.agent.specId }})
                                                 </span>
                                             </template>
                                             <template v-slot:cell(taskId)="data">

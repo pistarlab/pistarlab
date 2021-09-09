@@ -100,6 +100,15 @@ class ComponentModel(DbBase):
 # ----------------------------------------------------
 # ---Agent--------------------------------------------
 # ----------------------------------------------------
+
+# class AgentSpecTagModel(DbBase):
+#     __tablename__ = "agent_spec_tag"
+#     tag_id = db.Column(db.String, primary_key=True)
+#     agent_spec_id = db.Column(db.String, db.ForeignKey(f'{AGENT_SPEC_ENTITY}.id'), primary_key=True)
+
+#     agent_spec = relationship("AgentSpecModel", back_populates="tags")
+
+
 class AgentSpecModel(DbBase):
     __tablename__ = AGENT_SPEC_ENTITY
     id = db.Column(db.String, primary_key=True)
@@ -110,6 +119,8 @@ class AgentSpecModel(DbBase):
     runner_entry_point = db.Column(db.String)
 
     description = db.Column(db.String)
+
+    algo_type_id = db.Column(db.String)
 
     extension_id = db.Column(db.String, nullable=False)
     extension_version = db.Column(db.String, nullable=False)
@@ -124,6 +135,8 @@ class AgentSpecModel(DbBase):
 
     # Agents
     agents = relationship("AgentModel", back_populates="spec")
+    
+    # tags = relationship("AgentSpecTagModel", back_populates="agent_spec")
 
     def __repr__(self):
         return json.dumps(self, cls=AlchemyEncoder)
@@ -170,6 +183,7 @@ class AgentModel(DbBase):
 # ----------------------------------------------------
 # ---Env--------------------------------------------
 # ----------------------------------------------------
+
 class EnvironmentModel(DbBase):
     __tablename__ = "environment"
     id = db.Column(db.String, primary_key=True)
@@ -177,6 +191,7 @@ class EnvironmentModel(DbBase):
     displayed_name = db.Column(db.String)
     description = db.Column(db.String())
     categories = db.Column(db.String)
+    collection = db.Column(db.String)
     created = db.Column(db.DateTime, server_default=db.func.now())
 
     extension_id = db.Column(db.String, nullable=False)

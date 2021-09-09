@@ -1,12 +1,13 @@
 {
   "environments": [
     {
-      "environment_id": "gym_classic_and_box2d",
-      "displayed_name": "Gym Classic Control and Box2d",
+      "environment_id": "CartPole",
+      "displayed_name": "Cartpole",
       "description": null,
       "default_entry_point": null,
       "version": "0.0.1-dev",
       "disabled": false,
+      "collection": "Gym Classic Control",
       "categories": [
         "classic_control"
       ],
@@ -136,7 +137,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "MountainCar",
+      "displayed_name": "Mountaincar",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Classic Control",
+      "categories": [
+        "classic_control"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "MountainCar-v0",
           "displayed_name": "MountainCar-v0",
@@ -267,7 +284,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "Pendulum",
+      "displayed_name": "Pendulum",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Classic Control",
+      "categories": [
+        "classic_control"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "Pendulum-v0",
           "displayed_name": "Pendulum-v0",
@@ -336,7 +369,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "Acrobot",
+      "displayed_name": "Acrobot",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Classic Control",
+      "categories": [
+        "classic_control"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "Acrobot-v1",
           "displayed_name": "Acrobot-v1",
@@ -402,12 +451,13 @@
       ]
     },
     {
-      "environment_id": "gym_classic_and_box2d",
-      "displayed_name": "Gym Classic Control and Box2d",
+      "environment_id": "LunarLander",
+      "displayed_name": "Lunarlander",
       "description": null,
       "default_entry_point": null,
       "version": "0.0.1-dev",
       "disabled": false,
+      "collection": "Gym Box2d",
       "categories": [
         "box2d"
       ],
@@ -544,7 +594,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "BipedalWalker",
+      "displayed_name": "Bipedalwalker",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Box2d",
+      "categories": [
+        "box2d"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "BipedalWalker-v3",
           "displayed_name": "BipedalWalker-v3",
@@ -682,7 +748,23 @@
             },
             "default_wrappers": []
           }
-        },
+        }
+      ]
+    },
+    {
+      "environment_id": "CarRacing",
+      "displayed_name": "Carracing",
+      "description": null,
+      "default_entry_point": null,
+      "version": "0.0.1-dev",
+      "disabled": false,
+      "collection": "Gym Box2d",
+      "categories": [
+        "box2d"
+      ],
+      "default_meta": null,
+      "default_config": null,
+      "env_specs": [
         {
           "spec_id": "CarRacing-v0",
           "displayed_name": "CarRacing-v0",
@@ -694,9 +776,9 @@
           "metadata": {
             "image_filename": null,
             "render.modes": [
+              "state_pixels",
               "rgb_array",
-              "human",
-              "state_pixels"
+              "human"
             ],
             "video.frames_per_second": 50,
             "render.fps": 30,

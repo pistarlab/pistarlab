@@ -3,7 +3,7 @@
 <b-card>
         <div class="h4 text-center">
         <b-link :to="`/agent/view/${agent.ident}`">
-        <div class="">{{ agent.ident }}</div>
+        <div class=""><span v-if="agent && agent.name">{{agent.name}}</span><span v-else>{{agent.ident}}</span></div>
         <b-img  style="max-height:160px;" :src="`/img/agent_spec_icons/agent_${getImageId(agent.specId)}.png`" alt="Image" class="rounded-0 mt-3" ></b-img> 
             
         </b-link>
@@ -12,7 +12,7 @@
         <div class="text-center">
 
             <span class="">
-                <b-link :to="`/agent_spec/${agent.specId}`">{{ agent.spec.displayedName }}</b-link>
+                Agent Spec: <b-link :to="`/agent_spec/${agent.specId}`">{{ agent.spec.displayedName }}</b-link>
             </span>
         </div>
 </b-card>

@@ -1,7 +1,7 @@
 <template>
 <div class="page">
     <div class="page-content">
-        <h1><i class="fa fa-project-diagram"></i> Extensions</h1>
+        <h1><i class="fa fa-puzzle-piece"></i> Extensions</h1>
         <div class="mt-4"></div>
 
         <b-modal id="modal-restart" title="Restart" size="lg">
@@ -47,7 +47,7 @@
                         <b-row>
                             <b-col>
                                 <div v-b-toggle="'collapse_'+idx">
-                                    <span class="hover h4"><i class="fa fa-project-diagram"> </i> {{item.name}}</span>       <b-link v-b-popover.hover.top="'This extension is in your workspace.'" class="ml-2" to="/workspace/home">
+                                    <span class="hover h4"><i class="fa fa-puzzle-piece"> </i> {{item.name}}</span>       <b-link v-b-popover.hover.top="'This extension is in your workspace.'" class="ml-2" to="/workspace/home">
                                     <b-badge v-if="item.source.name == 'Workspace'" pill variant="warning" class="mr-2"><i class="fa fa-code"></i> Workspace</b-badge>
                                 </b-link>
                                     <p class="desc">{{item.description}}</p>

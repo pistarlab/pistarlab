@@ -11,8 +11,7 @@ def manifest():
         entry_point_prefix=f"gym.envs.atari",
         max_count = 600,
         additional_categories=['atari'],
-        force_environment_id="gym_atari",
-        force_environment_displayed_name="Gym Atari")
+        collection = "Gym Atari")    
     return {'environments': envs}
 
 def install():

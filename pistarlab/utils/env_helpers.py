@@ -222,6 +222,7 @@ def get_environment_data(
             default_meta=None,
             displayed_name=None,
             categories=[],
+            collection=None,
             version="0.0.1-dev",
             description=None,
             disabled=False,
@@ -237,7 +238,7 @@ def get_environment_data(
     data['default_entry_point'] = default_entry_point
     data['version'] = version
     data['disabled'] = disabled
-
+    data['collection']=collection
     data['categories'] = categories
     data['default_meta'] = default_meta
     data['default_config'] = default_config
@@ -249,6 +250,7 @@ def get_environment_data(
 def probe_env_metadata(spec_data, image_path=None, replace_images=True):
     """
     TODO: needs cleaned
+    TODO: some version of this will need to be called when updating settings after env_kwargs are changed
     """
     spec_id = spec_data['spec_id']
     entry_point = spec_data['entry_point']
@@ -261,13 +263,17 @@ def probe_env_metadata(spec_data, image_path=None, replace_images=True):
     env_class = get_class_from_entry_point(entry_point)
 
     metadata['image_filename'] = None
+
+    env_ref = get_wrapped_env_instance(
+            entry_point=entry_point,
+            kwargs=env_kwargs,
+            wrappers=default_wrappers)
+
     #check for class metadata
     if hasattr(env_class, 'metadata'):
         metadata.update(env_class.metadata)
-    else:
-        env_inst = env_class(**env_kwargs)
-        if hasattr(env_inst, 'metadata'):
-            metadata.update(env_inst.metadata)
+    elif hasattr(env_ref, 'metadata'):
+        metadata.update(env_ref.metadata)
 
     if "render.modes" not in metadata:
         metadata['render.modes'] = []
@@ -283,11 +289,7 @@ def probe_env_metadata(spec_data, image_path=None, replace_images=True):
 
     metadata['render_stats'] = "stats" in metadata['render.modes']
 
-    # Probe env config
-    env_ref = get_wrapped_env_instance(
-        entry_point=entry_point,
-        kwargs=env_kwargs,
-        wrappers=default_wrappers)
+    # Get obsevation space and image
     ob = env_ref.reset()
 
     if env_type == RL_SINGLEPLAYER_ENV:

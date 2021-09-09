@@ -102,7 +102,9 @@ const GET_ALL_SESSIONS = gql `
           agentId
           agent{
             id
+            ident
             specId
+            name
           }
             task {
                 id
@@ -127,6 +129,7 @@ query {
           displayedName
           extensionId
           categories
+          collection
           extensionVersion
           version
           disabled

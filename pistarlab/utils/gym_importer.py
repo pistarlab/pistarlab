@@ -36,6 +36,7 @@ def get_environments_from_gym_registry(
         env_type=RL_SINGLEPLAYER_ENV,
         additional_tags=[],
         additional_categories=[],
+        collection = None,
         version="0.0.1-dev",
         force_environment_id=None,
         force_environment_displayed_name=None):
@@ -62,6 +63,8 @@ def get_environments_from_gym_registry(
             if force_environment_id is not None:
                 environment_id = force_environment_id
                 env_displayed_name = force_environment_displayed_name or environment_id.title().replace("_", " ")
+            else:
+                env_displayed_name = environment_id.title().replace("_", " ")
             
             env = envs.get(environment_id)
             if env is None:
@@ -69,6 +72,7 @@ def get_environments_from_gym_registry(
                     environment_id=environment_id,
                     displayed_name=env_displayed_name,
                     categories=additional_categories,
+                    collection = collection,
                     version=version,
                     env_specs=[])
 

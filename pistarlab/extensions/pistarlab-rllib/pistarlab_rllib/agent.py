@@ -137,14 +137,14 @@ DEFAULT_AGENT_PARAMS = {
         "path": "trainer_config.model.conv_filters",
         "data_type": "list",
         "mode": "default",
-        "default":"[[16, [4, 4], 2], [32, [4, 4], 2], [256, [11, 11], 1]]",
+        "default": "[[16, [4, 4], 2], [32, [4, 4], 2], [256, [11, 11], 1]]",
         "interfaces": [],
         "type_info": {
             "sub_type": "int"
 
         }
     },
-       
+
     "trainer_config.model.fcnet_hiddens": {
         "displayed_name": "Fully Connected Hiddens",
         "description": "Size and number of hidden layers to be used. These are used if no custom model is specified and the input space is 1D",
@@ -194,13 +194,13 @@ MODEL_COMPONENT_PARAMS = {
         }
     }
 }
-#'components': {'model': {'type': 'model', 'default': None}},
+# 'components': {'model': {'type': 'model', 'default': None}},
 
 
 def get_default_trainer_config(trainer_config, overrides={}):
     new_trainer_config = copy.deepcopy(trainer_config)
     del new_trainer_config['callbacks']
-    return merged_dict(new_trainer_config,overrides)
+    return merged_dict(new_trainer_config, overrides)
 
 
 def agent_reg_entry(
@@ -209,9 +209,12 @@ def agent_reg_entry(
         trainer_config,
         assigned_params=DEFAULT_AGENT_PARAMS,
         auto_config_spaces=True,
+        algo_type_id=None,
         config_overrides={}):
-    prepped_trainer_config = get_default_trainer_config(trainer_config, config_overrides)
-    generated_params = create_params_from_dict(prepped_trainer_config, 'trainer_config', interfaces=[])
+    prepped_trainer_config = get_default_trainer_config(
+        trainer_config, config_overrides)
+    generated_params = create_params_from_dict(
+        prepped_trainer_config, 'trainer_config', interfaces=[])
     params = merged_dict(generated_params, assigned_params)
 
     return {
@@ -220,6 +223,7 @@ def agent_reg_entry(
         "trainer_config": prepped_trainer_config,
         "auto_config_spaces": auto_config_spaces,
         "default_trainer_config": trainer_config,
+        "algo_type_id": algo_type_id,
         "params": params
     }
 
@@ -229,36 +233,44 @@ AGENT_REG = {
     "RANDOM": lambda: agent_reg_entry(
         RandomPolicy,
         randomPolicyTrainer,
-        trainer.COMMON_CONFIG),
+        trainer.COMMON_CONFIG,
+        algo_type_id='RANDOM'),
     "PPO": lambda: agent_reg_entry(
         PPOTorchPolicy,
         ppo.PPOTrainer,
-        ppo.DEFAULT_CONFIG),
+        ppo.DEFAULT_CONFIG,
+        algo_type_id='PPO'),
     "A3C": lambda: agent_reg_entry(
         PistarACTorchPolicy,
         a3c.A3CTrainer,
-        a3c.DEFAULT_CONFIG),
+        a3c.DEFAULT_CONFIG,
+        algo_type_id='A3C'),
     "A2C": lambda: agent_reg_entry(
         A3CTFPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
-        config_overrides={'framework': 'tf',"num_workers":0}),
+        config_overrides={'framework': 'tf', "num_workers": 0},
+        algo_type_id='A2C'),
     "A2C_torch": lambda: agent_reg_entry(
         A3CTorchPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
-        config_overrides={'framework': 'torch'}),
+        config_overrides={'framework': 'torch'},
+        algo_type_id='A2C'),
     "SAC_torch": lambda: agent_reg_entry(
         SACTorchPolicy,
         sac.SACTrainer,
         sac.DEFAULT_CONFIG,
-        config_overrides={'framework': 'torch'}),
+        config_overrides={'framework': 'torch'},
+        algo_type_id='SAC'),
     "A2C_torch_v2": lambda: agent_reg_entry(
         PistarACTorchPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
-        assigned_params=merged_dict(DEFAULT_AGENT_PARAMS, MODEL_COMPONENT_PARAMS),
-        config_overrides={'framework': 'torch'})
+        assigned_params=merged_dict(
+            DEFAULT_AGENT_PARAMS, MODEL_COMPONENT_PARAMS),
+        config_overrides={'framework': 'torch'},
+        algo_type_id='A2C')
 }
 
 
@@ -301,7 +313,8 @@ def env_creator(env_ctx: EnvContext):
             timeout_abort_check_callback=lambda: task.get_status() != STATE_RUNNING)
 
     except Exception as e:
-        task.get_logger().error("Exception when starting session session uid {}, exception: {}\n {}".format("??", e, traceback.format_exc()))
+        task.get_logger().error("Exception when starting session session uid {}, exception: {}\n {}".format(
+            "??", e, traceback.format_exc()))
 
 
 class RLLibCallbacks(DefaultCallbacks):
@@ -397,7 +410,8 @@ class RLlibAgent(Agent):
 
             model_component = self.get_component_by_name('model')
             if model_component is None:
-                raise Exception("Component with name 'model' required for agent {}".format(self.get_id()))
+                raise Exception(
+                    "Component with name 'model' required for agent {}".format(self.get_id()))
             config = model_component.get_config()
             model_config['custom_model'] = model_component.get_spec_id()
             model_config['custom_model_config'] = config
@@ -439,38 +453,50 @@ class RLlibAgent(Agent):
         if not env_meta:
             if use_remote_client:
                 env_meta = copy.copy(env_kwargs)
-                env_meta['players'] = list(env_kwargs['observation_spaces'].keys())
+                env_meta['players'] = list(
+                    env_kwargs['observation_spaces'].keys())
                 env_meta = pyson(env_meta)
             else:
 
                 if len(session_config.get("wrappers", [])) > 0:
-                    wrappers = session_config.get("wrappers") + env_spec.config['default_wrappers']
-                    logging.error("WRAPPERS DEFINED AT RUNTIME ARE CURRENTLY NOT SUPPORTED.  not aborting, but probably will throw error")
+                    wrappers = session_config.get(
+                        "wrappers") + env_spec.config['default_wrappers']
+                    logging.error(
+                        "WRAPPERS DEFINED AT RUNTIME ARE CURRENTLY NOT SUPPORTED.  not aborting, but probably will throw error")
                     env = get_wrapped_env_instance(
                         entry_point=env_spec.entry_point,
                         kwargs=env_kwargs,
                         wrappers=wrappers)
                     env_player_name = env.players[0]
-                    env_meta['players'] = [f'player_{i}' for i in range(batch_size)]
-                    env_meta['observation_spaces'] = {f'player_{i}': env.observation_spaces[env_player_name] for i in range(batch_size)}
-                    env_meta['action_spaces'] = {f'player_{i}': env.action_spaces[env_player_name] for i in range(batch_size)}
+                    env_meta['players'] = [
+                        f'player_{i}' for i in range(batch_size)]
+                    env_meta['observation_spaces'] = {
+                        f'player_{i}': env.observation_spaces[env_player_name] for i in range(batch_size)}
+                    env_meta['action_spaces'] = {
+                        f'player_{i}': env.action_spaces[env_player_name] for i in range(batch_size)}
                 else:
                     env_meta = copy.copy(env_spec.meta)
 
                     # TODO: Not clean or resusable
                     if env_spec.env_type == RL_SINGLEPLAYER_ENV:
-                        env_meta['players'] = [f'player_{i}' for i in range(batch_size)]
-                        env_meta['observation_spaces'] = {f'player_{i}': env_meta['observation_spaces']['default'] for i in range(batch_size)}
-                        env_meta['action_spaces'] = {f'player_{i}': env_meta['action_spaces']['default'] for i in range(batch_size)}
+                        env_meta['players'] = [
+                            f'player_{i}' for i in range(batch_size)]
+                        env_meta['observation_spaces'] = {
+                            f'player_{i}': env_meta['observation_spaces']['default'] for i in range(batch_size)}
+                        env_meta['action_spaces'] = {
+                            f'player_{i}': env_meta['action_spaces']['default'] for i in range(batch_size)}
                     env_meta = pyson(env_meta)
 
-        player_to_agent_map = {player: DEFAULT_POLICY_ID for player in env_meta['players']}
+        player_to_agent_map = {
+            player: DEFAULT_POLICY_ID for player in env_meta['players']}
 
         # Config Policies - in this case, just one policy.
-        default_observation_space = list(env_meta['observation_spaces'].values())[0]
+        default_observation_space = list(
+            env_meta['observation_spaces'].values())[0]
         default_action_space = list(env_meta['action_spaces'].values())[0]
         policies_config = {}
-        policies_config[DEFAULT_POLICY_ID] = (None, default_observation_space, default_action_space, agent_run_config)
+        policies_config[DEFAULT_POLICY_ID] = (
+            None, default_observation_space, default_action_space, agent_run_config)
 
         def policy_mapping_fn(x): return player_to_agent_map[x]
 
@@ -537,9 +563,10 @@ class RLlibAgent(Agent):
 
     def get_policy(self):
         if self.get_config_key('auto_config_spaces', False):
-            raise Exception("auto_config_spaces is True. Cannot instantiate policy without knowing observation and action space.")
+            raise Exception(
+                "auto_config_spaces is True. Cannot instantiate policy without knowing observation and action space.")
 
-        #TODO: only needed if using TF
+        # TODO: only needed if using TF
         ctx.tf_reset_graph()
         policy_class: Type[Policy] = self.get_policy_class()
         observation_space = pyson(self.get_config_key('observation_space'))
@@ -552,6 +579,17 @@ class RLlibAgent(Agent):
         if state:
             policy.set_weights(self.get_state())
         return policy
+
+    def update_interfaces(self, trainer: Trainer, interface_id="run",policy_id=DEFAULT_POLICY_ID):
+
+        if self.is_interface_auto_config(interface_id):
+            policy: Policy = trainer.get_policy(policy_id)
+            self.update_interface(
+                interface_id, 
+                policy.observation_space, 
+                policy.action_space)
+
+        # policy: Policy = trainer.get_policy(policy_id)
 
     def update_space_config(self, trainer: Trainer, interface_id="run", policy_id=DEFAULT_POLICY_ID):
         # TODO: Add to parent class
@@ -568,7 +606,6 @@ class RLlibAgent(Agent):
             interfaces[interface_id] = interface
 
             self.update_config_key('interfaces', interfaces)
-
 
 class RLlibAgentRunner(AgentTaskRunner):
 
@@ -626,7 +663,6 @@ class RLlibAgentRunner(AgentTaskRunner):
         else:
             session_count = num_workers * num_envs_per_worker
 
-
         max_timesteps = task_config['session_config'].get('max_steps')
         if max_timesteps is not None:
             max_timesteps *= session_count
@@ -653,10 +689,12 @@ class RLlibAgentRunner(AgentTaskRunner):
                     self.get_logger().info("Training Summary is Null, Terminating work for {}".format(task_id))
                 else:
                     train_summary.pop('config')
-                    ctx.get_store().save(key=(TASK_ENTITY, task_id), name="train_summary", value=train_summary)
+                    ctx.get_store().save(key=(TASK_ENTITY, task_id),
+                                         name="train_summary", value=train_summary)
                     timestep_count = train_summary.get('timesteps_total', 0)
                     episode_count = train_summary.get('episodes_total', 0)
-                    self.get_logger().info(f"\tTraining iteration complete {task_id} - {i}, total_timesteps: {timestep_count}, episodes_total:{episode_count}")
+                    self.get_logger().info(
+                        f"\tTraining iteration complete {task_id} - {i}, total_timesteps: {timestep_count}, episodes_total:{episode_count}")
 
                 # Check for terminination request
                 if not self.is_running():
@@ -673,13 +711,14 @@ class RLlibAgentRunner(AgentTaskRunner):
                 task.update_summary(train_summary)
                 agent.log_stat_dict(
                     task_id=task.get_id(),
-                    data=train_summary['info']['learner'].get(DEFAULT_POLICY_ID,{}))
+                    data=train_summary['info']['learner'].get(DEFAULT_POLICY_ID, {}))
 
                 # make checkpoint if needed
                 if done or (i + 1) % checkpoint_freq == 0:
                     checkpoint_data = {}
                     checkpoint_data[F_TIMESTAMP] = time.time()
-                    agent.save_state(state=trainer.get_weights()[DEFAULT_POLICY_ID], meta=checkpoint_data)
+                    agent.save_state(state=trainer.get_weights()[
+                                     DEFAULT_POLICY_ID], meta=checkpoint_data)
                     agent.flush_stats()
 
                 i += 1

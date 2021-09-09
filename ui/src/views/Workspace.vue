@@ -5,8 +5,13 @@
         <h1><i class="fa fa-home"></i> Workspace</h1>
         <b-modal id="modal-create-extension" title="Create New Extension" size="lg" @ok="createNewExtension()">
             <p>
-                Create a new extension in your workspace.
+                Create a new extension in your workspace.  
+                <br/>
+                
             </p>
+            <!-- <b-alert show>
+                Agents and Environments created in Workspace Extension cannot be published to the community hub.
+            </b-alert> -->
             <div class="mt-2"></div>
             <label for="newExtensionId">Extension Id:</label>
             <b-form-input id="newExtensionId" v-model="enteredExtensionId" trim></b-form-input> {{newExtensionId}}
@@ -20,13 +25,15 @@
         <b-modal id="modal-open-workspace" title="Open Extension" size="lg">
             <div v-if="selectedExtension">
                 <h4>Extension Id: {{selectedExtension.id}}</h4>
+
+
                 <b-alert show>
 
                     NOTE: IDE Integration is under development.
                 </b-alert>
                 <br />
 
-                <b-button v-if="ideFound" size="sm" @click="openWithIDE(selectedExtension.id)">Open with VS Code</b-button>
+                <b-button class="mr-2" v-if="ideFound" size="sm" @click="openWithIDE(selectedExtension.id)">Open with VS Code</b-button>
                 <div v-else>VSCode not nound. See https://code.visualstudio.com/</div>
                 <br />
                 <br />
@@ -40,6 +47,7 @@
                 </div>
             </div>
         </b-modal>
+
 
         <b-container fluid>
 
@@ -66,7 +74,7 @@
                                     <b-col>
                                         <div>
                                             <b-link @click="openExtension(extension)">
-                                                <h4><i class="fa fa-project-diagram"></i> {{extension.name}}</h4>
+                                                <h4><i class="fa fa-puzzle-piece"></i> {{extension.name}}</h4>
                                             </b-link>
                                         </div>
 

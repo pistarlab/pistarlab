@@ -44,6 +44,7 @@
             <div class="mt-4">
             </div>
             <h4>Environment Specs</h4>
+
             <b-container fluid>
                 <div v-for="spec in selectedEnvironment.specs" :key="spec.ident">
                     <b-row>
@@ -98,22 +99,21 @@
                     <hr />
                 </div>
             </b-container>
-
         </b-modal>
-
         <div class="mt-4"></div>
-
         <b-container fluid>
             <div v-if="$apollo.queries.environments.loading">Loading..</div>
-            <div v-else>
-                <b-row>
-                    <b-col>
-                        <b-form-input class='ml-auto' v-model="searchtext" placeholder="Search Environments" style="width:250px;" ></b-form-input> 
-            
-                    </b-col>
-                </b-row>
-                <div v-if="items.length > 0">
 
+            <b-row>
+                <b-col class="my-auto">
+                    <span class='ml-5 h6'> Collections: </span>
+                    <b-form-radio-group class='ml-2' size="sm" v-model="selectedCollection" :options="collections" buttons></b-form-radio-group>
+       
+                    <b-form-input class='ml-auto' v-model="searchtext" placeholder="Search Environments" style="width:250px;"></b-form-input>
+                </b-col>
+            </b-row>
+            <div>
+                <div v-if="items.length > 0">
                     <div class="mt-4"></div>
                     <b-row>
                         <b-col class="d-flex flex-wrap justify-content-center  mb-4">
@@ -124,9 +124,11 @@
                         </b-col>
                     </b-row>
                 </div>
-                <div v-else>{{ message }}</div>
-
+                <div v-else class="m-5 text-center">
+                    {{message}}
+                </div>
             </div>
+
         </b-container>
         <br />
         <div class="mt-4"></div>
@@ -142,6 +144,7 @@ import {
     appConfig
 } from "../app.config";
 import EnvironmentCard from "../components/EnvCardGroup.vue";
+
 import {
     GET_ALL_ENVS
 } from "../queries"
@@ -161,7 +164,8 @@ export default {
             selectedEnvironment: {},
             message: "No Environments found.",
             appConfig,
-            searchtext: ""
+            searchtext: "",
+            selectedCollection: null
         };
     },
     methods: {
@@ -169,23 +173,71 @@ export default {
             this.selectedEnvironment = this.items[idx];
 
         },
+        createCollections(envs) {
+            var colls = {}
+            envs.forEach(element => {
+                var els = []
+                if (element.collection in colls) {
+                    els = colls[element.collection]
+                }
+                els.push(element)
+                colls[element.collection] = els
+
+            });
+
+            return colls
+
+        }
     },
 
     computed: {
-        items() {
+        allitems() {
             if (this.environments.length == 0) return [];
             else {
-                let envs = this.environments.edges.map((v) => v.node).filter((v) => !v.disabled);
-                if (this.searchtext != "") {
-                    return envs.filter((v) =>
-                        v.displayedName.toLowerCase().includes(this.searchtext.toLowerCase())
-                    )
-                } else {
-                    return envs
-
-                }
+                return this.environments.edges.map((v) => v.node).filter((v) => !v.disabled);
             }
+        },
+        items() {
+            let envs = this.allitems;
+            if (this.selectedCollection != null) {
+                envs = envs.filter(v =>
+                    v.collection != null && v.collection == this.selectedCollection
+                )
+            }
+
+            if (this.searchtext != "") {
+                return envs.filter((v) =>
+                    v.displayedName.toLowerCase().includes(this.searchtext.toLowerCase())
+                )
+            } else {
+                return envs
+            }
+
+        },
+        collections() {
+            var colls = new Set();
+            this.allitems.forEach(element => {
+                if (element.collection != "" && element.collection != null)
+                    colls.add(element.collection)
+            });
+            var cols = []
+            colls.forEach(element => {
+                    cols.push({
+                        text: element,
+                        value: element
+                    })
+                }
+
+            )
+            cols.sort((a, b) => {
+                return a.text > b.text
+            })
+            return [{
+                text: 'Show All',
+                value: null
+            }].concat(cols);
         }
+
     },
     created() {
         //
