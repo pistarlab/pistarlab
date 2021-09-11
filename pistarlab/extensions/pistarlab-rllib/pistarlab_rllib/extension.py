@@ -36,7 +36,6 @@ def get_agent_specs():
     spec_list = []
     for policy_name, reg_fn in AGENT_REG.items():
         data = reg_fn()
-        logging.info("LOADING")
         logging.info(policy_name)
 
         agent_spec = get_agent_spec_dict(
@@ -48,13 +47,15 @@ def get_agent_specs():
                 "trainer_config": data['trainer_config']
             },
             components=data.get('components'),
+            collection="RAY RLlib",
             interfaces={'run':get_agent_spec_interface_dict()},
             params=data.get("params"),
-            algo_type_id=data.get("algo_type_id"),
+            algo_type_ids=data.get("algo_type_ids"),
             disabled=False,
             displayed_name="{} - RLlib".format(policy_name),
             version="0.0.1.dev0",
-            description='RLlib: https://docs.ray.io/en/master/rllib.html\n\n{}'.format("TODO..."))
+            description='RAY RLlib: https://docs.ray.io/en/master/rllib.html',
+            usage="See: https://docs.ray.io/en/master/rllib-algorithms.html")
 
         spec_list.append(agent_spec)
     return spec_list

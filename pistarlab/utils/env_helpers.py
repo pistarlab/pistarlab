@@ -194,28 +194,42 @@ def get_env_spec_data(
         env_kwargs={},
         env_type=RL_SINGLEPLAYER_ENV,
         displayed_name=None,
+        human_entry_point=None,
+        human_kwargs={},
+        human_description = None,
         spec_displayed_name= None,
         description=None,
+        usage = None,
         default_wrappers=[],
         default_render_mode=None,
         metadata={},
         tags=[]):
+    """
+    Used to catpure spec info for registration info in serialized form
+    NOTE: must be maintained with core.register_env_spec method
+    """
     displayed_name = displayed_name or spec_id
     spec_displayed_name = spec_displayed_name or displayed_name
-    spec_data = {}
-    spec_data['spec_id'] = spec_id
-    spec_data['displayed_name'] = displayed_name
-    spec_data['spec_displayed_name'] = spec_displayed_name
-    spec_data['description'] = description
-    spec_data['entry_point'] = entry_point
-    spec_data['env_type'] = env_type
-    spec_data['tags'] = tags
-    spec_data['metadata'] = metadata
-    spec_data['config'] = get_env_def(
+    data = {}
+    data['spec_id'] = spec_id
+    data['displayed_name'] = displayed_name
+    data['spec_displayed_name'] = spec_displayed_name
+    data['description'] = description
+    data['usage'] = usage
+    data['entry_point'] = entry_point
+    data['human_entry_point'] = human_entry_point
+    data['human_config'] = {
+        'env_kwargs':human_kwargs
+    }
+    data['human_description'] = human_description
+    data['env_type'] = env_type
+    data['tags'] = tags
+    data['metadata'] = metadata
+    data['config'] = get_env_def(
         default_render_mode=default_render_mode,
         env_kwargs=env_kwargs or {},
         default_wrappers=default_wrappers)
-    return spec_data
+    return data
 
 def get_environment_data(
             environment_id,
@@ -227,9 +241,13 @@ def get_environment_data(
             collection=None,
             version="0.0.1.dev0",
             description=None,
+            usage = None,
             disabled=False,
             env_specs = []):
-    
+    """
+    Used to catpure spec info for registration info in serialized form
+    NOTE: must be maintained with core.register_environment method
+    """
     displayed_name = displayed_name or environment_id
 
     data = {}
@@ -245,6 +263,7 @@ def get_environment_data(
     data['default_meta'] = default_meta
     data['default_config'] = default_config
     data['env_specs'] = env_specs
+    data['usage'] = usage
     
     return data
 

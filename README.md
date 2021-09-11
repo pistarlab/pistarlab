@@ -49,12 +49,6 @@ Detailed documentation is published at https://pistarlab.readthedocs.io
 
 ## Installation 
 
-### from pypi
-
-```bash
-pip install -U "pistarlab[all]"
-```
-
 ### from repo 
 
 ```bash

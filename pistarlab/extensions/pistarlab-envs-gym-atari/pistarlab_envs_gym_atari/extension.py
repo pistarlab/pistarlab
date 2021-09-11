@@ -13,7 +13,9 @@ def manifest():
         entry_point_prefix=f"gym.envs.atari",
         max_count = 600,
         additional_categories=['atari'],
-        collection = "Gym Atari")    
+        collection = "OpenAI Gym Atari",
+        env_description="Atari 2600 game. Single Agent.",
+        env_usage="See: https://gym.openai.com/envs/#atari")    
     return {'environments': envs}
 
 def install():

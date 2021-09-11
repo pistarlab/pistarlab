@@ -1,9 +1,8 @@
 <template lang="html">
 <div class="text-center">
 
-
     <br />
-    <span v-if="!logged_in || user_info.last_auth_state!='success'">
+    <span v-if="!shared.loggedIn || user_info.last_auth_state!='success'">
         Not signed in, running in <h4>local mode</h4>
         <br/>
         <b-button variant="info" :href="login_uri">Sign-up/Login to piSTAR.ai</b-button>
@@ -44,7 +43,6 @@ export default {
             user_info: {},
             login_uri: null,
             logout_uri:null,
-            logged_in:false
 
         };
     },
@@ -63,10 +61,14 @@ export default {
                 .get(`${appConfig.API_URL}/api/profile_data`)
                 .then((response) => {
                     console.log(response.data)
-                    this.login_uri = response.data.login_uri
-                    this.logged_in = response.data.logged_in
-                    this.logout_uri = response.data.logout_uri
-                    this.user_info = response.data.user_info
+                    if (response.data){
+                        this.login_uri = response.data.login_uri
+                        this.logout_uri = response.data.logout_uri
+                        this.user_info = response.data.user_info
+                    }
+                    else{
+                        console.log(response.data.message)
+                    }
 
                 })
                 .catch((error) => {

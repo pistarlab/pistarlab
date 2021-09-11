@@ -1,9 +1,9 @@
 <template>
 <div>
-    <div v-if="items">
+    <div v-if="items && items.length>0">
         <b-row>
             <b-col>User Id</b-col>
-            
+
             <b-col> Join Date</b-col>
             <b-col></b-col>
         </b-row>
@@ -16,8 +16,13 @@
             </b-row>
         </div>
     </div>
-    <div v-if="loading && !items">
+    <div v-else-if="loading && !items">
         Loading...
+    </div>
+    <div v-else>
+        No Users Found
+        <br />
+        {{message}}
     </div>
 </div>
 </template>
@@ -32,8 +37,6 @@ import {
 import {
     timedeltafordate
 } from "../funcs";
-
-
 
 export default {
     name: "UsersOnline",
@@ -64,6 +67,7 @@ export default {
                 .get(`${appConfig.API_URL}/api/online/users`)
                 .then((response) => {
                     this.items = response.data.items;
+                    this.message = response.data.message
                     this.loading = false
                 })
                 .catch((error) => {

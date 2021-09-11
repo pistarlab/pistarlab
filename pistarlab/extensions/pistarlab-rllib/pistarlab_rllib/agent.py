@@ -67,7 +67,6 @@ DEFAULT_AGENT_PARAMS = {
 
         }
     },
-
     "trainer_config.gamma": {
         "displayed_name": "Gamma",
         "description": "",
@@ -114,7 +113,6 @@ DEFAULT_AGENT_PARAMS = {
         "mode": "default",
         "interfaces": ["run"],
         "type_info": {
-
         }
     },
     "trainer_config.model.dim": {
@@ -124,7 +122,6 @@ DEFAULT_AGENT_PARAMS = {
         "data_type": "int",
         "mode": "default",
         "default": 84,
-
         "interfaces": [],
         "type_info": {
             "min": 1,
@@ -141,10 +138,8 @@ DEFAULT_AGENT_PARAMS = {
         "interfaces": [],
         "type_info": {
             "sub_type": "int"
-
         }
     },
-
     "trainer_config.model.fcnet_hiddens": {
         "displayed_name": "Fully Connected Hiddens",
         "description": "Size and number of hidden layers to be used. These are used if no custom model is specified and the input space is 1D",
@@ -156,7 +151,6 @@ DEFAULT_AGENT_PARAMS = {
             "sub_type": "int"
         }
     },
-
     "trainer_config.model.fcnet_activation": {
         "displayed_name": "Activation function descriptor",
         "description": "Activation following each fully connected layer",
@@ -176,7 +170,6 @@ DEFAULT_AGENT_PARAMS = {
         "mode": "default",
         "interfaces": [],
         "type_info": {
-
         }
     }
 }
@@ -190,7 +183,6 @@ MODEL_COMPONENT_PARAMS = {
         "component_type": "ray.rllib.models.modelv2:ModelV2",
         "mode": "default",
         "type_info": {
-
         }
     }
 }
@@ -209,7 +201,7 @@ def agent_reg_entry(
         trainer_config,
         assigned_params=DEFAULT_AGENT_PARAMS,
         auto_config_spaces=True,
-        algo_type_id=None,
+        algo_type_ids=[],
         config_overrides={}):
     prepped_trainer_config = get_default_trainer_config(
         trainer_config, config_overrides)
@@ -223,7 +215,7 @@ def agent_reg_entry(
         "trainer_config": prepped_trainer_config,
         "auto_config_spaces": auto_config_spaces,
         "default_trainer_config": trainer_config,
-        "algo_type_id": algo_type_id,
+        "algo_type_ids": algo_type_ids,
         "params": params
     }
 
@@ -234,43 +226,45 @@ AGENT_REG = {
         RandomPolicy,
         randomPolicyTrainer,
         trainer.COMMON_CONFIG,
-        algo_type_id='RANDOM'),
+        config_overrides={"num_workers": 0},
+        algo_type_ids=['RANDOM']),
     "PPO": lambda: agent_reg_entry(
         PPOTorchPolicy,
         ppo.PPOTrainer,
         ppo.DEFAULT_CONFIG,
-        algo_type_id='PPO'),
+        config_overrides={"num_workers": 0},
+        algo_type_ids=['PPO']),
     "A3C": lambda: agent_reg_entry(
         PistarACTorchPolicy,
         a3c.A3CTrainer,
         a3c.DEFAULT_CONFIG,
-        algo_type_id='A3C'),
+        algo_type_ids=['A3C']),
     "A2C": lambda: agent_reg_entry(
         A3CTFPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
         config_overrides={'framework': 'tf', "num_workers": 0},
-        algo_type_id='A2C'),
+        algo_type_ids=['A2C']),
     "A2C_torch": lambda: agent_reg_entry(
         A3CTorchPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
-        config_overrides={'framework': 'torch'},
-        algo_type_id='A2C'),
+        config_overrides={'framework': 'torch', "num_workers": 0},
+        algo_type_ids=['A2C']),
     "SAC_torch": lambda: agent_reg_entry(
         SACTorchPolicy,
         sac.SACTrainer,
         sac.DEFAULT_CONFIG,
-        config_overrides={'framework': 'torch'},
-        algo_type_id='SAC'),
+        config_overrides={'framework': 'torch', "num_workers": 0},
+        algo_type_ids=['SAC']),
     "A2C_torch_v2": lambda: agent_reg_entry(
         PistarACTorchPolicy,
         a2c.A2CTrainer,
         a2c.A2C_DEFAULT_CONFIG,
         assigned_params=merged_dict(
             DEFAULT_AGENT_PARAMS, MODEL_COMPONENT_PARAMS),
-        config_overrides={'framework': 'torch'},
-        algo_type_id='A2C')
+        config_overrides={'framework': 'torch', "num_workers": 0},
+        algo_type_ids=['A2C'])
 }
 
 
@@ -580,13 +574,13 @@ class RLlibAgent(Agent):
             policy.set_weights(self.get_state())
         return policy
 
-    def update_interfaces(self, trainer: Trainer, interface_id="run",policy_id=DEFAULT_POLICY_ID):
+    def update_interfaces(self, trainer: Trainer, interface_id="run", policy_id=DEFAULT_POLICY_ID):
 
         if self.is_interface_auto_config(interface_id):
             policy: Policy = trainer.get_policy(policy_id)
             self.update_interface(
-                interface_id, 
-                policy.observation_space, 
+                interface_id,
+                policy.observation_space,
                 policy.action_space)
 
         # policy: Policy = trainer.get_policy(policy_id)
@@ -600,12 +594,14 @@ class RLlibAgent(Agent):
         if interface.get('auto_config_spaces', False):
             policy: Policy = trainer.get_policy(policy_id)
 
-            interface['observation_space'] = space_to_pyson(policy.observation_space)
+            interface['observation_space'] = space_to_pyson(
+                policy.observation_space)
             interface['action_space'] = space_to_pyson(policy.action_space)
             interface['auto_config_spaces'] = False
             interfaces[interface_id] = interface
 
             self.update_config_key('interfaces', interfaces)
+
 
 class RLlibAgentRunner(AgentTaskRunner):
 

@@ -10,12 +10,22 @@ from pistarlab.utils.gym_importer import get_environments_from_gym_registry
 
 def manifest():
     envs_all = []
-    for category in ['toy_text','unittest']:
-        envs = get_environments_from_gym_registry(
-            entry_point_prefix=f"gym.envs.{category}",
-            additional_categories=[category],
-            collection="Gym Test and Text")
-        envs_all.extend(envs)
+    
+    envs = get_environments_from_gym_registry(
+        entry_point_prefix=f"gym.envs.toy_text",
+        additional_categories=['toy_text'],
+        collection="Gym Text",
+        env_description="OpenAI Gym Toy Text Environment",
+        env_usage="See: https://gym.openai.com/envs/#toy_text")
+    envs_all.extend(envs)
+    envs = get_environments_from_gym_registry(
+        entry_point_prefix=f"gym.envs.unittest",
+        additional_categories=['unittest'],
+        collection="Gym Tests",
+        env_description="OpenAI Gym Unit Test Environment",
+        env_usage="See: https://gym.openai.com/envs/")
+    envs_all.extend(envs)
+    
     return {'environments': envs_all}
 
 def install():

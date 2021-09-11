@@ -155,7 +155,7 @@ import Sessions from "./views/SessionHome.vue";
 import Settings from "./views/Settings.vue";
 import TaskSpecs from "./views/TaskSpecs.vue";
 import Profile from "./components/Profile.vue";
-
+// import UserInfoStore from "./shared-data"
 import {
     appConfig,
     fetchSettings
@@ -359,6 +359,9 @@ export default {
                     this.connected = true;
                     this.userId = response.data.user_id
                     this.logged_in = response.data.logged_in
+                    this.shared.setLoggedIn(this.logged_in)
+                    this.shared.state.userId = this.userId
+                    
 
                 })
                 .catch((error) => {

@@ -23,25 +23,33 @@ def get_agent_spec_dict(
         config={},
         components={},
         interfaces=None,
+        collection=None,
         params={},
-        algo_type_id = None,
+        algo_type_ids = [],
         disabled=False,
         displayed_name=None,
         version="0.0.1.dev0",
-        description=None):
+        description=None,
+        usage = None):
+    """
+    Used to catpure spec info for registration info in serialized form
+    NOTE: must be maintained with core.register_agent_spec method
+    """
 
-    spec_data = {}
-    spec_data['spec_id'] = spec_id
-    spec_data['displayed_name'] = displayed_name or spec_id
-    spec_data['description'] = description
-    spec_data['entry_point'] = entry_point
-    spec_data['runner_entry_point'] = runner_entry_point
-    spec_data['version'] = version
-    spec_data['disabled'] = disabled
-    spec_data['config'] = config
-    spec_data['config']['interfaces'] = interfaces or {'run': get_agent_spec_interface_dict()}
-    spec_data['config']['components'] = components
-    spec_data['params'] = params
-    spec_data['algo_type_id'] = algo_type_id
+    data = {}
+    data['spec_id'] = spec_id
+    data['displayed_name'] = displayed_name or spec_id
+    data['description'] = description
+    data['entry_point'] = entry_point
+    data['runner_entry_point'] = runner_entry_point
+    data['version'] = version
+    data['collection'] = collection
+    data['disabled'] = disabled
+    data['config'] = config
+    data['config']['interfaces'] = interfaces or {'run': get_agent_spec_interface_dict()}
+    data['config']['components'] = components
+    data['params'] = params
+    data['algo_type_ids'] = algo_type_ids
+    data['usage'] = usage
 
-    return spec_data
+    return data

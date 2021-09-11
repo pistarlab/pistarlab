@@ -38,6 +38,8 @@ def get_environments_from_gym_registry(
         additional_categories=[],
         collection = None,
         version="0.0.1.dev0",
+        env_description=None,
+        env_usage=None,
         force_environment_id=None,
         force_environment_displayed_name=None):
 
@@ -73,6 +75,8 @@ def get_environments_from_gym_registry(
                     displayed_name=env_displayed_name,
                     categories=additional_categories,
                     collection = collection,
+                    description=env_description,
+                    usage =env_usage,
                     version=version,
                     env_specs=[])
 

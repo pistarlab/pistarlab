@@ -20,7 +20,7 @@ import VueApollo from 'vue-apollo'
 import { ApolloClient, DefaultOptions } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-
+import SharedData from "./shared-data.js"
 import {
     appConfig, fetchSettings
 } from "./app.config"
@@ -82,7 +82,8 @@ Vue.mixin({
     data: function () {
         return {
             appConfig,
-            docbar:true
+            docbar:true,
+            shared: SharedData
         }
     },
     methods: {

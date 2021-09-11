@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div v-if="items">
+    <div v-if="items && items.length>0">
         <b-row>
             <b-col>Agent Name </b-col>
             <b-col>User Id </b-col>
@@ -10,15 +10,22 @@
         <hr />
         <div v-for="(agent, i) in items" v-bind:key="i">
             <b-row>
-                <b-col><b-link :to="`/community/agent?userId=${agent.user_id}&agentName=${agent.agent_name}`">{{agent.agent_name}} </b-link></b-col>
+                <b-col>
+                    <b-link :to="`/community/agent?userId=${agent.user_id}&agentName=${agent.agent_name}`">{{agent.agent_name}} </b-link>
+                </b-col>
                 <b-col> {{agent.user_id}}</b-col>
                 <b-col> {{agent.updated}}</b-col>
                 <b-col></b-col>
             </b-row>
         </div>
     </div>
-    <div v-if="loading && !items">
+    <div v-else-if="loading && !items">
         Loading...
+    </div>
+    <div v-else>
+        No Agents Found
+        <br />
+        {{message}}
     </div>
 </div>
 </template>
@@ -33,8 +40,6 @@ import {
 import {
     timedeltafordate
 } from "../funcs";
-
-
 
 export default {
     name: "AgentsOnline",
@@ -66,6 +71,7 @@ export default {
                 .then((response) => {
                     this.items = response.data.items;
                     this.loading = false
+                    this.message = response.data.message
                 })
                 .catch((error) => {
                     this.message = error;

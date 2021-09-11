@@ -78,7 +78,11 @@ def get_display_info(config: SysConfig):
 
 PISTARLAB_INIT_KEY = "pistarlab_init"
 
+
 class SysContext:
+    """
+    TODO: Bloated, need to move many(most) functions to their own logical location
+    """
 
     def __init__(self):
 
@@ -95,8 +99,8 @@ class SysContext:
         self.default_logger = logging
 
         self.display_info = get_display_info(self.config)
-        self.test_mode = os.environ.get("PISTARLAB_DEV_MODE",False)
-        
+        self.test_mode = os.environ.get("PISTARLAB_DEV_MODE") == True
+
         self.auth_client_id = "q3qohs4ii6hl3t0sd4dts57k6"
         self.auth_client_secret = "119i0aajl2kv5trs4vipn83c6drpulp4len473tgnlakb0gg6fck"
         self.auth_grant_type = 'authorization_code'
@@ -106,7 +110,7 @@ class SysContext:
         self.auth_token_uri = "https://pistarai.auth.us-east-1.amazoncognito.com/oauth2/token"
         self.login_uri = f"https://pistarai.auth.us-east-1.amazoncognito.com/login?client_id={self.auth_client_id}&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri={self.auth_redirect_uri}"
         self.logout_uri = f"https://pistarai.auth.us-east-1.amazoncognito.com/logout?client_id={self.auth_client_id}&logout_uri={self.auth_redirect_logout_uri}"
-        
+
         if self.test_mode:
             logging.info("RUNNING IN TEST MODE")
             self.cloud_api_uri = "http://127.0.0.1:3000"
@@ -424,7 +428,7 @@ class SysContext:
         except Exception as e:
             return False
 
-    def get_auth_token(self,token_name='access_token'):
+    def get_auth_token(self, token_name='access_token'):
         user_info = self.get_user_info()
         token_data = user_info.get('token_data')
         if token_data is None:
@@ -740,6 +744,7 @@ class SysContext:
             extension_version="0.0.1.dev0",
             version="0.0.1.dev0",
             description=None,
+            usage=None,
             disabled=False,
             env_specs=None,
             skip_commit=False,
@@ -761,6 +766,7 @@ class SysContext:
         environment.default_entry_point = default_entry_point
         environment.version = version
         environment.collection = collection
+        environment.usage = usage
         environment.disabled = disabled
         environment.categories = ",".join(
             [v.lower().replace(" ", "") for v in categories])
@@ -827,18 +833,24 @@ class SysContext:
             spec_id=None,
             environment_id=None,
             entry_point=None,
+            human_entry_point=None,
+            human_config={},
+            human_description=None,
             env_type=RL_SINGLEPLAYER_ENV,
             tags=[],
             displayed_name=None,
             spec_displayed_name=None,
             description=None,
+            usage=None,
             config=None,
             params={},
             metadata=None,
             skip_commit=False,
             manifest_files_path=None,
             replace_images=True):
-        # NOTE: If updated also update, env_helpers.get_env_spec_data
+        """
+        NOTE: If updated also update, env_helpers.get_env_spec_data
+        """
         environment_id = environment_id or spec_id
         spec_displayed_name = spec_displayed_name or displayed_name
 
@@ -857,7 +869,12 @@ class SysContext:
         spec.displayed_name = displayed_name or spec_id
         spec.spec_displayed_name = spec_displayed_name
         spec.description = description
+        spec.usage = usage
         spec.entry_point = entry_point
+        spec.human_entry_point = human_entry_point
+        spec.human_config = human_config
+        spec.human_description = human_description
+        
         spec.meta = metadata
         spec.env_type = env_type
         spec.tags = ",".join([v.lower().replace(" ", "") for v in tags])
@@ -869,11 +886,11 @@ class SysContext:
             key=(SYS_CONFIG_DIR, 'envs', 'images'))
         image_target_path = os.path.join(image_save_path, f"{spec_id}.jpg")
         image_source_path = os.path.join(
-                manifest_files_path, f"{spec_id}.jpg")
+            manifest_files_path, f"{spec_id}.jpg")
         if manifest_files_path is None or not os.path.exists(image_source_path):
             image_source_path = pkg_resources.resource_filename(
                 "pistarlab", "templates/env_default.jpg")
-            
+
         self.copy_file(
             image_source_path,
             image_target_path,
@@ -893,8 +910,9 @@ class SysContext:
             extension_version="0.0.1.dev0",
             version="0.0.1.dev0",
             environment_id=None,
-            collection = None,
+            collection=None,
             description=None,
+            usage=None,
             config=None,
             params={},
             metadata=None,
@@ -916,6 +934,7 @@ class SysContext:
             extension_version=extension_version,
             version=version,
             description=description,
+            usage=usage,
             disabled=disabled,
             skip_commit=True
         )
@@ -926,6 +945,7 @@ class SysContext:
             displayed_name=displayed_name,
             spec_displayed_name=spec_displayed_name,
             description=description,
+            usage=usage,
             entry_point=entry_point,
             metadata=metadata,
             env_type=env_type,
@@ -933,7 +953,6 @@ class SysContext:
             config=config,
             params=params,
         )
-
 
     def register_agent_spec_from_classes(self, runner_cls, cls=None, *args, **kwargs):
         # TODO: merge with register_agent_spec
@@ -955,13 +974,17 @@ class SysContext:
             config={},
             params={},
             disabled=False,
-            algo_type_id = None,
+            algo_type_ids=[],
             displayed_name=None,
+            collection=None,
             extension_id=None,
             extension_version="0.0.1.dev0",
             version="0.0.1.dev0",
-            description=None):
-
+            description=None,
+            usage=None):
+        """
+        NOTE: must be mainted with  agent_helpers.get_agent_spec_data
+        """
         session = self.get_dbsession()
         spec = session.query(AgentSpecModel).get(spec_id)
         if spec is None:
@@ -970,12 +993,14 @@ class SysContext:
 
         spec.displayed_name = displayed_name or spec_id
         spec.description = description
+        spec.usage = usage
         spec.extension_id = extension_id
         spec.extension_version = extension_version
         spec.entry_point = entry_point
         spec.runner_entry_point = runner_entry_point
         spec.version = version
-        spec.algo_type_id = algo_type_id
+        spec.collection = collection
+        spec.algo_type_ids = ",".join(algo_type_ids) if algo_type_ids else None
         spec.disabled = disabled
         spec.config = config
         spec.params = params
@@ -1189,31 +1214,33 @@ class SysContext:
             user_id = self.get_user_id()
         logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/users/details',
-                           params={'user_id':user_id})
+                           params={'user_id': user_id})
         logging.info(res.content)
-        return  res.json()
+        return res.json()
 
     def get_online_agent_details(self, user_id, agent_name):
         logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/agents/details',
-                           params={'user_id':user_id,"agent_name":agent_name})
+                           params={'user_id': user_id, "agent_name": agent_name})
         logging.info(res.content)
-        return  res.json()
+        return res.json()
 
-    def get_online_agents_list(self,lookup=None):
+    def get_online_agents_list(self, lookup=None):
         logging.info(f"API_URL: {self.cloud_api_uri}")
-        res = requests.get(url=f'{self.cloud_api_uri}/agents/list',params={'lookup':lookup,"pe": 'user_id,agent_name,created,updated'})
-        return  res.json().get('results',[])
+        res = requests.get(url=f'{self.cloud_api_uri}/agents/list', params={
+                           'lookup': lookup, "pe": 'user_id,agent_name,created,updated'})
+        return res.json().get('results', [])
 
-    def get_online_users_list(self,lookup=None):
+    def get_online_users_list(self, lookup=None):
         logging.info(f"API_URL: {self.cloud_api_uri}")
-        res = requests.get(url=f'{self.cloud_api_uri}/users/list',params={'lookup':lookup,"pe": 'user_id,created'})
-        return  res.json().get('results',[])
+        res = requests.get(url=f'{self.cloud_api_uri}/users/list',
+                           params={'lookup': lookup, "pe": 'user_id,created'})
+        return res.json().get('results', [])
 
-    def list_published_agent_snapshots(self, agent_id,pe="snapshot_id,snapshot_data"):
+    def list_published_agent_snapshots(self, agent_id, pe="snapshot_id,snapshot_data"):
         logging.info(f"API_URL: {self.cloud_api_uri}")
         res = requests.get(url=f'{self.cloud_api_uri}/snapshots/list/',
-                           params={'user_id':self.get_user_id(),'query_key': 'agent_id', "query_value": agent_id, "pe": pe})
+                           params={'user_id': self.get_user_id(), 'query_key': 'agent_id', "query_value": agent_id, "pe": pe})
         logging.info(res.content)
 
         snapshots = res.json().get('results')
@@ -1288,7 +1315,7 @@ class SysContext:
         for s in session_data:
             stats = env_stats.get(s['env_spec_id'], blank_stats())
             # TODO: Would be better to have stats for each version and hashs for configs
-            versions = stats.get('env_spec_versions',[])
+            versions = stats.get('env_spec_versions', [])
             versions.append(s['env_spec_version'])
             stats['env_spec_versions'] = list(set(versions))
 
@@ -1304,9 +1331,9 @@ class SysContext:
                 env_stats[s['env_spec_id']] = stats
 
         snapshot_id = "{}_{}_{}_{}".format(spec_id,
-                                            agent_id,
-                                            seed,
-                                            snapshot_version)
+                                           agent_id,
+                                           seed,
+                                           snapshot_version)
         snapshot_data = {
             'id': agent_id,
             'seed': seed,
@@ -1435,7 +1462,8 @@ class SysContext:
         config = snapshot_data['config']
         notes = snapshot_data['notes']
         seed = snapshot_data['seed']
-        agent_name = "Clone of {}".format(snapshot_data['agent_name'] or snapshot_data['id'])
+        agent_name = "Clone of {}".format(
+            snapshot_data['agent_name'] or snapshot_data['id'])
 
         agent: Agent = Agent.create(spec_id=spec_id, config=config)
         target_path = self.get_store().get_path_from_key(('agent', agent.get_id()))
