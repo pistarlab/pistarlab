@@ -885,11 +885,12 @@ class SysContext:
         image_save_path = self.get_store().get_path_from_key(
             key=(SYS_CONFIG_DIR, 'envs', 'images'))
         image_target_path = os.path.join(image_save_path, f"{spec_id}.jpg")
-        image_source_path = os.path.join(
-            manifest_files_path, f"{spec_id}.jpg")
+        image_source_path=None
+        if manifest_files_path is not None:
+            image_source_path = os.path.join(manifest_files_path, f"{spec_id}.jpg")
+
         if manifest_files_path is None or not os.path.exists(image_source_path):
-            image_source_path = pkg_resources.resource_filename(
-                "pistarlab", "templates/env_default.jpg")
+            image_source_path = pkg_resources.resource_filename("pistarlab", "templates/env_default.jpg")
 
         self.copy_file(
             image_source_path,
