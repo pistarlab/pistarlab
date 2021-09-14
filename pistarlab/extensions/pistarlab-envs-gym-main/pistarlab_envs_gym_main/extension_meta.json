@@ -7,5 +7,6 @@
   ],
   "description": "Default Environments included with OpenAI Gym",
   "extension_author": "piSTAR Lab",
-  "original_author": "OpenAI - openai.com"
+  "original_author": "OpenAI - openai.com",
+  "installation_instructions" : "Does not work on Windows without \"swig\". try running conda install swig"
 }

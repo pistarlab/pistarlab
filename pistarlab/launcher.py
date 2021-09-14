@@ -311,8 +311,9 @@ def main():
         service_ctx.bootstrap_default_extensions()
     services_list = []
 
+    disable_xvfb = args.disable_xvfb or os.name == 'nt'
 
-    if not args.disable_xvfb or os.name == 'nt':
+    if not disable_xvfb:
         services_list.append('xvfb')
 
     if not args.skip_ray_start:

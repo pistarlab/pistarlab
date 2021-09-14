@@ -89,7 +89,7 @@ setup(
         ]
     },
     extras_require={
-        'all': ['tensorflow==2.3.1','torch==1.7.1','torchvision==0.8.2']
+        'all': ['tensorflow==2.3.1','torch==1.8','torchvision==0.9']
     },
     packages=find_packages(),
     include_data_files=True,

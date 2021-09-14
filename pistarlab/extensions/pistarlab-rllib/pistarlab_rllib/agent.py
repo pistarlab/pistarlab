@@ -626,7 +626,7 @@ class RLlibAgentRunner(AgentTaskRunner):
         session_count = 1
         total_gpus = 0
         # num_envs_per_worker = 1
-        num_gpus = 0  # 0.0001
+        num_gpus = 1  # 0.0001
         # num_gpus_per_worker = 0 if num_workers == 0 else (total_gpus - num_gpus / num_workers)
 
         # Create trainer class

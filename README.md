@@ -47,14 +47,33 @@ Detailed documentation is published at https://pistarlab.readthedocs.io
 * Suggest using Anaconda or Miniconda for Python installation (visit https://www.anaconda.com/products/individual for instructions)
 * Requires pip and python 3.7 or 3.8
 
-## Installation 
+## Installation
 
-### from repo 
+### Requirements
 
+* Python 3.7+ with conda (recommended) or venv
+    * Suggested install methods
+        * Miniconda (https://docs.conda.io/en/latest/miniconda.html) 
+        * Anaconda (https://www.anaconda.com/products/individual)
+* FFMPEG (https://www.ffmpeg.org/download.html)
+    * Required for episode recordings
+    * Windows install instructions: https://www.wikihow.com/Install-FFmpeg-on-Windows
+
+
+### Option 1
+```bash
+pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/devl3.zip#egg=pistarlab[all]
+```
+
+### Option 2
+if you intend to make modifications to pistarlab
 ```bash
 git clone  --single-branch --depth=1 http://github.com/pistarlab/pistarlab/
-pip install -e ."[all]"
+pip install -e .[all]
 ```
+
+NOTE: If install command fails, try with quotes  ```pip install -e ."[all]"```
+
 
 ## Usage
 
