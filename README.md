@@ -2,11 +2,11 @@
 
 # <img src="docs/source/images/pistar_edit_w.png" style="background-color: rgb(2, 2, 2);border-radius: 50%;" alt="agent home" width="40"/> piSTAR Lab  
 
-![PyPI](https://img.shields.io/pypi/v/pistarlab) 
+<!-- ![PyPI](https://img.shields.io/pypi/v/pistarlab)  -->
 ![PyPI - License](https://img.shields.io/pypi/l/pistarlab) 
 [![Documentation Status](https://readthedocs.org/projects/pistarlab/badge/?version=latest)](https://pistarlab.readthedocs.io/en/latest/?badge=latest)
 
-WARNING: This is an <u>**early release**</u> and is not ready for public use.
+WARNING: This is an <u>**early release**</u>.
 
 # Overview
 
@@ -26,17 +26,18 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 ## Known Issues/Limitations
 - Cluster mode is under development and not recommended at this time
 - Running remotely requires SSH tunneling. All services must be running on localhost
-- Windows and Mac not tested
+- Mac not tested
 - extension installation requires restarting piSTAR Lab to complete
 
 ## UI Screenshots
+
+<br/> <img src="docs/source/images/pistarlab_demo1.gif" alt="agent home" width="600"/>  <br/>
 
 <br/> <img src="docs/source/images/envs.png" alt="agent home" width="600"/>  <br/>
 
 <br/> <img src="docs/source/images/assign_multi_agent_envs.png" alt="agent home" width="600"/>  <br/>
 
 <br/> <img src="docs/source/images/agent_training1.png" alt="agent home" width="600"/>  <br/>
-
 
 
 # Quick Start 

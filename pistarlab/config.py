@@ -98,6 +98,9 @@ def load_sys_config_file(root_path):
                     'id': 'pistarlab-envs-gym-main',
                     'version': "0.0.1.dev0"})
     install_on_boot_list.append({
+                    'id': 'pistarlab-envs-gym-minigrid',
+                    'version': "0.0.1.dev0"})
+    install_on_boot_list.append({
                 'id': 'pistarlab-rllib',
                 'version': "0.0.1.dev0"})
     install_on_boot_list.append({
