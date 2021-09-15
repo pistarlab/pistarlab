@@ -79,7 +79,7 @@ setup(
         'filelock',
         'opencv_python',
         'xvfbwrapper',  # TODO: MSWIN not compatible
-        'ray[all]==1.6.0',
+        'ray[all]==1.2.0',
         'pip'
         ],
     package_data={'pistarlab': package_files + additional_files},
