@@ -56,6 +56,7 @@ setup(
         'graphene_sqlalchemy_filter',
         'aiohttp_cors',
         'aiortc',
+        'aioredis>=1.3.1, < 2.0',
         'SQLAlchemy>=1.3, < 1.4',
         'shortuuid',
         'simplejson',
