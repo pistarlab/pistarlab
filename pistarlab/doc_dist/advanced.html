@@ -1,73 +1,34 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Advanced &mdash; piSTAR Lab 0.0.1.dev0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
     <link rel="prev" title="Extensions" href="extensions.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> piSTAR Lab
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -75,18 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">piSTAR Lab Documentation</a></li>
 </ul>
@@ -125,85 +75,44 @@
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pistarlab</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">piSTAR Lab</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Advanced</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/advanced.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="advanced">
-<h1>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="data-and-configuration-path">
-<h3>Data and Configuration Path<a class="headerlink" href="#data-and-configuration-path" title="Permalink to this headline">¶</a></h3>
+             
+  <section id="advanced">
+<h1>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline"></a></h1>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
+<section id="data-and-configuration-path">
+<h3>Data and Configuration Path<a class="headerlink" href="#data-and-configuration-path" title="Permalink to this headline"></a></h3>
 <p>By default pistarlab stores data and configuration in the <strong>$HOME/pistarlab/</strong> directory. (eg: /home/$USER/pistarlab) This can be changed by using the <strong>PISTARLAB_ROOT</strong> environment variable</p>
 <p>If you are using <em>Docker</em>, PISTARLAB_ROOT is under <strong>$HOME/pistarlab_docker/</strong>.  This has been changed for Docker to avoid permission issues that Docker may instroduce.</p>
 <p><strong>Configuration</strong> is stored in the <strong>config.yaml</strong> file located at PISTARLAB_ROOT</p>
 <p><strong>Data</strong> is stored under PISTARLAB_ROOT/data</p>
-</div>
-</div>
-<div class="section" id="debugging">
-<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline"></a></h2>
 <p>Our current solution uses the remote_pdb python module to enable remote debuging over telnet.</p>
 <p><strong>To use debugging, do the following:</strong></p>
 <ol class="arabic simple">
@@ -217,9 +126,9 @@
 <li><p>When the above code is executed, it will print the port number to connect to in the logs.</p></li>
 <li><p>use telnet to connect and use pdb as usual: for example <code class="docutils literal notranslate"><span class="pre">`telnet</span> <span class="pre">127.0.0.1</span> <span class="pre">PORTNUM_HERE`</span></code></p></li>
 </ol>
-</div>
-<div class="section" id="cluster-mode">
-<h2>Cluster Mode<a class="headerlink" href="#cluster-mode" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="cluster-mode">
+<h2>Cluster Mode<a class="headerlink" href="#cluster-mode" title="Permalink to this headline"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Experimental</p>
@@ -229,9 +138,9 @@
 <p>Requirements
 * PostgreSQL to communicate over network (Temporary)
 * Python Version should be same on all nodes</p>
-</div>
-<div class="section" id="with-docker">
-<h2>with Docker<a class="headerlink" href="#with-docker" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="with-docker">
+<h2>with Docker<a class="headerlink" href="#with-docker" title="Permalink to this headline"></a></h2>
 <p><strong>Switch to python env to 3.7.7</strong></p>
 <p>This is needed because the docker version of Ray uses 3.7.7 and multiple versions of python create problems when pickling.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7.7
@@ -242,9 +151,9 @@
 <li><p>file permission issues when using docker. files copied using rsync get permissions</p></li>
 <li><p>/tmp/ray_tmp_mount</p></li>
 </ul>
-</div>
-<div class="section" id="without-docker">
-<h2>without Docker<a class="headerlink" href="#without-docker" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="without-docker">
+<h2>without Docker<a class="headerlink" href="#without-docker" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Install MINICONDA</dt><dd><ol class="arabic simple">
@@ -260,8 +169,8 @@
 <p>** Configuration **</p>
 <p>Config file path: ~/pistarlab/cluster.yaml</p>
 <p>TODO, see  for details</p>
-<div class="section" id="startup">
-<h3>Startup<a class="headerlink" href="#startup" title="Permalink to this headline">¶</a></h3>
+<section id="startup">
+<h3>Startup<a class="headerlink" href="#startup" title="Permalink to this headline"></a></h3>
 <ol class="arabic">
 <li><p>Starting cluster</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ray up -vvvv ~/pistarlab/cluster.yaml
@@ -274,15 +183,15 @@
 </div>
 </li>
 </ol>
-</div>
-<div class="section" id="install-extensions-on-nodes">
-<h3>Install extensions on nodes<a class="headerlink" href="#install-extensions-on-nodes" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="install-extensions-on-nodes">
+<h3>Install extensions on nodes<a class="headerlink" href="#install-extensions-on-nodes" title="Permalink to this headline"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ray <span class="nb">exec</span> <span class="nv">$HOME</span>/pistarlab/cluster.yaml  <span class="s2">&quot;pip install --user -e /home/pistarlabuser/app/pistarlab/extensions/pistarlab-envs-gym-main&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="sync-data-with-nodes">
-<h3>Sync Data with Nodes<a class="headerlink" href="#sync-data-with-nodes" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sync-data-with-nodes">
+<h3>Sync Data with Nodes<a class="headerlink" href="#sync-data-with-nodes" title="Permalink to this headline"></a></h3>
 <p>Before each task run</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ray rsync-up -vvv ~/pistarlab/cluster.yaml
 </pre></div>
@@ -291,56 +200,39 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ray rsync-down -vvv ~/pistarlab/cluster.yaml /home/pistarlabuser/pistarlab/data/ <span class="nv">$HOME</span>/pistarlab/data/
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="extensions.html" class="btn btn-neutral float-left" title="Extensions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Brandyn Kusenda.
-
-    </p>
+    <p>&#169; Copyright 2021, Brandyn Kusenda.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
