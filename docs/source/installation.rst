@@ -19,11 +19,21 @@ with PyPi
 
       conda create -n pistarlab python=3.7
 
-#. Install PIP
+
+
+# Option 1
 
    .. code-block:: bash
 
-    pip install -U "pistarlab[all]"
+   pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/main.zip#egg=pistarlab[all]
+
+
+# Option 1
+
+   .. code-block:: bash
+   
+   git clone  --single-branch --depth=1 http://github.com/pistarlab/pistarlab/
+   pip install -e .[all]
 
 
 #. Install additional dependencies (Ubuntu only)

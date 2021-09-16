@@ -21,6 +21,7 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 * Run agents in single and multi player environments
 * Experiment tracking
 * Uses Ray Project (https://ray.io/) under the hood for distributed processing
+* Includes piSTAR [Landia](http://github.com/pistarlab/landia) a hackable Multi Agent Envrionment
 * More to come
 
 ## Known Issues/Limitations
@@ -63,7 +64,7 @@ Detailed documentation is published at https://pistarlab.readthedocs.io
 
 ### Option 1
 ```bash
-pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/devl3.zip#egg=pistarlab[all]
+pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/main.zip#egg=pistarlab[all]
 ```
 
 ### Option 2
