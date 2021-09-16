@@ -1,6 +1,6 @@
 
 
-# <img src="docs/source/images/pistar_edit_w.png" style="background-color: rgb(2, 2, 2);border-radius: 50%;" alt="agent home" width="40"/> piSTAR Lab  
+# <img src="docs/source/images/pistar_logo_black_solid.png"  alt="agent home" width="40"/> piSTAR Lab  
 
 <!-- ![PyPI](https://img.shields.io/pypi/v/pistarlab)  -->
 ![PyPI - License](https://img.shields.io/pypi/l/pistarlab) 
