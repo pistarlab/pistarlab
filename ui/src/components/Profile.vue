@@ -5,7 +5,8 @@
     <span v-if="!shared.loggedIn || user_info.last_auth_state!='success'">
         Not signed in, running in <h4>local mode</h4>
         <br/>
-        <b-button variant="info" :href="login_uri">Sign-up/Login to piSTAR.ai</b-button>
+        <b-button v-if="shared.state.readOnlyMode==false" variant="info" :href="login_uri">Sign-up/Login to piSTAR.ai</b-button>
+        <div v-else>Sign-in not available in read-only mode</div>
     </span>
     <span v-else>
         Signed in to piSTAR.ai as <h4>{{user_info.user_id}}</h4>

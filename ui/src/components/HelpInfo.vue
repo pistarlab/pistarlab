@@ -43,7 +43,7 @@
                                 <b-link @click="focus='tasks'">Tasks</b-link>
                             </li>
                         </ul>
-                        <a target="_blank" :href="appConfig.API_URL+'/docs/'">Open Documentation</a>
+                        <a target="_blank" href="https://pistarlab.readthedocs.io">Documentation</a>
 
                     </b-col>
                 </b-row>

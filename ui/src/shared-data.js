@@ -3,7 +3,8 @@ var state = {
     loggedIn: false,
     loadingState: true,
     userId:"",
-    errorLoadingState: false
+    errorLoadingState: false,
+    readOnlyMode:false
   }
   
   function setLoggedIn(newValue) {

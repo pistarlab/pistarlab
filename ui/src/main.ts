@@ -74,6 +74,10 @@ import HelpInfo from "./components/HelpInfo.vue";
 import LogViewer from "./components/LogViewer.vue";
 import {getImageIdFromUID} from "./funcs";
 
+fetchSettings().then(settings => {
+    SharedData.state.readOnlyMode = settings.sys_config.read_only_mode
+})
+
 Vue.mixin({
     components:
     {

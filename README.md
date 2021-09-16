@@ -28,7 +28,6 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 - Cluster mode is under development and not recommended at this time
 - Running remotely requires SSH tunneling. All services must be running on localhost
 - Mac not tested
-- extension installation requires restarting piSTAR Lab to complete
 
 ## UI Screenshots
 
@@ -42,40 +41,36 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 
 
 # Quick Start 
-Detailed documentation is published at https://pistarlab.readthedocs.io
+More detailed documentation is available at https://pistarlab.readthedocs.io
 
-**Notes**
-* Only tested on **Ubuntu**, but should also work on **OS X**. **MS Windows** users see [Installation using Docker](#Installation-using-Docker)
-* Suggest using Anaconda or Miniconda for Python installation (visit https://www.anaconda.com/products/individual for instructions)
-* Requires pip and python 3.7 or 3.8
+## Requirements
+* Ubuntu suggested but also tested on Windows 10. We suggest using Docker for other setups.
+* Python 3.7 or 3.8 (Conda is recommended)
+    * [Miniconda](https://docs.conda.io/en/latest/miniconda.html) 
+    * [Anaconda](https://www.anaconda.com/products/individual)
+* [FFMPEG](https://www.ffmpeg.org/download.html) (Optional) 
+    * Required for episode recordings
+    * [Windows install instructions](https://www.wikihow.com/Install-FFmpeg-on-Windows)
+* Xvfb (Optional, Ubuntu Only)
+    * Helps some environments run without opening a window.
+    * Useful when running piSTAR Lab remotely
 
 ## Installation
-
-### Requirements
-
-* Python 3.7+ with conda (recommended) or venv
-    * Suggested install methods
-        * Miniconda (https://docs.conda.io/en/latest/miniconda.html) 
-        * Anaconda (https://www.anaconda.com/products/individual)
-* FFMPEG (https://www.ffmpeg.org/download.html)
-    * Required for episode recordings
-    * Windows install instructions: https://www.wikihow.com/Install-FFmpeg-on-Windows
+For non-standard installations see: https://pistarlab.readthedocs.io/en/latest/installation.html
 
 
-### Option 1
-```bash
+### Create and Activate Conda Virtual Environment
+
+ ```bash
+conda create -n pistarlab python=3.7
+conda activate pistarlab
+conda install pip
+ ```
+
+### Install with pip
+```
 pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/main.zip#egg=pistarlab[all]
 ```
-
-### Option 2
-if you intend to make modifications to pistarlab
-```bash
-git clone  --single-branch --depth=1 http://github.com/pistarlab/pistarlab/
-pip install -e .[all]
-```
-
-NOTE: If install command fails, try with quotes  ```pip install -e ."[all]"```
-
 
 ## Usage
 

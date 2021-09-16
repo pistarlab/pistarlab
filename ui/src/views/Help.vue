@@ -22,7 +22,8 @@
                         </li>
                  
                         <li>
-                            <a target="_blank" :href="appConfig.API_URL+'/docs/'">Documentation</a>  
+                            <!-- <a target="_blank" :href="appConfig.API_URL+'/docs/'">Documentation</a>   -->
+                            <a target="_blank" href="https://pistarlab.readthedocs.io">Documentation</a>
                             
                         </li>
                         <li>

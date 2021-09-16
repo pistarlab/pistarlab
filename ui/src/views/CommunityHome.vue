@@ -4,6 +4,7 @@
 
         <h1><i class="fa fa-users"></i> Community Hub </h1>
         <b-alert show variant="info">Coming soon</b-alert>
+        
         <b-nav tabs>
             <b-nav-item :active="$route.path.endsWith('profile')" to="profile">My Profile</b-nav-item>
             <b-nav-item :active="$route.path.endsWith('agents')" to="agents">Find Agents</b-nav-item>

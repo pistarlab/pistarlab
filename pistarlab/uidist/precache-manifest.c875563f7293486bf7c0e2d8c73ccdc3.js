@@ -56,8 +56,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/algo_template7.png"
   },
   {
-    "revision": "e24db5dae2f5f1122392",
-    "url": "/css/app.6865e3fb.css"
+    "revision": "076b1365b20e384be054",
+    "url": "/css/app.e09329b5.css"
   },
   {
     "revision": "82625d98768417dca12f",
@@ -976,12 +976,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/fa-solid-900.9882877c.svg"
   },
   {
-    "revision": "f3ec5a0210b05e2f612ca50900849306",
+    "revision": "a4f19bcfc3df5dfd5f8a3782e8fcb1ae",
     "url": "/index.html"
   },
   {
-    "revision": "e24db5dae2f5f1122392",
-    "url": "/js/app.f662d19c.js"
+    "revision": "076b1365b20e384be054",
+    "url": "/js/app.17314e2d.js"
   },
   {
     "revision": "82625d98768417dca12f",
