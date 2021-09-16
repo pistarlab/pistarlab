@@ -814,13 +814,6 @@ class SysContext:
                             env_image_target_path,
                             replace_files=replace_images)
                         env_image_created = True
-        # if not env_image_created:
-        #     default_image_path = pkg_resources.resource_filename(
-        #     "pistarlab", "templates/env_default.jpg")
-        #     self.copy_file(
-        #         default_image_path,
-        #         env_image_target_path,
-        #         replace_files=replace_images)
 
     def register_env_spec(
             self,
@@ -865,14 +858,16 @@ class SysContext:
         spec.params = params
         if not skip_commit:
             session.commit()
-        image_save_path = self.get_store().get_path_from_key(
-            key=(SYS_CONFIG_DIR, 'envs', 'images'))
+        image_save_path = self.get_store().get_path_from_key(key=(SYS_CONFIG_DIR, 'envs', 'images'))
+        os.makedirs(image_save_path,exist_ok=True)
         image_target_path = os.path.join(image_save_path, f"{spec_id}.jpg")
-        image_source_path = os.path.join(
-                manifest_files_path, f"{spec_id}.jpg")
-        if manifest_files_path is None or not os.path.exists(image_source_path):
-            image_source_path = pkg_resources.resource_filename(
-                "pistarlab", "templates/env_default.jpg")
+
+        image_source_path = None
+        if not manifest_files_path is None and os.path.exists(manifest_files_path):
+            image_source_path = os.path.join(manifest_files_path, f"{spec_id}.jpg")
+
+        if image_source_path is None or not os.path.exists(image_source_path):
+            image_source_path = pkg_resources.resource_filename("pistarlab", "templates/env_default.jpg")
             
         self.copy_file(
             image_source_path,
