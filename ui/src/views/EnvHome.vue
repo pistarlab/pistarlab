@@ -85,13 +85,16 @@
                             </div>
                         </b-col>
 
-                        <b-col cols=2>
+                        <b-col cols=2 class="my-auto">
 
                             <div>
-                                <b-button variant="primary" :to="`/task/new/agenttask/?envSpecId=${spec.ident}`" size="sm">Assign</b-button>
+                                <b-button variant="primary"  title="Assign to agent" :to="`/task/new/agenttask/?envSpecId=${spec.ident}`" size="sm">Assign</b-button>
 
                             </div>
+                            <!-- <div v-if="selectedEnvironment.ident == 'landia'">
+                                <b-button title="Play in user interactive mode" variant="primary" @click="launchHumanMode(spec.ident)" size="sm"><i class="fa fa-user-circle"></i> Play</b-button>
 
+                            </div> -->
                         </b-col>
                     </b-row>
                     <div class="mt-1"></div>
@@ -144,7 +147,7 @@ import {
     appConfig
 } from "../app.config";
 import EnvironmentCard from "../components/EnvCardGroup.vue";
-
+import axios from "axios";
 import {
     GET_ALL_ENVS
 } from "../queries"
@@ -186,6 +189,24 @@ export default {
             });
 
             return colls
+
+        },
+        launchHumanMode(specId){
+          this.loading = true
+
+            axios
+                .get(`${appConfig.API_URL}/api/env/human_mode/${specId}`)
+                .then((response) => {
+                    console.log("Run success " + response.data)
+                    
+                    this.loading = false
+
+                })
+                .catch((e) => {
+                    console.log("Run error")
+                    this.error = e;
+                    this.loading = false
+                });
 
         }
     },

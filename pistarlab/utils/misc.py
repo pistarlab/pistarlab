@@ -1,5 +1,5 @@
 import time
-from uuid import uuid4
+from uuid import uuid4, uuid1
 import platform
 import os
 import shortuuid

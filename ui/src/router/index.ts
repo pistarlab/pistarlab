@@ -8,7 +8,7 @@ import CommunityHome from '../views/CommunityHome.vue'
 import CommunityAgents from '../components/CommunityAgents.vue'
 import CommunityUsers from '../components/CommunityUsers.vue'
 import CommunityAgent from '../components/CommunityAgent.vue'
-import UserProfile from '../components/UserProfile.vue'
+import CommunityProfile from '../components/CommunityProfile.vue'
 import TaskHome from "../views/TaskHome.vue"
 import NProgress from "nprogress"
 Vue.use(VueRouter)
@@ -37,7 +37,7 @@ const routes: Array<RouteConfig> = [
               // UserProfile will be rendered inside User's <router-view>
               // when /user/:id/profile is matched
               path: 'profile',
-              component: UserProfile
+              component: CommunityProfile
             },
             {
               // UserPosts will be rendered inside User's <router-view>

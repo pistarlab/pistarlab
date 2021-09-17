@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -105,13 +102,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<p class="caption"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="design.html">Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Developer Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pistarlab</a></li>
 </ul>
@@ -184,6 +181,103 @@
   <div class="section" id="extensions">
 <h1>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h1>
 <p>Extensions are the primary mechanism for adding new Agents, Environments, Tasks and Components.</p>
+<p>Below are extensions available via piSTAR Lab and the repo (<a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/">https://github.com/pistarlab/pistarlab-repo/</a>).  Future versions will allow user created extensions to be used and shared as well.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Gym Atari Environments:</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-envs-gym-atari">https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-envs-gym-atari</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://gym.openai.com/envs/#atari">https://gym.openai.com/envs/#atari</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Gym Text Environments:</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-envs-gym-text">https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-envs-gym-text</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://gym.openai.com/envs/#text">https://gym.openai.com/envs/#text</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Gym 2D Box and Classic Control Environments:</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-envs-gym-main">https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-envs-gym-main</a></p></li>
+<li><p>Project Pages: <a class="reference external" href="https://gym.openai.com/envs/#box2d">https://gym.openai.com/envs/#box2d</a>, <a class="reference external" href="https://gym.openai.com/envs/#classic_control">https://gym.openai.com/envs/#classic_control</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>piSTAR Landia Environment</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-landia">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-landia</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://github.com/pistarlab/landia/">https://github.com/pistarlab/landia/</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Ray RLlib Agents</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-rllib">https://github.com/pistarlab/pistarlab/tree/main/pistarlab/extensions/pistarlab-rllib</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://docs.ray.io/en/latest/rllib.html">https://docs.ray.io/en/latest/rllib.html</a></p></li>
+<li><p>Note: extension only includes a subset of agent algorithms</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>MiniGrid Envirnoments:</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-envs-gym-minigrid">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-envs-gym-minigrid</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://github.com/maximecb/gym-minigrid">https://github.com/maximecb/gym-minigrid</a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Petting Zoo Environments (WIP)</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-petting-zoo">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-petting-zoo</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://www.pettingzoo.ml/">https://www.pettingzoo.ml/</a></p></li>
+<li><p>Note: extension only includes a small subset of environments</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Stable Baselines Agents (WIP)</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-stable-baselines">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-stable-baselines</a></p></li>
+<li><p>Project Page:</p></li>
+<li><p>Note: extension only includes a small subset of agents available and currently does not support parameterization</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Unity ML-Agent Environments (Planned)</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-unity-envs">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-unity-envs</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://github.com/Unity-Technologies/ml-agents">https://github.com/Unity-Technologies/ml-agents</a></p></li>
+<li><p>Note: currently unavailable in extension repo</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Minecraft RL Environments (Planned)</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-envs-minecraft">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-envs-minecraft</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://github.com/minerllabs/minerl">https://github.com/minerllabs/minerl</a></p></li>
+<li><p>Note: currently unavailable in extension repo</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>MultiGrid MARL Environments (Planned)</dt><dd><ul>
+<li><p>Extension: <a class="reference external" href="https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-multigrid">https://github.com/pistarlab/pistarlab-repo/tree/main/src/pistarlab-multigrid</a></p></li>
+<li><p>Project Page: <a class="reference external" href="https://github.com/ArnaudFickinger/gym-multigrid">https://github.com/ArnaudFickinger/gym-multigrid</a></p></li>
+<li><p>Note: currently unavailable in extension repo</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
 <div class="section" id="development-notes">
 <h2>Development Notes<a class="headerlink" href="#development-notes" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="creating-a-manifest">

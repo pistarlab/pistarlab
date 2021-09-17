@@ -69,10 +69,6 @@ Contributing
 
 piSTAR Lab is **Open Source** and welcomes your contributions.
 
-* Donate
-
-
-
 .. toctree::
    :hidden:
 

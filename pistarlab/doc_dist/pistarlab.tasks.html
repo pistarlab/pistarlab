@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -99,13 +96,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<p class="caption"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="design.html">Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Developer Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">pistarlab</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="pistarlab.html">pistarlab package</a><ul class="current">
@@ -233,77 +230,77 @@
 <div class="section" id="module-pistarlab.tasks.matask">
 <span id="pistarlab-tasks-matask-module"></span><h2>pistarlab.tasks.matask module<a class="headerlink" href="#module-pistarlab.tasks.matask" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pistarlab.tasks.matask.</span></span><span class="sig-name descname"><span class="pre">MultiAgentRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pistarlab.tasks.matask.</span></code><code class="sig-name descname"><span class="pre">MultiAgentRunner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pistarlab.html#pistarlab.task_runner.TaskRunner" title="pistarlab.task_runner.TaskRunner"><code class="xref py py-class docutils literal notranslate"><span class="pre">pistarlab.task_runner.TaskRunner</span></code></a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.config">
-<span class="sig-name descname"><span class="pre">config</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{'agents':</span> <span class="pre">{},</span> <span class="pre">'env_kwargs':</span> <span class="pre">{},</span> <span class="pre">'env_spec_id':</span> <span class="pre">None,</span> <span class="pre">'player_assignments':</span> <span class="pre">{},</span> <span class="pre">'session_config':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.config" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.config">
+<code class="sig-name descname"><span class="pre">config</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'agents':</span> <span class="pre">{},</span> <span class="pre">'env_kwargs':</span> <span class="pre">{},</span> <span class="pre">'env_spec_id':</span> <span class="pre">None,</span> <span class="pre">'player_assignments':</span> <span class="pre">{},</span> <span class="pre">'session_config':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.config" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.displayed_name">
-<span class="sig-name descname"><span class="pre">displayed_name</span></span><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.displayed_name" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.displayed_name">
+<code class="sig-name descname"><span class="pre">displayed_name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.displayed_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.extension_id">
-<span class="sig-name descname"><span class="pre">extension_id</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'builtin'</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.extension_id" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.extension_id">
+<code class="sig-name descname"><span class="pre">extension_id</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'builtin'</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.extension_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.run" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.run">
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.spec_id">
-<span class="sig-name descname"><span class="pre">spec_id</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'multiagent'</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.spec_id" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.spec_id">
+<code class="sig-name descname"><span class="pre">spec_id</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'multiagent'</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.spec_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.task">
-<span class="sig-name descname"><span class="pre">task</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="pistarlab.html#pistarlab.task.Task" title="pistarlab.task.Task"><span class="pre">pistarlab.task.Task</span></a></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.task" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.task">
+<code class="sig-name descname"><span class="pre">task</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="pistarlab.html#pistarlab.task.Task" title="pistarlab.task.Task"><span class="pre">pistarlab.task.Task</span></a></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.task" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.MultiAgentRunner.version">
-<span class="sig-name descname"><span class="pre">version</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'0.0.1.dev0'</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.version" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.MultiAgentRunner.version">
+<code class="sig-name descname"><span class="pre">version</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'0.0.1.dev0'</span></em><a class="headerlink" href="#pistarlab.tasks.matask.MultiAgentRunner.version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pistarlab.tasks.matask.get_agent_space_map">
-<span class="sig-prename descclassname"><span class="pre">pistarlab.tasks.matask.</span></span><span class="sig-name descname"><span class="pre">get_agent_space_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player_to_agent_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_space_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.matask.get_agent_space_map" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.matask.get_agent_space_map">
+<code class="sig-prename descclassname"><span class="pre">pistarlab.tasks.matask.</span></code><code class="sig-name descname"><span class="pre">get_agent_space_map</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player_to_agent_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_space_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.matask.get_agent_space_map" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-pistarlab.tasks.tune_default">
 <span id="pistarlab-tasks-tune-default-module"></span><h2>pistarlab.tasks.tune_default module<a class="headerlink" href="#module-pistarlab.tasks.tune_default" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneDefaultRunner">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pistarlab.tasks.tune_default.</span></span><span class="sig-name descname"><span class="pre">TuneDefaultRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneDefaultRunner" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneDefaultRunner">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pistarlab.tasks.tune_default.</span></code><code class="sig-name descname"><span class="pre">TuneDefaultRunner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneDefaultRunner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pistarlab.html#pistarlab.task_runner.TaskRunner" title="pistarlab.task_runner.TaskRunner"><code class="xref py py-class docutils literal notranslate"><span class="pre">pistarlab.task_runner.TaskRunner</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneDefaultRunner.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneDefaultRunner.run" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneDefaultRunner.run">
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneDefaultRunner.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneDefaultRunner.task">
-<span class="sig-name descname"><span class="pre">task</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="pistarlab.html#pistarlab.task.Task" title="pistarlab.task.Task"><span class="pre">pistarlab.task.Task</span></a></em><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneDefaultRunner.task" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneDefaultRunner.task">
+<code class="sig-name descname"><span class="pre">task</span></code><em class="property"><span class="pre">:</span> <a class="reference internal" href="pistarlab.html#pistarlab.task.Task" title="pistarlab.task.Task"><span class="pre">pistarlab.task.Task</span></a></em><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneDefaultRunner.task" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneTrainable">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pistarlab.tasks.tune_default.</span></span><span class="sig-name descname"><span class="pre">TuneTrainable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_creator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneTrainable">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pistarlab.tasks.tune_default.</span></code><code class="sig-name descname"><span class="pre">TuneTrainable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_creator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ray.tune.trainable.Trainable</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneTrainable.cleanup">
-<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable.cleanup" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneTrainable.cleanup">
+<code class="sig-name descname"><span class="pre">cleanup</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable.cleanup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subclasses should override this for any cleanup on stop.</p>
 <p>If any Ray actors are launched in the Trainable (i.e., with a RLlib
 trainer), be sure to kill the Ray actor process here.</p>
@@ -315,8 +312,8 @@ on the actor.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneTrainable.setup">
-<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable.setup" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneTrainable.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable.setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subclasses should override this for custom initialization.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.8.7.</span></p>
@@ -330,8 +327,8 @@ Copy of <cite>self.config</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pistarlab.tasks.tune_default.TuneTrainable.step">
-<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable.step" title="Permalink to this definition">¶</a></dt>
+<dt id="pistarlab.tasks.tune_default.TuneTrainable.step">
+<code class="sig-name descname"><span class="pre">step</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pistarlab.tasks.tune_default.TuneTrainable.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subclasses should override this to implement train().</p>
 <p>The return value will be automatically passed to the loggers. Users
 can also return <cite>tune.result.DONE</cite> or <cite>tune.result.SHOULD_CHECKPOINT</cite>

@@ -1,10 +1,9 @@
 <template>
 <div>
-    <div v-if="data">
+    <div v-if="data && data.user">
         <span class="h3">
             <i class="fa fa-user"></i> {{data.user.user_id}}
         </span>
-
         <div class="mt-5"></div>
         <h4>My Published Agents</h4>
         <div class="ml-4">
@@ -23,9 +22,21 @@
             </div>
         </div>
     </div>
-    <div v-if="loading && !data">
+    <div v-else-if="loading && !data">
         Loading...
     </div>
+    <div v-else>
+        <div class="mt-4" v-if="!shared.state.loggedIn">You aren't signed in.
+            <b-button size="sm" title="Signed in"  v-b-modal.profile>
+                Sign in/up
+            </b-button>
+
+        </div>
+        <div v-else>
+            Community hub is unavailable at this time.
+        </div>
+    </div>
+    
 
 </div>
 </template>
@@ -44,7 +55,7 @@ import {
 
 
 export default {
-    name: "UserProfile",
+    name: "CommunityProfile",
     components: {
         //
     },
@@ -72,6 +83,7 @@ export default {
                 .get(`${appConfig.API_URL}/api/online/user_details`)
                 .then((response) => {
                     this.data = response.data;
+                    this.message = response.data.message
                     this.loading = false
                 })
                 .catch((error) => {

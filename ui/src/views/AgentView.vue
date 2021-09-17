@@ -5,8 +5,8 @@
             <DataBrowser :path="'/agent/' + item.ident"></DataBrowser>
             <div class="mb-5"></div>
         </b-modal>
-        
-        <h1><i class="fas fa-robot"></i> Agent:  <span v-if="item && item.name">{{item.name}}</span><span v-else>{{item.ident}}</span></h1>
+
+        <h1><i class="fas fa-robot"></i> Agent: <span v-if="item && item.name">{{item.name}}</span><span v-else>{{item.ident}}</span></h1>
         <div v-if="item && item.ident">
 
             <!-- <b-modal id="def-modal" size="lg">
@@ -28,9 +28,17 @@
                     <label for="snapshot_description">Description:</label>
                     <b-form-input id="snapshot_description" v-model="snapshot_description" placeholder="Enter the snapshot description" trim></b-form-input>
                     <div class="mt-4"></div>
-                    <b-form-checkbox v-model="publish" name="checkbox-1" :value="true" :unchecked-value="false">
+
+                    <b-form-checkbox disabled="!shared.state.loggedIn" v-model="publish" name="checkbox-1" :value="true" :unchecked-value="false">
                         Publish to Community Hub
+
                     </b-form-checkbox>
+                    <b-alert variant="warning" show v-if="!shared.state.loggedIn" class="mt-4 d-inline-block">
+                        Must be
+                        <b-link style="color:white;text-decoration: underline;" size="sm" title="Signed in" v-b-modal.profile>Signed in</b-link>
+                        publish to community hub.
+                    </b-alert>
+
                     <div class="mt-4"></div>
                     <b-button :disabled="submitting" v-if="!submitting" class="mt-2" variant="primary" v-on:click="createSnapshot()" size="sm">Create</b-button>
                     <b-button v-else variant="primary" disabled>
@@ -415,7 +423,7 @@ export default {
             traceback: null,
             publish: false,
             creatingSnapshot: false,
-            publishError:null,
+            publishError: null,
 
             componentFields: [{
                     key: "name",
@@ -728,17 +736,17 @@ export default {
             axios
                 .post(`${appConfig.API_URL}/api/snapshot/create`, outgoingData)
                 .then((response) => {
-                    console.log("Snapshot Created: Success="+ response.data["success"])
-                    
+                    console.log("Snapshot Created: Success=" + response.data["success"])
+
                     this.submitting = false;
                     this.loadSnapshotList()
-                    if (response.data["success"] == false){
+                    if (response.data["success"] == false) {
                         this.publishError = response.data.item.error
                         console.log(this.publishError)
                     }
 
                 })
-                .catch( (error) =>{
+                .catch((error) => {
                     console.log("Received Error: " + error.message)
                     this.publishError = error;
                     this.submitting = false;

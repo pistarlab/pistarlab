@@ -11,6 +11,9 @@ piSTAR Lab is modular Agent Development Environment that can run on your PC or i
 Screenshots
 ============
 
+.. image:: images/pistarlab_demo1.gif
+    :width: 600px
+
 .. image:: images/recent_agents.png
     :width: 600px
 

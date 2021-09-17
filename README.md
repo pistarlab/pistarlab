@@ -1,12 +1,12 @@
 
 
-# <img src="docs/source/images/pistar_edit_w.png" style="background-color: rgb(2, 2, 2);border-radius: 50%;" alt="agent home" width="40"/> piSTAR Lab  
+# <img src="docs/source/images/pistar_logo_black_solid.png"  alt="agent home" width="40"/> piSTAR Lab  
 
-![PyPI](https://img.shields.io/pypi/v/pistarlab) 
+<!-- ![PyPI](https://img.shields.io/pypi/v/pistarlab)  -->
 ![PyPI - License](https://img.shields.io/pypi/l/pistarlab) 
 [![Documentation Status](https://readthedocs.org/projects/pistarlab/badge/?version=latest)](https://pistarlab.readthedocs.io/en/latest/?badge=latest)
 
-WARNING: This is an <u>**early release**</u> and is not ready for public use.
+WARNING: This is an <u>**early release**</u>.
 
 # Overview
 
@@ -21,15 +21,17 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 * Run agents in single and multi player environments
 * Experiment tracking
 * Uses Ray Project (https://ray.io/) under the hood for distributed processing
+* Includes piSTAR [Landia](http://github.com/pistarlab/landia) a hackable Multi Agent Envrionment
 * More to come
 
 ## Known Issues/Limitations
 - Cluster mode is under development and not recommended at this time
 - Running remotely requires SSH tunneling. All services must be running on localhost
-- Windows and Mac not tested
-- extension installation requires restarting piSTAR Lab to complete
+- Mac not tested
 
 ## UI Screenshots
+
+<br/> <img src="docs/source/images/pistarlab_demo1.gif" alt="agent home" width="600"/>  <br/>
 
 <br/> <img src="docs/source/images/envs.png" alt="agent home" width="600"/>  <br/>
 
@@ -38,28 +40,36 @@ piSTAR Lab is a modular deep reinforcement learning platform built to make AI ex
 <br/> <img src="docs/source/images/agent_training1.png" alt="agent home" width="600"/>  <br/>
 
 
-
 # Quick Start 
-Detailed documentation is published at https://pistarlab.readthedocs.io
+More detailed documentation is available at https://pistarlab.readthedocs.io
 
-**Notes**
-* Only tested on **Ubuntu**, but should also work on **OS X**. **MS Windows** users see [Installation using Docker](#Installation-using-Docker)
-* Suggest using Anaconda or Miniconda for Python installation (visit https://www.anaconda.com/products/individual for instructions)
-* Requires pip and python 3.7 or 3.8
+## Requirements
+* Ubuntu suggested but also tested on Windows 10. We suggest using Docker for other setups.
+* Python 3.7 or 3.8 (Conda is recommended)
+    * [Miniconda](https://docs.conda.io/en/latest/miniconda.html) 
+    * [Anaconda](https://www.anaconda.com/products/individual)
+* [FFMPEG](https://www.ffmpeg.org/download.html) (Optional) 
+    * Required for episode recordings
+    * [Windows install instructions](https://www.wikihow.com/Install-FFmpeg-on-Windows)
+* Xvfb (Optional, Ubuntu Only)
+    * Helps some environments run without opening a window.
+    * Useful when running piSTAR Lab remotely
 
-## Installation 
+## Installation
+For non-standard installations see: https://pistarlab.readthedocs.io/en/latest/installation.html
 
-### from pypi
 
-```bash
-pip install -U "pistarlab[all]"
+### Create and Activate Conda Virtual Environment
+
+ ```bash
+conda create -n pistarlab python=3.7
+conda activate pistarlab
+conda install pip
+ ```
+
+### Install with pip
 ```
-
-### from repo 
-
-```bash
-git clone  --single-branch --depth=1 http://github.com/pistarlab/pistarlab/
-pip install -e ."[all]"
+pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/main.zip#egg=pistarlab[all]
 ```
 
 ## Usage

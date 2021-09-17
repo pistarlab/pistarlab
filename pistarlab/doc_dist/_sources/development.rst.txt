@@ -29,7 +29,7 @@ Tested on Ubuntu
 
     git clone https://github.com/pistarlab/pistarlab
     cd pistarlab
-    pip install -e .
+    pip install -e .[all]
 
 #. Install additional dependencies
     - XVFB to render without display (No MS Windows Support)
@@ -56,7 +56,7 @@ Tested on Ubuntu
 on Windows [Experimental]
 -------------------------
 
-**Limitation:** no headless mode for many environments so rendering will open a window
+**Limitation:** no headless mode for many environments so rendering may open a window
 
 #. Install Miniconda
 #. Install GitBash
@@ -173,6 +173,7 @@ Instructions on how to create a docker image from an Ubuntu environment
 #. Make changes to docker file
 
 #. Update requirements.txt
+
     .. code-block:: bash
 
     conda create -n pistarlab377 python=3.7.7
@@ -182,4 +183,6 @@ Instructions on how to create a docker image from an Ubuntu environment
 
 #. Run Docker Build
 
-./build_docker
+    .. code-block:: bash
+
+    ./build_docker

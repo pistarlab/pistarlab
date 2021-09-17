@@ -1175,13 +1175,23 @@ def session_episode_mp4(sid, eid):
         ctx.get_store().root_path, 'session', sid, 'episode', eid, 'images')
     try:
         import ffmpeg
-        (
-            ffmpeg
-            .input('{}/*.jpg'.format(image_path), pattern_type='glob', framerate=fps)
-            .output(video_filename)
-            .overwrite_output()
-            .run()
-        )
+        if os.name == "nt":
+            (
+                ffmpeg
+                .input('{}/%05d.jpg'.format(image_path), framerate=fps)
+                .output(video_filename)
+                .overwrite_output()
+                .run()
+            )
+        else:
+            
+            (
+                ffmpeg
+                .input('{}/*.jpg'.format(image_path), pattern_type='glob', framerate=fps)
+                .output(video_filename)
+                .overwrite_output()
+                .run()
+            )
 
         return send_file(video_filename, mimetype="video/mp4")
     except Exception as e:
@@ -1330,6 +1340,18 @@ def api_download(urlFilePath=""):
     response.headers['Content-Type'] = 'application/json'
     return response
 
+
+@app.route("/api/env/human_mode/<spec_id>")
+def api_env_human_mode(spec_id):
+    import subprocess
+    startupinfo = None
+    if os.name == "nt":
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    process = subprocess.Popen(["landia"],startupinfo=startupinfo,shell = True)
+    response = make_response({'msg': f"PID: {process.pid}"})
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 # -------------------------------
 # Serve Static Files

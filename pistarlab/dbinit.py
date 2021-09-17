@@ -41,6 +41,7 @@ def load_default_data():
             'env_kwargs': {},
 
         })
+        
     ctx.register_task_spec(
         spec_id="hyperparam_exp",
         displayed_name="Hyper Parameter Experiment",
@@ -85,7 +86,7 @@ def load_default_data():
                 'interfaces': {'run': get_agent_spec_interface_dict()}
         },
         extension_id=BUILTIN_EXTENSION_ID,
-        algo_type_id="RANDOM")
+        algo_type_ids=["RANDOM"])
 
 
     # MULTI AGENT RUNNER (OVER NETWORK)

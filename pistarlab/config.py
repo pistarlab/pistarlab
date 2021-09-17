@@ -92,6 +92,21 @@ class SysConfig:
 
 
 def load_sys_config_file(root_path):
+    install_on_boot_list =[]
+    if os.name != "nt":
+        install_on_boot_list.append({
+                    'id': 'pistarlab-envs-gym-main',
+                    'version': "0.0.1.dev0"})
+    install_on_boot_list.append({
+                    'id': 'pistarlab-envs-gym-minigrid',
+                    'version': "0.0.1.dev0"})
+    install_on_boot_list.append({
+                'id': 'pistarlab-rllib',
+                'version': "0.0.1.dev0"})
+    install_on_boot_list.append({
+                'id': 'pistarlab-landia',
+                'version': "0.0.1.dev0"})
+
     config = {
         'db_type': "sqlite",
         'db_config': {'db_user': None, 'db_password': None, 'db_hostname': None, 'db_name': None},
@@ -105,16 +120,7 @@ def load_sys_config_file(root_path):
         "redis_password": DEFAULT_REDIS_PASSWORD,
         "enable_ide": False,
         "extension_config": {
-            "install_on_boot": [{
-                'id': 'pistarlab-envs-gym-main',
-                'version': "0.0.1.dev0"},
-                {
-                'id': 'pistarlab-rllib',
-                'version': "0.0.1.dev0"},
-                {
-                'id': 'pistarlab-landia',
-                'version': "0.0.1.dev0"}
-            ]
+            "install_on_boot": install_on_boot_list
         }
     }
 

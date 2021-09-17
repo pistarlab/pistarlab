@@ -26,13 +26,12 @@ def install():
             entry_point='pistarlab_defaults.a2c:A2C',
             runner_entry_point='pistarlab_defaults.a2c:A2CTaskRunner',
             config={
-
             },
             components=[],
             interfaces={'run': get_agent_spec_interface_dict()}, # Not required, this is default if none
             params={},
-            
             disabled=False,
+            collection="piSTAR Lab",
             displayed_name="piSTARLab A2C",
             version="0.0.1.dev0",
             description='')

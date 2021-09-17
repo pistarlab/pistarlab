@@ -46,7 +46,7 @@
                     <b-card-text>
                         <b-table striped hover table-busy :items="episode" :fields="fields" :dark="false" :small="false" :bordered="false" :outlined="false" :borderless="false" :no-provider-paging="true" :per-page="perPage" :current-page="currentPage">
                             <template v-slot:cell(preview)="data">
-                                <img class="noscaleimg" height="80" :src="`${appConfig.API_URL}/api/download/session/${item.ident}/episode/${selectedEpisodeId}/images/${pad(data.item.episode_step_count,5)}.jpg`" />
+                                <img class="noscaleimg" stye="image-rendering: pixelated;" height="200" :src="`${appConfig.API_URL}/api/download/session/${item.ident}/episode/${selectedEpisodeId}/images/${pad(data.item.episode_step_count,5)}.jpg`" />xx
                             </template>
                             <template v-slot:cell(test)="data">
                                 {{data.item}}

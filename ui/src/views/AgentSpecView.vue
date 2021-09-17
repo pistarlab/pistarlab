@@ -13,7 +13,9 @@
         <b-row>
             <b-col cols=3 class="text-center">
                 <b-card-img class="mt-4" :src="`/img/agent_spec_icons/agent_${getImageId(agentSpec.ident)}.png`" alt="Image" style="max-width:300px;"></b-card-img>
-
+                <div class="m-4">
+                    <b-link target="_blank" :href="`http://github.com/pistarlab/pistarlab/wiki/${agentSpec.ident}`">Wiki</b-link>
+                </div>
             </b-col>
             <b-col>
                 <div class="pt-2">
@@ -36,6 +38,11 @@
                     <div class="data_label">Description</div>
                     <span style=" white-space: pre-wrap;">{{ agentSpec.description }}</span>
                 </div>
+                <div class="pt-2">
+                    <div class="data_label">Usage</div>
+                    <span style=" white-space: pre-wrap;">{{ agentSpec.usage }}</span>
+                </div>
+
             </b-col>
         </b-row>
         <div class="mt-4"></div>
@@ -87,6 +94,8 @@ const GET_AGENT_SPEC = gql `
       ident
       displayedName
       description
+      collection
+      usage
       extensionId
       version
       config

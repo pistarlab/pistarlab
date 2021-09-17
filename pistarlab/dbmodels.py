@@ -37,7 +37,6 @@ class AlchemyEncoder(json.JSONEncoder):
 
 DbBase = declarative_base()
 
-
 class SystemCounter(DbBase):
     __tablename__ = "system_counter"
     id = db.Column(db.String, primary_key=True)
@@ -119,8 +118,10 @@ class AgentSpecModel(DbBase):
     runner_entry_point = db.Column(db.String)
 
     description = db.Column(db.String)
+    usage = db.Column(db.String)
 
-    algo_type_id = db.Column(db.String)
+    algo_type_ids = db.Column(db.String)
+    collection = db.Column(db.String)
 
     extension_id = db.Column(db.String, nullable=False)
     extension_version = db.Column(db.String, nullable=False)
@@ -190,6 +191,7 @@ class EnvironmentModel(DbBase):
 
     displayed_name = db.Column(db.String)
     description = db.Column(db.String())
+    usage = db.Column(db.String)
     categories = db.Column(db.String)
     collection = db.Column(db.String)
     created = db.Column(db.DateTime, server_default=db.func.now())
@@ -202,6 +204,9 @@ class EnvironmentModel(DbBase):
 
     default_entry_point = db.Column(db.String)
     default_config = db.Column(db.JSON)
+    default_human_entry_point = db.Column(db.String) # TODO: NOT USED YET
+    default_human_description = db.Column(db.String) #  TODO: NOT USED YET
+    default_human_config = db.Column(db.JSON) #  TODO: NOT USED YET
     default_meta = db.Column(db.JSON)
 
     env_specs = relationship('EnvSpecModel', back_populates=("environment"))
@@ -216,7 +221,11 @@ class EnvSpecModel(DbBase):
     displayed_name = db.Column(db.String)
     spec_displayed_name = db.Column(db.String)
     entry_point = db.Column(db.String)
+    human_entry_point = db.Column(db.String)
+    human_description = db.Column(db.String)
+    human_config = db.Column(db.JSON)
     description = db.Column(db.String)
+    usage = db.Column(db.String)
     created = db.Column(db.DateTime, server_default=db.func.now())
     user_defined = db.Column(db.Boolean, nullable=False, default=False)
     env_type = db.Column(db.String, nullable=False)

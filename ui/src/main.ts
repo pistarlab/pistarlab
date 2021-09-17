@@ -20,7 +20,7 @@ import VueApollo from 'vue-apollo'
 import { ApolloClient, DefaultOptions } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-
+import SharedData from "./shared-data.js"
 import {
     appConfig, fetchSettings
 } from "./app.config"
@@ -74,6 +74,10 @@ import HelpInfo from "./components/HelpInfo.vue";
 import LogViewer from "./components/LogViewer.vue";
 import {getImageIdFromUID} from "./funcs";
 
+fetchSettings().then(settings => {
+    SharedData.state.readOnlyMode = settings.sys_config.read_only_mode
+})
+
 Vue.mixin({
     components:
     {
@@ -82,7 +86,8 @@ Vue.mixin({
     data: function () {
         return {
             appConfig,
-            docbar:true
+            docbar:true,
+            shared: SharedData
         }
     },
     methods: {

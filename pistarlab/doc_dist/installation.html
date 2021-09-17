@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -92,8 +89,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html#screenshots">Screenshots</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#with-pypi">with PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#with-pip">with Pip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#with-docker">with Docker</a></li>
 </ul>
 </li>
@@ -102,13 +100,13 @@
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<p class="caption"><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="design.html">Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Developer Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pistarlab</a></li>
 </ul>
@@ -180,22 +178,12 @@
             
   <div class="section" id="installation">
 <span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>NOTE: Only tested on Ubuntu. We recommend using Docker if installing on Windows.</p>
-<div class="section" id="with-pypi">
-<h2>with PyPi<a class="headerlink" href="#with-pypi" title="Permalink to this headline">¶</a></h2>
+<p>NOTE: Tested on Ubuntu and Windows 10. If you run into issues, we recommend using Docker.</p>
+<div class="section" id="with-pip">
+<h2>with Pip<a class="headerlink" href="#with-pip" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic">
 <li><p>Install Anaconda or Miniconda</p>
 <p>Visit <a class="reference external" href="https://www.anaconda.com/products/individual">https://www.anaconda.com/products/individual</a> for instructions</p>
-</li>
-<li><p>Create Conda Virtual Environment</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -n pistarlab <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
-</pre></div>
-</div>
-</li>
-<li><p>Install PIP</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -U <span class="s2">&quot;pistarlab[all]&quot;</span>
-</pre></div>
-</div>
 </li>
 <li><dl class="simple">
 <dt>Install additional dependencies (Ubuntu only)</dt><dd><ul class="simple">
@@ -205,6 +193,25 @@
 </dd>
 </dl>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install -y xvfb ffmpeg
+</pre></div>
+</div>
+</li>
+<li><p>Create Conda Virtual Environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -n pistarlab <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+conda activate pistarlab
+conda install pip
+</pre></div>
+</div>
+</li>
+<li><p>Option 1 (Package only)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install https://github.com/pistarlab/pistarlab/archive/refs/heads/main.zip#egg<span class="o">=</span>pistarlab<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Option 2 (Package + Source)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone  --single-branch --depth<span class="o">=</span><span class="m">1</span> http://github.com/pistarlab/pistarlab/
+<span class="nb">cd</span> pistarlab
+pip install -e .<span class="o">[</span>all<span class="o">]</span>
 </pre></div>
 </div>
 </li>

@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -31,7 +29,6 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -99,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<p class="caption"><span class="caption-text">Development</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="design.html">Design</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Notes</a><ul>
@@ -117,7 +114,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">pistarlab</a></li>
 </ul>
@@ -209,7 +206,7 @@
 <li><p>Clone Repo and install</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/pistarlab/pistarlab
 <span class="nb">cd</span> pistarlab
-pip install -e .
+pip install -e .<span class="o">[</span>all<span class="o">]</span>
 </pre></div>
 </div>
 </li>
@@ -238,7 +235,7 @@ pip install -e .
 </div>
 <div class="section" id="on-windows-experimental">
 <h2>on Windows [Experimental]<a class="headerlink" href="#on-windows-experimental" title="Permalink to this headline">¶</a></h2>
-<p><strong>Limitation:</strong> no headless mode for many environments so rendering will open a window</p>
+<p><strong>Limitation:</strong> no headless mode for many environments so rendering may open a window</p>
 <ol class="arabic simple">
 <li><p>Install Miniconda</p></li>
 <li><p>Install GitBash</p></li>
@@ -341,20 +338,26 @@ make html
 <p>Instructions on how to create a docker image from an Ubuntu environment</p>
 <ol class="arabic">
 <li><p>Make changes to docker file</p></li>
-<li><dl>
-<dt>Update requirements.txt</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
+<li><p>Update requirements.txt</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>conda create -n pistarlab377 python=3.7.7
 conda activate pistarlab377
 pip install -e .
 pip freeze &gt; requirements.txt</p>
-</dd>
-</dl>
+</div></blockquote>
 </li>
-<li><p>Run Docker Build</p></li>
-</ol>
+<li><p>Run Docker Build</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>./build_docker</p>
+</div></blockquote>
+</li>
+</ol>
 </div>
 </div>
 

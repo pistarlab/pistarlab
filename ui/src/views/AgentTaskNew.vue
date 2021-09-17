@@ -46,7 +46,16 @@
             </div>
         </b-modal>
 
-        <b-modal id="modal-configure-agent" title="Configure Agent" size="lg">
+        <b-modal id="modal-configure-agent" title="Configure Agent" size="lg" >
+            <div v-if="selectedAgent" class="mb-4">
+            <span class="h4 mr-4"> 
+            Agent: <b-link target="_blank" :to="`/agent/view/${selectedAgent.ident}`"> {{selectedAgent.name}} ({{selectedAgent.ident}})</b-link>
+            </span>
+            <span class="h4  mr-4"> 
+             Spec: <b-link target="_blank" :to="`/agent_spec/${selectedAgent.specId}`">{{selectedAgent.spec.displayedName}}</b-link>
+            </span>
+            
+            </div>
             <b-tabs content-class="mt-4" justified>
                 <b-tab title="Session Configuration">
                     <div class="d-flex flex-wrap">
@@ -607,6 +616,7 @@ const GET_AGENT = gql `
             spec{
                 id
                 params
+                displayedName
             }
     }
   }

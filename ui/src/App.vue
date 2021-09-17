@@ -14,6 +14,10 @@
         <div class="mb-5"></div>
     </b-modal>
 
+    <b-modal id="readonly" title="You are in read-only mode">
+        This is a read-only Demo
+    </b-modal>
+
     <b-modal id="settings" size="lg" title="Settings" scrollable :hide-footer="true">
         <Settings></Settings>
         <div class="mb-5"></div>
@@ -100,7 +104,7 @@
             <b-nav-text class="appname">
                 <i class="fa fa-flask"></i> piSTAR Lab
             </b-nav-text>
-            <b-nav-text id="readonlymodebanner" v-if="readOnlyMode" style="font-weight:900;color:yellow">
+            <b-nav-text id="readonlymodebanner" v-if="readOnlyMode" v-b-modal.readonly style="font-weight:900;color:yellow">
                 [READ-ONLY]
             </b-nav-text>
             <b-tooltip target="readonlymodebanner" triggers="hover">
@@ -155,7 +159,7 @@ import Sessions from "./views/SessionHome.vue";
 import Settings from "./views/Settings.vue";
 import TaskSpecs from "./views/TaskSpecs.vue";
 import Profile from "./components/Profile.vue";
-
+// import UserInfoStore from "./shared-data"
 import {
     appConfig,
     fetchSettings
@@ -182,49 +186,16 @@ export default {
             logVisible: false,
             ideenabled: false,
             menu: [
-                // {
-                //   header: true,
-                //   title: 'piSTAR Lab',
-                //   hiddenOnCollapse: true
-
                 {
                     href: "/",
                     title: "Home",
                     icon: "fas fa-home",
                 },
-
-                // {
-                //   href: "/dash",
-                //   title: "Dash",
-                //   icon: "fas fa-tachometer-alt"},
-                // },
-                //   {
-                //         href: "/missions/home",
-                //         title: "Missions",
-                //         icon: "fas fa-flag-checkered",
-                //     },
-                //                   {
-                //         href: "/learning/home",
-                //         title: "Learning Resources",
-                //         icon: "fas fa-school",
-                //     },
-                //      {
-                //         title: "",
-                //         header: true,
-                //     },
-
                 {
                     href: "/agent/home",
                     title: "Agents",
                     icon: "fas fa-robot",
                 },
-
-                // {
-                //     href: "/component_spec/home",
-                //     title: "Components",
-                //     icon: "fa fa-sitemap",
-                // },
-
                 {
                     href: "/env/home",
                     title: "Environments",
@@ -248,34 +219,7 @@ export default {
                     href: "/community/profile",
                     title: "Community Hub",
                     icon: "fa fa-users"
-                }
-                // },
-                // {
-                //     href: "/session/home",
-                //     title: "Sessions",
-                //     icon: "fa fa-cubes"
-                // },
-                // {
-                //     title: "",
-                //     header: true,
-                // },
-
-                // {
-                //     href: "/data_browser",
-                //     title: "Data Browser",
-                //     icon: "far fa-folder",
-                // },
-                // {
-                //     href: "/extension/home",
-                //     title: "Extensions",
-                //     icon: "fa fa-plug",
-                // },
-                // {
-                //     href: "/preferences",
-                //     title: "Preferences",
-                //     icon: "fa fa-cog",
-                // }
-                , {
+                }, {
                     title: "",
                     header: true,
                 },
@@ -359,6 +303,8 @@ export default {
                     this.connected = true;
                     this.userId = response.data.user_id
                     this.logged_in = response.data.logged_in
+                    this.shared.setLoggedIn(this.logged_in)
+                    this.shared.state.userId = this.userId
 
                 })
                 .catch((error) => {
@@ -811,7 +757,6 @@ button .default {
 
     box-shadow: 2px 0px 6px #000;
 }
-
 
 .bottombar a {
     margin: 0px 0px !important;

@@ -13,14 +13,18 @@ def manifest():
     classic_control_envs = get_environments_from_gym_registry(
         entry_point_prefix=f"gym.envs.classic_control",
         additional_categories=['classic_control'],
-        collection="Gym Classic Control"
+        collection="Gym Classic Control",
+        env_description="OpenAI Gym Control theory problem",
+        env_usage="See: https://gym.openai.com/envs/#classic_control"
     )
     envs_all.extend(classic_control_envs)
 
     box2d_envs = get_environments_from_gym_registry(
         entry_point_prefix=f"gym.envs.box2d",
         additional_categories=['box2d'],
-        collection="Gym Box2d"
+        collection="Gym Box2d",
+        env_description="OpenAI Gym Continuous control task in the Box2D simulator.",
+        env_usage="See: https://gym.openai.com/envs/#box2d"
     )
 
     envs_all.extend(box2d_envs)
