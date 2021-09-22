@@ -140,10 +140,11 @@ export default {
         refreshData(force=false) {
             if (force || !this.session || this.session.status == null || (this.session.status && (this.session.status == "RUNNING" || this.session.status == "CREATED"))) {
                 this.$apollo.queries.session.refetch();
-            } else {
-                clearInterval(this.timer);
-                return
-            }
+            } 
+            // else {
+            //     clearInterval(this.timer);
+            //     return
+            // }
         }
     },
     created() {

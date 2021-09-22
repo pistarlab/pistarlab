@@ -362,7 +362,6 @@ export default {
             activeGraphs: {},
             appConfig,
             loadingEpisodeData: true,
-            liveAvailable: false,
             playingEpisode: false,
             playingLive: false,
             imageURL: "placeholder.jpg",
@@ -440,6 +439,11 @@ export default {
         session: Object
     },
     computed: {
+        liveAvailable(){
+
+            return this.item != null && this.item.status == "RUNNING";
+
+        },
         item() {
             if (this.session) return this.session
             else return {
@@ -507,13 +511,9 @@ export default {
             this.imageURL = "placeholder.jpg";
         },
         refreshData() {
-            this.liveAvailable = (this.item.status == "RUNNING")
             if (this.item.status == null || (this.item.status && this.item.status == "RUNNING")) {
                 this.loadData()
                 this.loadGraphs()
-            } else {
-                clearInterval(this.timer);
-                return
             }
         },
 
@@ -666,7 +666,6 @@ export default {
     },
     created() {
         console.log(this.uid);
-        this.liveAvailable = this.item && this.item.status == "RUNNING"
         this.loadData();
         this.loadGraphs();
         this.timer = setInterval(this.refreshData, 2000);

@@ -2,7 +2,7 @@
 <div class="page  align-self-center">
     <div class="page-content">
         <div class="mt-5">
-        <b-link target="_blank" href="http://pistarlab.org">
+        <b-link target="_blank" href="https://pistar.ai/#/lab">
         <h1 class="text-center"> <img height="120px" src="/pistar_edit_w.png" /> piSTAR Lab</h1>
         </b-link>
         <b-container class="mt-5">
@@ -29,7 +29,7 @@
 
                         <div class="mt-4">
                         </div>
-                        <a target="_blank" href="http://pistarlab.org">pistarlab.org</a>
+                        <a target="_blank" href="https://pistar.ai/#/lab">pistar.ai</a>
                         <br />
                         <a target="_blank" href="http://github.com/pistarlab/pistarlab"> Github</a>
                         <br />

@@ -49,7 +49,7 @@
         </b-modal>
 
 
-        <b-container fluid>
+        <b-container fluid v-if="!this.loading && !this.loadingIDE"  >
 
             <b-row>
 
@@ -59,14 +59,14 @@
 
                     <b-button class="ml-auto" v-b-modal:modal-create-extension size="sm" variant="success"><i class="fa fa-plus"></i> Start New Extension Project</b-button>
                     <div class="mt-4 mb-4">
-                        <div v-if="this.ideFound">
+                        <div v-if=" this.ideFound">
                             IDE Status: VS Code seems to be installed.
                         </div>
                         <div v-else>
                             IDE Status: VSCode not found. For extension development, we recommend installing an IDE such as <b-link target="_blank" href="https://code.visualstudio.com/">VS Code</b-link>.
                         </div>
                     </div>
-                    <div v-if="!this.loading" class="mt-3">
+                    <div class="mt-3">
 
                         <div v-if="workspace && workspace.extensions && workspace.extensions.length>0">
                             <b-card v-for="(extension,key) in workspace.extensions" v-bind:key="key" class="mb-0 mt-2">
@@ -115,9 +115,9 @@
                         </div>
 
                     </div>
-                    <div v-else>
+                    <!-- <div v-else>
                         loading...
-                    </div>
+                    </div> -->
                     <div class="ml-3 mt-4">
                         <b-link to="/extension/home">View All Extensions</b-link>
                     </div>
@@ -179,6 +179,7 @@ export default {
             overview: null,
             ideFound: false,
             loading: true,
+            loadingIDE:true,
             appConfig
 
         };
@@ -258,15 +259,18 @@ export default {
                 .then((response) => {
                     if (response.data.success) {
                         this.ideFound = true;
+                        this.loadingIDE = false;
                         console.log(response.data.message)
 
                     } else {
                         console.log(response.data.message)
+                        this.loadingIDE = false;
                     }
 
                 })
                 .catch((error) => {
                     this.message = error;
+                    this.loadingIDE = false;
                 });
         },
         openWithIDE(extensionId) {

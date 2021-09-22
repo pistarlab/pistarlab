@@ -41,7 +41,15 @@
     <div>
         <div class="main">
             <div class="widget">
-                <router-view />
+             <!-- <router-view /> -->
+                    <transition name="fade" mode="out-in">
+                        <router-view />
+                    </transition>
+                <!-- <router-view v-slot="{ Component }">
+                    <transition>
+                        <component :is="Component" />
+                    </transition>
+                </router-view> -->
             </div>
         </div>
 
@@ -900,7 +908,16 @@ select option {
     background-color: #000;
     border-color: #000;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease;
+}
 
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 /* .agentfun:hover {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);

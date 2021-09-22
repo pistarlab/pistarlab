@@ -8,7 +8,8 @@ import router from './router'
 import store from './store'
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
-import "nprogress"
+import 'nprogress/nprogress.css'
+
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'

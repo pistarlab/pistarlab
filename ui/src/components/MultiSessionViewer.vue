@@ -74,20 +74,14 @@
                 <div>
 
                     <div class="data_label ">Creation Time</div>
-                    <span>{{ item.created }}</span>
+                    <span>{{ item.created}}</span>
                 </div>
                 <div class="mt-3">
                 </div>
                 <div>
                     <div class="data_label">Runtime (seconds)</div>
-                    <span v-if="item && item.summary">{{
-                                        timelength(
-                                            formatNum(
-                                            item.summary.runtime,
-                                            4
-                                            )
-                                        )
-                                        }}</span>
+                    <span v-if="item && item.summary">{{timelength(formatNum(item.summary.runtime,4) * 1000)}}</span>
+                                        
 
                 </div>
             </b-col>
@@ -95,6 +89,8 @@
             <b-col cols=10>
                 <b-container fluid>
                     <b-row>
+                       
+                        <!-- liveAvailable:{{liveAvailable}},playingLive:{{playingLive}},playingEpisode:{{playingEpisode}} -->
                         <b-col cols=4 class="text-center">
                             <div>
                                 <div class="text-center">
@@ -352,7 +348,6 @@ export default {
             graph: "",
             episodes: [],
             totalRecordedEpisodes: null,
-            liveAvailable: false,
             maxEpisode: "",
             playingPreview: false,
             loadingEpisodeData: false,
@@ -444,6 +439,11 @@ export default {
         session: Object
     },
     computed: {
+        liveAvailable(){
+
+            return this.item != null && this.item.status == "RUNNING";
+
+        },
         item() {
             if (this.session) return this.session
             else return {
@@ -484,6 +484,7 @@ export default {
         //
     },
     methods: {
+        timepretty,
         timedelta,
         timelength,
         formatNum(num, prec) {
@@ -514,7 +515,7 @@ export default {
             this.imageURL = "placeholder.jpg";
         },
         refreshData() {
-            this.liveAvailable = (this.item.status == "RUNNING")
+
             if (this.item.status == null || (this.item.status && this.item.status == "RUNNING")) {
                 this.loadData()
                 this.loadGraphs()
@@ -628,7 +629,6 @@ export default {
     },
     created() {
         console.log(this.uid);
-        this.liveAvailable = this.item && this.item.status == "RUNNING"
         this.loadData();
         this.loadGraphs();
         this.timer = setInterval(this.refreshData, 2000);

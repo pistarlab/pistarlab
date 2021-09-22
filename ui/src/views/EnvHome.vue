@@ -105,7 +105,7 @@
         </b-modal>
         <div class="mt-4"></div>
         <b-container fluid>
-            <div v-if="$apollo.queries.environments.loading">Loading..</div>
+            
 
             <b-row>
                 <b-col class="my-auto">
@@ -116,7 +116,8 @@
                 </b-col>
             </b-row>
             <div>
-                <div v-if="items.length > 0">
+            <div v-if="$apollo.queries.environments.loading">Loading..</div>
+                <div v-else-if="items.length > 0">
                     <div class="mt-4"></div>
                     <b-row>
                         <b-col class="d-flex flex-wrap justify-content-center  mb-4">

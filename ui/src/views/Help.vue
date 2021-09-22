@@ -15,7 +15,7 @@
                     <ul>
                         <li>
 
-                            <a target="_blank" href="http://pistarlab.org">Website</a>
+                            <a target="_blank" href="http://pistar.ai/#lab">Website</a>
                         </li>
                         <li>
                             <a target="_blank" href="http://github.com/pistarlab/pistarlab">Github</a>
