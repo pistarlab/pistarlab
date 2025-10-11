@@ -6,7 +6,7 @@
 ![PyPI - License](https://img.shields.io/pypi/l/pistarlab) 
 [![Documentation Status](https://readthedocs.org/projects/pistarlab/badge/?version=latest)](https://pistarlab.readthedocs.io/en/latest/?badge=latest)
 
-WARNING: This is an <u>**early release**</u>.
+**NOTE: Development on this project is currently suspended.
 
 # Overview
 
