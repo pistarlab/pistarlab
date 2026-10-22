@@ -9,7 +9,7 @@ setup(
     long_description='This is a pistarlab extension for defaults',
     url="https://github.com/pistarlab/pistarlab/extensions",
     license='',
-    install_requires=['ray==1.2.0'],
+    install_requires=['ray==1.4.1'],
     package_data={'pistarlab-defaults': ['README.md',"*.json"]
       },
     packages=find_packages(),

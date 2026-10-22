@@ -17,6 +17,10 @@ from filelock import FileLock
 from .utils.pkghelpers import run_bash_command
 import pistarlab
 
+# Use the running interpreter's pip so extensions install into the active environment
+PIP = "{} -m pip".format(sys.executable)
+PIP_INSTALL = PIP + " install"
+
 
 def open_json_file(path):
     try:
@@ -263,13 +267,13 @@ class ExtensionManager:
         cmd = None
         if extension["source"]["type"] == "file":
             full_path = os.path.join(extension["source"]["path"], extension["id"])
-            cmd = "pip install --user -e {}".format(full_path)
+            cmd = PIP_INSTALL + " -e {}".format(full_path)
         elif extension["source"]["type"] == "workspace":
             full_path = os.path.join(self.workspace_path, extension["id"])
-            cmd = "pip install --user -e {}".format(full_path)
+            cmd = PIP_INSTALL + " -e {}".format(full_path)
         elif extension["source"]["type"] == "path":
             full_path = "{}{}".format(extension['source']['path'],extension["id"])
-            cmd = "pip install --user -e {}".format(full_path)
+            cmd = PIP_INSTALL + " -e {}".format(full_path)
         elif extension["source"]["type"] in ["url","test","remote"]:
             extension_path = extension.get("path")
             self.logger.info(f"Extension Path  {extension_path}, type {extension.get('type')}")
@@ -277,9 +281,9 @@ class ExtensionManager:
                 raise Exception("No remote path defined in extension. Cannot install with out path.")
             if "rpath" in extension.get("type"):
                 extension_path = "{}{}".format(extension['source']['path'],extension_path)
-            cmd = "pip install --user {}".format(extension_path)
+            cmd = PIP_INSTALL + " {}".format(extension_path)
         else:
-            cmd = "pip install --user {}=={}".format(extension["id"], extension["version"])
+            cmd = PIP_INSTALL + " {}=={}".format(extension["id"], extension["version"])
 
         self.logger.info(f"Install Command {cmd}")
 
@@ -295,7 +299,7 @@ class ExtensionManager:
         return cmd_result
 
     def _run_extension_package_remove(self, extension):
-        cmd = "pip uninstall -y {}".format(extension["id"])
+        cmd = PIP + " uninstall -y {}".format(extension["id"])
         self.logger.info("-------------------------------------------")
         self.logger.info(cmd)
         return run_bash_command(cmd)
