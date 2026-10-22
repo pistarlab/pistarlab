@@ -79,7 +79,7 @@ setup(
         'filelock',
         'opencv_python',
         'xvfbwrapper',  # TODO: MSWIN not compatible
-        'ray[all]==1.2.0',
+        'ray[all]==1.4.1',
         'pip'
         ],
     package_data={'pistarlab': package_files + additional_files},
@@ -90,7 +90,7 @@ setup(
         ]
     },
     extras_require={
-        'all': ['tensorflow==2.3.1','torch==1.8','torchvision==0.9']
+        'all': ['tensorflow==2.5.0','torch==1.8','torchvision==0.9']
     },
     packages=find_packages(),
     include_data_files=True,

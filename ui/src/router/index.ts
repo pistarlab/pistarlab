@@ -10,6 +10,7 @@ import CommunityUsers from '../components/CommunityUsers.vue'
 import CommunityAgent from '../components/CommunityAgent.vue'
 import CommunityProfile from '../components/CommunityProfile.vue'
 import TaskHome from "../views/TaskHome.vue"
+import BlockTest from "../views/BlockTest.vue"
 import NProgress from "nprogress"
 Vue.use(VueRouter)
 
@@ -258,6 +259,11 @@ const routes: Array<RouteConfig> = [
         props: (route) => ({ path: route.query.path ? route.query.path : "" })
     },
 
+    {
+        path: '/blocktest',
+        name: 'blocktest',
+        component: BlockTest
+    },
     {
         path: '/help',
         name: 'help',

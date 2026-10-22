@@ -8,7 +8,6 @@ from sqlalchemy.schema import UniqueConstraint
 
 from .meta import *
 
-
 class AlchemyEncoder(json.JSONEncoder):
 
     def default(self, obj):

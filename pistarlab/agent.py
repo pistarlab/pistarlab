@@ -40,7 +40,7 @@ class Agent(Entity):
     @staticmethod
     def create(spec_id, config={}, name=None, custom_seed=None):
         if name is not None:
-            name=name.strip()
+            name = name.strip()
         spec_dbmodel: AgentSpecModel = Agent.get_spec_dbmodel_by_id(spec_id)
         if spec_dbmodel is None:
             raise Exception(
@@ -156,18 +156,18 @@ class Agent(Entity):
     def get_name(self):
         return self.get_dbmodel().name
 
-    def update_name(self, name:str):
+    def update_name(self, name: str):
         if name is None:
             raise Exception("Invalid Name")
-        name=name.strip()
+        name = name.strip()
         dbmodel = self.get_dbmodel()
         dbmodel.name = name
         self.name = name
         ctx.get_dbsession().add(dbmodel)
         ctx.get_dbsession().commit()
-        
 
     # Config Methods
+
     def get_config(self, run_config={}):
         return merged_dict(
             self.get_dbmodel().config,
@@ -241,7 +241,7 @@ class Agent(Entity):
             value=self.stat_buffer.get_dict())
         self.stat_buffer.clear()
 
-    def update_interface(self,interface_id,observation_space, action_space):
+    def update_interface(self, interface_id, observation_space, action_space):
         interfaces = self.get_config_key("interfaces")
         interface = interfaces.get(interface_id, {})
 
@@ -254,7 +254,7 @@ class Agent(Entity):
 
             self.update_config_key('interfaces', interfaces)
 
-    def is_interface_auto_config(self,interface_id):
+    def is_interface_auto_config(self, interface_id):
         return self.get_config_key("interfaces")\
             .get(interface_id, {})\
             .get('auto_config_spaces', False)

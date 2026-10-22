@@ -60,7 +60,7 @@
                 </iframe>
             </div>
             <template #footer="{ hide }">
-                <div class="d-flex bg-dark text-light align-items-center px-3 py-1 bottombar">
+                <div class="d-flex bg-dark text-light align-items-center px-3 bottombar">
                     <strong class="ml-auto footerbrand"><img height="24px" src="/pistar_edit_w.png" /> piSTAR IDE <i class="fa fa-laptop-code"></i></strong>
                     <b-button title="Switch to Lab View" size="sm" variant="dark" class="ml-auto" @click="hide();showLab()"><i class="fa fa-flask"></i> Lab</b-button>
 
@@ -90,28 +90,27 @@
 
     <div v-if="isOnMobile && !collapsed" class="sidebar-overlay" @click="collapsed = true" />
 
-    <b-navbar class="bottombar py-1" type="dark" fixed="bottom" small="true">
+    <b-navbar class="bottombar" type="dark" fixed="bottom" small="true">
 
         <b-navbar-nav>
-            <b-nav-item id="launchbutton" title="New Task" class="mr-1 bottomnav corneritem" v-b-modal.newtask>
+            <!-- <b-nav-item id="launchbutton" title="New Task" class="ml-0 pl-0 mr-0 bottomnav corneritem" v-b-modal.newtask>
                 <i class="fa fa-plus"></i>
             </b-nav-item>
             <b-tooltip target="launchbutton" triggers="hover">
                 Launch a new Task
-            </b-tooltip>
-            <b-nav-item class="mr-1" v-b-modal.sessions>
+            </b-tooltip> -->
+            <b-nav-item v-b-popover.hover.top="'View all Sessions'" class="mr-1 ml-0 pl-0" v-b-modal.sessions>
                 <i title="Sessions" class="fa fa-cubes"></i> Sessions
             </b-nav-item>
-
-            <b-nav-item class="mr-1" v-b-modal.task-manager>
+            <b-nav-item v-b-popover.hover.top="'View all Tasks'" class="mr-1" v-b-modal.task-manager>
                 <i title="Task Manager" class="fa fa-cogs"></i> Tasks
             </b-nav-item>
 
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-            <b-nav-text class="appname">
+            <!-- <b-nav-text class="appname">
                 <i class="fa fa-flask"></i> piSTAR Lab
-            </b-nav-text>
+            </b-nav-text> -->
             <b-nav-text id="readonlymodebanner" v-if="readOnlyMode" v-b-modal.readonly style="font-weight:900;color:yellow">
                 [READ-ONLY]
             </b-nav-text>
@@ -347,7 +346,7 @@ export default {
 <style>
 /* @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600"); */
 
-@import "./assets/fontawesome/css/all.css";
+@import "/fontawesome/css/all.css";
 @import "./assets/styles/dark-bootstrap.css";
 
 body,
@@ -453,6 +452,8 @@ td {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: #161b22 !important;
+      -webkit-user-select: none;
+  -webkit-app-region: drag;
 
 }
 
@@ -468,10 +469,16 @@ td {
     /* background-color: #161b22 !important; */
     /* color: #fff !important; */
     height: 50px;
+    -webkit-app-region: no-drag;
 }
+
+
+  
+
 
 .vsm--link.vsm--link_level-1 {
     color: #9f9f9f !important;
+    -webkit-app-region: no-drag;
 }
 
 hr {
@@ -491,6 +498,7 @@ hr {
 
 .vsm--toggle-btn {
     background-color: #161b22 !important;
+    -webkit-app-region: no-drag;
 
 }
 
@@ -720,6 +728,10 @@ button .default {
     background-color: #ddd;
     color: #000;
 }
+/* .navbar{
+    padding: 0px 0px;
+    margin: 0px 0px;
+} */
 
 .navbar-text {
     padding: 0px 0px;
@@ -760,6 +772,8 @@ button .default {
     font-size: 1em;
     /* font-weight: 100 !important; */
     background-color: #f13261 !important;
+      -webkit-user-select: none;
+  -webkit-app-region: drag;
 
     /* background-color: #262626 !important; */
 
@@ -769,14 +783,18 @@ button .default {
 .bottombar a {
     margin: 0px 0px !important;
     padding: 5px 10px !important;
+      
+  -webkit-app-region: no-drag;
+    
     /* color: rgba(255, 255, 255, 0.83) !important; */
     /* font-weight: 900; */
 
 }
 
 .corneritem a {
-    width: 50px;
+    /* width: 50px; */
     background-color: #1d8cf8 !important;
+    padding: 5px 10px !important;
 
     text-align: center;
     /* background-color: #0069d9 !important; */

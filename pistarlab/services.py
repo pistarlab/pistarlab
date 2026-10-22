@@ -1,5 +1,6 @@
 import logging
 import os
+import stat
 import queue
 import signal
 import subprocess
@@ -458,6 +459,9 @@ class ServiceContext:
             redis_path = pkg_resources.resource_filename(__name__,"thirdparty_lib/redis-server")
             if os.name == 'nt':
                 redis_path = f"{redis_path}.exe"
+            else:
+                cs = os.stat(redis_path)
+                os.chmod(redis_path,cs.st_mode | stat.S_IEXEC)
             
             launch_args = [redis_path,redis_config_path, '--port', self.commandline_args.get('redis_port')]
 

@@ -26,17 +26,20 @@ def updateRLSummaryWithDetails(summary):
     if summary['episode_count'] == 0:
         summary['mean_steps_per_episode'] = 0
     else:
-        summary['mean_steps_per_episode'] = summary['step_count'] / summary['episode_count']
+        summary['mean_steps_per_episode'] = summary['step_count'] / \
+            summary['episode_count']
 
     if summary['step_count'] == 0:
         summary['mean_reward_per_step'] = 0
     else:
-        summary['mean_reward_per_step'] = summary['reward_total'] / summary['step_count']
+        summary['mean_reward_per_step'] = summary['reward_total'] / \
+            summary['step_count']
 
     if summary['episode_count'] == 0:
         summary['mean_reward_per_episode'] = 0
     else:
-        summary['mean_reward_per_episode'] = summary['reward_total'] / summary['episode_count']
+        summary['mean_reward_per_episode'] = summary['reward_total'] / \
+            summary['episode_count']
 
     delta = summary.get('runtime', 0)
     if delta == 0:
@@ -97,11 +100,13 @@ class Agent(SQLAlchemyObjectType):
     # NOTE: this pattern works beautifully to provide parsed JSON dat to client when no schema is defined
     config = graphene.JSONString(source='config')
     config_parsed = GenericScalar()
+
     def resolve_config_parsed(self, info, **args):
         return self.config
 
     def resolve_recent_sessions(self, info, limit=3):
-        query = Session.get_query(info).filter(db.SessionModel.agent_id == self.id)
+        query = Session.get_query(info).filter(
+            db.SessionModel.agent_id == self.id)
         return query.order_by(db.SessionModel.created.desc()).limit(limit).all()
 
     status = graphene.String()
@@ -109,7 +114,6 @@ class Agent(SQLAlchemyObjectType):
     class Meta:
         model = db.AgentModel
         interfaces = (relay.Node, )
-
 
 
 class AgentFilter(FilterSet):
@@ -193,6 +197,7 @@ class AgentSetName(graphene.Mutation):
         ctx.get_dbsession().commit()
         return AgentSetName(success=True)
 
+
 class EnvWrapper(graphene.ObjectType):
     entry_point = graphene.String(name="entry_point")
     kwargs = graphene.JSONString()
@@ -261,7 +266,7 @@ class Session(SQLAlchemyObjectType):
         else:
             return updateRLSummaryWithDetails(self.summary)
 
-    #TODO: verify task (parent) status as well
+    # TODO: verify task (parent) status as well
     # status = graphene.String()
 
 #     @staticmethod
@@ -429,7 +434,8 @@ class Query(graphene.ObjectType):
         return query.order_by(db.EnvSpecModel.id.asc()).all()
 
     # Best Session
-    best_sessions_for_env_spec = graphene.List(lambda: Session, env_spec_id=graphene.String(), stat_name=graphene.String())
+    best_sessions_for_env_spec = graphene.List(
+        lambda: Session, env_spec_id=graphene.String(), stat_name=graphene.String())
 
     @staticmethod
     def resolve_best_sessions_for_env_spec(parent, info, env_spec_id, stat_name):
@@ -440,8 +446,7 @@ class Query(graphene.ObjectType):
         # from sqlalchemy.dialects.postgres import JSON
         return query \
             .filter(db.SessionModel.env_spec_id == env_spec_id).all()
-            # .order_by(text(f"CAST(session.summary->>'{stat_name}' AS FLOAT) DESC")) \
-            
+        # .order_by(text(f"CAST(session.summary->>'{stat_name}' AS FLOAT) DESC")) \
 
     all_environments = SQLAlchemyConnectionField(Environment.connection)
 
@@ -460,11 +465,14 @@ class Query(graphene.ObjectType):
         query = Session.get_query(info)
         return query.all()
 
-    all_agents = FilterableConnectionField(Agent.connection, filters=AgentFilter())
+    all_agents = FilterableConnectionField(
+        Agent.connection, filters=AgentFilter())
 
     all_agent_tags = SQLAlchemyConnectionField(AgentTag.connection)
 
-    all_sessions = FilterableConnectionField(Session.connection, filters=SessionFilter())  # SQLAlchemyConnectionField(Session.connection)
+    # SQLAlchemyConnectionField(Session.connection)
+    all_sessions = FilterableConnectionField(
+        Session.connection, filters=SessionFilter())
 
     all_component_specs = SQLAlchemyConnectionField(ComponentSpec.connection)
 
