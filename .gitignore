@@ -68,3 +68,6 @@ MANIFEST
 /venv*
 
 
+
+# Electron build output
+ui/dist_electron/
